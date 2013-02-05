@@ -25,7 +25,8 @@
     </option>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b68612f9-3348-4342-8d34-ba591f5277dc" name="Default" comment="">
+    <list default="true" id="b68612f9-3348-4342-8d34-ba591f5277dc" name="Default" comment="0.1.2.9b">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/zlab/datFM/datFM_Adaptor.java" afterPath="$PROJECT_DIR$/src/com/zlab/datFM/datFM_Adaptor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/zlab/datFM/datFM_IconGenerator_APK.java" afterPath="$PROJECT_DIR$/src/com/zlab/datFM/datFM_IconGenerator_APK.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/zlab/datFM/datFM_Preferences.java" afterPath="$PROJECT_DIR$/src/com/zlab/datFM/datFM_Preferences.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/zlab/datFM/datFM_Properties.java" afterPath="$PROJECT_DIR$/src/com/zlab/datFM/datFM_Properties.java" />
@@ -43,7 +44,7 @@
     <file path="/datFM_Main.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1358625154843" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1360070500397" ignored="false" />
     <file path="/datFM.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1360084872578" ignored="false" />
-    <file path="/Dummy.txt" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1360098799199" ignored="false" />
+    <file path="/Dummy.txt" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1360098923221" ignored="false" />
     <file path="/fragment.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1360080663081" ignored="false" />
     <file path="/datfm.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1359745919571" ignored="false" />
     <file path="/datfm_mainmenu.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1359464184677" ignored="false" />
@@ -130,15 +131,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="datFM.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="datFM.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="42" column="30" selection-start="1448" selection-end="1448" vertical-scroll-proportion="0.18111965">
+            <state line="50" column="18" selection-start="1630" selection-end="1630" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#10664#10683#0" expanded="true" />
                 <element signature="e#10738#10757#0" expanded="true" />
                 <element signature="e#39507#39515#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="datFM_Adaptor.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM_Adaptor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="123" column="59" selection-start="4989" selection-end="4989" vertical-scroll-proportion="0.47310647">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -168,7 +178,6 @@
       <list>
         <option value="$PROJECT_DIR$/res/layout/datfm_newfolder.xml" />
         <option value="$PROJECT_DIR$/res/values/array.xml" />
-        <option value="$PROJECT_DIR$/src/com/zlab/datFM/datFM_Adaptor.java" />
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/res/values-v14/styles.xml" />
@@ -182,6 +191,7 @@
         <option value="$PROJECT_DIR$/src/com/zlab/datFM/datFM_Preferences.java" />
         <option value="$PROJECT_DIR$/res/layout/datfm.xml" />
         <option value="$PROJECT_DIR$/src/com/zlab/datFM/datFM.java" />
+        <option value="$PROJECT_DIR$/src/com/zlab/datFM/datFM_Adaptor.java" />
       </list>
     </option>
   </component>
@@ -491,7 +501,11 @@
       <created>1360098537430</created>
       <updated>1360098537430</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="0.1.2.9b">
+      <created>1360098879235</created>
+      <updated>1360098879235</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -644,17 +658,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/datfm_properties.xml">
       <provider editor-type-id="text-editor">
-        <state line="247" column="12" selection-start="14707" selection-end="14707" vertical-scroll-proportion="0.0" />
+        <state line="247" column="12" selection-start="14707" selection-end="14707" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
       <provider selected="true" editor-type-id="android-designer">
         <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM_Adaptor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="191" column="45" selection-start="7436" selection-end="7461" vertical-scroll-proportion="0.83534575">
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM_Properties_Operation.java">
@@ -724,12 +733,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="30" selection-start="1448" selection-end="1448" vertical-scroll-proportion="0.18111965">
+        <state line="50" column="18" selection-start="1630" selection-end="1630" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#10664#10683#0" expanded="true" />
             <element signature="e#10738#10757#0" expanded="true" />
             <element signature="e#39507#39515#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM_Adaptor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="123" column="59" selection-start="4989" selection-end="4989" vertical-scroll-proportion="0.47310647">
+          <folding />
         </state>
       </provider>
     </entry>

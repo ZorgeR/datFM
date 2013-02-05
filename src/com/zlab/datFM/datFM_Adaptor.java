@@ -120,11 +120,8 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_Information> {
             imgFileIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //datFM.onFileClickLong(o, position);
-                    //datFM.datFM_state.onFileClickLong(o,position);
                     datFM.datFM_state.openContextMenu(position, parent.getId());
                     datFM.datFM_state.update_panel_focus();
-                    //removeListItem(rowView,positon);
                 }
             });
 
