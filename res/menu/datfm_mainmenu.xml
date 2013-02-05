@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/mainmenu_add"
+          android:icon="@drawable/ui_menu_add"
+          android:title="@string/mainmenu_addfolder"
+          android:showAsAction="ifRoom|withText"/>
+    <item android:id="@+id/mainmenu_fav" android:icon="@drawable/ui_menu_fav"
+          android:title="@string/mainmenu_favorite"
+          android:showAsAction="ifRoom|withText" >
+        <menu>
+            <item android:id="@+id/mainmenu_fav_downloads"
+                  android:icon="@drawable/ui_menu_downloads"
+                  android:title="Downloads"
+                  android:showAsAction="never"/>
+            <item android:id="@+id/mainmenu_fav_dcim"
+                  android:icon="@drawable/ui_menu_downloads"
+                  android:title="DCIM"
+                  android:showAsAction="never"/>
+        </menu>
+    </item>
+    <item android:id="@+id/mainmenu_update"
+          android:icon="@drawable/ui_menu_update"
+          android:title="@string/mainmenu_refresh"
+          android:showAsAction="ifRoom"/>
+    <item android:id="@+id/mainmenu_indev" android:icon="@drawable/ui_menu_cloud"
+          android:title="@string/mainmenu_udev">
+        <menu>
+            <item android:id="@+id/mainmenu_cloud"
+                  android:icon="@drawable/ui_menu_cloud"
+                  android:title="no Network and Cloud"
+                  android:showAsAction="never"/>
+            <item android:id="@+id/mainmenu_find"
+                  android:icon="@drawable/ui_menu_find"
+                  android:title="no Find"
+                  android:showAsAction="never"/>
+            <item android:id="@+id/mainmenu_help"
+                  android:icon="@drawable/ui_menu_help"
+                  android:title="no Help"
+                  android:showAsAction="never"/>
+            <item android:id="@+id/mainmenu_sort"
+                  android:icon="@drawable/ui_menu_sort"
+                  android:title="no Sort"
+                  android:showAsAction="never"/>
+        </menu>
+    </item>
+    <item android:id="@+id/mainmenu_settings"
+          android:icon="@drawable/ui_menu_settings"
+          android:title="@string/mainmenu_settings"
+          android:showAsAction="never"/>
+    <item android:id="@+id/mainmenu_about"
+          android:icon="@drawable/ui_menu_about"
+          android:title="@string/mainmenu_about"
+          android:showAsAction="never"/>
+    <item android:id="@+id/mainmenu_exit"
+          android:icon="@drawable/ui_menu_remove"
+          android:title="@string/mainmenu_exit"
+          android:showAsAction="never"/>
+
+</menu>

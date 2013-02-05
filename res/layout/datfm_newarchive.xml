@@ -1,0 +1,63 @@
+<LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:padding="10dp"
+        android:orientation="vertical" >
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ui_dialog_archive_archive"
+            android:id="@+id/textView"
+            />
+    <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textNewArchiveName"
+            android:singleLine="true"
+            android:hint="@string/ui_dialog_hint_archive"/>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ui_dialog_archive_type"
+                    android:id="@+id/textArcType"/>
+            <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/archiveType"
+                    android:spinnerMode="dropdown"
+                    android:entries="@array/archive_type"/>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="@string/ui_dialog_archive_level"
+                      android:id="@+id/textView1"/>
+            <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/archiveLevel"
+                    android:entries="@array/archive_level"
+                    android:spinnerMode="dropdown" />
+        </LinearLayout>
+    </LinearLayout>
+    <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/archiveCheckDeleteAfterDone"
+            android:checked="false"
+            android:text="@string/ui_dialog_archive_del_after_compress"/>
+</LinearLayout>

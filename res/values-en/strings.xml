@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">datFM</string>
+
+    <!--  NavBar  -->
+    <string name="navbar_up">Parent directory</string>
+    <string name="navbar_go">Go</string>
+
+    <!--  Panel  -->
+    <string name="btn_share">Share</string>
+    <string name="btn_newfolder">New Folder</string>
+    <string name="btn_copy">Copy</string>
+    <string name="btn_move">Move</string>
+    <string name="btn_rename">Rename</string>
+    <string name="btn_selectall">Select All</string>
+    <string name="btn_deselectall">Deselect All</string>
+    <string name="btn_delete">Delete</string>
+
+    <!-- Main Menu  -->
+    <string name="mainmenu_addfolder">Add Folder</string>
+    <string name="mainmenu_refresh">Refresh</string>
+    <string name="mainmenu_favorite">Favorite</string>
+    <string name="mainmenu_udev">udev</string>
+    <string name="mainmenu_settings">Settings</string>
+    <string name="mainmenu_about">About</string>
+    <string name="mainmenu_exit">Exit</string>
+
+    <!-- Settings -->
+    <!-- Settings Groups -->
+    <string name="settings_group_view">View</string>
+    <string name="settings_group_other">Other</string>
+    <string name="settings_group_dangerous">Dangerous</string>
+    <!-- Settings Elements Title -->
+    <string name="settings_elements_title_cp">Control Panel</string>
+    <string name="settings_elements_title_appicons">App icons</string>
+    <string name="settings_elements_title_cptext">Text on panel</string>
+    <string name="settings_elements_title_navbar">Address bar</string>
+    <string name="settings_elements_title_folder_discription">Folder descriptions</string>
+    <string name="settings_elements_title_files_discription">Files descriptions</string>
+    <string name="settings_elements_title_panel_discription">Panel descriptions</string>
+    <string name="settings_elements_title_opendir">Open new directory</string>
+    <string name="settings_elements_title_savepath">Save path</string>
+    <string name="settings_elements_title_focusondir">Focus on directory</string>
+    <string name="settings_elements_title_kamikaze">Kamikaze mode</string>
+    <string name="settings_elements_title_root">root</string>
+    <!-- Settings Elements Summary -->
+    <string name="settings_elements_summary_cp">Show always</string>
+    <string name="settings_elements_summary_appicons">Get application icons from APK</string>
+    <string name="settings_elements_summary_cptext">Show text on buttons in panel</string>
+    <string name="settings_elements_summary_navbar">Show address bar on the top</string>
+    <string name="settings_elements_summary_folder_discription">Show folder descriptions</string>
+    <string name="settings_elements_summary_files_discription">Show files descriptions</string>
+    <string name="settings_elements_summary_panel_discription">Show descriptions in bottom of panel</string>
+    <string name="settings_elements_summary_opendir">Open new directory after create</string>
+    <string name="settings_elements_summary_savepath">Restore path on start</string>
+    <string name="settings_elements_summary_focusondir">Set focus on current directory when go UP</string>
+    <string name="settings_elements_summary_kamikaze">Not ask anything, just execute</string>
+    <string name="settings_elements_summary_root">Use root permission</string>
+
+    <!-- Files List Items -->
+    <string name="fileslist_parent_directory">Parent Directory</string>
+    <string name="fileslist_directory">&lt;dir&gt;</string>
+    <string name="fileslist_folders_count">Folders:</string>
+    <string name="fileslist_files_count">Files:</string>
+
+    <!-- UI Elements -->
+    <!-- Pop-up Dialogs -->
+    <!-- Dialog Buttons -->
+    <string name="ui_dialog_btn_ok">OK</string>
+    <string name="ui_dialog_btn_cancel">Cancel</string>
+    <!-- Pop-up Dialogs Title-->
+    <string name="ui_dialog_title_newfolder">New Folder</string>
+    <string name="ui_dialog_title_copy">Copy</string>
+    <string name="ui_dialog_title_move">Move</string>
+    <string name="ui_dialog_title_rename">Rename</string>
+    <string name="ui_dialog_title_delete">Delete</string>
+    <!-- Pop-up Dialogs content -->
+    <string name="ui_dialog_header_copy">files and folders will be copied</string>
+    <string name="ui_dialog_header_move">files and folders will be moved</string>
+    <string name="ui_dialog_header_delete">files and folders will be deleted</string>
+    <!-- Pop-up Dialogs other content -->
+    <string name="ui_dialog_from">from:</string>
+    <string name="ui_dialog_to">to:</string>
+    <string name="ui_dialog_in">in:</string>
+    <string name="ui_dialog_hint_newfolder">New Folder Name</string>
+    <string name="ui_dialog_hint_rename">New Name</string>
+    <!-- Notification -->
+    <string name="notify_copy">object copied to:</string>
+    <string name="notify_move">object moved to:</string>
+    <string name="notify_newfolder">New folder:</string>
+    <string name="notify_delete">object deleted!</string>
+    <string name="notify_refresh_tab">Refresh done!</string>
+    <string name="notify_file_unknown">File Type Unknown!</string>
+    <string name="notify_operation_same_folder">Current dir and destination directory is same!</string>
+
+</resources>

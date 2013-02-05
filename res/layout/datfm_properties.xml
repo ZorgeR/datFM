@@ -1,0 +1,269 @@
+<LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        >
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent">
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/prop_icon_file" android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" android:src="@drawable/ext_unknown"
+                    android:layout_margin="5dp" android:paddingTop="10dp"/>
+        </LinearLayout>
+    <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/scrollView">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" android:paddingLeft="15dp" android:paddingTop="30dp"
+                android:paddingRight="15dp">
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    >
+                <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:text="File name:"
+                        android:id="@+id/textView7"/>
+                <EditText
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="File Name"
+                        android:id="@+id/prop_name"
+                        android:layout_toRightOf="@+id/prop_icon_file" android:layout_alignTop="@+id/prop_icon_file"
+                        android:focusable="false" android:singleLine="true"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+                <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:text="Type:"
+                        android:id="@+id/textView8" android:layout_gravity="center_horizontal|top"/>
+                <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="File Type"
+                        android:id="@+id/prop_type"
+                        android:layout_toRightOf="@+id/textView2" android:layout_alignBaseline="@+id/prop_name"
+                        android:focusable="false" android:singleLine="true"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+                <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:text="Size:"
+                        android:id="@+id/textView"
+                        android:layout_alignLeft="@+id/prop_icon_file" android:layout_alignBaseline="@+id/prop_size"/>
+                <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="File Size"
+                        android:id="@+id/prop_size"
+                        android:layout_toRightOf="@+id/prop_icon_file" android:layout_alignParentTop="true"
+                        android:focusable="false" android:singleLine="true"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="MiB"
+                        android:id="@+id/textView6"
+                        android:layout_toRightOf="@+id/prop_size" android:layout_alignBaseline="@+id/prop_size"
+                        android:textSize="18dp"/>
+                <ProgressBar
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:id="@+id/prop_size_progress" android:layout_gravity="center" android:visibility="gone"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+                <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:text="Path:"
+                        android:id="@+id/textView9"/>
+                <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="File Path"
+                        android:id="@+id/prop_path" android:layout_toRightOf="@+id/prop_icon_file" android:layout_below="@+id/prop_name"
+                        android:focusable="false" android:singleLine="true"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+                <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:text="Date:"
+                        android:id="@+id/textView1"
+                        android:layout_alignLeft="@+id/prop_icon_file" android:layout_alignBaseline="@+id/prop_date"/>
+                <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="File Date"
+                        android:id="@+id/prop_date" android:layout_toRightOf="@+id/prop_icon_file" android:layout_below="@+id/prop_size"
+                        android:focusable="false" android:singleLine="true"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+                <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:text="md5sum:"
+                        android:id="@+id/textView10"/>
+                <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/prop_md5sum" android:layout_weight="1" android:focusable="false"
+                        android:singleLine="true"/>
+                <Button
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="Calc"
+                        android:id="@+id/prop_btn_calc_md5" android:onClick="btn_call_properties"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+                <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:text="Check:"
+                        android:id="@+id/textView11"/>
+                <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/prop_md5sum_check" android:layout_weight="1"
+                        android:singleLine="true"/>
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/prop_icon_md5_check" android:src="@android:drawable/presence_busy"
+                        android:layout_gravity="center_vertical" android:minWidth="100dp"/>
+            </LinearLayout>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Permission:"
+                    android:id="@+id/textView2" android:paddingTop="25dp"/>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" android:paddingTop="5dp">
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent">
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Owner:"
+                            android:id="@+id/textView3"
+                            android:layout_alignLeft="@+id/prop_icon_file" android:layout_alignParentTop="true"
+                            android:layout_alignTop="@+id/prop_date"/>
+                    <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Read"
+                            android:id="@+id/prop_perm_owner_read"
+                            android:checked="false" android:layout_alignLeft="@+id/prop_icon_file" android:layout_below="@+id/textView3"/>
+                    <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Write"
+                            android:id="@+id/prop_perm_owner_write" android:layout_alignLeft="@+id/prop_icon_file" android:layout_below="@+id/prop_perm_owner_read"
+                            android:checked="false"/>
+                    <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Execute"
+                            android:id="@+id/prop_perm_owner_exec" android:layout_alignLeft="@+id/prop_icon_file"
+                            android:layout_below="@+id/prop_perm_owner_write" android:checked="false"/>
+                </LinearLayout>
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent" android:paddingLeft="15dp">
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Group:"
+                            android:id="@+id/textView4"
+                            android:layout_toRightOf="@+id/prop_perm_owner_exec" android:layout_above="@+id/prop_perm_owner_read"/>
+                    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Read"
+                              android:id="@+id/prop_perm_group_read" android:checked="false"
+                              android:layout_alignLeft="@+id/textView4" android:layout_alignBottom="@+id/prop_perm_owner_read"/>
+                    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Write"
+                              android:id="@+id/prop_perm_group_write"
+                              android:checked="false"
+                              android:layout_alignLeft="@+id/textView4" android:layout_below="@+id/prop_perm_owner_read"/>
+                    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Execute"
+                              android:id="@+id/prop_perm_group_exec"
+                              android:checked="false"
+                              android:layout_alignLeft="@+id/textView4" android:layout_below="@+id/prop_perm_owner_write"/>
+                </LinearLayout>
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent" android:paddingLeft="15dp">
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Other:"
+                            android:id="@+id/textView5"
+                            android:layout_toRightOf="@+id/prop_perm_group_exec" android:layout_above="@+id/prop_perm_owner_read"/>
+                    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Read"
+                              android:id="@+id/prop_perm_other_read" android:checked="false"
+                              android:layout_alignLeft="@+id/textView5" android:layout_alignTop="@+id/prop_perm_owner_read"/>
+                    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Write"
+                              android:id="@+id/prop_perm_other_write" android:checked="false"
+                              android:layout_alignLeft="@+id/textView5" android:layout_below="@+id/prop_perm_owner_read"/>
+                    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Execute"
+                              android:id="@+id/prop_perm_other_exec" android:checked="false"
+                              android:layout_alignLeft="@+id/textView5" android:layout_below="@+id/prop_perm_owner_write"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" android:paddingTop="10dp">
+                <Button
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:text="Cancel"
+                        android:id="@+id/prop_btn_cancel" android:onClick="btn_call_properties"/>
+                <Button
+                        android:layout_width="92dp"
+                        android:layout_height="wrap_content"
+                        android:text="Apply"
+                        android:id="@+id/prop_btn_apply" android:layout_alignLeft="@+id/textView4"
+                        android:layout_below="@+id/prop_perm_owner_exec" android:onClick="btn_call_properties"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
+

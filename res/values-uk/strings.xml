@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">datFM</string>
+
+    <!--  NavBar  -->
+    <string name="navbar_up">Батьківський каталог</string>
+    <string name="navbar_go">Перейти</string>
+
+    <!--  Panel  -->
+    <string name="btn_share">Поділитись</string>
+    <string name="btn_newfolder">Нова папка</string>
+    <string name="btn_copy">Копіювати</string>
+    <string name="btn_move">Перемістити</string>
+    <string name="btn_selectall">Вибрати все</string>
+    <string name="btn_deselectall">Зняти виділення</string>
+    <string name="btn_delete">Видалити</string>
+
+    <!-- Main Menu  -->
+    <string name="mainmenu_addfolder">Нова папка</string>
+    <string name="mainmenu_refresh">Оновити</string>
+    <string name="mainmenu_favorite">Вибране</string>
+    <string name="mainmenu_udev">udev</string>
+    <string name="mainmenu_settings">Налаштування</string>
+    <string name="mainmenu_about">Про додаток</string>
+    <string name="mainmenu_exit">Вихід</string>
+
+    <!-- Settings -->
+    <!-- Settings Groups -->
+    <string name="settings_group_view">Зовнішній вигляд</string>
+    <string name="settings_group_other">Інше</string>
+    <string name="settings_group_dangerous">Небезпечно</string>
+    <!-- Settings Elements Title -->
+    <string name="settings_elements_title_cp">Панель дій</string>
+    <string name="settings_elements_title_appicons">Іконки додатків</string>
+    <string name="settings_elements_title_cptext">Текст у панелі</string>
+    <string name="settings_elements_title_navbar">Адресний рядок</string>
+    <string name="settings_elements_title_opendir">Відкрити новий каталог</string>
+    <string name="settings_elements_title_savepath">Зберігати шляхи</string>
+    <string name="settings_elements_title_focusondir">Фокус на папці</string>
+    <string name="settings_elements_title_kamikaze">Режим Камікадзе</string>
+    <!-- Settings Elements Summary -->
+    <string name="settings_elements_summary_cp">Показувати завжди</string>
+    <string name="settings_elements_summary_appicons">Показувати іконку додатків для APK</string>
+    <string name="settings_elements_summary_cptext">Показувати написи на кнопках панелі</string>
+    <string name="settings_elements_summary_navbar">Показувати адресний рядок зверху</string>
+    <string name="settings_elements_summary_opendir">Відкривати нову папку при створенні</string>
+    <string name="settings_elements_summary_savepath">Відновити шляхи панелей при старті</string>
+    <string name="settings_elements_summary_focusondir">Встановити фокус на поточній папці при натисканні Вгору</string>
+    <string name="settings_elements_summary_kamikaze">Нічого не питати, просто робити свою роботу</string>
+
+    <!-- Files List Items -->
+    <string name="fileslist_parent_directory">Батьківський каталог</string>
+    <string name="fileslist_directory">&lt;dir&gt;</string>
+    <string name="fileslist_folders_count">Папок:</string>
+    <string name="fileslist_files_count">Файлів:</string>
+
+    <!-- UI Elements -->
+    <!-- Pop-up Dialogs -->
+    <!-- Dialog Buttons -->
+    <string name="ui_dialog_btn_ok">OK</string>
+    <string name="ui_dialog_btn_cancel">Відміна</string>
+    <!-- Pop-up Dialogs Title-->
+    <string name="ui_dialog_title_newfolder">Нова папка</string>
+    <string name="ui_dialog_title_copy">Копіювання</string>
+    <string name="ui_dialog_title_move">Переміщення</string>
+    <string name="ui_dialog_title_delete">Видалення</string>
+    <!-- Pop-up Dialogs content -->
+    <string name="ui_dialog_header_copy">файлів та папок буде скопійовано</string>
+    <string name="ui_dialog_header_move">файлів та папок буде переміщено</string>
+    <string name="ui_dialog_header_delete">файлів та папок буде видалено</string>
+    <!-- Pop-up Dialogs other content -->
+    <string name="ui_dialog_from">з каталогу:</string>
+    <string name="ui_dialog_to">в каталог:</string>
+    <string name="ui_dialog_in">в каталозі:</string>
+    <string name="ui_dialog_hint_newfolder">Ім\'я нової папки</string>
+    <!-- Notification -->
+    <string name="notify_copy">об\'єктів скопійовано в:</string>
+    <string name="notify_move">об\'єктів переміщено в:</string>
+    <string name="notify_newfolder">Нова папка:</string>
+    <string name="notify_delete">об\'єктів видалено!</string>
+    <string name="notify_refresh_tab">Вміст панелей оновлено!</string>
+    <string name="notify_file_unknown">Невідомий тип файлу!</string>
+    <string name="notify_operation_same_folder">Поточний каталог і каталог призначення співпадають!</string>
+
+</resources>

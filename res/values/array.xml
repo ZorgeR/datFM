@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="archive_type">
+        <item>7z</item>
+        <item>zip</item>
+        <item>tar</item>
+    </string-array>
+    <string-array name="archive_level">
+        <item>min</item>
+        <item>mid</item>
+        <item>max</item>
+    </string-array>
+    <string-array name="cache_size">
+        <item>50</item>
+        <item>100</item>
+        <item>150</item>
+        <item>200</item>
+        <item>250</item>
+    </string-array>
+</resources>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen android:title="@string/settings_group_view">
+        <PreferenceCategory android:title="@string/settings_group_view">
+            <CheckBoxPreference android:title="@string/settings_elements_title_cp" android:summary="@string/settings_elements_summary_cp" android:key="pref_show_panel" android:defaultValue="true" />
+            <CheckBoxPreference android:title="@string/settings_elements_title_cptext" android:summary="@string/settings_elements_summary_cptext" android:key="pref_show_text_on_panel" android:defaultValue="true" />
+            <CheckBoxPreference android:title="@string/settings_elements_title_navbar" android:summary="@string/settings_elements_summary_navbar" android:key="pref_show_navbar" android:defaultValue="true" />
+            <CheckBoxPreference android:title="@string/settings_elements_title_folder_discription" android:summary="@string/settings_elements_summary_folder_discription" android:key="pref_show_folder_discr" android:defaultValue="true" />
+            <CheckBoxPreference android:title="@string/settings_elements_title_files_discription" android:summary="@string/settings_elements_summary_files_discription" android:key="pref_show_files_discr" android:defaultValue="true" />
+            <CheckBoxPreference android:title="@string/settings_elements_title_panel_discription" android:summary="@string/settings_elements_summary_panel_discription" android:key="pref_show_panel_discr" android:defaultValue="true" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+    <PreferenceScreen android:title="@string/settings_group_performance">
+        <PreferenceCategory android:title="@string/settings_group_view">
+            <CheckBoxPreference android:title="@string/settings_elements_title_appicons" android:summary="@string/settings_elements_summary_appicons" android:key="pref_show_apk" android:defaultValue="true" />
+            <CheckBoxPreference android:title="@string/settings_elements_title_photoicons" android:summary="@string/settings_elements_summary_photoicons" android:key="pref_show_photo" android:defaultValue="true" />
+            <CheckBoxPreference android:title="@string/settings_elements_title_videoicons" android:summary="@string/settings_elements_summary_videoicons" android:key="pref_show_video" android:defaultValue="true" />
+            <ListPreference android:title="@string/settings_elements_title_icons_cache" android:summary="@string/settings_elements_summary_icons_cache" android:key="pref_icons_cache" android:defaultValue="100" android:entries="@array/cache_size" android:entryValues="@array/cache_size" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+    <PreferenceScreen android:title="@string/settings_group_other">
+        <PreferenceCategory android:title="@string/settings_group_other">
+            <CheckBoxPreference android:title="@string/settings_elements_title_opendir" android:summary="@string/settings_elements_summary_opendir" android:key="pref_open_dir" android:defaultValue="true" />
+            <CheckBoxPreference android:title="@string/settings_elements_title_openarcdir" android:summary="@string/settings_elements_summary_openarcdir" android:key="pref_open_arcdir" android:defaultValue="false" />
+            <CheckBoxPreference android:title="@string/settings_elements_title_openarcdir_window" android:summary="@string/settings_elements_summary_openarcdir_window" android:key="pref_open_arcdir_window" android:defaultValue="true" />
+            <CheckBoxPreference android:title="@string/settings_elements_title_savepath" android:summary="@string/settings_elements_summary_savepath" android:key="pref_save_path" android:defaultValue="true" />
+            <CheckBoxPreference android:title="@string/settings_elements_title_focusondir" android:summary="@string/settings_elements_summary_focusondir" android:key="pref_dir_focus" android:defaultValue="true" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+    <PreferenceScreen android:title="@string/settings_group_dangerous">
+        <com.zlab.datFM.datFM_Preferences_Category android:title="@string/settings_group_dangerous" android:key="dangerous_title">
+            <CheckBoxPreference android:title="@string/settings_elements_title_kamikaze" android:summary="@string/settings_elements_summary_kamikaze" android:key="pref_kamikaze" android:defaultValue="false" />
+            <CheckBoxPreference android:title="@string/settings_elements_title_root" android:summary="@string/settings_elements_summary_root" android:key="pref_root" android:defaultValue="false" />
+        </com.zlab.datFM.datFM_Preferences_Category>
+    </PreferenceScreen>
+</PreferenceScreen>

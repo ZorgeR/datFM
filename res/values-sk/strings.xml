@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">datFM</string>
+
+    <!--  NavBar  -->
+    <string name="navbar_up">Prejsť na nadradenú zložku</string>
+    <string name="navbar_go">Prejsť na zložku v okne na úpravu textu</string>
+
+    <!--  Panel  -->
+    <string name="btn_share">Zdieľať</string>
+    <string name="btn_newfolder">Nová zložka</string>
+    <string name="btn_copy">Kopírovať</string>
+    <string name="btn_move">Presunúť</string>
+    <string name="btn_selectall">Vybr. všetko</string>
+    <string name="btn_deselectall">Odzn. všetko</string>
+    <string name="btn_delete">Vymazať</string>
+
+    <!-- Main Menu  -->
+    <string name="mainmenu_addfolder">Pridať zložku</string>
+    <string name="mainmenu_refresh">Obnoviť</string>
+    <string name="mainmenu_favorite">Obľubené</string>
+    <string name="mainmenu_udev">udev</string>
+    <string name="mainmenu_settings">Nastavenia</string>
+    <string name="mainmenu_about">O aplikácii</string>
+    <string name="mainmenu_exit">Ukončiť</string>
+
+    <!-- Settings -->
+    <!-- Settings Groups -->
+    <string name="settings_group_view">Zobrazenie</string>
+    <string name="settings_group_other">Ostatné</string>
+    <string name="settings_group_dangerous">Nebezpečné</string>
+    <!-- Settings Elements Title -->
+    <string name="settings_elements_title_cp">Ovládací panel</string>
+    <string name="settings_elements_title_appicons">Ikony aplikácií</string>
+    <string name="settings_elements_title_cptext">Text na paneli</string>
+    <string name="settings_elements_title_opendir">Otvoriť novú zložku</string>
+    <string name="settings_elements_title_savepath">Ukladať cestu</string>
+    <string name="settings_elements_title_focusondir">Zameranie na adresár</string>
+    <string name="settings_elements_title_kamikaze">Kamikaze režim</string>
+    <!-- Settings Elements Summary -->
+    <string name="settings_elements_summary_cp">Vždy ukázať</string>
+    <string name="settings_elements_summary_appicons">Získať ikony aplikácií z APK</string>
+    <string name="settings_elements_summary_cptext">Ukázať text v tlačidlách na paneli</string>
+    <string name="settings_elements_summary_opendir">Otvoriť novú zložku po vytvorení</string>
+    <string name="settings_elements_summary_savepath">Obnoviť cestu po spustení</string>
+    <string name="settings_elements_summary_focusondir">Nastaviť zameranie na súčasnú zložku</string>
+    <string name="settings_elements_summary_kamikaze">Nepýtajte sa nič, len spustite</string>
+
+</resources>

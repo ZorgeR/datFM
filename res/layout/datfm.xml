@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:weightSum="1"
+              android:descendantFocusability="beforeDescendants"
+              android:focusableInTouchMode="true" android:id="@+id/global_layout">
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" android:baselineAligned="false" android:layout_weight="1">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:layout_weight="0.5">
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layoutPathPannelLeft" android:background="@android:drawable/dialog_holo_light_frame">
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="↩"
+                        android:id="@+id/btnUPleft" android:onClick="init_UI_Listener"
+                        android:contentDescription="@string/navbar_up" />
+                <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:id="@+id/textCurrentPathLeft" android:layout_weight="1"
+                        android:selectAllOnFocus="true" android:singleLine="true" android:inputType="textUri"/>
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="↳"
+                        android:id="@+id/btnGOleft" android:onClick="init_UI_Listener"
+                        android:contentDescription="@string/navbar_go" />
+            </LinearLayout>
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                <ListView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/listLeft"
+                        android:scrollbarThumbVertical="@drawable/datfm_scroll"
+                        />
+                <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="items"
+                          android:id="@+id/textItemsLeft" android:singleLine="false" android:textSize="16dp"
+                          android:layout_marginTop="-3dp" android:layout_gravity="bottom"
+                          android:paddingRight="2dp" android:gravity="center_horizontal"/>
+                <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="selected"
+                          android:id="@+id/textItemsLeftSelected" android:singleLine="false" android:textSize="16dp"
+                          android:visibility="gone" android:layout_marginTop="-3dp"
+                          android:layout_gravity="bottom" android:paddingRight="2dp" android:gravity="center_horizontal"/>
+            </FrameLayout>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="2px"
+                android:layout_height="match_parent" android:background="#46b2ff">
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" android:layout_weight="0.5">
+            <LinearLayout android:orientation="horizontal" android:layout_width="match_parent"
+                          android:layout_height="wrap_content" android:id="@+id/layoutPathPannelRight"
+                          android:background="@android:drawable/dialog_holo_light_frame">
+                <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="↩"
+                        android:id="@+id/btnUPright" android:onClick="init_UI_Listener"
+                        android:contentDescription="@string/navbar_up" />
+                <EditText android:layout_width="0dp" android:layout_height="match_parent"
+                          android:id="@+id/textCurrentPathRight" android:layout_weight="1" android:selectAllOnFocus="true"
+                          android:singleLine="true" android:inputType="textUri"/>
+                <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="↳"
+                        android:id="@+id/btnGOright" android:onClick="init_UI_Listener"
+                        android:contentDescription="@string/navbar_go"
+                        />
+            </LinearLayout>
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                <ListView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/listRight"
+                        android:scrollbarThumbVertical="@drawable/datfm_scroll"
+                        android:verticalScrollbarPosition="left"/>
+                <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="items"
+                        android:id="@+id/textItemsRight"
+                        android:singleLine="false"
+                        android:textSize="16dp"
+                        android:layout_gravity="bottom" android:paddingRight="2dp" android:gravity="center_horizontal"/>
+                <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="selected"
+                          android:id="@+id/textItemsRightSelected" android:singleLine="false" android:textSize="16dp"
+                          android:visibility="gone" android:gravity="center_horizontal" android:layout_gravity="bottom"
+                          android:paddingRight="2dp"/>
+            </FrameLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/layoutButtonPanel" android:visibility="visible"
+            android:background="@android:drawable/dialog_holo_dark_frame" android:layout_marginTop="-10dp">
+        <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnShare" android:layout_weight="1"
+                android:onClick="init_UI_Listener"
+                android:drawableLeft="@drawable/ui_menu_share" android:textColor="#ffffff"
+                android:textSize="14dp"
+                android:contentDescription="@string/btn_share" android:singleLine="true"/>
+        <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnAddFolder" android:layout_weight="1" android:onClick="init_UI_Listener"
+                android:drawableLeft="@drawable/ui_menu_add" android:textColor="#ffffff"
+                android:textSize="14dp"
+                android:contentDescription="@string/btn_newfolder" android:singleLine="true"/>
+        <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnAddToArchive" android:layout_weight="1" android:onClick="init_UI_Listener"
+                android:drawableLeft="@drawable/ui_menu_archive" android:textColor="#ffffff"
+                android:textSize="14dp"
+                android:contentDescription="@string/btn_addtoarchive" android:singleLine="true"/>
+        <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnCopy" android:layout_weight="1" android:onClick="init_UI_Listener"
+                android:drawableLeft="@drawable/ui_menu_copy" android:textColor="#ffffff"
+                android:textSize="14dp"
+                android:contentDescription="@string/btn_copy" android:singleLine="true"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnCut" android:layout_weight="1" android:onClick="init_UI_Listener"
+            android:drawableLeft="@drawable/ui_menu_cut" android:textColor="#ffffff"
+            android:textSize="14dp"
+            android:contentDescription="@string/btn_move" android:singleLine="true"/>
+        <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnRename" android:layout_weight="1" android:onClick="init_UI_Listener"
+                android:drawableLeft="@drawable/ui_menu_rename" android:textColor="#ffffff"
+                android:textSize="14dp"
+                android:contentDescription="@string/btn_rename" android:singleLine="true"/>
+        <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnSelectAll" android:layout_weight="1" android:onClick="init_UI_Listener"
+                android:drawableLeft="@drawable/ui_menu_all" android:textColor="#ffffff"
+                android:textSize="14dp"
+                android:contentDescription="@string/btn_selectall" android:singleLine="true"/>
+        <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnDeselectAll" android:layout_weight="1" android:onClick="init_UI_Listener"
+                android:drawableLeft="@drawable/ui_menu_remove"
+                android:textColor="#ffffff" android:textSize="14dp"
+                android:contentDescription="@string/btn_deselectall" android:singleLine="true"/>
+        <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnDelete" android:layout_weight="1" android:onClick="init_UI_Listener"
+                android:drawableLeft="@drawable/ui_menu_delete" android:textColor="#ffffff"
+                android:textSize="14dp"
+                android:contentDescription="@string/btn_delete" android:singleLine="true"/>
+    </LinearLayout>
+</LinearLayout>
