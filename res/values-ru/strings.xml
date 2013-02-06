@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">datFM</string>
+    <string name="app_properties">Свойства</string>
 
     <!--  NavBar  -->
     <string name="navbar_up">Родительский каталог</string>
@@ -9,6 +10,7 @@
     <!--  Panel  -->
     <string name="btn_share">Share</string>
     <string name="btn_newfolder">New Folder</string>
+    <string name="btn_addtoarchive">Archive</string>
     <string name="btn_copy">Copy</string>
     <string name="btn_move">Move</string>
     <string name="btn_rename">Rename</string>
@@ -25,20 +27,39 @@
     <string name="mainmenu_about">О программе</string>
     <string name="mainmenu_exit">Выход</string>
 
+    <!-- Context Menu  -->
+    <string name="contextmenu_title">Меню:</string>
+    <string name="contextmenu_open">Открыть</string>
+    <string name="contextmenu_open_with">Открыть с помощью...</string>
+    <string name="contextmenu_open_as_archive">Открыть как архив</string>
+    <string name="contextmenu_open_unpack_ZA">Распаковать в ZA</string>
+    <string name="contextmenu_copy">Копировать</string>
+    <string name="contextmenu_move">Переместить</string>
+    <string name="contextmenu_rename">Переименовать</string>
+    <string name="contextmenu_delete">Удалить</string>
+    <string name="contextmenu_share">Отправить</string>
+    <string name="contextmenu_properties">Свойства</string>
+
     <!-- Settings -->
     <!-- Settings Groups -->
     <string name="settings_group_view">Внешний вид</string>
     <string name="settings_group_other">Прочее</string>
+    <string name="settings_group_performance">Производительность</string>
     <string name="settings_group_dangerous">Опасно</string>
     <!-- Settings Elements Title -->
     <string name="settings_elements_title_cp">Панель действий</string>
     <string name="settings_elements_title_appicons">Иконки приложений</string>
+    <string name="settings_elements_title_photoicons">Миниатюры для фото</string>
+    <string name="settings_elements_title_videoicons">Миниатюры для видео</string>
+    <string name="settings_elements_title_icons_cache">Кеш миниатюр</string>
     <string name="settings_elements_title_cptext">Текст в панели</string>
     <string name="settings_elements_title_navbar">Адресная строка</string>
     <string name="settings_elements_title_folder_discription">Описание каталогов</string>
     <string name="settings_elements_title_files_discription">Описание файлов</string>
     <string name="settings_elements_title_panel_discription">Сводка о панели</string>
     <string name="settings_elements_title_opendir">Открывать новый каталог</string>
+    <string name="settings_elements_title_openarcdir">Открывать архивные папки</string>
+    <string name="settings_elements_title_openarcdir_window">Панель для архивной папки</string>
     <string name="settings_elements_title_savepath">Сохранять пути</string>
     <string name="settings_elements_title_focusondir">Фокус на папке</string>
     <string name="settings_elements_title_kamikaze">Режим Камикадзе</string>
@@ -46,12 +67,17 @@
     <!-- Settings Elements Summary -->
     <string name="settings_elements_summary_cp">Показывать всегда</string>
     <string name="settings_elements_summary_appicons">Показывать иконку приложения для APK</string>
+    <string name="settings_elements_summary_photoicons">Отображать миниатюры для фото</string>
+    <string name="settings_elements_summary_videoicons">Отображать миниатюры для видео</string>
+    <string name="settings_elements_summary_icons_cache">Выбрать количество миниатюр в кеше</string>
     <string name="settings_elements_summary_cptext">Показывать надписи на кнопках панели</string>
     <string name="settings_elements_summary_navbar">Показывать адресную строку наверху</string>
     <string name="settings_elements_summary_folder_discription">Показывать описание для каталогов</string>
     <string name="settings_elements_summary_files_discription">Показывать описание для файлов</string>
     <string name="settings_elements_summary_panel_discription">Показывать информацию в нижней части панели</string>
     <string name="settings_elements_summary_opendir">Открывать новую папку при создании</string>
+    <string name="settings_elements_summary_openarcdir">Открыть каталог после распаковки архива</string>
+    <string name="settings_elements_summary_openarcdir_window">Открывать в текущей панели</string>
     <string name="settings_elements_summary_savepath">Восстановить пути панелей при запуске</string>
     <string name="settings_elements_summary_focusondir">Установить фокус на текущей папке при нажатии Вверх</string>
     <string name="settings_elements_summary_kamikaze">Ничего не спрашивать, просто делать свою работу</string>
@@ -70,6 +96,8 @@
     <string name="ui_dialog_btn_cancel">Отмена</string>
     <!-- Pop-up Dialogs Title-->
     <string name="ui_dialog_title_newfolder">Новая папка</string>
+    <string name="ui_dialog_title_archive">Архивирование</string>
+    <string name="ui_dialog_title_archive_extract">Распаковка</string>
     <string name="ui_dialog_title_copy">Копирование</string>
     <string name="ui_dialog_title_move">Перемещение</string>
     <string name="ui_dialog_title_rename">Переименование</string>
@@ -78,12 +106,21 @@
     <string name="ui_dialog_header_copy">файлов и папок будет скопировано</string>
     <string name="ui_dialog_header_move">файлов и папок будет перемещено</string>
     <string name="ui_dialog_header_delete">файлов и папок будет удалено</string>
+    <string name="ui_dialog_header_please_wait">Пожалуйста подождите...</string>
     <!-- Pop-up Dialogs other content -->
     <string name="ui_dialog_from">из каталога:</string>
     <string name="ui_dialog_to">в каталог:</string>
     <string name="ui_dialog_in">в каталоге:</string>
     <string name="ui_dialog_hint_newfolder">Имя новой папки</string>
+    <string name="ui_dialog_hint_archive">Имя нового архива</string>
     <string name="ui_dialog_hint_rename">Новое имя</string>
+    <string name="ui_dialog_archive_archive">Имя архива:</string>
+    <string name="ui_dialog_archive_type">Тип архива:</string>
+    <string name="ui_dialog_archive_level">Степень сжатия:</string>
+    <string name="ui_dialog_archive_del_after_compress">Удалить файлы после упаковки.</string>
+    <string name="ui_dialog_archive_unpack_to_name">Распаковать в ./Имя_архива/</string>
+    <string name="ui_dialog_archive_unpack_to_dir">Распаковать в текущую директорию</string>
+    <string name="ui_dialog_archive_unpack_to_user">Выбрать путь распаковки</string>
     <!-- Notification -->
     <string name="notify_copy">объектов скопировано в:</string>
     <string name="notify_move">объектов перемещено в:</string>

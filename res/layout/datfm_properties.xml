@@ -158,11 +158,14 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/prop_md5sum_check" android:layout_weight="1"
                         android:singleLine="true"/>
+                <ProgressBar android:layout_width="wrap_content" android:layout_height="24dp"
+                             android:id="@+id/prop_md5_progress" android:layout_gravity="center"
+                             android:minWidth="100dp" android:visibility="invisible" android:indeterminate="false"/>
                 <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/prop_icon_md5_check" android:src="@android:drawable/presence_busy"
-                        android:layout_gravity="center_vertical" android:minWidth="100dp"/>
+                        android:layout_gravity="center_vertical" android:visibility="gone" android:minWidth="100dp"/>
             </LinearLayout>
             <TextView
                     android:layout_width="wrap_content"
@@ -260,7 +263,8 @@
                         android:layout_height="wrap_content"
                         android:text="Apply"
                         android:id="@+id/prop_btn_apply" android:layout_alignLeft="@+id/textView4"
-                        android:layout_below="@+id/prop_perm_owner_exec" android:onClick="btn_call_properties"/>
+                        android:layout_below="@+id/prop_perm_owner_exec" android:onClick="btn_call_properties"
+                        android:enabled="false"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

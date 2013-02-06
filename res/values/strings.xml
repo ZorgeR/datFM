@@ -27,6 +27,19 @@
     <string name="mainmenu_about">About</string>
     <string name="mainmenu_exit">Exit</string>
 
+    <!-- Context Menu  -->
+    <string name="contextmenu_title">Menu:</string>
+    <string name="contextmenu_open">Open</string>
+    <string name="contextmenu_open_with">Open with...</string>
+    <string name="contextmenu_open_as_archive">Open as archive</string>
+    <string name="contextmenu_open_unpack_ZA">Unpack with ZA</string>
+    <string name="contextmenu_copy">Copy</string>
+    <string name="contextmenu_move">Move</string>
+    <string name="contextmenu_rename">Rename</string>
+    <string name="contextmenu_delete">Delete</string>
+    <string name="contextmenu_share">Share</string>
+    <string name="contextmenu_properties">Properties</string>
+
     <!-- Settings -->
     <!-- Settings Groups -->
     <string name="settings_group_view">View</string>
@@ -104,7 +117,7 @@
     <string name="ui_dialog_archive_archive">Archive Name:</string>
     <string name="ui_dialog_archive_type">Archive Type:</string>
     <string name="ui_dialog_archive_level">Compression Level:</string>
-    <string name="ui_dialog_archive_del_after_compress">Delete after compression done.</string>
+    <string name="ui_dialog_archive_del_after_compress">Delete files after compression done.</string>
     <string name="ui_dialog_archive_unpack_to_name">Archive name</string>
     <string name="ui_dialog_archive_unpack_to_dir">Current directory</string>
     <string name="ui_dialog_archive_unpack_to_user">User preferred directory</string>

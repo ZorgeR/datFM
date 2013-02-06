@@ -12,25 +12,23 @@ import android.webkit.MimeTypeMap;
 import android.widget.*;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.math.BigDecimal;
-import java.security.DigestInputStream;
-import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class datFM_Properties extends Activity {
 
     /** UI **/
-    EditText prop_name,prop_type,prop_path,prop_date,prop_md5sum,prop_md5sum_check;
-    public static EditText prop_size;
+    EditText prop_name,prop_type,prop_path,prop_date;
+    public static EditText prop_size,prop_md5sum,prop_md5sum_check;
     CheckBox prop_perm_owner_read,prop_perm_owner_write,prop_perm_owner_exec;
     CheckBox prop_perm_group_read,prop_perm_group_write,prop_perm_group_exec;
     CheckBox prop_perm_other_read,prop_perm_other_write,prop_perm_other_exec;
-    Button prop_btn_apply, prop_btn_calc_md5;
-    ImageView prop_icon_file, prop_icon_md5_check;
-    static ProgressBar prop_size_progress;
+    Button prop_btn_apply;
+    public static Button prop_btn_calc_md5;
+    ImageView prop_icon_file;
+    public static ImageView prop_icon_md5_check;
+    static ProgressBar prop_size_progress,prop_md5_progress;
 
     /** FLAG */
     boolean PROP_CHANGED;
@@ -87,7 +85,6 @@ public class datFM_Properties extends Activity {
                 String input = arg0.toString();
 
                 if(!prop_md5sum_check.getText().toString().equals("")){
-                    prop_icon_md5_check.setVisibility(View.VISIBLE);
                     if(prop_md5sum.getText().toString().equals(input)){
                         prop_icon_md5_check.setImageResource(android.R.drawable.checkbox_on_background);
                     } else {
@@ -127,8 +124,8 @@ public class datFM_Properties extends Activity {
         /** Image **/
         prop_icon_file = (ImageView) findViewById(R.id.prop_icon_file);
         prop_icon_md5_check = (ImageView) findViewById(R.id.prop_icon_md5_check);
-        prop_icon_md5_check.setVisibility(View.INVISIBLE);
         prop_size_progress = (ProgressBar) findViewById(R.id.prop_size_progress);
+        prop_md5_progress = (ProgressBar) findViewById(R.id.prop_md5_progress);
         /** Get VAR **/
         get_paths();
 
@@ -261,40 +258,12 @@ public class datFM_Properties extends Activity {
     public  void btn_call_properties(View view) {
         switch (view.getId()) {
             case R.id.prop_btn_cancel: {
+                finish();
                 break;}
             case R.id.prop_btn_apply: {
                 break;}
             case R.id.prop_btn_calc_md5: {
-                try{
-                    MessageDigest md = MessageDigest.getInstance("MD5");
-                    InputStream is = new FileInputStream(file);
-                    try {
-                        is = new DigestInputStream(is, md);
-                    }
-                    finally {
-                        is.close();
-                    }
-                    byte[] bytes = md.digest();
-                    StringBuilder sb = new StringBuilder(2 * bytes.length);
-                    for (byte b : bytes) {
-                        sb.append("0123456789ABCDEF".charAt((b & 0xF0) >> 4));
-                        sb.append("0123456789ABCDEF".charAt((b & 0x0F)));
-                    }
-                    String hex = sb.toString();
-
-                    prop_md5sum.setText(hex);
-                    prop_btn_calc_md5.setEnabled(false);
-                    if(!prop_md5sum_check.getText().toString().equals("")){
-                        prop_icon_md5_check.setVisibility(View.VISIBLE);
-                        if(prop_md5sum.getText().toString().equals(hex)){
-                            prop_icon_md5_check.setImageResource(android.R.drawable.checkbox_on_background);
-                        } else {
-                            prop_icon_md5_check.setImageResource(android.R.drawable.presence_busy);
-                        }
-                    }
-
-                } catch (Exception e){}
-
+                new datFM_Properties_md5sum().execute(file);
                 break;}
         }
     }

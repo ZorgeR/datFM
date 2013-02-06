@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">datFM</string>
+    <string name="app_properties">Properties</string>
 
     <!--  NavBar  -->
     <string name="navbar_up">Parent directory</string>
@@ -9,6 +10,7 @@
     <!--  Panel  -->
     <string name="btn_share">Share</string>
     <string name="btn_newfolder">New Folder</string>
+    <string name="btn_addtoarchive">Archive</string>
     <string name="btn_copy">Copy</string>
     <string name="btn_move">Move</string>
     <string name="btn_rename">Rename</string>
@@ -25,20 +27,39 @@
     <string name="mainmenu_about">About</string>
     <string name="mainmenu_exit">Exit</string>
 
+    <!-- Context Menu  -->
+    <string name="contextmenu_title">Menu:</string>
+    <string name="contextmenu_open">Open</string>
+    <string name="contextmenu_open_with">Open with...</string>
+    <string name="contextmenu_open_as_archive">Open as archive</string>
+    <string name="contextmenu_open_unpack_ZA">Unpack with ZA</string>
+    <string name="contextmenu_copy">Copy</string>
+    <string name="contextmenu_move">Move</string>
+    <string name="contextmenu_rename">Rename</string>
+    <string name="contextmenu_delete">Delete</string>
+    <string name="contextmenu_share">Share</string>
+    <string name="contextmenu_properties">Properties</string>
+
     <!-- Settings -->
     <!-- Settings Groups -->
     <string name="settings_group_view">View</string>
     <string name="settings_group_other">Other</string>
+    <string name="settings_group_performance">Performance</string>
     <string name="settings_group_dangerous">Dangerous</string>
     <!-- Settings Elements Title -->
     <string name="settings_elements_title_cp">Control Panel</string>
     <string name="settings_elements_title_appicons">App icons</string>
+    <string name="settings_elements_title_photoicons">Photo icons</string>
+    <string name="settings_elements_title_videoicons">Video icons</string>
+    <string name="settings_elements_title_icons_cache">Icons cache</string>
     <string name="settings_elements_title_cptext">Text on panel</string>
     <string name="settings_elements_title_navbar">Address bar</string>
     <string name="settings_elements_title_folder_discription">Folder descriptions</string>
     <string name="settings_elements_title_files_discription">Files descriptions</string>
     <string name="settings_elements_title_panel_discription">Panel descriptions</string>
     <string name="settings_elements_title_opendir">Open new directory</string>
+    <string name="settings_elements_title_openarcdir">Open archive directory</string>
+    <string name="settings_elements_title_openarcdir_window">Archive directory panel</string>
     <string name="settings_elements_title_savepath">Save path</string>
     <string name="settings_elements_title_focusondir">Focus on directory</string>
     <string name="settings_elements_title_kamikaze">Kamikaze mode</string>
@@ -46,16 +67,21 @@
     <!-- Settings Elements Summary -->
     <string name="settings_elements_summary_cp">Show always</string>
     <string name="settings_elements_summary_appicons">Get application icons from APK</string>
+    <string name="settings_elements_summary_photoicons">Show photo thumbnail</string>
+    <string name="settings_elements_summary_videoicons">Show video thumbnail</string>
+    <string name="settings_elements_summary_icons_cache">Select preferred cache size</string>
     <string name="settings_elements_summary_cptext">Show text on buttons in panel</string>
     <string name="settings_elements_summary_navbar">Show address bar on the top</string>
     <string name="settings_elements_summary_folder_discription">Show folder descriptions</string>
     <string name="settings_elements_summary_files_discription">Show files descriptions</string>
     <string name="settings_elements_summary_panel_discription">Show descriptions in bottom of panel</string>
     <string name="settings_elements_summary_opendir">Open new directory after create</string>
+    <string name="settings_elements_summary_openarcdir">Open archive directory after unpack</string>
+    <string name="settings_elements_summary_openarcdir_window">Open in current panel</string>
     <string name="settings_elements_summary_savepath">Restore path on start</string>
     <string name="settings_elements_summary_focusondir">Set focus on current directory when go UP</string>
     <string name="settings_elements_summary_kamikaze">Not ask anything, just execute</string>
-    <string name="settings_elements_summary_root">Use root permission</string>
+    <string name="settings_elements_summary_root">Use root privilege</string>
 
     <!-- Files List Items -->
     <string name="fileslist_parent_directory">Parent Directory</string>
@@ -70,6 +96,8 @@
     <string name="ui_dialog_btn_cancel">Cancel</string>
     <!-- Pop-up Dialogs Title-->
     <string name="ui_dialog_title_newfolder">New Folder</string>
+    <string name="ui_dialog_title_archive">Archive</string>
+    <string name="ui_dialog_title_archive_extract">Extract to:</string>
     <string name="ui_dialog_title_copy">Copy</string>
     <string name="ui_dialog_title_move">Move</string>
     <string name="ui_dialog_title_rename">Rename</string>
@@ -78,12 +106,21 @@
     <string name="ui_dialog_header_copy">files and folders will be copied</string>
     <string name="ui_dialog_header_move">files and folders will be moved</string>
     <string name="ui_dialog_header_delete">files and folders will be deleted</string>
+    <string name="ui_dialog_header_please_wait">Please wait...</string>
     <!-- Pop-up Dialogs other content -->
     <string name="ui_dialog_from">from:</string>
     <string name="ui_dialog_to">to:</string>
     <string name="ui_dialog_in">in:</string>
     <string name="ui_dialog_hint_newfolder">New Folder Name</string>
+    <string name="ui_dialog_hint_archive">New Archive Name</string>
     <string name="ui_dialog_hint_rename">New Name</string>
+    <string name="ui_dialog_archive_archive">Archive Name:</string>
+    <string name="ui_dialog_archive_type">Archive Type:</string>
+    <string name="ui_dialog_archive_level">Compression Level:</string>
+    <string name="ui_dialog_archive_del_after_compress">Delete files after compression done.</string>
+    <string name="ui_dialog_archive_unpack_to_name">Archive name</string>
+    <string name="ui_dialog_archive_unpack_to_dir">Current directory</string>
+    <string name="ui_dialog_archive_unpack_to_user">User preferred directory</string>
     <!-- Notification -->
     <string name="notify_copy">object copied to:</string>
     <string name="notify_move">object moved to:</string>

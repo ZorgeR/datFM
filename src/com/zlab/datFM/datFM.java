@@ -353,8 +353,12 @@ public class datFM extends Activity {
     protected void openContextMenu(final int pos, int id){
         if(id==listLeft.getId()){curPanel=0;}else{curPanel=1;}
         update_operation_vars();
+        String open,open_with,properties;
+        open = getResources().getString(R.string.contextmenu_open);
+        open_with = getResources().getString(R.string.contextmenu_open_with);
+        properties = getResources().getString(R.string.contextmenu_properties);
 
-        CharSequence[] items = {"Open", "Open with", "Properties"};
+        CharSequence[] items = {open, open_with, properties};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setItems(items, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
@@ -369,8 +373,8 @@ public class datFM extends Activity {
         });
 
         AlertDialog dialog = builder.create();
-        //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setTitle("Menu:");
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //dialog.setTitle("Menu:");
         WindowManager.LayoutParams WMLP = dialog.getWindow().getAttributes();
 
         WMLP.gravity = Gravity.CENTER; //Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL;
@@ -381,10 +385,12 @@ public class datFM extends Activity {
         dialog.show();
     }
     protected void openFile(String path,String name, String ext){
-        if (ext.equals("zip") ||
-                ext.equals("rar") ||
-                ext.equals("7z")  ||
-                ext.equals("tar") ){
+
+        if ( (ZA.isSupport()) &&
+               (ext.equals("zip")||
+                ext.equals("rar")||
+                ext.equals("7z") ||
+                ext.equals("tar"))){
             ZA_unpack(path, name.substring(0, name.lastIndexOf(".")));
         } else {
             Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -1046,7 +1052,7 @@ public class datFM extends Activity {
 
                             if ( !ZA.isSupport() )
                             {
-                                Toast.makeText(getApplicationContext(),"no ZA!",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),"ZArchiver 0.6.0 or later required!",Toast.LENGTH_SHORT).show();
                                 return;
                             } else {
                                 if(checkArchFileToDelete.isChecked()){
@@ -1157,7 +1163,7 @@ public class datFM extends Activity {
 
                             if ( !ZA.isSupport() )
                             {
-                                Toast.makeText(datf_context,"no ZA!",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(datf_context,"ZArchiver 0.6.0 or later required!",Toast.LENGTH_SHORT).show();
                                 return;
                             } else {
                                 ZA.setOnActionComplete(new OnActionComplete() {
