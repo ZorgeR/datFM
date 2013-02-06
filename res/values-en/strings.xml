@@ -118,8 +118,8 @@
     <string name="ui_dialog_archive_type">Archive Type:</string>
     <string name="ui_dialog_archive_level">Compression Level:</string>
     <string name="ui_dialog_archive_del_after_compress">Delete files after compression done.</string>
-    <string name="ui_dialog_archive_unpack_to_name">Archive name</string>
-    <string name="ui_dialog_archive_unpack_to_dir">Current directory</string>
+    <string name="ui_dialog_archive_unpack_to_name">Extract in ./Archive_name/</string>
+    <string name="ui_dialog_archive_unpack_to_dir">Extract in current directory</string>
     <string name="ui_dialog_archive_unpack_to_user">User preferred directory</string>
     <!-- Notification -->
     <string name="notify_copy">object copied to:</string>
