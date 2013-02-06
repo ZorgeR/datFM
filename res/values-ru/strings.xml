@@ -81,7 +81,7 @@
     <string name="settings_elements_summary_savepath">Восстановить пути панелей при запуске</string>
     <string name="settings_elements_summary_focusondir">Установить фокус на текущей папке при нажатии Вверх</string>
     <string name="settings_elements_summary_kamikaze">Ничего не спрашивать, просто делать свою работу</string>
-    <string name="settings_elements_summary_root">Использовать root привелегии</string>
+    <string name="settings_elements_summary_root">Использовать root привилегии</string>
 
     <!-- Files List Items -->
     <string name="fileslist_parent_directory">Родительский каталог</string>
