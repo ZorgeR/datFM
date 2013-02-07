@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
@@ -22,9 +23,15 @@ import android.widget.*;
 
 import java.io.*;
 import java.math.BigDecimal;
+import java.net.InetAddress;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+
+import jcifs.UniAddress;
+import jcifs.smb.*;
 
 import static com.zlab.datFM.datFM_ZA_Interface.*;
 
@@ -41,6 +48,7 @@ public class datFM extends Activity {
     static int curPanel,competPanel;
     int selLeft=0;
     int selRight=0;
+    String protocol;
 
     /** VARS FOR OPERATION**/
     static int sel;
@@ -56,6 +64,7 @@ public class datFM extends Activity {
     /** VARS HOLDER FOR TAB **/
     private File dirLeft,dirRight;
     protected datFM_Adaptor adapterLeft,adapterRight;
+    protected datFM_Protocol_Adaptor adapterLeft_Protocol,adapterRight_Protocol;
 
     /** VARS PREFS **/
     public SharedPreferences prefs;
@@ -82,6 +91,9 @@ public class datFM extends Activity {
     /** UI **/
     //static int x_pos,y_pos;
 
+    /** SMB **/
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,8 +112,8 @@ public class datFM extends Activity {
         /** Инициализация каталогов **/
         dirLeft = new File(curentLeftDir);
         dirRight = new File(curentRightDir);
-        fill(dirLeft, 0);
-        fill(dirRight, 1);
+        fill_local(dirLeft, 0);
+        fill_local(dirRight, 1);
 
         /** Интерфейс для ZArchiver **/
         ZA = new datFM_ZA_Interface(datf_context);
@@ -181,17 +193,17 @@ public class datFM extends Activity {
             }
             case R.id.mainmenu_fav_downloads: {
                 if (curPanel ==0){
-                    fill(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),0);
+                    fill_local(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), 0);
                 } else {
-                    fill(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),1);
+                    fill_local(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), 1);
                 }
                 return true;
             }
             case R.id.mainmenu_fav_dcim: {
                 if (curPanel ==0){
-                    fill(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),0);
+                    fill_local(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), 0);
                 } else {
-                    fill(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),1);
+                    fill_local(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), 1);
                 }
                 return true;
             }
@@ -281,7 +293,7 @@ public class datFM extends Activity {
         }
         return uri_list;
     }
-    protected void fill(File f, int lr){
+    protected void fill_local(File f, int lr){
         File[] dirs;
         if (pref_root){
             dirs = f.listFiles();
@@ -348,6 +360,38 @@ public class datFM extends Activity {
             textCurrentPathRight.setText(curentRightDir);
             update_panel_focus();
         }
+    }
+    protected void fill_smb(List<datFM_File> dir, List<datFM_File> fls,int panel_ID){
+
+        curPanel = panel_ID;
+        if(panel_ID==0){competPanel=1;}else{competPanel=0;}
+
+        //if(!smbdir.getName().equalsIgnoreCase(""))
+            //dir.add(0,new datFM_Information("..",getResources().getString(R.string.fileslist_parent_directory),f.getParent()));
+
+        if (curPanel==0){
+            selectedLeft = new boolean[dir.size()];
+            adapterLeft_Protocol = new datFM_Protocol_Adaptor(datFM.this,R.layout.datfm_list,dir,selectedLeft);
+            listLeft.setAdapter(adapterLeft);
+            textPanelLeft.setText(
+                    getResources().getString(R.string.fileslist_folders_count)+(dir.size()-fls.size()-1)+", "+
+                            getResources().getString(R.string.fileslist_files_count)+fls.size());
+            textCurrentPathLeft.setText(curentLeftDir);
+            update_panel_focus();
+        } else {
+            selectedRight = new boolean[dir.size()];
+            adapterRight_Protocol = new datFM_Protocol_Adaptor(datFM.this,R.layout.datfm_list,dir,selectedRight);
+            listRight.setAdapter(adapterRight);
+            textPanelRight.setText(
+                    getResources().getString(R.string.fileslist_folders_count)+(dir.size()-fls.size()-1)+", "+
+                            getResources().getString(R.string.fileslist_files_count)+fls.size());
+            textCurrentPathRight.setText(curentRightDir);
+            update_panel_focus();
+        }
+    }
+
+    protected void fill_panel(List<datFM_Information> dir, List<datFM_Information> fls,int lr){
+
     }
 
     protected void openContextMenu(final int pos, int id){
@@ -426,21 +470,21 @@ public class datFM extends Activity {
         if(o.getData().equalsIgnoreCase(getResources().getString(R.string.fileslist_directory))){
             if (curPanel==0){
                 dirLeft = new File(o.getPath());
-                fill(dirLeft, curPanel);
+                fill_local(dirLeft, curPanel);
             } else {
                 dirRight = new File(o.getPath());
-                fill(dirRight, curPanel);
+                fill_local(dirRight, curPanel);
             }
         } else if (o.getData().equalsIgnoreCase(getResources().getString(R.string.fileslist_parent_directory))){
             String prevName;
             if (curPanel==0){
                 dirLeft = new File(o.getPath());
                 prevName = new File(curentLeftDir).getName();
-                fill(dirLeft, curPanel);
+                fill_local(dirLeft, curPanel);
             } else {
                 dirRight = new File(o.getPath());
                 prevName = new File(curentRightDir).getName();
-                fill(dirRight, curPanel);
+                fill_local(dirRight, curPanel);
             }
 
             if (pref_dir_focus){
@@ -585,32 +629,32 @@ public class datFM extends Activity {
         if (panel_update_ID==2){
             int posLeft = listLeft.getFirstVisiblePosition();
             int posRight = listRight.getFirstVisiblePosition();
-            fill(new File(curentLeftDir),0);
-            fill(new File(curentRightDir),1);
+            fill_local(new File(curentLeftDir), 0);
+            fill_local(new File(curentRightDir), 1);
             if (posLeft<listLeft.getCount()){listLeft.setSelection(posLeft);}
             if (posRight<listRight.getCount()){listRight.setSelection(posRight);}
         } else if (panel_update_ID==0){
             int posLeft = listLeft.getFirstVisiblePosition();
             if (operation.equals("new_folder")){
                 if (pref_open_dir){
-                    fill(new File(dest),panel_update_ID);
+                    fill_local(new File(dest), panel_update_ID);
                 } else {
-                    fill(new File(curentLeftDir),panel_update_ID);
+                    fill_local(new File(curentLeftDir), panel_update_ID);
                 }
             } else {
-                fill(new File(curentLeftDir),panel_update_ID);
+                fill_local(new File(curentLeftDir), panel_update_ID);
             }
             if (posLeft<listLeft.getCount()){listLeft.setSelection(posLeft);}
         } else if (panel_update_ID==1){
             int posRight = listRight.getFirstVisiblePosition();
             if (operation.equals("new_folder")){
                 if (pref_open_dir){
-                    fill(new File(dest),panel_update_ID);
+                    fill_local(new File(dest), panel_update_ID);
                 } else {
-                    fill(new File(curentRightDir),panel_update_ID);
+                    fill_local(new File(curentRightDir), panel_update_ID);
                 }
             } else {
-                fill(new File(curentRightDir),panel_update_ID);
+                fill_local(new File(curentRightDir), panel_update_ID);
             }
             if (posRight<listRight.getCount()){listRight.setSelection(posRight);}
         }
@@ -1172,9 +1216,9 @@ public class datFM extends Activity {
                                         if(bSucessful){
                                             if(pref_open_arcdir){
                                                 if (pref_open_arcdir_window){
-                                                    fill(new File(newArcPath),curPanel);
+                                                    fill_local(new File(newArcPath), curPanel);
                                                 } else {
-                                                    fill(new File(newArcPath),competPanel);
+                                                    fill_local(new File(newArcPath), competPanel);
                                                 }
                                             } else {
                                             }
@@ -1228,7 +1272,7 @@ public class datFM extends Activity {
                 if(selLeft==0){
                     String prevName = new File(curentLeftDir).getName();
                     if (!prevName.equals("")){
-                        fill(new File (curentLeftDir).getParentFile(),0);
+                        fill_local(new File(curentLeftDir).getParentFile(), 0);
                         if (pref_dir_focus){
                             for (int i=0;i<listLeft.getCount();i++){
                                 if (prevName.equals(adapterLeft.getItem(i).getName())){
@@ -1243,7 +1287,7 @@ public class datFM extends Activity {
                 if (selRight==0){
                     String prevName = new File(curentRightDir).getName();
                     if (!prevName.equals("")){
-                        fill(new File (curentRightDir).getParentFile(),1);
+                        fill_local(new File(curentRightDir).getParentFile(), 1);
                         if (pref_dir_focus){
                             for (int i=0;i<listRight.getCount();i++){
                                 if (prevName.equals(adapterRight.getItem(i).getName())){
@@ -1255,21 +1299,28 @@ public class datFM extends Activity {
                 }
                 break;}
             case R.id.btnGOleft:{
-                File new_dir = new File (textCurrentPathLeft.getText().toString());
-                if (new_dir.isDirectory()){
-                    if (selLeft==0){
-                        fill(new_dir,0);
-                    }
+                boolean smb = textCurrentPathLeft.getText().toString().startsWith("smb://");
+                if(smb){
+                    protocol="smb";
+                    new datFM_Protocol_SMB(this).execute(textCurrentPathLeft.getText().toString());
                 } else {
-                    Toast.makeText(getApplicationContext(),"Not a directory!",Toast.LENGTH_SHORT).show();
+                    protocol="local";
+                    File new_dir = new File (textCurrentPathLeft.getText().toString());
+                    if (new_dir.isDirectory()){
+                        if (selLeft==0){
+                            fill_local(new_dir, 0);
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(),"Not a directory!",Toast.LENGTH_SHORT).show();
+                    }
+                    EditText_unfocused();
                 }
-                EditText_unfocused();
                 break;}
             case R.id.btnGOright:{
                 File new_dir = new File (textCurrentPathRight.getText().toString());
                 if (new_dir.isDirectory()){
                     if (selRight==0){
-                        fill(new_dir,1);
+                        fill_local(new_dir, 1);
                     }
                 } else {
                     Toast.makeText(getApplicationContext(),"Not a directory!",Toast.LENGTH_SHORT).show();
@@ -1316,9 +1367,6 @@ public class datFM extends Activity {
         listLeft.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                //datFM.x_pos = (int)motionEvent.getX();
-                //datFM.y_pos = (int)motionEvent.getY();
-
                 curPanel =0;
                 competPanel = 1;
                 update_panel_focus();
@@ -1328,9 +1376,6 @@ public class datFM extends Activity {
         listRight.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                //datFM.x_pos = (int)motionEvent.getX();
-                //datFM.y_pos = (int)motionEvent.getY();
-
                 curPanel = 1;
                 competPanel = 0;
                 update_panel_focus();
@@ -1623,5 +1668,7 @@ public class datFM extends Activity {
             } catch (InterruptedException e) {/*("not root");*/}
         } catch (IOException e) {/*("not root");*/}
     }
+
+    /** SMB **/
 
 }

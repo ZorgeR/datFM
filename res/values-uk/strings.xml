@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">datFM</string>
+    <string name="app_properties">Властивості</string>
 
     <!--  NavBar  -->
     <string name="navbar_up">Батьківський каталог</string>
@@ -9,8 +10,10 @@
     <!--  Panel  -->
     <string name="btn_share">Поділитись</string>
     <string name="btn_newfolder">Нова папка</string>
+    <string name="btn_addtoarchive">Архівувати</string>
     <string name="btn_copy">Копіювати</string>
     <string name="btn_move">Перемістити</string>
+    <string name="btn_rename">Перейменувати</string>
     <string name="btn_selectall">Вибрати все</string>
     <string name="btn_deselectall">Зняти виділення</string>
     <string name="btn_delete">Видалити</string>
@@ -24,29 +27,61 @@
     <string name="mainmenu_about">Про додаток</string>
     <string name="mainmenu_exit">Вихід</string>
 
+    <!-- Context Menu  -->
+    <string name="contextmenu_title">Меню:</string>
+    <string name="contextmenu_open">Відкрити</string>
+    <string name="contextmenu_open_with">Відкрити за допомогою...</string>
+    <string name="contextmenu_open_as_archive">Відкрити як архів</string>
+    <string name="contextmenu_open_unpack_ZA">Розпакувати в ZA</string>
+    <string name="contextmenu_copy">Копіювати</string>
+    <string name="contextmenu_move">Перемістити</string>
+    <string name="contextmenu_rename">Перейменувати</string>
+    <string name="contextmenu_delete">Видалити</string>
+    <string name="contextmenu_share">Відправити</string>
+    <string name="contextmenu_properties">Властивості</string>
+
     <!-- Settings -->
     <!-- Settings Groups -->
     <string name="settings_group_view">Зовнішній вигляд</string>
     <string name="settings_group_other">Інше</string>
+    <string name="settings_group_performance">Продуктивність</string>
     <string name="settings_group_dangerous">Небезпечно</string>
     <!-- Settings Elements Title -->
     <string name="settings_elements_title_cp">Панель дій</string>
     <string name="settings_elements_title_appicons">Іконки додатків</string>
+    <string name="settings_elements_title_photoicons">Мініатюри для фото</string>
+    <string name="settings_elements_title_videoicons">Мініатюри для відео</string>
+    <string name="settings_elements_title_icons_cache">Кеш мініатюр</string>
     <string name="settings_elements_title_cptext">Текст у панелі</string>
     <string name="settings_elements_title_navbar">Адресний рядок</string>
+    <string name="settings_elements_title_folder_discription">Опис каталогів</string>
+    <string name="settings_elements_title_files_discription">Опис файлів</string>
+    <string name="settings_elements_title_panel_discription">Зведення про панель</string>
     <string name="settings_elements_title_opendir">Відкрити новий каталог</string>
+    <string name="settings_elements_title_openarcdir">Відкрити архівні папки</string>
+    <string name="settings_elements_title_openarcdir_window">Панель для архівної папки</string>
     <string name="settings_elements_title_savepath">Зберігати шляхи</string>
     <string name="settings_elements_title_focusondir">Фокус на папці</string>
     <string name="settings_elements_title_kamikaze">Режим Камікадзе</string>
+    <string name="settings_elements_title_root">root</string>
     <!-- Settings Elements Summary -->
     <string name="settings_elements_summary_cp">Показувати завжди</string>
-    <string name="settings_elements_summary_appicons">Показувати іконку додатків для APK</string>
+    <string name="settings_elements_summary_appicons">Показувати іконку додатка для APK</string>
+    <string name="settings_elements_summary_photoicons">Відображати мініатюри для фото</string>
+    <string name="settings_elements_summary_videoicons">Відображати мініатюри для відео</string>
+    <string name="settings_elements_summary_icons_cache">Вибрати кількість мініатюр у кеші</string>
     <string name="settings_elements_summary_cptext">Показувати написи на кнопках панелі</string>
-    <string name="settings_elements_summary_navbar">Показувати адресний рядок зверху</string>
+    <string name="settings_elements_summary_navbar">Показувати адресний рядок нагорі</string>
+    <string name="settings_elements_summary_folder_discription">Показувати опис для каталогів</string>
+    <string name="settings_elements_summary_files_discription">Показувати опис для файлів</string>
+    <string name="settings_elements_summary_panel_discription">Показувати інформацію у нижні частині панелі</string>
     <string name="settings_elements_summary_opendir">Відкривати нову папку при створенні</string>
-    <string name="settings_elements_summary_savepath">Відновити шляхи панелей при старті</string>
-    <string name="settings_elements_summary_focusondir">Встановити фокус на поточній папці при натисканні Вгору</string>
+    <string name="settings_elements_summary_openarcdir">Відкривати каталог після розпакування архіву</string>
+    <string name="settings_elements_summary_openarcdir_window">Відкривати в поточні панелі</string>
+    <string name="settings_elements_summary_savepath">Відновити шляхи панелів при старті</string>
+    <string name="settings_elements_summary_focusondir">Встановити фокус на поточні папці при натисканні Вгроу</string>
     <string name="settings_elements_summary_kamikaze">Нічого не питати, просто робити свою роботу</string>
+    <string name="settings_elements_summary_root">Використовувати root привілеї</string>
 
     <!-- Files List Items -->
     <string name="fileslist_parent_directory">Батьківський каталог</string>
@@ -61,18 +96,31 @@
     <string name="ui_dialog_btn_cancel">Відміна</string>
     <!-- Pop-up Dialogs Title-->
     <string name="ui_dialog_title_newfolder">Нова папка</string>
+    <string name="ui_dialog_title_archive">Архівування</string>
+    <string name="ui_dialog_title_archive_extract">Розпакування</string>
     <string name="ui_dialog_title_copy">Копіювання</string>
     <string name="ui_dialog_title_move">Переміщення</string>
+    <string name="ui_dialog_title_rename">Перейменування</string>
     <string name="ui_dialog_title_delete">Видалення</string>
     <!-- Pop-up Dialogs content -->
-    <string name="ui_dialog_header_copy">файлів та папок буде скопійовано</string>
-    <string name="ui_dialog_header_move">файлів та папок буде переміщено</string>
-    <string name="ui_dialog_header_delete">файлів та папок буде видалено</string>
+    <string name="ui_dialog_header_copy">файлів і папок буде скопійовано</string>
+    <string name="ui_dialog_header_move">файлів і папок буде переміщено</string>
+    <string name="ui_dialog_header_delete">файлів і папок буде видалено</string>
+    <string name="ui_dialog_header_please_wait">Будь ласка зачекайте...</string>
     <!-- Pop-up Dialogs other content -->
     <string name="ui_dialog_from">з каталогу:</string>
     <string name="ui_dialog_to">в каталог:</string>
     <string name="ui_dialog_in">в каталозі:</string>
-    <string name="ui_dialog_hint_newfolder">Ім\'я нової папки</string>
+    <string name="ui_dialog_hint_newfolder">Ім`я нової папки</string>
+    <string name="ui_dialog_hint_archive">Ім`я нового архіву</string>
+    <string name="ui_dialog_hint_rename">Нове ім`я</string>
+    <string name="ui_dialog_archive_archive">Ім`я архіву:</string>
+    <string name="ui_dialog_archive_type">Тип архіву:</string>
+    <string name="ui_dialog_archive_level">Ступінь стиснення:</string>
+    <string name="ui_dialog_archive_del_after_compress">Видалити файли після упаковки.</string>
+    <string name="ui_dialog_archive_unpack_to_name">Розпакувати в ./Ім`я_архіву/</string>
+    <string name="ui_dialog_archive_unpack_to_dir">Розпакувати в поточну дерикторію</string>
+    <string name="ui_dialog_archive_unpack_to_user">Вибрати шлях розпакування</string>
     <!-- Notification -->
     <string name="notify_copy">об\'єктів скопійовано в:</string>
     <string name="notify_move">об\'єктів переміщено в:</string>
