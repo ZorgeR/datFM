@@ -262,18 +262,18 @@ public class datFM extends Activity {
         if(panel_ID==0){competPanel=1;}else{competPanel=0;}
 
         if(panel_ID==0){
-            if(!curentLeftDir.equals("/")){
+            if(!curentLeftDir.equals("/") && !curentLeftDir.equals("smb:////")){
                 String data = getResources().getString(R.string.fileslist_parent_directory);
                 dir.add(0,new datFM_FileInformation("..",parent_left,"dir",protocols[0],"dir", data, parent_left));
             }
         }else{
-            if(!curentRightDir.equals("/")){
+            if(!curentRightDir.equals("/") && !curentRightDir.equals("smb:////")){
                 String data = getResources().getString(R.string.fileslist_parent_directory);
                 dir.add(0,new datFM_FileInformation("..",parent_right,"dir",protocols[1],"dir", data, parent_right));
             }
         }
 
-        if (curPanel==0){
+        if (panel_ID==0){
             selectedLeft = new boolean[dir.size()];
             adapterLeft = new datFM_Adaptor(datFM.this,R.layout.datfm_list,dir,selectedLeft);
             listLeft.setAdapter(adapterLeft);
