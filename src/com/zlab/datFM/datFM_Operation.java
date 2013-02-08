@@ -1,25 +1,12 @@
 package com.zlab.datFM;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.EditText;
 import android.widget.ProgressBar;
-import jcifs.UniAddress;
-import jcifs.smb.*;
 
 import java.io.*;
-import java.net.MalformedURLException;
-import java.net.UnknownHostException;
 
 public class datFM_Operation extends AsyncTask<String, Void, Boolean> {
 
@@ -27,12 +14,12 @@ public class datFM_Operation extends AsyncTask<String, Void, Boolean> {
     String destDir, srcDir, operation, new_name, mask;
     public datFM activity;
     static AlertDialog dialog_operation;
-    public NtlmPasswordAuthentication auth;
     int count;
-    long cur_f;
+    static long cur_f;
 
 
-    ProgressBar progr_current,progr_overal;
+    static ProgressBar progr_current;
+    ProgressBar progr_overal;
 
     public datFM_Operation(datFM a)
     {
@@ -55,7 +42,7 @@ public class datFM_Operation extends AsyncTask<String, Void, Boolean> {
         dialog_operation = progr_dialog.create();
         dialog_operation.show();
 
-            }
+    }
 
 
     protected void onProgressUpdate(Integer c) {
@@ -81,20 +68,24 @@ public class datFM_Operation extends AsyncTask<String, Void, Boolean> {
 
             count=0;
 
+            if(operation.equals("copy")){
+                dialog_operation.setTitle(datFM.datf_context.getResources().getString(R.string.ui_dialog_title_copy));
+                for (int i=1;i<activity.selected.length;i++){
+                    if (activity.selected[i]){
+                        datFM_FileInformation from = activity.adapter.getItem(i);
+                        cur_f = from.getSize();
+                        boolean success = protocol_copy(from.getPath(), destDir + "/" + from.getName());
+                        if (success) {count++;onProgressUpdate(count);}
+                    }
+                }
+            }
+
             if (operation.equals("delete")){
                 dialog_operation.setTitle(datFM.datf_context.getResources().getString(R.string.ui_dialog_title_delete));
-
                     for (int i=1;i<activity.selected.length;i++){
                         if (activity.selected[i]){
                             datFM_FileInformation from = activity.adapter.getItem(i);
-                            boolean success = false;
-                            try {
-                                if (datFM.pref_root){
-                                    success = root_delete(new File(from.getPath()));
-                                } else {
-                                    success = delete(new File(from.getPath()));
-                                }
-                            } catch (IOException e) {e.printStackTrace();}
+                            boolean success = protocol_delete(from.getPath());
                             if (success) {count++;onProgressUpdate(count);}
                         }
                     }
@@ -102,34 +93,12 @@ public class datFM_Operation extends AsyncTask<String, Void, Boolean> {
 
             if (operation.equals("move")){
                 dialog_operation.setTitle(datFM.datf_context.getResources().getString(R.string.ui_dialog_title_move));
-
                 for (int i=1;i<activity.selected.length;i++){
                     if (activity.selected[i]){
                         datFM_FileInformation from = activity.adapter.getItem(i);
-                        File move_file = new File (from.getPath());
-                        boolean success = false;
-
-                        if (datFM.pref_root){try {
-                            success = root_move(from.getPath(),destDir+"/"+from.getName());
-                            } catch (IOException e) {e.printStackTrace();}
-                            if (success) {count++;onProgressUpdate(count);}
-                        } else {
-                            success = (move_file.renameTo(new File(destDir, from.getName())));
-                            if (success) {count++;onProgressUpdate(count);
-                            } else {
-                                try {
-                                    success = copy(move_file.getName(),destDir+from.getName());
-                                } catch (IOException e) {e.printStackTrace();}
-                                if (success) {
-                                    count++;onProgressUpdate(count);
-                                    try {
-                                        delete(move_file);
-                                    } catch (IOException e) {e.printStackTrace();}
-                                }
-                            }
-                        }
+                        boolean success = protocol_move(from.getPath(), destDir + "/" + from.getName());
+                        if (success) {count++;onProgressUpdate(count);}
                     }
-
                 }
             }
 
@@ -143,15 +112,7 @@ public class datFM_Operation extends AsyncTask<String, Void, Boolean> {
                     for (int i=1;i<activity.selected.length;i++){
                         if (activity.selected[i]){
                             datFM_FileInformation from = activity.adapter.getItem(i);
-                            File rename_file = new File (from.getPath());
-                            boolean success = false;
-
-                            if (datFM.pref_root){try {
-                                success = root_move(from.getPath(),srcDir+"/"+new_name);
-                                } catch (IOException e) {e.printStackTrace();}
-                            } else {
-                                success = (rename_file.renameTo(new File(srcDir, new_name)));
-                            }
+                            boolean success = protocol_rename(from.getPath(), srcDir+"/"+new_name);
                             if (success) {count++;onProgressUpdate(count);}
                         }
                     }
@@ -159,34 +120,20 @@ public class datFM_Operation extends AsyncTask<String, Void, Boolean> {
                     for (int i=1;i<activity.selected.length;i++){
                         if (activity.selected[i]){
                             datFM_FileInformation from = activity.adapter.getItem(i);
-                            File rename_file = new File (from.getPath());
-                            boolean success = false;
-
-                            if (rename_file.isFile()){
+                            boolean success;
+                            if (from.getType().equals("file")){
                                 int dotPos = from.getName().lastIndexOf(".")+1;
                                 String ext = from.getName().substring(dotPos);
-                                if (!ext.equals(from.getName())){
-                                    if (datFM.pref_root){try {
-                                        success = root_move(from.getPath(),srcDir+"/"+new_name+"_"+j+"."+ext);
-                                    } catch (IOException e) {e.printStackTrace();}
-                                    } else {
-                                        success = rename_file.renameTo(new File(srcDir, new_name + "_" + j + "." + ext));
-                                    }
+                                if (dotPos>0){
+                                    success = protocol_rename(from.getPath(), srcDir+"/"+new_name+"_"+j+"."+ext);
+                                    if (success) {count++;onProgressUpdate(count);}
                                 } else {
-                                    if (datFM.pref_root){try {
-                                        success = root_move(from.getPath(),srcDir+"/"+new_name+"_"+j);
-                                    } catch (IOException e) {e.printStackTrace();}
-                                    } else {
-                                        success = rename_file.renameTo(new File(srcDir, new_name+"_"+j));
-                                    }
+                                    success = protocol_rename(from.getPath(), srcDir+"/"+new_name+"_"+j);
+                                    if (success) {count++;onProgressUpdate(count);}
                                 }
                             } else {
-                                if (datFM.pref_root){try {
-                                    success = root_move(from.getPath(),srcDir+"/"+new_name+"_"+j);
-                                } catch (IOException e) {e.printStackTrace();}
-                                } else {
-                                    success = rename_file.renameTo(new File(srcDir, new_name+"_"+j));
-                                }
+                                success = protocol_rename(from.getPath(), srcDir+"/"+new_name+"_"+j);
+                                if (success) {count++;onProgressUpdate(count);}
                             }
                             if (success) {count++;j++;onProgressUpdate(count);}
                         }
@@ -215,45 +162,65 @@ public class datFM_Operation extends AsyncTask<String, Void, Boolean> {
             dialog_operation.dismiss();
         }
 
-    private boolean root_copy(String srcf, String destr) throws IOException{
-        File src = new File(srcf);
-        File dst = new File(destr);
-
-        try {copy(srcf, destr);} catch (IOException e){/*e.printStackTrace();*/}
-
-        if (!dst.exists()){
-            if (src.isDirectory()){
-                String[] commands = {"cp -rf "+"\""+src.getPath()+"\""+" "+"\""+dst.getPath()+"\"\n"};
-                RunAsRoot(commands);
+    /** Protocol Operation **/
+    private boolean protocol_copy(String src, String dest){
+        boolean success;
+        try {
+            if(datFM.protocols[0].equals("local") && datFM.protocols[1].equals("local")){
+                return root_copy(src, dest);
             } else {
-                String[] commands = {"cp -f "+"\""+src.getPath()+"\""+" "+"\""+dst.getPath()+"\"\n"};
-                RunAsRoot(commands);
+                success = new datFM_IO(src).copy(dest);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            success=false;
         }
-        return dst.exists();
+        return success;
     }
-    private boolean root_move(String srcf, String destr) throws IOException {
-        File src = new File(srcf);
-        File dst = new File(destr);
-
-        src.renameTo(dst);
-        if(!dst.exists()){
-            String[] commands = {"mv "+"\""+src.getPath()+"\""+" "+"\""+dst.getPath()+"\"\n"};
-            RunAsRoot(commands);
-            if (!dst.exists()){
-                root_copy(srcf, destr);
-                if (dst.exists()){
-                    delete(src);
-                    if (dst.exists()){
-                        root_delete(src);}
-                }
+    private boolean protocol_move(String src, String dest){
+        boolean success;
+        try {
+            if(datFM.protocols[srcPannelID].equals("local") && datFM.protocols[competPannelID].equals("local")){
+                return root_move(src, dest);
+            } else {
+                success= protocol_copy(src, dest);
+                if(success){
+                    protocol_delete(src);}
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            success=false;
         }
-        return dst.exists();
+        return success;
     }
-    private boolean root_delete(File f) throws IOException {
-        delete(f);
-        if (f.exists()){
+    private boolean protocol_delete(String src){
+        boolean success;
+        try {
+            if(datFM.protocols[srcPannelID].equals("local")){
+                return root_delete(src);
+            } else {
+                success = new datFM_IO(src).delete();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            success=false;
+        }
+        return success;
+    }
+    private boolean protocol_rename(String src,String new_name){
+        boolean success=false;
+        try {success=new datFM_IO(src).rename(new_name);
+        } catch (IOException e) {e.printStackTrace();}
+        if(!success){
+            success=protocol_move(src,new_name);
+        }
+        return success;
+    }
+    /** Operation **/
+    private boolean root_delete(String file) throws IOException {
+        boolean success = new datFM_IO(file).delete();
+        if (!success && datFM.pref_root){
+            File f = new File(file);
             if (f.isDirectory()){
                 String[] commands = {"rm -r "+"\""+f.getPath()+"\"\n"};
                 RunAsRoot(commands);
@@ -261,41 +228,56 @@ public class datFM_Operation extends AsyncTask<String, Void, Boolean> {
                 String[] commands = {"rm "+"\""+f.getPath()+"\"\n"};
                 RunAsRoot(commands);
             }
+            return !f.exists();
         }
-        return !f.exists();
+        return success;
     }
-
-    private boolean copy(String srcf, String destr) throws IOException {
+    private boolean root_copy(String srcf, String destr) throws IOException{
+        boolean success = new datFM_IO(srcf).copy(destr);
+        if (!success && datFM.pref_root){
+            File src = new File(srcf);
+            File dst = new File(destr);
+            if (src.isDirectory()){
+                String[] commands = {"cp -rf "+"\""+src.getPath()+"\""+" "+"\""+dst.getPath()+"\"\n"};
+                RunAsRoot(commands);
+            } else {
+                String[] commands = {"cp -f "+"\""+src.getPath()+"\""+" "+"\""+dst.getPath()+"\"\n"};
+                RunAsRoot(commands);
+            }
+            return dst.exists();
+        }
+        return success;
+    }
+    private boolean root_move(String srcf, String destr) throws IOException {
+        boolean success;
         File src = new File(srcf);
         File dst = new File(destr);
+        success = src.renameTo(dst);
 
-         if (src.isDirectory()) {
-             dst.mkdir();
-             if (!src.exists() && !dst.mkdirs()) {
-                throw new IOException("Cannot create dir " + dst.getAbsolutePath());}
-             String[] children = src.list();
-             for (int i=0; i<children.length; i++) {
-                 copy(src.getPath()+children[i],dst.getPath()+children[i]);}
-         } else {
-             File directory = dst.getParentFile();
-             if (directory != null && !directory.exists() && !directory.mkdirs()) {
-             throw new IOException("Cannot create dir " + directory.getAbsolutePath());}
+        if (!success){
+            if(datFM.pref_root){
+                if(!dst.exists()){
+                    String[] commands = {"mv "+"\""+src.getPath()+"\""+" "+"\""+dst.getPath()+"\"\n"};
+                    RunAsRoot(commands);
+                    if (!dst.exists()){
+                        if (protocol_copy(srcf, destr)){
+                            protocol_delete(srcf);
+                        }
+                    }
+                }
+                success = !dst.exists();
+            } else {
+                if (protocol_copy(srcf, destr)) {
+                    protocol_delete(srcf);
+                    success=true;
+                }
+            }
+        }
 
-             InputStream in = new FileInputStream(src);
-             OutputStream out = new FileOutputStream(dst);
-             StreamWorker(in, out);
-         }
-
-        return dst.exists();
-    }
-    private boolean delete(File f) throws IOException {
-        if (f.isDirectory())
-            for (File child : f.listFiles())
-                delete(child);
-        f.delete();
-        return !f.exists();
+        return success;
     }
 
+    /** other **/
     private void RunAsRoot(String[] cmds){
         try {
             Process p = Runtime.getRuntime().exec("su");
@@ -313,28 +295,6 @@ public class datFM_Operation extends AsyncTask<String, Void, Boolean> {
                 } else {/*("not root");*/}
             } catch (InterruptedException e) {/*e.printStackTrace();*/}
         } catch (IOException e) {/*e.printStackTrace();*/}
-    }
-
-
-    private boolean StreamWorker(InputStream in, OutputStream out) throws IOException {
-        byte[] buf = new byte[1024];
-        int len;
-
-        long one_percent = cur_f/100;
-        long cnt=0;
-        int cur_file_progress=0;
-        while ((len = in.read(buf)) > 0){
-            out.write(buf, 0, len);
-            cnt=cnt+1024;
-            if(cnt>one_percent){
-                cur_file_progress=cur_file_progress+1;
-                progr_current.setProgress(cur_file_progress);
-                cnt=0;
-            }
-        }
-        in.close();
-        out.close();
-        return true;
     }
 
 }

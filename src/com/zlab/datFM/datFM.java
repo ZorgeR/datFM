@@ -682,8 +682,7 @@ public class datFM extends Activity {
         RunAsRoot(commands);}
     private void action_copy() {
         if (!curDir.equals(destDir)){
-            new datFM_Operation_COPY(this).execute("copy", "unknown", destDir,"","",String.valueOf(curPanel),String.valueOf(competPanel));
-            //new datFM_Operation(this).execute("copy", "unknown", destDir,"","",String.valueOf(curPanel),String.valueOf(competPanel));
+            new datFM_Operation(this).execute("copy", "unknown", destDir,"","",String.valueOf(curPanel),String.valueOf(competPanel));
         } else {
             notify_toast(getResources().getString(R.string.notify_operation_same_folder));
         }
@@ -714,7 +713,7 @@ public class datFM extends Activity {
                             mask="true";
                         }
                         if (!new_name.equals("")){
-                            new datFM_Operation(datFM.this).execute("rename", curDir, "unknown", new_name, mask,String.valueOf(curPanel),String.valueOf(competPanel));
+                            new datFM_Operation(datFM.this).execute("rename", curDir, "unknown", new_name, mask,String.valueOf(curPanel),String.valueOf(curPanel));
                         }
                     }
                 });

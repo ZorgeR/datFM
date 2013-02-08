@@ -1,0 +1,211 @@
+package com.zlab.datFM;
+
+import jcifs.smb.*;
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.UnknownHostException;
+
+public class datFM_IO {
+
+    /** Protocols **/
+    boolean smb;
+    boolean local;
+    boolean acceptable;
+
+    /** Globals **/
+    String path;
+
+    public datFM_IO(String file){
+        path=file;
+    }
+
+    /** FILE **/
+    public File getFile(){
+        File file = new File(path);
+        return file;
+    }
+    public SmbFile getSmbFile() throws MalformedURLException {
+        //---------START SMB WORKS-------------------------
+        String user, pass;
+        user = "zorg";
+        pass = "crt3CRT";
+        NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("ZORGHOME", user, pass);
+        SmbFile f = new SmbFile(path,auth);
+        //---------END SMB WORKS-------------------------
+        return f;
+    }
+
+    /** STREAM **/
+    public InputStream getInput() throws MalformedURLException, FileNotFoundException, UnknownHostException, SmbException {
+        checkProtocol();
+        InputStream in=null;
+        if(local){
+            in = new BufferedInputStream(new FileInputStream(path));
+        } else if (smb){
+            in = new BufferedInputStream(new SmbFileInputStream(getSmbFile()));
+        }
+
+        return in;
+    }
+    public OutputStream getOutput() throws FileNotFoundException, MalformedURLException, UnknownHostException, SmbException {
+        checkProtocol();
+        OutputStream out=null;
+        if(local){
+            out = new BufferedOutputStream(new FileOutputStream(path));
+        } else if (smb){
+            out = new BufferedOutputStream(new SmbFileOutputStream(getSmbFile()));
+        }
+        return out;
+    }
+
+    /** DELETE **/
+    public boolean delete() throws IOException {
+        boolean success;
+        checkProtocol();
+
+        if(local){
+            success=delete_recursively_local(getFile());
+        } else if (smb){
+            success=delete_recursively_smb(getSmbFile());
+        } else {
+            success=false;
+        }
+
+        return success;
+    }
+    public boolean delete_recursively_smb(SmbFile file) throws SmbException {
+        if (file.isDirectory())
+            for (SmbFile child : file.listFiles())
+                delete_recursively_smb(child);
+        file.delete();
+        return !file.exists();
+    }
+    public boolean delete_recursively_local(File f) throws IOException {
+        if (f.isDirectory())
+            for (File child : f.listFiles())
+                delete_recursively_local(child);
+        f.delete();
+        return !f.exists();
+    }
+
+    /** COPY **/
+    public boolean copy(String dest) throws IOException {
+        boolean success;
+        checkProtocol();
+
+        if(local){
+            success=copy_recursively_local(getFile(),dest);
+        } else if (smb){
+            success=copy_recursively_smb(getSmbFile(),dest);
+        } else {
+            success=false;
+        }
+
+        return success;
+    }
+    public boolean copy_recursively_smb(SmbFile file,String dest) throws IOException {
+        if (file.isDirectory()) {
+            new datFM_IO(dest).mkdir();
+            SmbFile[] children = file.listFiles();
+            for (SmbFile ff : children) {
+                copy_recursively_smb(ff, dest+"/"+ff.getName());}
+        } else {
+            IO_Stream_Worker(file.getPath(), dest);
+        };
+        return true;
+    }
+    public boolean copy_recursively_local(File file,String dest) throws IOException {
+        if (file.isDirectory()) {
+            new datFM_IO(dest).mkdir();
+            File[] children = file.listFiles();
+            for (File ff : children) {
+                copy_recursively_local(ff, dest+"/"+ff.getName());}
+        } else {
+            IO_Stream_Worker(file.getPath(), dest);
+        };
+        return true;
+    }
+
+    /** RENAME **/
+    public boolean rename(String new_name) throws IOException {
+        boolean success;
+        checkProtocol();
+
+        if(local){
+            success=rename_local(getFile(),new_name);
+        } else if (smb){
+            success=rename_smb(getSmbFile(),new_name);
+        } else {
+            success=false;
+        }
+
+        return success;
+    }
+    public boolean rename_smb(SmbFile file,String new_name) throws IOException {
+        SmbFile dest=new SmbFile(file.getParent()+"/"+new_name);
+        file.renameTo(dest);
+        return dest.exists();
+    }
+    public boolean rename_local(File file,String new_name) throws IOException {
+        return file.renameTo(new File(file.getParent()+"/"+new_name));
+    }
+
+    /** MKDIR **/
+    public boolean mkdir() throws MalformedURLException, SmbException {
+        boolean success;
+        checkProtocol();
+
+        if(local){
+            getFile().mkdir();
+            success=getFile().exists();
+        } else if (smb){
+            getSmbFile().mkdir();
+            success=getSmbFile().exists();
+        } else {
+            success=false;
+        }
+
+        return success;
+    }
+
+    /** STREAM WORKER **/
+    private boolean IO_Stream_Worker(String src, String dest) throws IOException {
+        InputStream in = new datFM_IO(src).getInput();
+        OutputStream out = new datFM_IO(dest).getOutput();
+
+        byte[] buf = new byte[1024];
+        int len;
+
+        long one_percent = datFM_Operation.cur_f/100;
+        long cnt=0;
+        int cur_file_progress=0;
+        while ((len = in.read(buf)) > 0){
+            out.write(buf, 0, len);
+            cnt=cnt+1024;
+            if(cnt>one_percent){
+                cur_file_progress=cur_file_progress+1;
+                datFM_Operation.progr_current.setProgress(cur_file_progress);
+                cnt=0;
+            }
+        }
+        in.close();
+        out.close();
+        return true;
+    }
+
+    /** Protocol identifier **/
+    public boolean checkProtocol(){
+        smb = path.startsWith("smb://");
+        local = path.startsWith("/");
+
+        if(!local &&
+           !smb   ){
+            acceptable=false;
+        } else {
+            acceptable=true;
+        }
+
+        return acceptable;
+    }
+
+}
