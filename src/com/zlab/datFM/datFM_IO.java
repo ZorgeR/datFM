@@ -20,11 +20,11 @@ public class datFM_IO {
     }
 
     /** FILE **/
-    public File getFile(){
+    public File getFileLocal(){
         File file = new File(path);
         return file;
     }
-    public SmbFile getSmbFile() throws MalformedURLException {
+    public SmbFile getFileSmb() throws MalformedURLException {
         //---------START SMB WORKS-------------------------
         String user, pass;
         user = "zorg";
@@ -42,7 +42,7 @@ public class datFM_IO {
         if(local){
             in = new BufferedInputStream(new FileInputStream(path));
         } else if (smb){
-            in = new BufferedInputStream(new SmbFileInputStream(getSmbFile()));
+            in = new BufferedInputStream(new SmbFileInputStream(getFileSmb()));
         }
 
         return in;
@@ -53,7 +53,7 @@ public class datFM_IO {
         if(local){
             out = new BufferedOutputStream(new FileOutputStream(path));
         } else if (smb){
-            out = new BufferedOutputStream(new SmbFileOutputStream(getSmbFile()));
+            out = new BufferedOutputStream(new SmbFileOutputStream(getFileSmb()));
         }
         return out;
     }
@@ -64,9 +64,9 @@ public class datFM_IO {
         checkProtocol();
 
         if(local){
-            success=delete_recursively_local(getFile());
+            success=delete_recursively_local(getFileLocal());
         } else if (smb){
-            success=delete_recursively_smb(getSmbFile());
+            success=delete_recursively_smb(getFileSmb());
         } else {
             success=false;
         }
@@ -94,9 +94,9 @@ public class datFM_IO {
         checkProtocol();
 
         if(local){
-            success=copy_recursively_local(getFile(),dest);
+            success=copy_recursively_local(getFileLocal(),dest);
         } else if (smb){
-            success=copy_recursively_smb(getSmbFile(),dest);
+            success=copy_recursively_smb(getFileSmb(),dest);
         } else {
             success=false;
         }
@@ -132,9 +132,9 @@ public class datFM_IO {
         checkProtocol();
 
         if(local){
-            success=rename_local(getFile(),new_name);
+            success=rename_local(getFileLocal(), new_name);
         } else if (smb){
-            success=rename_smb(getSmbFile(),new_name);
+            success=rename_smb(getFileSmb(), new_name);
         } else {
             success=false;
         }
@@ -156,11 +156,11 @@ public class datFM_IO {
         checkProtocol();
 
         if(local){
-            getFile().mkdir();
-            success=getFile().exists();
+            getFileLocal().mkdir();
+            success= getFileLocal().exists();
         } else if (smb){
-            getSmbFile().mkdir();
-            success=getSmbFile().exists();
+            getFileSmb().mkdir();
+            success= getFileSmb().exists();
         } else {
             success=false;
         }

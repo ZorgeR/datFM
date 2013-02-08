@@ -332,6 +332,7 @@ public class datFM extends Activity {
             ZA_unpack(path, name.substring(0, name.lastIndexOf(".")));
         } else {
             Intent intent = new Intent(Intent.ACTION_VIEW);
+
             Uri uri = Uri.fromFile(new File(path));
             String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(uri.toString()));
             intent.setDataAndType(uri, mimeType);
