@@ -5,5 +5,6 @@
 
     <style name="AppTheme" parent="android:Theme.Holo.Light.NoActionBar" />
     <style name="PropTheme" parent="android:Theme.Holo.Light" />
+    <style name="Progress" parent="android:Widget.Holo.ProgressBar.Horizontal" />
 
 </resources>

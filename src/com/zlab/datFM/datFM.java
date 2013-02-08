@@ -81,9 +81,6 @@ public class datFM extends Activity {
     /** UI **/
     //static int x_pos,y_pos;
 
-    /** SMB **/
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -264,12 +261,12 @@ public class datFM extends Activity {
         if(panel_ID==0){
             if(!curentLeftDir.equals("/") && !curentLeftDir.equals("smb:////")){
                 String data = getResources().getString(R.string.fileslist_parent_directory);
-                dir.add(0,new datFM_FileInformation("..",parent_left,"dir",protocols[0],"dir", data, parent_left));
+                dir.add(0,new datFM_FileInformation("..",parent_left,0,protocols[0],"dir", data, parent_left));
             }
         }else{
             if(!curentRightDir.equals("/") && !curentRightDir.equals("smb:////")){
                 String data = getResources().getString(R.string.fileslist_parent_directory);
-                dir.add(0,new datFM_FileInformation("..",parent_right,"dir",protocols[1],"dir", data, parent_right));
+                dir.add(0,new datFM_FileInformation("..",parent_right,0,protocols[1],"dir", data, parent_right));
             }
         }
 
@@ -685,14 +682,15 @@ public class datFM extends Activity {
         RunAsRoot(commands);}
     private void action_copy() {
         if (!curDir.equals(destDir)){
-            new datFM_Operation(this).execute("copy", "unknown", destDir);
+            new datFM_Operation_COPY(this).execute("copy", "unknown", destDir,"","",String.valueOf(curPanel),String.valueOf(competPanel));
+            //new datFM_Operation(this).execute("copy", "unknown", destDir,"","",String.valueOf(curPanel),String.valueOf(competPanel));
         } else {
             notify_toast(getResources().getString(R.string.notify_operation_same_folder));
         }
     }
     private void action_move() {
         if (!curDir.equals(destDir)){
-            new datFM_Operation(this).execute("move", "unknown", destDir);
+            new datFM_Operation(this).execute("move", "unknown", destDir,"","",String.valueOf(curPanel),String.valueOf(competPanel));
         } else {
             notify_toast(getResources().getString(R.string.notify_operation_same_folder));
         }
@@ -716,7 +714,7 @@ public class datFM extends Activity {
                             mask="true";
                         }
                         if (!new_name.equals("")){
-                            new datFM_Operation(datFM.this).execute("rename", curDir, "unknown", new_name, mask);
+                            new datFM_Operation(datFM.this).execute("rename", curDir, "unknown", new_name, mask,String.valueOf(curPanel),String.valueOf(competPanel));
                         }
                     }
                 });
@@ -729,7 +727,7 @@ public class datFM extends Activity {
         BankSelectDialog.show();
     }
     private void action_delete() {
-        new datFM_Operation(this).execute("delete", "unknown", curDir);
+        new datFM_Operation(this).execute("delete", "unknown", curDir,"","",String.valueOf(curPanel),String.valueOf(competPanel));
     }
     private void action_send(){
         update_operation_vars();
@@ -1531,7 +1529,4 @@ public class datFM extends Activity {
             } catch (InterruptedException e) {/*("not root");*/}
         } catch (IOException e) {/*("not root");*/}
     }
-
-    /** SMB **/
-
 }

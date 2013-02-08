@@ -6,12 +6,12 @@ public class datFM_FileInformation implements Comparable<datFM_FileInformation> 
         private String data;
         private String path;
         private String ext;
-        private String size;
+        private long size;
         private String protocol;
         private String parent;
         private String type;
 
-        public datFM_FileInformation(String Name, String Path, String Size, String Prot, String Type, String Data, String Parent)
+        public datFM_FileInformation(String Name, String Path, long Size, String Prot, String Type, String Data, String Parent)
         {
             name = Name;
             path = Path;
@@ -39,7 +39,7 @@ public class datFM_FileInformation implements Comparable<datFM_FileInformation> 
             return ext;
         }
 
-        public String getSize()
+        public long getSize()
         {
             return size;
         }

@@ -76,7 +76,7 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
             super.onPostExecute(result);
             //dialog_operation_smb.dismiss();
 
-            if(logon_err){datFM.notify_toast("Logon error.");}
+            //if(logon_err){datFM.notify_toast("Logon error.");}
             //if(uriparse_err){datFM.notify_toast("Uri parse error.");}
             if(fetch_err){datFM.notify_toast("Connection error.");}
 
@@ -86,36 +86,13 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
 
     private void fetch_smb(){
         boolean success_auth=true;
-        UniAddress domain=null;
         NtlmPasswordAuthentication auth;
-        String ipaddress, user, pass, url;
-        //ipaddress = paths.toString();
+        String user, pass, url;
         url = path;
-        ipaddress = url.replace("smb://","");
-        if(ipaddress.indexOf("/")!=-1){
-        ipaddress = ipaddress.substring(0,ipaddress.indexOf("/"));}
-        user = "root";
-        pass = "root";
-        auth = new NtlmPasswordAuthentication("WORKGROUP", user, pass);
+        user = "zorg";
+        pass = "crt3CRT";
+        auth = new NtlmPasswordAuthentication("ZORGHOME", user, pass);
 
-        try {
-            domain = UniAddress.getByName(ipaddress);
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-            uriparse_err=true;
-            Log.e("ERR", "Uri parse error:"+e.getMessage());
-        }
-
-        if(domain!=null){
-            try {
-                SmbSession.logon(domain, auth);
-            } catch (SmbException e) {
-                e.printStackTrace();
-                success_auth=false;
-                logon_err=true;
-                Log.e("ERR", "Logon error: "+e.getMessage());
-            }
-        }
         //---------START SMB WORKS-------------------------
         if(success_auth){
             SmbFile dir = null;
@@ -141,11 +118,11 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
                     {
                         if(ff.isDirectory()){
                             String data = datFM.datf_context.getResources().getString(R.string.fileslist_directory);
-                            dir_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),"dir","smb","dir",data, ff.getParent()));
+                            dir_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),0,"smb","dir",data, ff.getParent()));
                         } else {
                             BigDecimal size = new BigDecimal(ff.length()/1024.00/1024.00);
-                            size = size.setScale(3, BigDecimal.ROUND_HALF_UP);
-                            fls_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),String.valueOf(size),"smb","file","size: "+size+" MiB",ff.getParent()));
+                            size = size.setScale(2, BigDecimal.ROUND_HALF_UP);
+                            fls_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),ff.length(),"smb","file","size: "+size+" MiB",ff.getParent()));
                         }
                     }
                 }catch(Exception e) {}
@@ -182,11 +159,11 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
                 {
                     if(ff.isDirectory()){
                         String data = datFM.datf_context.getResources().getString(R.string.fileslist_directory);
-                        dir_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),"dir","smb","dir",data, ff.getParent()));
+                        dir_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),0,"smb","dir",data, ff.getParent()));
                     } else {
                         BigDecimal size = new BigDecimal(ff.length()/1024.00/1024.00);
                         size = size.setScale(3, BigDecimal.ROUND_HALF_UP);
-                        fls_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),String.valueOf(size),"smb","file","size: "+size+" MiB",ff.getParent()));
+                        fls_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),ff.length(),"smb","file","size: "+size+" MiB",ff.getParent()));
                     }
                 }
             }catch(Exception e){}
