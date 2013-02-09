@@ -28,9 +28,9 @@ public class datFM_IO {
     public SmbFile getFileSmb() throws MalformedURLException {
         //---------START SMB WORKS-------------------------
         String user, pass;
-        user = "zorg";
-        pass = "crt3CRT";
-        NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("ZORGHOME", user, pass);
+        user = datFM.user;
+        pass = datFM.pass;
+        NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(datFM.domain, user, pass);
         SmbFile f = new SmbFile(path,auth);
         //---------END SMB WORKS-------------------------
         return f;
@@ -160,9 +160,8 @@ public class datFM_IO {
             success= getFileLocal().exists();
         } else if (smb){
             try {
-                SmbFile f = getFileSmb();
-                f.mkdir();
-                success= f.exists();
+                getFileSmb().mkdir();
+                success = getFileSmb().exists();
             } catch (Exception e) {e.printStackTrace();success=false;Log.e("ERR",e.getMessage());}
         } else {
             success=false;
