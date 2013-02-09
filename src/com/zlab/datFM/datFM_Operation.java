@@ -141,6 +141,11 @@ public class datFM_Operation extends AsyncTask<String, Void, Boolean> {
                 }
             }
 
+            if(operation.equals("new_folder")){
+                dialog_operation.setTitle(datFM.datf_context.getResources().getString(R.string.ui_dialog_title_copy));
+                if (protocol_newfolder(srcDir)) {count++;onProgressUpdate(count);}
+            }
+
             return true;
         }
 
@@ -158,6 +163,9 @@ public class datFM_Operation extends AsyncTask<String, Void, Boolean> {
 
             if (operation.equals("rename")){
                 activity.update_tab(count,operation,srcDir,3);}
+
+            if (operation.equals("new_folder")){
+                activity.update_tab(count,"new_folder",srcDir,srcPannelID);}
 
             dialog_operation.dismiss();
         }
@@ -213,6 +221,33 @@ public class datFM_Operation extends AsyncTask<String, Void, Boolean> {
         } catch (IOException e) {e.printStackTrace();}
         if(!success){
             success=protocol_move(src,new_name);
+        }
+        return success;
+    }
+    private boolean protocol_newfolder(String newfolder){
+        boolean success=false;
+        if(!new datFM_IO(newfolder).dir_exist()){
+            success=new datFM_IO(newfolder).mkdir();
+            if (!success && datFM.pref_root){
+                    File newdir_path = new File(newfolder);
+                    root_newfolder(newdir_path.getPath());
+            }
+
+        } else {
+            for (int i=1;i<1000;i++){
+                String dirs = newfolder+" "+"("+i+")";
+                if (!new datFM_IO(dirs).dir_exist()){
+                    if (datFM.pref_root){
+                        success=new datFM_IO(dirs).mkdir();
+                        if(!success){
+                            File newdir_path = new File(dirs);
+                            root_newfolder(newdir_path.getPath());}
+                    } else {
+                        success=new datFM_IO(dirs).mkdir();
+                    }
+                    break;
+                }
+            }
         }
         return success;
     }
@@ -276,6 +311,11 @@ public class datFM_Operation extends AsyncTask<String, Void, Boolean> {
 
         return success;
     }
+    private void    root_newfolder(String path){
+        String[] commands = {"mkdir \""+path+"\"\n","chmod 775 \""+path+"\"\n"};
+        RunAsRoot(commands);
+    }
+
 
     /** other **/
     private void RunAsRoot(String[] cmds){

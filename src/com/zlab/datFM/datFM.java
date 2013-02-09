@@ -19,8 +19,10 @@ import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.*;
+import jcifs.smb.SmbException;
 
 import java.io.*;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,7 +72,7 @@ public class datFM extends Activity {
 
     /** ICON CACHE **/
     static int cache_size;
-    static boolean[] cache_counter;
+    static int cache_counter;
     static boolean scroll=false;
     public static Drawable[] cache_icons;
     public static String[] cache_paths;
@@ -628,45 +630,13 @@ public class datFM extends Activity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         String newdir_name = textNewFolderName.getText().toString();
+
                         if (!newdir_name.equals("")){
-                            File newdir_path = new File(curDir+"/"+textNewFolderName.getText().toString());
-                            if(!newdir_path.exists()){
-                                if (pref_root){
-                                    newdir_path.mkdir();
-                                    if(!newdir_path.exists()){
-                                        action_new_folder_root(newdir_path.getPath());}
-                                } else {
-                                    newdir_path.mkdir();
-                                }
-                                update_tab(0,"new_folder",curDir+"/"+textNewFolderName.getText().toString(),curPanel);
-                            }
+                            String dir = curDir+"/"+textNewFolderName.getText().toString();
+                            new datFM_Operation(datFM_state).execute("new_folder", dir, "","","",String.valueOf(curPanel),String.valueOf(competPanel));
                         } else {
-                            File newdir_path = new File(curDir+"/"+getResources().getString(R.string.ui_dialog_title_newfolder));
-                            if (!newdir_path.exists()){
-                                if (pref_root){
-                                    newdir_path.mkdir();
-                                    if(!newdir_path.exists()){
-                                        action_new_folder_root(newdir_path.getPath());}
-                                } else {
-                                    newdir_path.mkdir();
-                                }
-                                update_tab(0,"new_folder",curDir+"/"+getResources().getString(R.string.ui_dialog_title_newfolder),curPanel);
-                            } else {
-                                for (int i=1;i<1000;i++){
-                                    newdir_path = new File(curDir+"/"+getResources().getString(R.string.ui_dialog_title_newfolder)+" "+"("+i+")");
-                                    if (!newdir_path.exists()){
-                                        if (pref_root){
-                                            newdir_path.mkdir();
-                                            if(!newdir_path.exists()){
-                                                action_new_folder_root(newdir_path.getPath());}
-                                        } else {
-                                            newdir_path.mkdir();
-                                        }
-                                        update_tab(0,"new_folder",curDir+"/"+getResources().getString(R.string.ui_dialog_title_newfolder)+" "+"("+i+")",curPanel);
-                                        break;
-                                    }
-                                }
-                            }
+                            String dir = curDir+"/"+getResources().getString(R.string.ui_dialog_title_newfolder);
+                            new datFM_Operation(datFM_state).execute("new_folder", dir, "","","",String.valueOf(curPanel),String.valueOf(competPanel));
                         }
                     }
                 });
@@ -678,9 +648,6 @@ public class datFM extends Activity {
         AlertDialog NewFolderNameDialog = newFolderDialog.create();
         NewFolderNameDialog.show();
     }
-    private void action_new_folder_root(String path){
-        String[] commands = {"mkdir \""+path+"\"\n","chmod 775 \""+path+"\"\n"};
-        RunAsRoot(commands);}
     private void action_copy() {
         if (!curDir.equals(destDir)){
             new datFM_Operation(this).execute("copy", "unknown", destDir,"","",String.valueOf(curPanel),String.valueOf(competPanel));

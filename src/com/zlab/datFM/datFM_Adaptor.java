@@ -154,9 +154,59 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
         }
 
         if(!ic_finded){
+            //if(!datFM.scroll){
+                if (ext.equalsIgnoreCase("apk") && datFM.pref_show_apk){
+                    icon_getter_apk(path);
+                }
+                if ((ext.equalsIgnoreCase("jpg")  ||
+                        ext.equalsIgnoreCase("png")  ||
+                        ext.equalsIgnoreCase("jpeg") ||
+                        ext.equalsIgnoreCase("gif"))&&
+                        datFM.pref_show_photo){
+                    icon_getter_photo(path);
+                }
+                if ((ext.equalsIgnoreCase("mkv") ||
+                        ext.equalsIgnoreCase("mp4") ||
+                        ext.equalsIgnoreCase("3gp"))&&
+                        datFM.pref_show_video){
+                    icon_getter_video(path);
+                }
+                //}
         }
     }
-
+    public void icon_getter_video(String path){
+        if (datFM.cache_counter<datFM.cache_size){
+            try {
+                new datFM_IconGenerator_VIDEO(this).execute(path,String.valueOf(datFM.cache_counter));
+                datFM.cache_counter++;
+            } catch (Exception e){/*e.printStackTrace();*/}
+        } else {
+            datFM.cache_counter=0;
+            new datFM_IconGenerator_VIDEO(this).execute(path,String.valueOf(datFM.cache_counter));
+        }
+    }
+    public void icon_getter_photo(String path){
+        if (datFM.cache_counter<datFM.cache_size){
+            try {
+                new datFM_IconGenerator_PHOTO(this).execute(path,String.valueOf(datFM.cache_counter));
+                datFM.cache_counter++;
+            } catch (Exception e){/*e.printStackTrace();*/}
+        } else {
+            datFM.cache_counter=0;
+            new datFM_IconGenerator_PHOTO(this).execute(path,String.valueOf(datFM.cache_counter));
+        }
+    }
+    public void icon_getter_apk(String path){
+        if (datFM.cache_counter<datFM.cache_size){
+            try {
+                new datFM_IconGenerator_APK(this).execute(path,String.valueOf(datFM.cache_counter));
+                datFM.cache_counter++;
+            } catch (Exception e){/*e.printStackTrace();*/}
+        } else {
+            datFM.cache_counter=0;
+            new datFM_IconGenerator_APK(this).execute(path,String.valueOf(datFM.cache_counter));
+        }
+    }
 
     public int ext_check(String[] ext_list, String name, String ext){
         int resID=0;

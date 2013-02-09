@@ -1,5 +1,6 @@
 package com.zlab.datFM;
 
+import android.util.Log;
 import jcifs.smb.*;
 import java.io.*;
 import java.net.MalformedURLException;
@@ -151,20 +152,34 @@ public class datFM_IO {
     }
 
     /** MKDIR **/
-    public boolean mkdir() throws MalformedURLException, SmbException {
+    public boolean mkdir(){
         boolean success;
         checkProtocol();
-
         if(local){
             getFileLocal().mkdir();
             success= getFileLocal().exists();
         } else if (smb){
-            getFileSmb().mkdir();
-            success= getFileSmb().exists();
+            try {
+                SmbFile f = getFileSmb();
+                f.mkdir();
+                success= f.exists();
+            } catch (Exception e) {e.printStackTrace();success=false;Log.e("ERR",e.getMessage());}
         } else {
             success=false;
         }
-
+        return success;
+    }
+    public boolean dir_exist(){
+        boolean success;
+        checkProtocol();
+        if(local){
+            success= getFileLocal().exists();
+        } else if (smb){
+            try {success=getFileSmb().exists();
+            } catch (Exception e) {success=false;}
+        } else {
+            success=false;
+        }
         return success;
     }
 
