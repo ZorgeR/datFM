@@ -8,7 +8,7 @@ import android.widget.ProgressBar;
 
 import java.io.*;
 
-public class datFM_Operation extends AsyncTask<String, Void, Boolean> {
+public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
 
     int srcPannelID,competPannelID;
     String destDir, srcDir, operation, new_name, mask;
@@ -21,7 +21,7 @@ public class datFM_Operation extends AsyncTask<String, Void, Boolean> {
     static ProgressBar progr_current;
     ProgressBar progr_overal;
 
-    public datFM_Operation(datFM a)
+    public datFM_FileOperation(datFM a)
     {
         activity = a;
     }

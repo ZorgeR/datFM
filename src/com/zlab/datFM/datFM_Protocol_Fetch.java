@@ -1,11 +1,14 @@
 package com.zlab.datFM;
 
-import android.app.ProgressDialog;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
 import jcifs.UniAddress;
 import jcifs.smb.NtlmPasswordAuthentication;
-import jcifs.smb.SmbException;
 import jcifs.smb.SmbFile;
 import jcifs.smb.SmbSession;
 
@@ -14,7 +17,6 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,6 +28,8 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
     String path,protocol;
     int panel_ID;
     boolean logon_err,fetch_err,uriparse_err;
+    String user, pass, url, domain;
+    boolean success_auth=true;
 
     public datFM activity;
     public datFM_Protocol_Fetch(datFM a){activity = a;}
@@ -48,8 +52,8 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
         @Override
         protected List<datFM_FileInformation> doInBackground(String... paths) {
             path = paths[0];
-            protocol = paths[1];
-            panel_ID = Integer.parseInt(paths[2]);
+            protocol = paths[1];datFM.protocol=protocol;
+            panel_ID = Integer.parseInt(paths[2]);datFM.id= String.valueOf(panel_ID);
 
             dir_info = new ArrayList<datFM_FileInformation>();
             fls_info = new ArrayList<datFM_FileInformation>();
@@ -78,23 +82,36 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
 
             //if(logon_err){datFM.notify_toast("Logon error.");}
             //if(uriparse_err){datFM.notify_toast("Uri parse error.");}
-            if(fetch_err){datFM.notify_toast("Connection error.");}
 
-            datFM.datFM_state.fill_panel(dir_info, fls_info, panel_ID);
+            if(!success_auth && fetch_err){
+                if(fetch_err){datFM.notify_toast("Connection error.");}
+                logonScreenSMB();
+            } else {
+                datFM.datFM_state.fill_panel(dir_info, fls_info, panel_ID);
+            }
             //Toast.makeText(datFM.datf_context,result.length,Toast.LENGTH_SHORT).show();
         }
 
     private void fetch_smb(){
-        boolean success_auth=true;
         NtlmPasswordAuthentication auth;
-        String user, pass, url;
-        url = path;
-        user = "zorg";
-        pass = "crt3CRT";
-        auth = new NtlmPasswordAuthentication("ZORGHOME", user, pass);
+        url = path;datFM.url=url;
+        domain=url.replace("smb://","");
+        if(domain.indexOf("/")!=-1)domain=domain.substring(0, domain.indexOf("/"));
+        user = datFM.user;
+        pass = datFM.pass;
+        auth = new NtlmPasswordAuthentication(datFM.domain, user, pass);
+
+        // ------ CHECK SMB AUTH ------------ //
+        UniAddress uniaddress = null;
+        try {
+            if(domain!=""){uniaddress = UniAddress.getByName(domain);}
+        } catch (Exception e) {success_auth=false;}
+        try {
+            if(domain!=""){SmbSession.logon(uniaddress, auth);}
+        } catch (Exception e) {success_auth=false;}
 
         //---------START SMB WORKS-------------------------
-        if(success_auth){
+        //if(success_auth || url.equals("smb://")){
             SmbFile dir = null;
             try {
                 dir = new SmbFile(url, auth);
@@ -132,7 +149,9 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
             Collections.sort(fls_info);
 
             dir_info.addAll(fls_info);
-        }
+        //} else {
+            //logonScreenSMB();
+        //}
     }
     private void fetch_local(){
             File dir = new File (path);
@@ -162,7 +181,7 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
                         dir_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),0,"smb","dir",data, ff.getParent()));
                     } else {
                         BigDecimal size = new BigDecimal(ff.length()/1024.00/1024.00);
-                        size = size.setScale(3, BigDecimal.ROUND_HALF_UP);
+                        size = size.setScale(2, BigDecimal.ROUND_HALF_UP);
                         fls_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),ff.length(),"smb","file","size: "+size+" MiB",ff.getParent()));
                     }
                 }
@@ -172,6 +191,36 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
 
             dir_info.addAll(fls_info);
         }
+
+    private void logonScreenSMB(){
+        AlertDialog.Builder action_dialog = new AlertDialog.Builder(datFM.datFM_state);
+        action_dialog.setTitle("Samba logon");
+        LayoutInflater inflater = datFM.datFM_state.getLayoutInflater();
+        View layer = inflater.inflate(R.layout.datfm_logon_smb,null);
+
+        final EditText domains = (EditText) layer.findViewById(R.id.logon_domain);
+        final EditText names   = (EditText) layer.findViewById(R.id.logon_name);
+        final EditText passs   = (EditText) layer.findViewById(R.id.logon_pass);
+
+        action_dialog.setView(layer);
+        action_dialog.setPositiveButton(datFM.datFM_state.getResources().getString(R.string.ui_dialog_btn_ok),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        datFM.domain = domains.getText().toString();
+                        datFM.user = names.getText().toString();
+                        datFM.pass = passs.getText().toString();
+                        new datFM_Protocol_Fetch(datFM.datFM_state).execute(datFM.url, datFM.protocol, datFM.id);
+                        fetch_smb();
+                    }
+                });
+        action_dialog.setNegativeButton(datFM.datFM_state.getResources().getString(R.string.ui_dialog_btn_cancel),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+        AlertDialog AboutDialog = action_dialog.create();
+        AboutDialog.show();
+    }
 
     private File[] root_get_content(File d){
         File[] dirs;

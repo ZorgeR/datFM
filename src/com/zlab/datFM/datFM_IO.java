@@ -191,7 +191,7 @@ public class datFM_IO {
         byte[] buf = new byte[1024];
         int len;
 
-        long one_percent = datFM_Operation.cur_f/100;
+        long one_percent = datFM_FileOperation.cur_f/100;
         long cnt=0;
         int cur_file_progress=0;
         while ((len = in.read(buf)) > 0){
@@ -199,7 +199,7 @@ public class datFM_IO {
             cnt=cnt+1024;
             if(cnt>one_percent){
                 cur_file_progress=cur_file_progress+1;
-                datFM_Operation.progr_current.setProgress(cur_file_progress);
+                datFM_FileOperation.progr_current.setProgress(cur_file_progress);
                 cnt=0;
             }
         }
