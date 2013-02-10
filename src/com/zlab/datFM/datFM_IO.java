@@ -207,6 +207,34 @@ public class datFM_IO {
         return true;
     }
 
+    /** GetName in UI thread **/
+    public String getName(){
+        String name;
+        checkProtocol();
+
+        if(local){
+            name=getFileLocal().getName();
+        } else if(smb){
+            String name_in_ui_parser=path.replace("smb://","");
+            while (name_in_ui_parser.contains("/")){
+
+                    if(name_in_ui_parser.indexOf("/")==0){name_in_ui_parser=name_in_ui_parser.substring(1);}
+                    String holder=name_in_ui_parser;
+
+                    name_in_ui_parser=name_in_ui_parser.substring(name_in_ui_parser.indexOf("/"));
+
+                    if(name_in_ui_parser.length()==1){
+                        name_in_ui_parser=holder;break;
+                    }
+            }
+            name=name_in_ui_parser.substring(0);
+        } else {
+           name="";
+        }
+
+        return name;
+    }
+
     /** Protocol identifier **/
     public boolean checkProtocol(){
         smb = path.startsWith("smb://");

@@ -19,6 +19,7 @@ public class datFM_IconGenerator_APK extends AsyncTask<String, Void, Drawable> {
     @Override
     protected Drawable doInBackground(String... params) {
         String filePath = params[0];
+
         int id = Integer.parseInt(params[1]);
         Drawable icon=null;
         PackageInfo packageInfo = activity.getContext().getPackageManager().getPackageArchiveInfo(filePath, PackageManager.GET_ACTIVITIES);
@@ -38,6 +39,6 @@ public class datFM_IconGenerator_APK extends AsyncTask<String, Void, Drawable> {
     protected void onPostExecute(Drawable result) {
         /** **/
         if(!datFM.scroll){
-        activity.notifyDataSetChanged();}
+        activity.notifyDataSetChanged();datFM.icon_buffer_lock=true;datFM.cache_counter++;}
     }
 }

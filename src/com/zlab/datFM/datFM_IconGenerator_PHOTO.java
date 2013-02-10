@@ -4,7 +4,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
+import android.provider.MediaStore;
 
 public class datFM_IconGenerator_PHOTO extends AsyncTask<String, Void, Drawable> {
 Bitmap imageBitmap;
@@ -29,11 +31,19 @@ protected void onPreExecute() {
 
                     BitmapFactory.Options options = new BitmapFactory.Options();
                     options.inSampleSize = 10;
-                    imageBitmap = BitmapFactory.decodeFile(filePath, options);
 
-                    imageBitmap = Bitmap.createScaledBitmap(imageBitmap, THUMBNAIL_SIZE, THUMBNAIL_SIZE, false);
+                    /** LOCAL MODE **/
+                    //imageBitmap = BitmapFactory.decodeFile(filePath, options);
+                    /** MULTI MODE **/
+                    imageBitmap = BitmapFactory.decodeStream(new datFM_IO(filePath).getInput(), null, options);
+                    imageBitmap = ThumbnailUtils.extractThumbnail(imageBitmap,THUMBNAIL_SIZE,THUMBNAIL_SIZE);
+
+                    /** NETWORK MODE **/
+                    //imageBitmap = BitmapFactory.decodeStream(new datFM_IO(filePath).getInput(), null, options);
+                    //imageBitmap = Bitmap.createScaledBitmap(imageBitmap, THUMBNAIL_SIZE, THUMBNAIL_SIZE, false);
+
+
                     icon = new BitmapDrawable(imageBitmap);
-
                     //if (prop_icon_file==null){prop_icon_file=activity.getContext().getResources().getDrawable(R.drawable.ext_pdf);}
                     datFM.cache_paths[id]=filePath;
                     datFM.cache_icons[id]=icon;
@@ -47,7 +57,7 @@ protected void onPreExecute() {
     protected void onPostExecute(Drawable result) {
         /** **/
         if(!datFM.scroll){
-        activity.notifyDataSetChanged();}
+        activity.notifyDataSetChanged();datFM.icon_buffer_lock=true;datFM.cache_counter++;}
 }
 
 

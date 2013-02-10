@@ -148,37 +148,48 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
                 if (datFM.cache_paths[i].equals(path)){
                     imgFileIcon.setImageDrawable(datFM.cache_icons[i]);
                     ic_finded=true;
+                    datFM.icon_buffer_lock=false;
                     break;
                 }
+            } else {
+                break;
             }
         }
 
-        if(!ic_finded){
-            //if(!datFM.scroll){
-                if (ext.equalsIgnoreCase("apk") && datFM.pref_show_apk){
-                    icon_getter_apk(path);
+        if(!ic_finded && !datFM.icon_buffer_lock){
+
+                if(!datFM.scroll && datFM.protocols[datFM.curPanel].equals("local")){
+                    if (ext.equalsIgnoreCase("apk") &&
+                               datFM.pref_show_apk){
+
+                        datFM.icon_buffer_lock=true;
+                        icon_getter_apk(path);
+                    }
+                    if ((ext.equalsIgnoreCase("jpg")  ||
+                            ext.equalsIgnoreCase("png")  ||
+                            ext.equalsIgnoreCase("jpeg") ||
+                            ext.equalsIgnoreCase("gif"))&&
+                            datFM.pref_show_photo){
+
+                        datFM.icon_buffer_lock=true;
+                        icon_getter_photo(path);
+                    }
+                    if ((ext.equalsIgnoreCase("mkv") ||
+                            ext.equalsIgnoreCase("mp4") ||
+                            ext.equalsIgnoreCase("3gp"))&&
+                            datFM.pref_show_video){
+
+                        datFM.icon_buffer_lock=true;
+                        icon_getter_video(path);
+                    }
                 }
-                if ((ext.equalsIgnoreCase("jpg")  ||
-                        ext.equalsIgnoreCase("png")  ||
-                        ext.equalsIgnoreCase("jpeg") ||
-                        ext.equalsIgnoreCase("gif"))&&
-                        datFM.pref_show_photo){
-                    icon_getter_photo(path);
-                }
-                if ((ext.equalsIgnoreCase("mkv") ||
-                        ext.equalsIgnoreCase("mp4") ||
-                        ext.equalsIgnoreCase("3gp"))&&
-                        datFM.pref_show_video){
-                    icon_getter_video(path);
-                }
-                //}
         }
+
     }
     public void icon_getter_video(String path){
         if (datFM.cache_counter<datFM.cache_size){
             try {
                 new datFM_IconGenerator_VIDEO(this).execute(path,String.valueOf(datFM.cache_counter));
-                datFM.cache_counter++;
             } catch (Exception e){/*e.printStackTrace();*/}
         } else {
             datFM.cache_counter=0;
@@ -189,7 +200,6 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
         if (datFM.cache_counter<datFM.cache_size){
             try {
                 new datFM_IconGenerator_PHOTO(this).execute(path,String.valueOf(datFM.cache_counter));
-                datFM.cache_counter++;
             } catch (Exception e){/*e.printStackTrace();*/}
         } else {
             datFM.cache_counter=0;
@@ -200,7 +210,6 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
         if (datFM.cache_counter<datFM.cache_size){
             try {
                 new datFM_IconGenerator_APK(this).execute(path,String.valueOf(datFM.cache_counter));
-                datFM.cache_counter++;
             } catch (Exception e){/*e.printStackTrace();*/}
         } else {
             datFM.cache_counter=0;

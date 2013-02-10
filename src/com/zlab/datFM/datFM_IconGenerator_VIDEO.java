@@ -45,7 +45,7 @@ public class datFM_IconGenerator_VIDEO extends AsyncTask<String, Void, Drawable>
     protected void onPostExecute(Drawable result) {
         /** **/
         if(!datFM.scroll){
-            activity.notifyDataSetChanged();}
+            activity.notifyDataSetChanged();datFM.icon_buffer_lock=true;datFM.cache_counter++;}
     }
 
 

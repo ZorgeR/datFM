@@ -74,6 +74,7 @@ public class datFM extends Activity {
     /** ICON CACHE **/
     static int cache_size;
     static int cache_counter;
+    static boolean icon_buffer_lock=false;
     static boolean scroll=false;
     public static Drawable[] cache_icons;
     public static String[] cache_paths;
@@ -372,10 +373,10 @@ public class datFM extends Activity {
                 fill_new(o.getPath(), curPanel);
         } else if (o.getType().equals("parent_dir")){
             if (curPanel==0){
-                prevName = new File(curentLeftDir).getName();
+                prevName = new datFM_IO(curentLeftDir).getName();
                 fill_new(o.getPath(), curPanel);
             } else {
-                prevName = new File(curentRightDir).getName();
+                prevName = new datFM_IO(curentRightDir).getName();
                 fill_new(o.getPath(), curPanel);
             }
         } else {
@@ -1109,14 +1110,14 @@ public class datFM extends Activity {
         switch (view.getId()) {
             case R.id.btnUPleft:{
                 if(selLeft==0){
-                    prevName = new File(curentLeftDir).getName();
+                    prevName = new datFM_IO(curentLeftDir).getName();
                     if(!curentLeftDir.equals("/") && curentLeftDir!=null){
                     fill_new(parent_left, 0);}
                 }
                 break;}
             case R.id.btnUPright:{
                 if (selRight==0){
-                    prevName = new File(curentRightDir).getName();
+                    prevName = new datFM_IO(curentRightDir).getName();
                     if(!curentRightDir.equals("/") && curentRightDir!=null){
                     fill_new(parent_right, 1);}
                 /*
