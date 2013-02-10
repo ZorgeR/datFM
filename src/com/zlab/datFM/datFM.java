@@ -73,8 +73,7 @@ public class datFM extends Activity {
 
     /** ICON CACHE **/
     static int cache_size;
-    static int cache_counter;
-    static boolean icon_buffer_lock=false;
+    static int cache_counter=0;
     static boolean scroll=false;
     public static Drawable[] cache_icons;
     public static String[] cache_paths;

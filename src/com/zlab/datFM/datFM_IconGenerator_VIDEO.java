@@ -33,7 +33,6 @@ public class datFM_IconGenerator_VIDEO extends AsyncTask<String, Void, Drawable>
             icon = new BitmapDrawable(videoBitmap);
 
             //if (prop_icon_file==null){prop_icon_file=activity.getContext().getResources().getDrawable(R.drawable.ext_pdf);}
-            datFM.cache_paths[id]=filePath;
             datFM.cache_icons[id]=icon;
         }
         catch(Exception ex) {
@@ -45,7 +44,7 @@ public class datFM_IconGenerator_VIDEO extends AsyncTask<String, Void, Drawable>
     protected void onPostExecute(Drawable result) {
         /** **/
         if(!datFM.scroll){
-            activity.notifyDataSetChanged();datFM.icon_buffer_lock=true;datFM.cache_counter++;}
+            activity.notifyDataSetChanged();}
     }
 
 

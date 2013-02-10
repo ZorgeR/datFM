@@ -45,7 +45,6 @@ protected void onPreExecute() {
 
                     icon = new BitmapDrawable(imageBitmap);
                     //if (prop_icon_file==null){prop_icon_file=activity.getContext().getResources().getDrawable(R.drawable.ext_pdf);}
-                    datFM.cache_paths[id]=filePath;
                     datFM.cache_icons[id]=icon;
                 }
                 catch(Exception ex) {
@@ -57,7 +56,7 @@ protected void onPreExecute() {
     protected void onPostExecute(Drawable result) {
         /** **/
         if(!datFM.scroll){
-        activity.notifyDataSetChanged();datFM.icon_buffer_lock=true;datFM.cache_counter++;}
+        activity.notifyDataSetChanged();}
 }
 
 
