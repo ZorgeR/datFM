@@ -8,15 +8,15 @@
     <string name="navbar_go">Перейти</string>
 
     <!--  Panel  -->
-    <string name="btn_share">Share</string>
-    <string name="btn_newfolder">New Folder</string>
-    <string name="btn_addtoarchive">Archive</string>
-    <string name="btn_copy">Copy</string>
-    <string name="btn_move">Move</string>
-    <string name="btn_rename">Rename</string>
-    <string name="btn_selectall">Select All</string>
-    <string name="btn_deselectall">Deselect All</string>
-    <string name="btn_delete">Delete</string>
+    <string name="btn_share">Передать</string>
+    <string name="btn_newfolder">Новая папка</string>
+    <string name="btn_addtoarchive">Архивировать</string>
+    <string name="btn_copy">Копировать</string>
+    <string name="btn_move">Переместить</string>
+    <string name="btn_rename">Переименовать</string>
+    <string name="btn_selectall">Выделить все</string>
+    <string name="btn_deselectall">Снять выделение</string>
+    <string name="btn_delete">Удалить</string>
 
     <!-- Main Menu  -->
     <string name="mainmenu_addfolder">Новая папка</string>
@@ -45,6 +45,7 @@
     <string name="settings_group_view">Внешний вид</string>
     <string name="settings_group_other">Прочее</string>
     <string name="settings_group_performance">Производительность</string>
+    <string name="settings_group_network">Сеть</string>
     <string name="settings_group_dangerous">Опасно</string>
     <!-- Settings Elements Title -->
     <string name="settings_elements_title_cp">Панель действий</string>
@@ -62,6 +63,7 @@
     <string name="settings_elements_title_openarcdir_window">Панель для архивной папки</string>
     <string name="settings_elements_title_savepath">Сохранять пути</string>
     <string name="settings_elements_title_focusondir">Фокус на папке</string>
+    <string name="settings_elements_title_sambalogin">Авторизация в Samba</string>
     <string name="settings_elements_title_kamikaze">Режим Камикадзе</string>
     <string name="settings_elements_title_root">root</string>
     <!-- Settings Elements Summary -->
@@ -80,6 +82,7 @@
     <string name="settings_elements_summary_openarcdir_window">Открывать в текущей панели</string>
     <string name="settings_elements_summary_savepath">Восстановить пути панелей при запуске</string>
     <string name="settings_elements_summary_focusondir">Установить фокус на текущей папке при нажатии Вверх</string>
+    <string name="settings_elements_summary_sambalogin">Поддержка авторизации для Samba</string>
     <string name="settings_elements_summary_kamikaze">Ничего не спрашивать, просто делать свою работу</string>
     <string name="settings_elements_summary_root">Использовать root привилегии</string>
 

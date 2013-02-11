@@ -11,7 +11,10 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.*;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,6 +48,7 @@ public class datFM_Properties extends Activity {
     TextWatcher md5Change;
 
     //public static datFM_Properties datFM_Properties_state;
+    CompoundButton.OnCheckedChangeListener CheckedListener;
 
 
     @Override
@@ -104,6 +108,12 @@ public class datFM_Properties extends Activity {
         prop_date.setOnClickListener(TextClick);
         prop_md5sum.setOnClickListener(TextClick);
 
+        CheckedListener = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                prop_btn_apply.setEnabled(true);
+            }
+        };
         /** Owner permission **/
         prop_perm_owner_read = (CheckBox) findViewById(R.id.prop_perm_owner_read);
         prop_perm_owner_write = (CheckBox) findViewById(R.id.prop_perm_owner_write);
@@ -116,6 +126,19 @@ public class datFM_Properties extends Activity {
         prop_perm_other_read = (CheckBox) findViewById(R.id.prop_perm_other_read);
         prop_perm_other_write = (CheckBox) findViewById(R.id.prop_perm_other_write);
         prop_perm_other_exec = (CheckBox) findViewById(R.id.prop_perm_other_exec);
+
+        /** Owner permission **/
+        prop_perm_owner_read.setOnCheckedChangeListener(CheckedListener);
+        prop_perm_owner_write.setOnCheckedChangeListener(CheckedListener);
+        prop_perm_owner_exec.setOnCheckedChangeListener(CheckedListener);
+        /** Group permission **/
+        prop_perm_group_read.setOnCheckedChangeListener(CheckedListener);
+        prop_perm_group_write.setOnCheckedChangeListener(CheckedListener);
+        prop_perm_group_exec.setOnCheckedChangeListener(CheckedListener);
+        /** Other permission **/
+        prop_perm_other_read.setOnCheckedChangeListener(CheckedListener);
+        prop_perm_other_write.setOnCheckedChangeListener(CheckedListener);
+        prop_perm_other_exec.setOnCheckedChangeListener(CheckedListener);
 
         /** Buttons **/
         prop_btn_apply = (Button) findViewById(R.id.prop_btn_apply);
@@ -192,9 +215,84 @@ public class datFM_Properties extends Activity {
         prop_size.setText("Calculating...");
         prop_date.setText(date);
 
+        if(datFM.pref_root && datFM.protocols[datFM.curPanel].equals("local")){
+            String out = new String();
+            String command;
+            if(file.isDirectory()){
+                command = "ls -ld \""+file.getPath()+"\"\n";
+            } else {
+                command = "ls -al \""+file.getPath()+"\"\n";
+            }
+
+            Process p;
+            try {
+                p = Runtime.getRuntime().exec(new String[]{"su", "-c", "/system/bin/sh"});
+                DataOutputStream stdin = new DataOutputStream(p.getOutputStream());
+                byte[] buf = command.getBytes("UTF-8");
+                stdin.write(buf,0,buf.length);
+
+                stdin.writeBytes("echo \n");
+                DataInputStream stdout = new DataInputStream(p.getInputStream());
+                byte[] buffer = new byte[4096];
+                int read;
+                while(true){
+                    read = stdout.read(buffer);
+                    out += new String(buffer, 0, read);
+                    if(read<4096){
+                        break;
+                    }
+                    // here is where you catch the error value
+                    //int len = out.length();
+                    //char suExitValue = out.charAt(len-2);
+                    //Toast.makeText(getApplicationContext(), String.valueOf(suExitValue), Toast.LENGTH_SHORT).show();
+                    //return0or1(Integer.valueOf(suExitValue), command); // 0 or 1 Method
+                    // end catching exit value
+                }
+                stdin.writeBytes("exit\n");
+                stdin.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            String permission = out.split(" ")[0];
+            //drwxrwxrwx
+            /** OWNER */
+
+            if(permission.substring(1,2).equals("r")){
+                prop_perm_owner_read.setChecked(true);
+            }
+            if(permission.substring(2,3).equals("w")){
+                prop_perm_owner_write.setChecked(true);
+            }
+            if(permission.substring(3,4).equals("x")){
+                prop_perm_owner_exec.setChecked(true);
+            }
+            /** GROUP */
+            if(permission.substring(4,5).equals("r")){
+                prop_perm_group_read.setChecked(true);
+            }
+            if(permission.substring(5,6).equals("w")){
+                prop_perm_group_write.setChecked(true);
+            }
+            if(permission.substring(6,7).equals("x")){
+                prop_perm_group_exec.setChecked(true);
+            }
+            /** OTHER **/
+            if(permission.substring(7,8).equals("r")){
+                prop_perm_other_read.setChecked(true);
+            }
+            if(permission.substring(8,9).equals("w")){
+                prop_perm_other_write.setChecked(true);
+            }
+            if(permission.substring(9,10).equals("x")){
+                prop_perm_other_exec.setChecked(true);
+            }
+
+        } else {
         if (file.canRead()){prop_perm_other_read.setChecked(true);}
         if (file.canWrite()){prop_perm_other_write.setChecked(true);}
         if (file.canExecute()){prop_perm_other_exec.setChecked(true);}
+        }
     }
     void render_many(){
         prop_name.setText(count+" files.");
@@ -261,10 +359,55 @@ public class datFM_Properties extends Activity {
                 finish();
                 break;}
             case R.id.prop_btn_apply: {
+                if(datFM.pref_root){
+                    int perm_owner = 0;
+                    int perm_group = 0;
+                    int perm_other = 0;
+
+                    /** Owner permission **/
+                    if(prop_perm_owner_read.isChecked())perm_owner=perm_owner+4;
+                    if(prop_perm_owner_write.isChecked())perm_owner=perm_owner+2;
+                    if(prop_perm_owner_exec.isChecked())perm_owner=perm_owner+1;
+
+                    /** Group permission **/
+                    if(prop_perm_group_read.isChecked())perm_group=perm_group+4;
+                    if(prop_perm_group_write.isChecked())perm_group=perm_group+2;
+                    if(prop_perm_group_exec.isChecked())perm_group=perm_group+1;
+                    /** Other permission **/
+                    if(prop_perm_other_read.isChecked())perm_other=perm_other+4;
+                    if(prop_perm_other_write.isChecked())perm_other=perm_other+2;
+                    if(prop_perm_other_exec.isChecked())perm_other=perm_other+1;
+
+                    String[] commands = {"chmod "+perm_owner+perm_group+perm_other+" \""+file.getPath()+"\"\n"};
+                    RunAsRoot(commands);
+                    Toast.makeText(datFM.datf_context,"Done!",Toast.LENGTH_SHORT).show();
+                } else {
+                    datFM.notify_toast("Need root permission");
+                }
                 break;}
             case R.id.prop_btn_calc_md5: {
                 new datFM_Properties_md5sum().execute(file);
                 break;}
         }
     }
+    private void RunAsRoot(String[] cmds){
+        try {
+            Process p = Runtime.getRuntime().exec("su");
+            DataOutputStream os = new DataOutputStream(p.getOutputStream());
+
+            for (String tmpCmd : cmds) {
+                byte[] buf = tmpCmd.getBytes("UTF-8");
+                os.write(buf,0,buf.length);
+                os.writeBytes("echo \n");
+            }
+            os.writeBytes("exit\n");
+            os.flush();
+            try {
+                p.waitFor();
+                if (p.exitValue() != 255) {//("root");
+                } else {/*("not root");*/}
+            } catch (InterruptedException e) {/*("not root");*/}
+        } catch (IOException e) {/*("not root");*/}
+    }
+
 }

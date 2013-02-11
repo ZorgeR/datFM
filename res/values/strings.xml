@@ -45,6 +45,7 @@
     <string name="settings_group_view">View</string>
     <string name="settings_group_other">Other</string>
     <string name="settings_group_performance">Performance</string>
+    <string name="settings_group_network">Network</string>
     <string name="settings_group_dangerous">Dangerous</string>
     <!-- Settings Elements Title -->
     <string name="settings_elements_title_cp">Control Panel</string>
@@ -62,6 +63,7 @@
     <string name="settings_elements_title_openarcdir_window">Archive directory panel</string>
     <string name="settings_elements_title_savepath">Save path</string>
     <string name="settings_elements_title_focusondir">Focus on directory</string>
+    <string name="settings_elements_title_sambalogin">Samba logging</string>
     <string name="settings_elements_title_kamikaze">Kamikaze mode</string>
     <string name="settings_elements_title_root">root</string>
     <!-- Settings Elements Summary -->
@@ -80,6 +82,7 @@
     <string name="settings_elements_summary_openarcdir_window">Open in current panel</string>
     <string name="settings_elements_summary_savepath">Restore path on start</string>
     <string name="settings_elements_summary_focusondir">Set focus on current directory when go UP</string>
+    <string name="settings_elements_summary_sambalogin">Support logging for Samba</string>
     <string name="settings_elements_summary_kamikaze">Not ask anything, just execute</string>
     <string name="settings_elements_summary_root">Use root privilege</string>
 

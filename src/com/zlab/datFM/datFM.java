@@ -66,7 +66,7 @@ public class datFM extends Activity {
             pref_kamikaze,pref_show_text_on_panel,pref_show_navbar,
             pref_show_panel_discr;
     static boolean pref_show_apk,pref_show_video,pref_show_photo,
-            pref_show_folder_discr,pref_show_files_discr,pref_root;
+            pref_show_folder_discr,pref_show_files_discr,pref_root,pref_sambalogin;
     boolean firstAlert;
     boolean settings_opened = false;
     String pref_icons_cache;
@@ -175,10 +175,6 @@ public class datFM extends Activity {
                 AboutDialog.show();
                 return true;
             }
-            case R.id.mainmenu_cloud: {
-                Toast.makeText(getApplicationContext(),"In development.",Toast.LENGTH_SHORT).show();
-                return true;
-            }
             case R.id.mainmenu_fav_downloads: {
                 if (curPanel ==0){
                     fill_new(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString(), 0);
@@ -222,6 +218,15 @@ public class datFM extends Activity {
                 finish();
                 return true;
             }
+            case R.id.mainmenu_samba:{
+                if(curPanel==0){
+                    textCurrentPathLeft.setText("smb://");
+                    textCurrentPathLeft.findFocus();
+                } else {
+                    textCurrentPathRight.setText("smb://");
+                    textCurrentPathRight.findFocus();
+                }
+                return true;}
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -243,6 +248,9 @@ public class datFM extends Activity {
         boolean smb = path.startsWith("smb://");
         boolean local = path.startsWith("/");
         boolean protocol_accepted=true;
+
+        curPanel=Panel_ID;
+        if(Panel_ID==0){competPanel=1;}else{competPanel=0;}
 
         if(local){
             protocols[Panel_ID]="local";
@@ -343,6 +351,7 @@ public class datFM extends Activity {
             Intent intent = new Intent(Intent.ACTION_VIEW);
 
             Uri uri = Uri.fromFile(new File(path));
+
             String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(uri.toString()));
             intent.setDataAndType(uri, mimeType);
 
@@ -618,6 +627,10 @@ public class datFM extends Activity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         String newdir_name = textNewFolderName.getText().toString();
+
+                        if(protocols[curPanel].equals("smb")){
+                            curDir=curDir.substring(0,curDir.lastIndexOf("/"));
+                        }
 
                         if (!newdir_name.equals("")){
                             String dir = curDir+"/"+textNewFolderName.getText().toString();
@@ -1109,6 +1122,7 @@ public class datFM extends Activity {
         switch (view.getId()) {
             case R.id.btnUPleft:{
                 if(selLeft==0){
+                    curPanel=0; competPanel=1;
                     prevName = new datFM_IO(curentLeftDir).getName();
                     if(!curentLeftDir.equals("/") && curentLeftDir!=null){
                         fill_new(parent_left, 0);}
@@ -1116,6 +1130,7 @@ public class datFM extends Activity {
                 break;}
             case R.id.btnUPright:{
                 if (selRight==0){
+                    curPanel=1; competPanel=2;
                     prevName = new datFM_IO(curentRightDir).getName();
                     if(!curentRightDir.equals("/") && curentRightDir!=null){
                         fill_new(parent_right, 1);}
@@ -1136,11 +1151,13 @@ public class datFM extends Activity {
                 break;}
             case R.id.btnGOleft:{
                 if (selLeft==0){
+                    curPanel=0; competPanel=1;
                     String path = textCurrentPathLeft.getText().toString();
                     fill_new(path, 0);}
                 EditText_unfocused();
                 break;}
             case R.id.btnGOright:{
+                curPanel=1; competPanel=0;
                 String path = textCurrentPathRight.getText().toString();
                 fill_new(path, 1);
                 EditText_unfocused();
@@ -1326,6 +1343,7 @@ public class datFM extends Activity {
         pref_show_folder_discr = prefs.getBoolean("pref_show_folder_discr",true);
         pref_show_files_discr = prefs.getBoolean("pref_show_files_discr",true);
         pref_show_panel_discr = prefs.getBoolean("pref_show_panel_discr",true);
+        pref_sambalogin = prefs.getBoolean("pref_sambalogin",true);
 
         /** Cache size **/
         cache_size=Integer.parseInt(pref_icons_cache);

@@ -111,9 +111,11 @@ public class datFM_IO {
             for (SmbFile ff : children) {
                 copy_recursively_smb(ff, dest+"/"+ff.getName());}
         } else {
-            IO_Stream_Worker(file.getPath(), dest);
+            try {
+                IO_Stream_Worker(file.getPath(), dest);
+            } catch (Exception e){}
         };
-        return true;
+        return new SmbFile(dest).exists();
     }
     public boolean copy_recursively_local(File file,String dest) throws IOException {
         if (file.isDirectory()) {
@@ -122,9 +124,11 @@ public class datFM_IO {
             for (File ff : children) {
                 copy_recursively_local(ff, dest+"/"+ff.getName());}
         } else {
-            IO_Stream_Worker(file.getPath(), dest);
+            try {
+                IO_Stream_Worker(file.getPath(), dest);
+            } catch (Exception e){}
         };
-        return true;
+        return new File(dest).exists();
     }
 
     /** RENAME **/
@@ -183,7 +187,7 @@ public class datFM_IO {
     }
 
     /** STREAM WORKER **/
-    private boolean IO_Stream_Worker(String src, String dest) throws IOException {
+    private void IO_Stream_Worker(String src, String dest) throws IOException {
         InputStream in = new datFM_IO(src).getInput();
         OutputStream out = new datFM_IO(dest).getOutput();
 
@@ -204,7 +208,6 @@ public class datFM_IO {
         }
         in.close();
         out.close();
-        return true;
     }
 
     /** GetName in UI thread **/
@@ -221,7 +224,12 @@ public class datFM_IO {
                     if(name_in_ui_parser.indexOf("/")==0){name_in_ui_parser=name_in_ui_parser.substring(1);}
                     String holder=name_in_ui_parser;
 
-                    name_in_ui_parser=name_in_ui_parser.substring(name_in_ui_parser.indexOf("/"));
+                    if(name_in_ui_parser.indexOf("/")!=-1){
+                        name_in_ui_parser=name_in_ui_parser.substring(name_in_ui_parser.indexOf("/"));
+                    } else {
+                        name_in_ui_parser=name_in_ui_parser+"/";
+                        break;
+                    }
 
                     if(name_in_ui_parser.length()==1){
                         name_in_ui_parser=holder;break;

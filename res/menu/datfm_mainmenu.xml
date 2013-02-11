@@ -23,13 +23,13 @@
           android:icon="@drawable/ui_menu_update"
           android:title="@string/mainmenu_refresh"
           android:showAsAction="ifRoom"/>
+    <item android:id="@+id/mainmenu_samba"
+          android:icon="@drawable/ui_menu_cloud"
+          android:title="Samba"
+          android:showAsAction="never"/>
     <item android:id="@+id/mainmenu_indev" android:icon="@drawable/ui_menu_cloud"
           android:title="@string/mainmenu_udev">
         <menu>
-            <item android:id="@+id/mainmenu_cloud"
-                  android:icon="@drawable/ui_menu_cloud"
-                  android:title="no Network and Cloud"
-                  android:showAsAction="never"/>
             <item android:id="@+id/mainmenu_find"
                   android:icon="@drawable/ui_menu_find"
                   android:title="no Find"

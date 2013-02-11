@@ -31,6 +31,7 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
     boolean fetch_err;
     String user, pass, url, domain;
     boolean success_auth=true;
+    NtlmPasswordAuthentication auth;
 
     public datFM activity;
     public datFM_Protocol_Fetch(datFM a){activity = a;}
@@ -78,7 +79,7 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
 
     protected void onPostExecute(List<datFM_FileInformation> result) {
         super.onPostExecute(result);
-        if(!datFM.protocols[datFM.curPanel].equals("local")){
+        if(!datFM.protocols[panel_ID].equals("local")){
             dialog_operation_smb.dismiss();
         }
         //if(fetch_err){datFM.notify_toast("Listing error!");}
@@ -94,15 +95,18 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
     }
 
     private void fetch_smb(){
-        NtlmPasswordAuthentication auth;
+        if(path.lastIndexOf("/")!=path.length()-1){path=path+"/";}
         url = path;datFM.url=url;
-        domain=url.replace("smb://","");
-        if(domain.indexOf("/")!=-1)domain=domain.substring(0, domain.indexOf("/"));
         user = datFM.user;
         pass = datFM.pass;
         auth = new NtlmPasswordAuthentication(datFM.domain, user, pass);
 
         // ------ CHECK SMB AUTH ------------ //
+        if(datFM.pref_sambalogin){
+
+        domain=url.replace("smb://","");
+        if(domain.indexOf("/")!=-1)domain=domain.substring(0, domain.indexOf("/"));
+
         UniAddress uniaddress = null;
         try {
             if(domain!=""){uniaddress = UniAddress.getByName(domain);}
@@ -110,7 +114,9 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
         try {
             if(domain!=""){SmbSession.logon(uniaddress, auth);}
         } catch (Exception e) {success_auth=false;}
-
+        } else {
+            success_auth=true;
+        }
         //---------START SMB WORKS-------------------------
         if(success_auth || url.equals("smb://")){
             SmbFile dir = null;

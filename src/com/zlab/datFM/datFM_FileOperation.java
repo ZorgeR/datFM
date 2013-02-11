@@ -153,16 +153,16 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
             super.onPostExecute(result);
 
             if (operation.equals("copy")){
-                activity.update_tab(count,operation,destDir,4);}
+                activity.update_tab(count,operation,destDir,competPannelID);}
 
             if (operation.equals("delete")){
-                activity.update_tab(count,operation,destDir,3);}
+                activity.update_tab(count,operation,destDir,srcPannelID);}
 
             if (operation.equals("move")){
                 activity.update_tab(count, "move", destDir,2);}
 
             if (operation.equals("rename")){
-                activity.update_tab(count,operation,srcDir,3);}
+                activity.update_tab(count,operation,srcDir,srcPannelID);}
 
             if (operation.equals("new_folder")){
                 activity.update_tab(count,"new_folder",srcDir,srcPannelID);}
@@ -300,7 +300,7 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
                         }
                     }
                 }
-                success = !dst.exists();
+                success = dst.exists();
             } else {
                 if (protocol_copy(srcf, destr)) {
                     protocol_delete(srcf);

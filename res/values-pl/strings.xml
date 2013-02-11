@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">datFM</string>
+    <string name="app_properties">Właściwości</string>
+
+    <!--  NavBar  -->
+    <string name="navbar_up">Katalog główny</string>
+    <string name="navbar_go">Idź</string>
+
+    <!--  Panel  -->
+    <string name="btn_share">Podziel się</string>
+    <string name="btn_newfolder">Nowy folder</string>
+    <string name="btn_addtoarchive">Archiwizuj</string>
+    <string name="btn_copy">Kopiuj</string>
+    <string name="btn_move">Przenies</string>
+    <string name="btn_rename">Zmień nazwę</string>
+    <string name="btn_selectall">Wybierz wszystkie</string>
+    <string name="btn_deselectall">Odznacz wszystkie</string>
+    <string name="btn_delete">Skasuj</string>
+
+    <!-- Main Menu  -->
+    <string name="mainmenu_addfolder">Dodaj folder</string>
+    <string name="mainmenu_refresh">Odśwież</string>
+    <string name="mainmenu_favorite">Ulubione</string>
+    <string name="mainmenu_udev">udev</string>
+    <string name="mainmenu_settings">Ustawienia</string>
+    <string name="mainmenu_about">Info</string>
+    <string name="mainmenu_exit">Exit</string>
+
+    <!-- Context Menu  -->
+    <string name="contextmenu_title">Menu:</string>
+    <string name="contextmenu_open">Otwórz</string>
+    <string name="contextmenu_open_with">Otwórz przez ...</string>
+    <string name="contextmenu_open_as_archive">Otwórz jako archiwum</string>
+    <string name="contextmenu_open_unpack_ZA">Wypakuj przez ZA</string>
+    <string name="contextmenu_copy">Kopiuj</string>
+    <string name="contextmenu_move">Przenieś</string>
+    <string name="contextmenu_rename">Zmień nazwe</string>
+    <string name="contextmenu_delete">Skasuj</string>
+    <string name="contextmenu_share">Podziel się</string>
+    <string name="contextmenu_properties">Właściwości</string>
+
+    <!-- Settings -->
+    <!-- Settings Groups -->
+    <string name="settings_group_view">Widok</string>
+    <string name="settings_group_other">Inne</string>
+    <string name="settings_group_performance">Wydajność</string>
+    <string name="settings_group_dangerous">Niebezpieczne</string>
+    <!-- Settings Elements Title -->
+    <string name="settings_elements_title_cp">Panel sterowania</string>
+    <string name="settings_elements_title_appicons">Ikony aplikacji</string>
+    <string name="settings_elements_title_photoicons">Ikony zdjęć</string>
+    <string name="settings_elements_title_videoicons">Ikony wideo</string>
+    <string name="settings_elements_title_icons_cache">Ikony cache</string>
+    <string name="settings_elements_title_cptext">Tekst na panelu</string>
+    <string name="settings_elements_title_navbar">Pasek adresu</string>
+    <string name="settings_elements_title_folder_discription">Opis folderu</string>
+    <string name="settings_elements_title_files_discription">Opis plików</string>
+    <string name="settings_elements_title_panel_discription">Opis panelu</string>
+    <string name="settings_elements_title_opendir">Otwórz nowy katalog</string>
+    <string name="settings_elements_title_openarcdir">Otwórz katalog archiwów</string>
+    <string name="settings_elements_title_openarcdir_window">Archiwizuj głowny katalog</string>
+    <string name="settings_elements_title_savepath">Zapisz ścieżkę</string>
+    <string name="settings_elements_title_focusondir">Zapamietaj aktualny katalog</string>
+    <string name="settings_elements_title_kamikaze">Kamikaze mode</string>
+    <string name="settings_elements_title_root">root</string>
+    <!-- Settings Elements Summary -->
+    <string name="settings_elements_summary_cp">Pokazuj zawsze</string>
+    <string name="settings_elements_summary_appicons">Pobierz ikony z pliku APK</string>
+    <string name="settings_elements_summary_photoicons">Pokaż miniaturki zdjęć</string>
+    <string name="settings_elements_summary_videoicons">Pokaż miniaturki wideo</string>
+    <string name="settings_elements_summary_icons_cache">Wybierz preferowany rozmiar Cache</string>
+    <string name="settings_elements_summary_cptext">Pokaż tekst na przyciskach panelu</string>
+    <string name="settings_elements_summary_navbar">Pokaż pasek adresu na górze</string>
+    <string name="settings_elements_summary_folder_discription">Pokaż opis folderu</string>
+    <string name="settings_elements_summary_files_discription">Pokaż opis plików</string>
+    <string name="settings_elements_summary_panel_discription">Pokaż opisy pod panelem</string>
+    <string name="settings_elements_summary_opendir">Otwórz nowy katalog po utworzeniu</string>
+    <string name="settings_elements_summary_openarcdir">Otwórz archiwum po wypakowaniu</string>
+    <string name="settings_elements_summary_openarcdir_window">Otwórz w aktualnym panelu</string>
+    <string name="settings_elements_summary_savepath">Przywróć ścieżkę przy starcie</string>
+    <string name="settings_elements_summary_focusondir">Zapamietaj aktualny katalog przy przechodzeniu wyżej</string>
+    <string name="settings_elements_summary_kamikaze">Nie pytaj, uruchom</string>
+    <string name="settings_elements_summary_root">Uzyj przywileji roota</string>
+
+    <!-- Files List Items -->
+    <string name="fileslist_parent_directory">Katalog główny</string>
+    <string name="fileslist_directory">&lt;dir&gt;</string>
+    <string name="fileslist_folders_count">Foldery:</string>
+    <string name="fileslist_files_count">Pliki:</string>
+
+    <!-- UI Elements -->
+    <!-- Pop-up Dialogs -->
+    <!-- Dialog Buttons -->
+    <string name="ui_dialog_btn_ok">OK</string>
+    <string name="ui_dialog_btn_cancel">Anuluj</string>
+    <!-- Pop-up Dialogs Title-->
+    <string name="ui_dialog_title_newfolder">Nowy folder</string>
+    <string name="ui_dialog_title_archive">Archiwizuj</string>
+    <string name="ui_dialog_title_archive_extract">Wypakuj do:</string>
+    <string name="ui_dialog_title_copy">Kopiuj</string>
+    <string name="ui_dialog_title_move">Przenieś</string>
+    <string name="ui_dialog_title_rename">Zmień nazwę</string>
+    <string name="ui_dialog_title_delete">Skasuj</string>
+    <!-- Pop-up Dialogs content -->
+    <string name="ui_dialog_header_copy">pliki i foldery zostaną skopiowane</string>
+    <string name="ui_dialog_header_move">pliki i foldery zostaną przeniesione</string>
+    <string name="ui_dialog_header_delete">pliki i foldery zostaną skasowane</string>
+    <string name="ui_dialog_header_please_wait">Proszę czekać...</string>
+    <!-- Pop-up Dialogs other content -->
+    <string name="ui_dialog_from">z:</string>
+    <string name="ui_dialog_to">do:</string>
+    <string name="ui_dialog_in">w:</string>
+    <string name="ui_dialog_hint_newfolder">Nazwa Nowego folderu</string>
+    <string name="ui_dialog_hint_archive">Nazwa Nowego archiwum</string>
+    <string name="ui_dialog_hint_rename">Nowa nazwa</string>
+    <string name="ui_dialog_archive_archive">Nazwa archiwum:</string>
+    <string name="ui_dialog_archive_type">Typ archiwum:</string>
+    <string name="ui_dialog_archive_level">Poziom kompresji:</string>
+    <string name="ui_dialog_archive_del_after_compress">Usuń pliki po udanej kompresji.</string>
+    <string name="ui_dialog_archive_unpack_to_name">Nazwa archiwum</string>
+    <string name="ui_dialog_archive_unpack_to_dir">Aktualny katalog</string>
+    <string name="ui_dialog_archive_unpack_to_user">Katalog użytkownika</string>
+    <!-- Notification -->
+    <string name="notify_copy">plik skopiowany do:</string>
+    <string name="notify_move">plik przeniesiony do:</string>
+    <string name="notify_newfolder">Nowy folder:</string>
+    <string name="notify_delete">plik skasowany! :(</string>
+    <string name="notify_refresh_tab">Odświeżanie zakończone!</string>
+    <string name="notify_file_unknown">Nieznany typ pliku</string>
+    <string name="notify_operation_same_folder">Aktualny katalog i katalog docelowy są takie same!</string>
+
+</resources>

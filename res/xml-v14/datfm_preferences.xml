@@ -27,6 +27,11 @@
         <SwitchPreference android:title="@string/settings_elements_title_focusondir" android:summary="@string/settings_elements_summary_focusondir" android:key="pref_dir_focus" android:defaultValue="true" />
     </PreferenceCategory>
     </PreferenceScreen>
+    <PreferenceScreen android:title="@string/settings_group_network">
+        <PreferenceCategory android:title="@string/settings_group_network">
+            <SwitchPreference android:title="@string/settings_elements_title_sambalogin" android:summary="@string/settings_elements_summary_sambalogin" android:key="pref_sambalogin" android:defaultValue="true" />
+        </PreferenceCategory>
+    </PreferenceScreen>
     <PreferenceScreen android:title="@string/settings_group_dangerous">
     <com.zlab.datFM.datFM_Preferences_Category android:title="@string/settings_group_dangerous" android:key="dangerous_title">
         <SwitchPreference android:title="@string/settings_elements_title_kamikaze" android:summary="@string/settings_elements_summary_kamikaze" android:key="pref_kamikaze" android:defaultValue="false" />

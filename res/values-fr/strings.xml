@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">datFM</string>
+    <string name="app_properties">Propriétés</string>
+
+    <!--  NavBar  -->
+    <string name="navbar_up">Répertoire parent</string>
+    <string name="navbar_go">Aller</string>
+
+    <!--  Panel  -->
+    <string name="btn_share">Partager</string>
+    <string name="btn_newfolder">Nouveau répertoire</string>
+    <string name="btn_addtoarchive">Archive</string>
+    <string name="btn_copy">Copier</string>
+    <string name="btn_move">Déplacer</string>
+    <string name="btn_rename">Renommer</string>
+    <string name="btn_selectall">Tout sélectionner</string>
+    <string name="btn_deselectall">Tout désélectionner</string>
+    <string name="btn_delete">Supprimer</string>
+
+    <!-- Main Menu  -->
+    <string name="mainmenu_addfolder">Créer un répertoire</string>
+    <string name="mainmenu_refresh">Rafraîchir</string>
+    <string name="mainmenu_favorite">Favori</string>
+    <string name="mainmenu_udev">udev</string>
+    <string name="mainmenu_settings">Paramètres</string>
+    <string name="mainmenu_about">A propos</string>
+    <string name="mainmenu_exit">Sortir</string>
+
+    <!-- Context Menu  -->
+    <string name="contextmenu_title">Menu:</string>
+    <string name="contextmenu_open">Ouvrir</string>
+    <string name="contextmenu_open_with">Ouvrir avec...</string>
+    <string name="contextmenu_open_as_archive">Ouvrir en tant qu\'archive</string>
+    <string name="contextmenu_open_unpack_ZA">Décompresser avec ZA</string>
+    <string name="contextmenu_copy">Copier</string>
+    <string name="contextmenu_move">Déplacer</string>
+    <string name="contextmenu_rename">Renommer</string>
+    <string name="contextmenu_delete">Supprimer</string>
+    <string name="contextmenu_share">Partager</string>
+    <string name="contextmenu_properties">Propriétés</string>
+
+    <!-- Settings -->
+    <!-- Settings Groups -->
+    <string name="settings_group_view">Apparence</string>
+    <string name="settings_group_other">Autres</string>
+    <string name="settings_group_performance">Performances</string>
+    <string name="settings_group_dangerous">Dangereux</string>
+    <!-- Settings Elements Title -->
+    <string name="settings_elements_title_cp">Panneau de contrôle</string>
+    <string name="settings_elements_title_appicons">Icônes d\'applications</string>
+    <string name="settings_elements_title_photoicons">Icônes photos</string>
+    <string name="settings_elements_title_videoicons">Icônes vidéos</string>
+    <string name="settings_elements_title_icons_cache">Cache d\'icônes</string>
+    <string name="settings_elements_title_cptext">Texte du panneau</string>
+    <string name="settings_elements_title_navbar">Barre d\'adresse</string>
+    <string name="settings_elements_title_folder_discription">Descriptions des répertoires</string>
+    <string name="settings_elements_title_files_discription">Descriptions des fichiers</string>
+    <string name="settings_elements_title_panel_discription">Descriptions du panneau</string>
+    <string name="settings_elements_title_opendir">Ouvrir le nouveau répertoire</string>
+    <string name="settings_elements_title_openarcdir">Ouvrir le répertoire d\'archive</string>
+    <string name="settings_elements_title_openarcdir_window">Panneau de répertoire d\'archive</string>
+    <string name="settings_elements_title_savepath">Enregistrer l\'adresse</string>
+    <string name="settings_elements_title_focusondir">Mettre le focus sur le répertoire</string>
+    <string name="settings_elements_title_kamikaze">Mode Kamikaze</string>
+    <string name="settings_elements_title_root">root</string>
+    <!-- Settings Elements Summary -->
+    <string name="settings_elements_summary_cp">Toujours afficher</string>
+    <string name="settings_elements_summary_appicons">Récupérer les icônes d\'applications depuis APK</string>
+    <string name="settings_elements_summary_photoicons">Afficher les miniatures de photos</string>
+    <string name="settings_elements_summary_videoicons">Afficher les miniatures de videos</string>
+    <string name="settings_elements_summary_icons_cache">Choisir la taille de cache préférée</string>
+    <string name="settings_elements_summary_cptext">Afficher le texte sur les boutons du panneau</string>
+    <string name="settings_elements_summary_navbar">Afficher la barre d\'adresse en haut</string>
+    <string name="settings_elements_summary_folder_discription">Afficher les descriptions de répertoires</string>
+    <string name="settings_elements_summary_files_discription">Afficher les descriptions de fichiers</string>
+    <string name="settings_elements_summary_panel_discription">Afficher les descriptions en dessous du panneau</string>
+    <string name="settings_elements_summary_opendir">Ouvrir le nouveau répertoire après création</string>
+    <string name="settings_elements_summary_openarcdir">Ouvrir le nouveau répertoire d\'archive après décompression</string>
+    <string name="settings_elements_summary_openarcdir_window">Ouvrir dans le panneau courant</string>
+    <string name="settings_elements_summary_savepath">Récupérer l\'adresse au démarrage</string>
+    <string name="settings_elements_summary_focusondir">Mettre le focus sur le répertoire en le quittant</string>
+    <string name="settings_elements_summary_kamikaze">Ne rien demander, seulement exécuter (Réfléchir, c\'est désobéir)</string>
+    <string name="settings_elements_summary_root">Utiliser avec les droits root</string>
+
+    <!-- Files List Items -->
+    <string name="fileslist_parent_directory">Répertoire parent</string>
+    <string name="fileslist_directory">&lt;rep&gt;</string>
+    <string name="fileslist_folders_count">Répertoires:</string>
+    <string name="fileslist_files_count">Fichiers:</string>
+
+    <!-- UI Elements -->
+    <!-- Pop-up Dialogs -->
+    <!-- Dialog Buttons -->
+    <string name="ui_dialog_btn_ok">OK</string>
+    <string name="ui_dialog_btn_cancel">Annuler</string>
+    <!-- Pop-up Dialogs Title-->
+    <string name="ui_dialog_title_newfolder">Nouveau répertoire</string>
+    <string name="ui_dialog_title_archive">Archive</string>
+    <string name="ui_dialog_title_archive_extract">Extraire vers :</string>
+    <string name="ui_dialog_title_copy">Copier</string>
+    <string name="ui_dialog_title_move">Déplacer</string>
+    <string name="ui_dialog_title_rename">Renommer</string>
+    <string name="ui_dialog_title_delete">Supprimer</string>
+    <!-- Pop-up Dialogs content -->
+    <string name="ui_dialog_header_copy">Les fichiers et répertoires seront copiés</string>
+    <string name="ui_dialog_header_move">Les fichiers et répertoires seront déplacés</string>
+    <string name="ui_dialog_header_delete">Les fichiers et répertoires seront supprimés</string>
+    <string name="ui_dialog_header_please_wait">Veuillez patienter...</string>
+    <!-- Pop-up Dialogs other content -->
+    <string name="ui_dialog_from">depuis :</string>
+    <string name="ui_dialog_to">vers :</string>
+    <string name="ui_dialog_in">dans :</string>
+    <string name="ui_dialog_hint_newfolder">Nom du nouveau répertoire</string>
+    <string name="ui_dialog_hint_archive">Nom de la nouvelle archive</string>
+    <string name="ui_dialog_hint_rename">Nouveau nom</string>
+    <string name="ui_dialog_archive_archive">Nom de l\'archive :</string>
+    <string name="ui_dialog_archive_type">Type d\'archive :</string>
+    <string name="ui_dialog_archive_level">Niveau de compression :</string>
+    <string name="ui_dialog_archive_del_after_compress">Supprimer les fichiers quand la compression est terminée.</string>
+    <string name="ui_dialog_archive_unpack_to_name">Nom de l\'archive</string>
+    <string name="ui_dialog_archive_unpack_to_dir">Répertoire courant</string>
+    <string name="ui_dialog_archive_unpack_to_user">Répertoire préféré de l\'utilisateur</string>
+    <!-- Notification -->
+    <string name="notify_copy">Objet copié vers :</string>
+    <string name="notify_move">Objet déplacé vers :</string>
+    <string name="notify_newfolder">Nouveau répertoire :</string>
+    <string name="notify_delete">Objet supprimé !</string>
+    <string name="notify_refresh_tab">Rafraîchissement effectué !</string>
+    <string name="notify_file_unknown">Type de fichier inconnu !</string>
+    <string name="notify_operation_same_folder">Les répertoires courant et de destination sont identiques !</string>
+
+</resources>
