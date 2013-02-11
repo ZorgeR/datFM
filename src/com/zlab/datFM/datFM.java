@@ -66,7 +66,7 @@ public class datFM extends Activity {
             pref_kamikaze,pref_show_text_on_panel,pref_show_navbar,
             pref_show_panel_discr;
     static boolean pref_show_apk,pref_show_video,pref_show_photo,
-                   pref_show_folder_discr,pref_show_files_discr,pref_root;
+            pref_show_folder_discr,pref_show_files_discr,pref_root;
     boolean firstAlert;
     boolean settings_opened = false;
     String pref_icons_cache;
@@ -283,7 +283,7 @@ public class datFM extends Activity {
             textCurrentPathLeft.setText(curentLeftDir);
             if (posLeft<listLeft.getCount()&&posLeft!=0){listLeft.setSelection(posLeft);posLeft=0;}
             if (prevName!=null&&pref_dir_focus){for (int i=0;i<listLeft.getCount();i++){
-            if (prevName.equals(adapterLeft.getItem(i).getName())){listLeft.setSelection(i);prevName="";}}}
+                if (prevName.equals(adapterLeft.getItem(i).getName())){listLeft.setSelection(i);prevName="";}}}
             update_panel_focus();
         } else {
             selectedRight = new boolean[dir.size()];
@@ -295,7 +295,7 @@ public class datFM extends Activity {
             textCurrentPathRight.setText(curentRightDir);
             if (posRight<listRight.getCount()&&posRight!=0){listRight.setSelection(posRight);posRight=0;}
             if (prevName!=null&&pref_dir_focus){for (int i=0;i<listRight.getCount();i++){
-            if (prevName.equals(adapterRight.getItem(i).getName())){listRight.setSelection(i);prevName="";}}}
+                if (prevName.equals(adapterRight.getItem(i).getName())){listRight.setSelection(i);prevName="";}}}
             update_panel_focus();
         }
     }
@@ -334,10 +334,10 @@ public class datFM extends Activity {
     protected void openFile(String path,String name, String ext){
 
         if ( (ZA.isSupport()) &&
-               (ext.equals("zip")||
-                ext.equals("rar")||
-                ext.equals("7z") ||
-                ext.equals("tar"))){
+                (ext.equals("zip")||
+                        ext.equals("rar")||
+                        ext.equals("7z") ||
+                        ext.equals("tar"))){
             ZA_unpack(path, name.substring(0, name.lastIndexOf(".")));
         } else {
             Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -369,7 +369,7 @@ public class datFM extends Activity {
     }
     protected void onFileClick(datFM_FileInformation o){
         if(o.getType().equals("dir")){
-                fill_new(o.getPath(), curPanel);
+            fill_new(o.getPath(), curPanel);
         } else if (o.getType().equals("parent_dir")){
             if (curPanel==0){
                 prevName = new datFM_IO(curentLeftDir).getName();
@@ -1004,8 +1004,8 @@ public class datFM extends Activity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){check_in_current.setChecked(false);check_in_userpath.setChecked(false);
-                      arcExtractPath.setText(curDir+"/"+name+"/");
-                      arcExtractPath.setEnabled(false);}
+                    arcExtractPath.setText(curDir+"/"+name+"/");
+                    arcExtractPath.setEnabled(false);}
             }
         });
         check_in_current.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -1111,14 +1111,14 @@ public class datFM extends Activity {
                 if(selLeft==0){
                     prevName = new datFM_IO(curentLeftDir).getName();
                     if(!curentLeftDir.equals("/") && curentLeftDir!=null){
-                    fill_new(parent_left, 0);}
+                        fill_new(parent_left, 0);}
                 }
                 break;}
             case R.id.btnUPright:{
                 if (selRight==0){
                     prevName = new datFM_IO(curentRightDir).getName();
                     if(!curentRightDir.equals("/") && curentRightDir!=null){
-                    fill_new(parent_right, 1);}
+                        fill_new(parent_right, 1);}
                 /*
                     String prevName = new File(curentRightDir).getName();
                     if (!prevName.equals("")){
@@ -1136,14 +1136,14 @@ public class datFM extends Activity {
                 break;}
             case R.id.btnGOleft:{
                 if (selLeft==0){
-                        String path = textCurrentPathLeft.getText().toString();
-                        fill_new(path, 0);}
-                        EditText_unfocused();
+                    String path = textCurrentPathLeft.getText().toString();
+                    fill_new(path, 0);}
+                EditText_unfocused();
                 break;}
             case R.id.btnGOright:{
-                        String path = textCurrentPathRight.getText().toString();
-                        fill_new(path, 1);
-                        EditText_unfocused();
+                String path = textCurrentPathRight.getText().toString();
+                fill_new(path, 1);
+                EditText_unfocused();
                 break;}
             case R.id.btnSelectAll: {
                 action_select_all();
