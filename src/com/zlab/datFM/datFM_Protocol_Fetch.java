@@ -1,6 +1,7 @@
 package com.zlab.datFM;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -24,73 +25,73 @@ import java.util.List;
 public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_FileInformation>> {
 
     List<datFM_FileInformation> dir_info,fls_info;
-    //ProgressDialog dialog_operation_smb;
+    ProgressDialog dialog_operation_smb;
     String path,protocol;
     int panel_ID;
-    boolean logon_err,fetch_err,uriparse_err;
+    boolean fetch_err;
     String user, pass, url, domain;
     boolean success_auth=true;
 
     public datFM activity;
     public datFM_Protocol_Fetch(datFM a){activity = a;}
 
-        protected void onPreExecute() {
-            /*
+    protected void onPreExecute() {
+        if(!datFM.protocols[datFM.curPanel].equals("local")){
             dialog_operation_smb = new ProgressDialog(datFM.datf_context);
-            dialog_operation_smb.setTitle("Working...");
-            dialog_operation_smb.setMessage("fetch content dir");
+            dialog_operation_smb.setTitle(datFM.protocols[datFM.curPanel]);
+            dialog_operation_smb.setMessage("Please wait...");
             dialog_operation_smb.setIndeterminate(false);
-            dialog_operation_smb.show();
-            */
-            super.onPreExecute();
+            dialog_operation_smb.show();}
+        super.onPreExecute();
+    }
+
+    protected void onProgressUpdate(Integer values) {
+        // dialog_operation.setMax(values[1]);
+    }
+
+    @Override
+    protected List<datFM_FileInformation> doInBackground(String... paths) {
+        path = paths[0];
+        protocol = paths[1];datFM.protocol=protocol;
+        panel_ID = Integer.parseInt(paths[2]);datFM.id= String.valueOf(panel_ID);
+
+        dir_info = new ArrayList<datFM_FileInformation>();
+        fls_info = new ArrayList<datFM_FileInformation>();
+
+        datFM.curPanel = panel_ID;
+        if(panel_ID==0){
+            datFM.competPanel=1;
+        }else{
+            datFM.competPanel=0;
         }
 
-        protected void onProgressUpdate(Integer values) {
-            // dialog_operation.setMax(values[1]);
+        if (protocol.equals("local")){
+            fetch_local();
+        } else if (protocol.equals("smb")){
+            fetch_smb();
+        } else {
+            Log.e("UNSUPPORT PROTOCOL:", protocol);
         }
 
-        @Override
-        protected List<datFM_FileInformation> doInBackground(String... paths) {
-            path = paths[0];
-            protocol = paths[1];datFM.protocol=protocol;
-            panel_ID = Integer.parseInt(paths[2]);datFM.id= String.valueOf(panel_ID);
+        return dir_info;
+    }
 
-            dir_info = new ArrayList<datFM_FileInformation>();
-            fls_info = new ArrayList<datFM_FileInformation>();
-
-            datFM.curPanel = panel_ID;
-            if(panel_ID==0){
-                datFM.competPanel=1;
-            }else{
-                datFM.competPanel=0;
-            }
-
-            if (protocol.equals("local")){
-                fetch_local();
-            } else if (protocol.equals("smb")){
-                fetch_smb();
-            } else {
-                Log.e("UNSUPPORT PROTOCOL:", protocol);
-            }
-
-            return dir_info;
+    protected void onPostExecute(List<datFM_FileInformation> result) {
+        super.onPostExecute(result);
+        if(!datFM.protocols[datFM.curPanel].equals("local")){
+            dialog_operation_smb.dismiss();
         }
+        //if(fetch_err){datFM.notify_toast("Listing error!");}
 
-        protected void onPostExecute(List<datFM_FileInformation> result) {
-            super.onPostExecute(result);
-            //dialog_operation_smb.dismiss();
-
-            //if(logon_err){datFM.notify_toast("Logon error.");}
-            //if(uriparse_err){datFM.notify_toast("Uri parse error.");}
-
-            if(!success_auth && fetch_err){
-                if(fetch_err){datFM.notify_toast("Connection error.");}
-                logonScreenSMB();
-            } else {
-                datFM.datFM_state.fill_panel(dir_info, fls_info, panel_ID);
-            }
-            //Toast.makeText(datFM.datf_context,result.length,Toast.LENGTH_SHORT).show();
+        if(!success_auth || fetch_err){
+            if(!success_auth){datFM.notify_toast("Logon error!");}
+            if(fetch_err){datFM.notify_toast("Connection error.");}
+            logonScreenSMB();
+        } else {
+            datFM.datFM_state.fill_panel(dir_info, fls_info, panel_ID);
         }
+        //Toast.makeText(datFM.datf_context,result.length,Toast.LENGTH_SHORT).show();
+    }
 
     private void fetch_smb(){
         NtlmPasswordAuthentication auth;
@@ -111,7 +112,7 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
         } catch (Exception e) {success_auth=false;}
 
         //---------START SMB WORKS-------------------------
-        //if(success_auth || url.equals("smb://")){
+        if(success_auth || url.equals("smb://")){
             SmbFile dir = null;
             try {
                 dir = new SmbFile(url, auth);
@@ -149,48 +150,48 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
             Collections.sort(fls_info);
 
             dir_info.addAll(fls_info);
-        //} else {
+            //} else {
             //logonScreenSMB();
-        //}
+        }
     }
     private void fetch_local(){
-            File dir = new File (path);
-            File[] dirs;
+        File dir = new File (path);
+        File[] dirs;
 
-            if (datFM.pref_root){
-                dirs = dir.listFiles();
-                if(dirs==null){
-                    dirs = root_get_content(dir);}
-            } else {
-                dirs = dir.listFiles();
-            }
-
-            if (panel_ID ==0){
-                datFM.parent_left=dir.getParent();
-                datFM.curentLeftDir=dir.getPath();
-            } else {
-                datFM.parent_right=dir.getParent();
-                datFM.curentRightDir=dir.getPath();}
-
-
-            try{
-                for(File ff: dirs)
-                {
-                    if(ff.isDirectory()){
-                        String data = datFM.datf_context.getResources().getString(R.string.fileslist_directory);
-                        dir_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),0,"smb","dir",data, ff.getParent()));
-                    } else {
-                        BigDecimal size = new BigDecimal(ff.length()/1024.00/1024.00);
-                        size = size.setScale(2, BigDecimal.ROUND_HALF_UP);
-                        fls_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),ff.length(),"smb","file","size: "+size+" MiB",ff.getParent()));
-                    }
-                }
-            }catch(Exception e){}
-            Collections.sort(dir_info);
-            Collections.sort(fls_info);
-
-            dir_info.addAll(fls_info);
+        if (datFM.pref_root){
+            dirs = dir.listFiles();
+            if(dirs==null){
+                dirs = root_get_content(dir);}
+        } else {
+            dirs = dir.listFiles();
         }
+
+        if (panel_ID ==0){
+            datFM.parent_left=dir.getParent();
+            datFM.curentLeftDir=dir.getPath();
+        } else {
+            datFM.parent_right=dir.getParent();
+            datFM.curentRightDir=dir.getPath();}
+
+
+        try{
+            for(File ff: dirs)
+            {
+                if(ff.isDirectory()){
+                    String data = datFM.datf_context.getResources().getString(R.string.fileslist_directory);
+                    dir_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),0,"smb","dir",data, ff.getParent()));
+                } else {
+                    BigDecimal size = new BigDecimal(ff.length()/1024.00/1024.00);
+                    size = size.setScale(2, BigDecimal.ROUND_HALF_UP);
+                    fls_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),ff.length(),"smb","file","size: "+size+" MiB",ff.getParent()));
+                }
+            }
+        }catch(Exception e){}
+        Collections.sort(dir_info);
+        Collections.sort(fls_info);
+
+        dir_info.addAll(fls_info);
+    }
 
     private void logonScreenSMB(){
         AlertDialog.Builder action_dialog = new AlertDialog.Builder(datFM.datFM_state);
@@ -201,6 +202,10 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
         final EditText domains = (EditText) layer.findViewById(R.id.logon_domain);
         final EditText names   = (EditText) layer.findViewById(R.id.logon_name);
         final EditText passs   = (EditText) layer.findViewById(R.id.logon_pass);
+        domains.setText(datFM.domain);
+        names.setText(datFM.user);
+        passs.setText(datFM.pass);
+
 
         action_dialog.setView(layer);
         action_dialog.setPositiveButton(datFM.datFM_state.getResources().getString(R.string.ui_dialog_btn_ok),
