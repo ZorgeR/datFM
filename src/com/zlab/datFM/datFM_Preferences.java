@@ -15,8 +15,8 @@ public class datFM_Preferences extends PreferenceActivity {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.datfm_preferences);
 
-        int currentApiVersion = android.os.Build.VERSION.SDK_INT;
-
+        //int currentApiVersion = android.os.Build.VERSION.SDK_INT;
+        /*
         if (currentApiVersion >= Build.VERSION_CODES.ICE_CREAM_SANDWICH){
             final SwitchPreference pref_root = (SwitchPreference) getPreferenceManager().findPreference("pref_root");
 
@@ -39,8 +39,6 @@ public class datFM_Preferences extends PreferenceActivity {
                 }
             });
         }
-
-
-
+          */
     }
 }

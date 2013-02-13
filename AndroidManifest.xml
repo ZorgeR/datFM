@@ -25,7 +25,7 @@
         <activity
                 android:name=".datFM_Preferences"
                 android:label="Preferences"
-                android:theme="@style/AppTheme">
+                android:theme="@style/PrefTheme">
         </activity>
         <activity
                 android:name=".datFM_Properties"

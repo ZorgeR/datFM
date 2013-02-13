@@ -26,7 +26,7 @@ public class datFM_IconGenerator_VIDEO extends AsyncTask<String, Void, Drawable>
 
         try
         {
-            final int THUMBNAIL_SIZE = 64;
+            final int THUMBNAIL_SIZE = datFM.icons_size;
 
             videoBitmap = ThumbnailUtils.createVideoThumbnail(filePath, MediaStore.Video.Thumbnails.MICRO_KIND);
             videoBitmap = Bitmap.createScaledBitmap(videoBitmap, THUMBNAIL_SIZE, THUMBNAIL_SIZE, false);

@@ -2,6 +2,7 @@
 
     <style name="AppTheme" parent="android:Theme.Light.NoTitleBar" />
     <style name="PropTheme" parent="android:Theme.Light" />
+    <style name="PrefTheme" parent="android:Theme" />
     <style name="Progress" parent="android:Widget.ProgressBar.Horizontal" />
 
 

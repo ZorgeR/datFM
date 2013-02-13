@@ -27,7 +27,7 @@ protected void onPreExecute() {
 
                 try
                 {
-                    final int THUMBNAIL_SIZE = 64;
+                    final int THUMBNAIL_SIZE = datFM.icons_size;
 
                     BitmapFactory.Options options = new BitmapFactory.Options();
                     options.inSampleSize = 10;

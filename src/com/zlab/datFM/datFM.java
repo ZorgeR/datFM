@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -46,6 +47,7 @@ public class datFM extends Activity {
     static String user, pass, url, domain, protocol,id;
     String prevName;
     static String[] protocols=new String[2];
+    static int currentApiVersion;
 
     /** VARS FOR OPERATION**/
     static int sel;
@@ -94,6 +96,9 @@ public class datFM extends Activity {
         setContentView(R.layout.datfm);
         datf_context = this;
         datFM_state = ((datFM) datFM.datf_context);
+
+        /** Определение версии API **/
+        currentApiVersion = android.os.Build.VERSION.SDK_INT;
 
         /** Инициализация UI **/
         init_UI();
@@ -552,12 +557,20 @@ public class datFM extends Activity {
     protected void update_panel_focus(){
         if (curPanel ==0){
             //noinspection deprecation
-            layoutPathPanelLeft.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.dialog_holo_light_frame));
+            if (currentApiVersion <= Build.VERSION_CODES.HONEYCOMB){
+                layoutPathPanelLeft.setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_full_holo_light));
+            } else {
+                layoutPathPanelLeft.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.dialog_holo_light_frame));
+            }
             layoutPathPanelRight.setBackgroundColor(Color.TRANSPARENT);
         } else {
             /** only API 16 -> layoutPathPanelRight.setBackground(getResources().getDrawable(android.R.drawable.dialog_holo_light_frame)); **/
             //noinspection deprecation
-            layoutPathPanelRight.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.dialog_holo_light_frame));
+            if (currentApiVersion <= Build.VERSION_CODES.HONEYCOMB){
+                layoutPathPanelRight.setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_full_holo_light));
+            } else {
+                layoutPathPanelRight.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.dialog_holo_light_frame));
+            }
             layoutPathPanelLeft.setBackgroundColor(Color.TRANSPARENT);
         }
         update_operation_vars();
@@ -1425,25 +1438,25 @@ public class datFM extends Activity {
 
         /** Text On Panel **/
         if(pref_show_text_on_panel){
-            btnShareText.setText(getResources().getString(R.string.btn_share));
-            btnAddFolderText.setText(getResources().getString(R.string.btn_newfolder));
-            btnAddToArchiveText.setText(getResources().getString(R.string.btn_addtoarchive));
-            btnCopyText.setText(getResources().getString(R.string.btn_copy));
-            btnCutText.setText(getResources().getString(R.string.btn_move));
-            btnSelectAllText.setText(getResources().getString(R.string.btn_selectall));
-            btnDeselectAllText.setText(getResources().getString(R.string.btn_deselectall));
-            btnDeleteText.setText(getResources().getString(R.string.btn_delete));
-            btnRenameText.setText(getResources().getString(R.string.btn_rename));
+            btnShareText.setVisibility(View.VISIBLE);
+            btnAddFolderText.setVisibility(View.VISIBLE);
+            btnAddToArchiveText.setVisibility(View.VISIBLE);
+            btnCopyText.setVisibility(View.VISIBLE);
+            btnCutText.setVisibility(View.VISIBLE);
+            btnSelectAllText.setVisibility(View.VISIBLE);
+            btnDeselectAllText.setVisibility(View.VISIBLE);
+            btnDeleteText.setVisibility(View.VISIBLE);
+            btnRenameText.setVisibility(View.VISIBLE);
         } else {
-            btnShareText.setText("");
-            btnAddFolderText.setText("");
-            btnAddToArchiveText.setText("");
-            btnCopyText.setText("");
-            btnCutText.setText("");
-            btnSelectAllText.setText("");
-            btnDeselectAllText.setText("");
-            btnDeleteText.setText("");
-            btnRenameText.setText("");
+            btnShareText.setVisibility(View.GONE);
+            btnAddFolderText.setVisibility(View.GONE);
+            btnAddToArchiveText.setVisibility(View.GONE);
+            btnCopyText.setVisibility(View.GONE);
+            btnCutText.setVisibility(View.GONE);
+            btnSelectAllText.setVisibility(View.GONE);
+            btnDeselectAllText.setVisibility(View.GONE);
+            btnDeleteText.setVisibility(View.GONE);
+            btnRenameText.setVisibility(View.GONE);
         }
 
         /** TextColor Theme **/
@@ -1503,6 +1516,12 @@ public class datFM extends Activity {
         } else {
             layoutButtonPanel.setVisibility(View.VISIBLE);
         }
+        /** FIX OLD API LEVEL UI **/
+        if (currentApiVersion <= Build.VERSION_CODES.HONEYCOMB){
+            layoutButtonPanel.setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_full_holo_dark));
+            layoutPathPanelLeft.setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_full_holo_light));
+            layoutPathPanelRight.setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_full_holo_light));
+        }// else{}
 
         /** Root **/
         if (pref_root){
