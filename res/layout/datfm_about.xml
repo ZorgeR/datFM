@@ -16,7 +16,7 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="r0.1.4b - Zlab - 2013"
+            android:text="r0.1.5b - Zlab - 2013"
             android:id="@+id/textView1"
             android:paddingBottom="20dp"
             android:layout_centerHorizontal="true" android:layout_below="@+id/textView2"/>

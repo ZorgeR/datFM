@@ -43,7 +43,7 @@
     <!-- Settings -->
     <!-- Settings Groups -->
     <string name="settings_group_view">Ansicht</string>
-    <string name="settings_group_other">Andree</string>
+    <string name="settings_group_other">Andere</string>
     <string name="settings_group_performance">Performance</string>
     <string name="settings_group_dangerous">Gefährlich</string>
     <!-- Settings Elements Title -->
@@ -54,7 +54,7 @@
     <string name="settings_elements_title_icons_cache">Icons cache</string>
     <string name="settings_elements_title_cptext">Text im Panel</string>
     <string name="settings_elements_title_navbar">Adresleiste</string>
-    <string name="settings_elements_title_folder_discription">Ordnerbecshreibung</string>
+    <string name="settings_elements_title_folder_discription">Ordnerbeschreibung</string>
     <string name="settings_elements_title_files_discription">Dateibeschreibung</string>
     <string name="settings_elements_title_panel_discription">Panelbeschreibung</string>
     <string name="settings_elements_title_opendir">Neues Verzeichnis öffnen</string>
@@ -79,9 +79,9 @@
     <string name="settings_elements_summary_openarcdir">Archivverzeichnis nach entpacken öffnen</string>
     <string name="settings_elements_summary_openarcdir_window">In aktuellem Panel öffnen</string>
     <string name="settings_elements_summary_savepath">Pfad bei start zurücksetzen</string>
-    <string name="settings_elements_summary_focusondir">Focus auf aktuelles Verzeichnis setzen bim nach oben gehen</string>
+    <string name="settings_elements_summary_focusondir">Fokus auf aktuelles Verzeichnis setzen beim nach oben gehen</string>
     <string name="settings_elements_summary_kamikaze">Nicht fragen, einfach ausführen</string>
-    <string name="settings_elements_summary_root">ROOT Rehte nutzen</string>
+    <string name="settings_elements_summary_root">ROOT Rechte nutzen</string>
 
     <!-- Files List Items -->
     <string name="fileslist_parent_directory">Übergeordnetes Verzeichnis</string>

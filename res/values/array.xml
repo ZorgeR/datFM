@@ -17,4 +17,45 @@
         <item>200</item>
         <item>250</item>
     </string-array>
+    <string-array name="icon_size">
+        <item>24</item>
+        <item>32</item>
+        <item>48</item>
+        <item>64</item>
+        <item>72</item>
+        <item>96</item>
+        <item>128</item>
+        <item>256</item>
+    </string-array>
+    <string-array name="text_size">
+        <item>12</item>
+        <item>14</item>
+        <item>16</item>
+        <item>18</item>
+        <item>20</item>
+        <item>24</item>
+        <item>28</item>
+        <item>32</item>
+    </string-array>
+    <string-array name="text_discr_size">
+        <item>10</item>
+        <item>12</item>
+        <item>14</item>
+        <item>16</item>
+        <item>18</item>
+        <item>20</item>
+        <item>24</item>
+        <item>26</item>
+    </string-array>
+    <string-array name="text_style">
+        <item>Bold</item>
+        <item>Normal</item>
+        <item>Italic</item>
+    </string-array>
+    <string-array name="text_family">
+        <item>Normal</item>
+        <item>Sans Serif</item>
+        <item>Serif</item>
+        <item>Monospace</item>
+    </string-array>
 </resources>

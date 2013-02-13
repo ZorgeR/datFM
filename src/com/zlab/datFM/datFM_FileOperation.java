@@ -1,12 +1,15 @@
 package com.zlab.datFM;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import java.io.*;
+import java.util.HashMap;
 
 public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
 
@@ -17,10 +20,8 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
     int count;
     static long cur_f;
 
-
     static ProgressBar progr_current;
     ProgressBar progr_overal;
-
     public datFM_FileOperation(datFM a)
     {
         activity = a;
@@ -43,8 +44,6 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
         dialog_operation.show();
 
     }
-
-
     protected void onProgressUpdate(Integer c) {
             progr_overal.setProgress(c);
     }

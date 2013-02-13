@@ -53,6 +53,13 @@
     <string name="settings_elements_title_photoicons">Photo icons</string>
     <string name="settings_elements_title_videoicons">Video icons</string>
     <string name="settings_elements_title_icons_cache">Icons cache</string>
+    <string name="settings_elements_title_icons_size">Height of icons</string>
+    <string name="settings_elements_title_text_name_size">File name text size</string>
+    <string name="settings_elements_title_text_discr_size">Description text size</string>
+    <string name="settings_elements_title_text_font_style">Font style</string>
+    <string name="settings_elements_title_text_font_typeface">Font typeface</string>
+    <string name="settings_elements_title_text_bold_folder">Bold for folder name</string>
+    <string name="settings_elements_title_small_panel">Small panels</string>
     <string name="settings_elements_title_cptext">Text on panel</string>
     <string name="settings_elements_title_navbar">Address bar</string>
     <string name="settings_elements_title_folder_discription">Folder descriptions</string>
@@ -72,6 +79,13 @@
     <string name="settings_elements_summary_photoicons">Show photo thumbnail</string>
     <string name="settings_elements_summary_videoicons">Show video thumbnail</string>
     <string name="settings_elements_summary_icons_cache">Select preferred cache size</string>
+    <string name="settings_elements_summary_icons_size">Set height of items in row and size of icons</string>
+    <string name="settings_elements_summary_text_name_size">Set text size for file name</string>
+    <string name="settings_elements_summary_text_discr_size">Set text size for file description</string>
+    <string name="settings_elements_summary_text_font_style">Set font style</string>
+    <string name="settings_elements_summary_text_font_typeface">Set font typeface</string>
+    <string name="settings_elements_summary_text_bold_folder">Always use bold for folder name</string>
+    <string name="settings_elements_summary_small_panel">Use small panels, for phones</string>
     <string name="settings_elements_summary_cptext">Show text on buttons in panel</string>
     <string name="settings_elements_summary_navbar">Show address bar on the top</string>
     <string name="settings_elements_summary_folder_discription">Show folder descriptions</string>

@@ -7,16 +7,19 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import jcifs.UniAddress;
-import jcifs.smb.NtlmPasswordAuthentication;
-import jcifs.smb.SmbFile;
-import jcifs.smb.SmbSession;
+import jcifs.smb.*;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -44,11 +47,9 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
             dialog_operation_remote.show();}
         super.onPreExecute();
     }
-
     protected void onProgressUpdate(Integer values) {
         // dialog_operation.setMax(values[1]);
     }
-
     @Override
     protected List<datFM_FileInformation> doInBackground(String... paths) {
         path = paths[0];
@@ -75,7 +76,6 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
 
         return dir_info;
     }
-
     protected void onPostExecute(List<datFM_FileInformation> result) {
         super.onPostExecute(result);
         if(!datFM.protocols[panel_ID].equals("local") && dialog_operation_remote !=null){
@@ -100,33 +100,39 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
         user = datFM.user;
         pass = datFM.pass;
         domain = datFM.domain;
-
+        //if(domain==null&&hostname.length()>0){domain=hostname;}
         auth = new NtlmPasswordAuthentication(domain, user, pass);
 
         // ------ CHECK SMB AUTH ------------ //
         if(datFM.pref_sambalogin){
-            hostname =url.replace("smb://","");
-            if(hostname.contains("/")){
-                hostname = hostname.substring(0, hostname.indexOf("/"));}
+            hostname = url;
+            hostname = hostname.replace("smb://","");
+            if(hostname.contains("/")){hostname = hostname.substring(0, hostname.indexOf("/"));}
             UniAddress uniaddress = null;
             try {
                     if(!hostname.equals("")){uniaddress = UniAddress.getByName(hostname);}
-                } catch (Exception e) {success_auth=false;}
+            } catch (UnknownHostException e) {
+                    success_auth=false;
+            }
             try {
-                    if(!hostname.equals("")){SmbSession.logon(uniaddress, auth);}
-                } catch (Exception e) {success_auth=false;}
-        }
+                    if(uniaddress!=null){SmbSession.logon(uniaddress, auth);}else{success_auth=false;}
+                    } catch (SmbAuthException e ) {
+                    // AUTHENTICATION FAILURE
+                        success_auth=false;
+                    } catch(SmbException e ) {
+                    // NETWORK PROBLEMS?
+                        fetch_err=true;
+                    }// catch (Exception e){/*Log.e("ERR:",e.getMessage());*/}
+            }
         //---------START SMB WORKS-------------------------
         //if(success_auth || url.equals("smb://")){
             SmbFile dir = null;
             try {
                 dir = new SmbFile(url, auth);
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (MalformedURLException e) {
                 fetch_err=true;
-                Log.e("ERR", "Connection error: "+e.getMessage());
             }
-            //-------END SMB WORKS---------------------
+        //-------END SMB WORKS---------------------
 
             if (panel_ID ==0){
                 datFM.parent_left=dir.getParent();
@@ -211,21 +217,57 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
         final EditText domains = (EditText) layer.findViewById(R.id.logon_domain);
         final EditText names   = (EditText) layer.findViewById(R.id.logon_name);
         final EditText passs   = (EditText) layer.findViewById(R.id.logon_pass);
+
         domains.setText(datFM.domain);
         names.setText(datFM.user);
         passs.setText(datFM.pass);
 
+        final CheckBox logon_guest = (CheckBox) layer.findViewById(R.id.logon_guest);
+        logon_guest.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    domains.setText("");domains.setEnabled(false);
+                    names.setText("");names.setEnabled(false);
+                    passs.setText("");passs.setEnabled(false);
+                } else {
+                    domains.setText(datFM.domain);domains.setEnabled(true);
+                    names.setText(datFM.user);names.setEnabled(true);
+                    passs.setText(datFM.pass);passs.setEnabled(true);
+                }
+            }
+        });
 
         action_dialog.setView(layer);
         action_dialog.setPositiveButton(datFM.datFM_state.getResources().getString(R.string.ui_dialog_btn_ok),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        datFM.domain = domains.getText().toString();
-                        datFM.user = names.getText().toString();
-                        datFM.pass = passs.getText().toString();
-                        datFM.curPanel = Integer.parseInt(datFM.id);
+                        String domain_n,user_n,pass_n;
+                        domain_n = domains.getText().toString();
+                        user_n = names.getText().toString();
+                        pass_n = passs.getText().toString();
+                        //datFM.curPanel = Integer.parseInt(datFM.id);
+
+                        if(domain_n.equals("")){
+                            datFM.domain = null;
+                        } else {
+                            datFM.domain = domain_n;
+                        }
+
+                        if(user_n.equals("")){
+                            datFM.user = null;
+                        } else {
+                            datFM.user = user_n;
+                        }
+
+                        if(pass_n.equals("")){
+                            datFM.pass = null;
+                        } else {
+                            datFM.pass = pass_n;
+                        }
+
                         new datFM_Protocol_Fetch(datFM.datFM_state).execute(datFM.url, datFM.protocol, datFM.id);
-                        fetch_smb();
+                        //fetch_smb();
                     }
                 });
         action_dialog.setNegativeButton(datFM.datFM_state.getResources().getString(R.string.ui_dialog_btn_cancel),

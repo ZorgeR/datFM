@@ -2,6 +2,7 @@ package com.zlab.datFM;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,18 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
             text_FileName = (TextView) v.findViewById(R.id.textFileName);
             text_FileDescription = (TextView) v.findViewById(R.id.textFileDiscription);
             imgFileIcon = (ImageView) v.findViewById(R.id.imgFileIcon);
+
+            /****/
+            imgFileIcon.getLayoutParams().height = datFM.icons_size;
+            imgFileIcon.getLayoutParams().width = datFM.icons_size;
+
+            text_FileName.setTextSize(datFM.text_name_size);
+            text_FileDescription.setTextSize(datFM.text_discr_size);
+
+            text_FileName.setTypeface(datFM.font_typeface, datFM.font_style);
+            text_FileDescription.setTypeface(datFM.font_typeface, datFM.font_style);
+            /****/
+
             ll = (LinearLayout) v.findViewById(R.id.itemOfRow);
 
             if (sel[position]){
@@ -68,6 +81,7 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
 
             if (o.getData().equals(datFM.datf_context.getResources().getString(R.string.fileslist_directory))){
                 imgFileIcon.setImageResource(R.drawable.ext_folder);
+                if(datFM.pref_font_bold_folder){text_FileName.setTypeface(datFM.font_typeface, Typeface.BOLD);}
                 if (datFM.pref_show_folder_discr){
                     text_FileDescription.setVisibility(View.VISIBLE);
                 } else {
@@ -75,6 +89,7 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
                 }
             } else if (o.getData().equals(datFM.datf_context.getResources().getString(R.string.fileslist_parent_directory))){
                 imgFileIcon.setImageResource(R.drawable.ext_folder_up);
+                if(datFM.pref_font_bold_folder){text_FileName.setTypeface(datFM.font_typeface, Typeface.BOLD);}
                 if (datFM.pref_show_folder_discr){
                     text_FileDescription.setVisibility(View.VISIBLE);
                 } else {

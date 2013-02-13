@@ -46,4 +46,9 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/logon_pass" android:hint="Password" android:inputType="textPassword"/>
     </LinearLayout>
+    <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Anonymous (Guest)"
+            android:id="@+id/logon_guest" android:layout_gravity="left|center_vertical" android:checked="false"/>
 </LinearLayout>

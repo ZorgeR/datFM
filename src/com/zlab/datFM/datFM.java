@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,7 +36,8 @@ public class datFM extends Activity {
     EditText textCurrentPathLeft, textCurrentPathRight;
     static String curentLeftDir,curentRightDir;
     static String parent_left,parent_right;
-    Button btnShare,btnAddFolder,btnAddToArchive,btnCopy,btnCut,btnSelectAll,btnDeselectAll,btnDelete,btnRename;
+    LinearLayout btnShare,btnAddFolder,btnAddToArchive,btnCopy,btnCut,btnSelectAll,btnDeselectAll,btnDelete,btnRename;
+    TextView btnShareText,btnAddFolderText,btnAddToArchiveText,btnCopyText,btnCutText,btnSelectAllText,btnDeselectAllText,btnDeleteText,btnRenameText;
     boolean[] selectedRight,selectedLeft;
     static int curPanel,competPanel;
     int selLeft=0;
@@ -64,12 +66,14 @@ public class datFM extends Activity {
     boolean pref_show_panel,pref_open_dir,pref_open_arcdir,
             pref_open_arcdir_window,pref_save_path,pref_dir_focus,
             pref_kamikaze,pref_show_text_on_panel,pref_show_navbar,
-            pref_show_panel_discr;
+            pref_show_panel_discr,pref_small_panel;
     static boolean pref_show_apk,pref_show_video,pref_show_photo,
-            pref_show_folder_discr,pref_show_files_discr,pref_root,pref_sambalogin;
+            pref_show_folder_discr,pref_show_files_discr,pref_root,pref_sambalogin,pref_font_bold_folder;
     boolean firstAlert;
     boolean settings_opened = false;
-    String pref_icons_cache;
+    String pref_icons_cache,pref_icons_size,pref_text_name_size,pref_text_discr_size,pref_font_style,pref_font_typeface;
+    static int icons_size,text_name_size,text_discr_size,font_style;
+    static Typeface font_typeface;
 
     /** ICON CACHE **/
     static int cache_size;
@@ -110,6 +114,8 @@ public class datFM extends Activity {
         super.onResume();
         if(settings_opened){
             pref_setter();
+            adapterLeft.notifyDataSetChanged();
+            adapterRight.notifyDataSetChanged();
             settings_opened = false;}
     }
     protected void onStop(){
@@ -133,7 +139,8 @@ public class datFM extends Activity {
         // Checks the orientation of the screen
 
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            int size_in_dp = 14;
+            int size_in_dp=12;
+            if(pref_small_panel){size_in_dp = 9;}
             final float scale = getResources().getDisplayMetrics().density;
             int size_in_px = (int) (size_in_dp * scale + 0.5f);
             //
@@ -1108,15 +1115,26 @@ public class datFM extends Activity {
         layoutPathPanelRight = (LinearLayout) findViewById(R.id.layoutPathPannelRight);
         layoutButtonPanel = (LinearLayout) findViewById(R.id.layoutButtonPanel);
 
-        btnShare = (Button) findViewById(R.id.btnShare);
-        btnAddFolder = (Button) findViewById(R.id.btnAddFolder);
-        btnAddToArchive = (Button) findViewById(R.id.btnAddToArchive);
-        btnCopy = (Button) findViewById(R.id.btnCopy);
-        btnCut = (Button) findViewById(R.id.btnCut);
-        btnSelectAll = (Button) findViewById(R.id.btnSelectAll);
-        btnDeselectAll = (Button) findViewById(R.id.btnDeselectAll);
-        btnDelete = (Button) findViewById(R.id.btnDelete);
-        btnRename = (Button) findViewById(R.id.btnRename);
+        //btnShare = (Button) findViewById(R.id.btnShare);
+        btnShare = (LinearLayout) findViewById(R.id.btnShare);
+        btnAddFolder = (LinearLayout) findViewById(R.id.btnAddFolder);
+        btnAddToArchive = (LinearLayout) findViewById(R.id.btnAddToArchive);
+        btnCopy = (LinearLayout) findViewById(R.id.btnCopy);
+        btnCut = (LinearLayout) findViewById(R.id.btnCut);
+        btnSelectAll = (LinearLayout) findViewById(R.id.btnSelectAll);
+        btnDeselectAll = (LinearLayout) findViewById(R.id.btnDeselectAll);
+        btnDelete = (LinearLayout) findViewById(R.id.btnDelete);
+        btnRename = (LinearLayout) findViewById(R.id.btnRename);
+
+        btnShareText = (TextView) findViewById(R.id.btnShareText);
+        btnAddFolderText = (TextView) findViewById(R.id.btnAddFolderText);
+        btnAddToArchiveText = (TextView) findViewById(R.id.btnAddToArchiveText);
+        btnCopyText = (TextView) findViewById(R.id.btnCopyText);
+        btnCutText = (TextView) findViewById(R.id.btnCutText);
+        btnSelectAllText = (TextView) findViewById(R.id.btnSelectAllText);
+        btnDeselectAllText = (TextView) findViewById(R.id.btnDeselectAllText);
+        btnDeleteText = (TextView) findViewById(R.id.btnDeleteText);
+        btnRenameText = (TextView) findViewById(R.id.btnRenameText);
     }
     public  void init_UI_Listener(View view) {
         switch (view.getId()) {
@@ -1353,6 +1371,37 @@ public class datFM extends Activity {
         pref_show_files_discr = prefs.getBoolean("pref_show_files_discr",true);
         pref_show_panel_discr = prefs.getBoolean("pref_show_panel_discr",true);
         pref_sambalogin = prefs.getBoolean("pref_sambalogin",true);
+        pref_icons_size = prefs.getString("pref_icons_size","64");
+        pref_text_name_size = prefs.getString("pref_text_name_size","14");
+        pref_text_discr_size = prefs.getString("pref_text_discr_size","14");
+        pref_font_style = prefs.getString("pref_font_style","bold");
+        pref_font_typeface = prefs.getString("pref_font_typeface","normal");
+        pref_font_bold_folder = prefs.getBoolean("pref_font_bold_folder",false);
+        pref_small_panel = prefs.getBoolean("pref_small_panel",false);
+
+        /** Fonts **/
+        if(pref_font_style.equalsIgnoreCase("bold")){
+            font_style=Typeface.BOLD;
+        } else if(pref_font_style.equalsIgnoreCase("normal")){
+            font_style=Typeface.NORMAL;
+        } else {
+            font_style=Typeface.ITALIC;
+        }
+
+        if(pref_font_typeface.equalsIgnoreCase("normal")){
+            font_typeface=Typeface.defaultFromStyle(Typeface.NORMAL);
+        } else if(pref_font_typeface.equalsIgnoreCase("monospace")){
+            font_typeface=Typeface.MONOSPACE;
+        } else if(pref_font_typeface.equalsIgnoreCase("sans serif")){
+            font_typeface=Typeface.SANS_SERIF;
+        } else {
+            font_typeface=Typeface.SERIF;
+        }
+
+        /** Icons Size **/
+        icons_size=Integer.parseInt(pref_icons_size);
+        text_name_size=Integer.parseInt(pref_text_name_size);
+        text_discr_size=Integer.parseInt(pref_text_discr_size);
 
         /** Cache size **/
         cache_size=Integer.parseInt(pref_icons_cache);
@@ -1376,26 +1425,37 @@ public class datFM extends Activity {
 
         /** Text On Panel **/
         if(pref_show_text_on_panel){
-            btnShare.setText(getResources().getString(R.string.btn_share));
-            btnAddFolder.setText(getResources().getString(R.string.btn_newfolder));
-            btnAddToArchive.setText(getResources().getString(R.string.btn_addtoarchive));
-            btnCopy.setText(getResources().getString(R.string.btn_copy));
-            btnCut.setText(getResources().getString(R.string.btn_move));
-            btnSelectAll.setText(getResources().getString(R.string.btn_selectall));
-            btnDeselectAll.setText(getResources().getString(R.string.btn_deselectall));
-            btnDelete.setText(getResources().getString(R.string.btn_delete));
-            btnRename.setText(getResources().getString(R.string.btn_rename));
+            btnShareText.setText(getResources().getString(R.string.btn_share));
+            btnAddFolderText.setText(getResources().getString(R.string.btn_newfolder));
+            btnAddToArchiveText.setText(getResources().getString(R.string.btn_addtoarchive));
+            btnCopyText.setText(getResources().getString(R.string.btn_copy));
+            btnCutText.setText(getResources().getString(R.string.btn_move));
+            btnSelectAllText.setText(getResources().getString(R.string.btn_selectall));
+            btnDeselectAllText.setText(getResources().getString(R.string.btn_deselectall));
+            btnDeleteText.setText(getResources().getString(R.string.btn_delete));
+            btnRenameText.setText(getResources().getString(R.string.btn_rename));
         } else {
-            btnShare.setText("");
-            btnAddFolder.setText("");
-            btnAddToArchive.setText("");
-            btnCopy.setText("");
-            btnCut.setText("");
-            btnSelectAll.setText("");
-            btnDeselectAll.setText("");
-            btnDelete.setText("");
-            btnRename.setText("");
+            btnShareText.setText("");
+            btnAddFolderText.setText("");
+            btnAddToArchiveText.setText("");
+            btnCopyText.setText("");
+            btnCutText.setText("");
+            btnSelectAllText.setText("");
+            btnDeselectAllText.setText("");
+            btnDeleteText.setText("");
+            btnRenameText.setText("");
         }
+
+        /** TextColor Theme **/
+        btnShareText.setTextColor(Color.WHITE);
+        btnAddFolderText.setTextColor(Color.WHITE);
+        btnAddToArchiveText.setTextColor(Color.WHITE);
+        btnCopyText.setTextColor(Color.WHITE);
+        btnCutText.setTextColor(Color.WHITE);
+        btnSelectAllText.setTextColor(Color.WHITE);
+        btnDeselectAllText.setTextColor(Color.WHITE);
+        btnDeleteText.setTextColor(Color.WHITE);
+        btnRenameText.setTextColor(Color.WHITE);
 
         /** Nav Bar Show **/
         if(!pref_show_navbar){
@@ -1405,6 +1465,24 @@ public class datFM extends Activity {
             layoutPathPanelLeft.setVisibility(View.VISIBLE);
             layoutPathPanelRight.setVisibility(View.VISIBLE);
         }
+
+        /** Small panel **/
+        if(pref_small_panel){
+            int in_dp = 48;
+            final float scale_px = getResources().getDisplayMetrics().density;
+            int in_px = (int) (in_dp * scale_px + 0.5f);
+            layoutPathPanelLeft.getLayoutParams().height = in_px;
+            layoutPathPanelRight.getLayoutParams().height = in_px;
+            layoutButtonPanel.getLayoutParams().height = in_px;
+        } else {
+            int in_dp = 60;
+            final float scale_px = getResources().getDisplayMetrics().density;
+            int in_px = (int) (in_dp * scale_px + 0.5f);
+            layoutPathPanelLeft.getLayoutParams().height = in_px;
+            layoutPathPanelRight.getLayoutParams().height = in_px;
+            layoutButtonPanel.getLayoutParams().height = in_px;
+        }
+        //*/
 
         /** Panel Descriptions **/
         if(!pref_show_panel_discr){
@@ -1448,18 +1526,27 @@ public class datFM extends Activity {
             int size_in_px = (int) (size_in_dp * scale + 0.5f);
             //
             pref_btn_text_size(size_in_px);
+        } else {
+            int size_in_dp=12;
+            if(pref_small_panel){size_in_dp = 9;}
+            final float scale = getResources().getDisplayMetrics().density;
+            int size_in_px = (int) (size_in_dp * scale + 0.5f);
+            //
+            pref_btn_text_size(size_in_px);
         }
     }
     private void pref_btn_text_size(int size){
-        btnShare.setTextSize(size);
-        btnAddFolder.setTextSize(size);
-        btnAddToArchive.setTextSize(size);
-        btnCopy.setTextSize(size);
-        btnCut.setTextSize(size);
-        btnSelectAll.setTextSize(size);
-        btnDeselectAll.setTextSize(size);
-        btnDelete.setTextSize(size);
-        btnRename.setTextSize(size);
+        btnShareText.setTextSize(size);
+        btnAddFolderText.setTextSize(size);
+        btnAddToArchiveText.setTextSize(size);
+        btnCopyText.setTextSize(size);
+        btnCutText.setTextSize(size);
+        btnSelectAllText.setTextSize(size);
+        btnDeselectAllText.setTextSize(size);
+        btnDeleteText.setTextSize(size);
+        btnRenameText.setTextSize(size);
+        textCurrentPathLeft.setTextSize(size+2);
+        textCurrentPathRight.setTextSize(size+2);
     }
 
     private void firstAlertShow(){

@@ -81,7 +81,7 @@
     <string name="settings_elements_summary_savepath">Przywróć ścieżkę przy starcie</string>
     <string name="settings_elements_summary_focusondir">Zapamietaj aktualny katalog przy przechodzeniu wyżej</string>
     <string name="settings_elements_summary_kamikaze">Nie pytaj, uruchom</string>
-    <string name="settings_elements_summary_root">Uzyj przywileji roota</string>
+    <string name="settings_elements_summary_root">Uzyj przywilejów roota</string>
 
     <!-- Files List Items -->
     <string name="fileslist_parent_directory">Katalog główny</string>
