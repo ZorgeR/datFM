@@ -12,7 +12,6 @@ import jcifs.UniAddress;
 import jcifs.smb.NtlmPasswordAuthentication;
 import jcifs.smb.SmbFile;
 import jcifs.smb.SmbSession;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -25,11 +24,11 @@ import java.util.List;
 public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_FileInformation>> {
 
     List<datFM_FileInformation> dir_info,fls_info;
-    ProgressDialog dialog_operation_smb;
+    ProgressDialog dialog_operation_remote;
     String path,protocol;
     int panel_ID;
-    boolean fetch_err;
-    String user, pass, url, domain;
+    String user, pass, url, hostname, domain;
+    boolean fetch_err=false;
     boolean success_auth=true;
     NtlmPasswordAuthentication auth;
 
@@ -38,11 +37,11 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
 
     protected void onPreExecute() {
         if(!datFM.protocols[datFM.curPanel].equals("local")){
-            dialog_operation_smb = new ProgressDialog(datFM.datf_context);
-            dialog_operation_smb.setTitle(datFM.protocols[datFM.curPanel]);
-            dialog_operation_smb.setMessage("Please wait...");
-            dialog_operation_smb.setIndeterminate(false);
-            dialog_operation_smb.show();}
+            dialog_operation_remote = new ProgressDialog(datFM.datf_context);
+            dialog_operation_remote.setTitle(datFM.protocols[datFM.curPanel]);
+            dialog_operation_remote.setMessage("Please wait...");
+            dialog_operation_remote.setIndeterminate(false);
+            dialog_operation_remote.show();}
         super.onPreExecute();
     }
 
@@ -79,15 +78,16 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
 
     protected void onPostExecute(List<datFM_FileInformation> result) {
         super.onPostExecute(result);
-        if(!datFM.protocols[panel_ID].equals("local")){
-            dialog_operation_smb.dismiss();
+        if(!datFM.protocols[panel_ID].equals("local") && dialog_operation_remote !=null){
+            dialog_operation_remote.dismiss();
         }
         //if(fetch_err){datFM.notify_toast("Listing error!");}
 
         if(!success_auth || fetch_err){
             if(!success_auth){datFM.notify_toast("Logon error!");}
             if(fetch_err){datFM.notify_toast("Connection error.");}
-            logonScreenSMB();
+            if(datFM.pref_sambalogin){
+            logonScreenSMB();}
         } else {
             datFM.datFM_state.fill_panel(dir_info, fls_info, panel_ID);
         }
@@ -99,26 +99,25 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
         url = path;datFM.url=url;
         user = datFM.user;
         pass = datFM.pass;
-        auth = new NtlmPasswordAuthentication(datFM.domain, user, pass);
+        domain = datFM.domain;
+
+        auth = new NtlmPasswordAuthentication(domain, user, pass);
 
         // ------ CHECK SMB AUTH ------------ //
         if(datFM.pref_sambalogin){
-
-        domain=url.replace("smb://","");
-        if(domain.indexOf("/")!=-1)domain=domain.substring(0, domain.indexOf("/"));
-
-        UniAddress uniaddress = null;
-        try {
-            if(domain!=""){uniaddress = UniAddress.getByName(domain);}
-        } catch (Exception e) {success_auth=false;}
-        try {
-            if(domain!=""){SmbSession.logon(uniaddress, auth);}
-        } catch (Exception e) {success_auth=false;}
-        } else {
-            success_auth=true;
+            hostname =url.replace("smb://","");
+            if(hostname.contains("/")){
+                hostname = hostname.substring(0, hostname.indexOf("/"));}
+            UniAddress uniaddress = null;
+            try {
+                    if(!hostname.equals("")){uniaddress = UniAddress.getByName(hostname);}
+                } catch (Exception e) {success_auth=false;}
+            try {
+                    if(!hostname.equals("")){SmbSession.logon(uniaddress, auth);}
+                } catch (Exception e) {success_auth=false;}
         }
         //---------START SMB WORKS-------------------------
-        if(success_auth || url.equals("smb://")){
+        //if(success_auth || url.equals("smb://")){
             SmbFile dir = null;
             try {
                 dir = new SmbFile(url, auth);
@@ -149,16 +148,20 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
                             fls_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),ff.length(),"smb","file","size: "+size+" MiB",ff.getParent()));
                         }
                     }
-                }catch(Exception e) {}
+                } catch (Exception e) {
+                    //fetch_err=true;
+                }
             }
 
             Collections.sort(dir_info);
             Collections.sort(fls_info);
 
             dir_info.addAll(fls_info);
+            if(dir_info.size()>0){success_auth=true;}
+            //if(dir_info.size()==0){fetch_err=true;}
             //} else {
             //logonScreenSMB();
-        }
+        //}
     }
     private void fetch_local(){
         File dir = new File (path);
@@ -220,6 +223,7 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
                         datFM.domain = domains.getText().toString();
                         datFM.user = names.getText().toString();
                         datFM.pass = passs.getText().toString();
+                        datFM.curPanel = Integer.parseInt(datFM.id);
                         new datFM_Protocol_Fetch(datFM.datFM_state).execute(datFM.url, datFM.protocol, datFM.id);
                         fetch_smb();
                     }

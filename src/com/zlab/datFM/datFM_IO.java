@@ -1,6 +1,7 @@
 package com.zlab.datFM;
 
 import android.util.Log;
+import android.widget.Toast;
 import jcifs.smb.*;
 import java.io.*;
 import java.net.MalformedURLException;
@@ -91,18 +92,17 @@ public class datFM_IO {
 
     /** COPY **/
     public boolean copy(String dest) throws IOException {
-        boolean success;
         checkProtocol();
 
         if(local){
-            success=copy_recursively_local(getFileLocal(),dest);
+            copy_recursively_local(getFileLocal(),dest);
         } else if (smb){
-            success=copy_recursively_smb(getFileSmb(),dest);
+            copy_recursively_smb(getFileSmb(),dest);
         } else {
-            success=false;
+            return false;
         }
 
-        return success;
+        return file_exist(dest);
     }
     public boolean copy_recursively_smb(SmbFile file,String dest) throws IOException {
         if (file.isDirectory()) {
@@ -114,8 +114,8 @@ public class datFM_IO {
             try {
                 IO_Stream_Worker(file.getPath(), dest);
             } catch (Exception e){}
-        };
-        return new SmbFile(dest).exists();
+        }
+        return file_exist(dest);
     }
     public boolean copy_recursively_local(File file,String dest) throws IOException {
         if (file.isDirectory()) {
@@ -127,8 +127,8 @@ public class datFM_IO {
             try {
                 IO_Stream_Worker(file.getPath(), dest);
             } catch (Exception e){}
-        };
-        return new File(dest).exists();
+        }
+        return file_exist(dest);
     }
 
     /** RENAME **/
@@ -172,13 +172,32 @@ public class datFM_IO {
         }
         return success;
     }
+
+    /** EXIST **/
     public boolean dir_exist(){
         boolean success;
         checkProtocol();
+
         if(local){
             success= getFileLocal().exists();
         } else if (smb){
             try {success=getFileSmb().exists();
+            } catch (Exception e) {success=false;}
+        } else {
+            success=false;
+        }
+        return success;
+    }
+    public boolean file_exist(String file){
+        boolean success;
+        boolean smb_ = file.startsWith("smb://");
+        boolean local_ = file.startsWith("/");
+
+        if(local_){
+            success=new datFM_IO(file).getFileLocal().exists();
+        } else if (smb_){
+            try {
+                success=new datFM_IO(file).getFileSmb().exists();
             } catch (Exception e) {success=false;}
         } else {
             success=false;

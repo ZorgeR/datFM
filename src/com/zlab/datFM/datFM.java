@@ -221,10 +221,10 @@ public class datFM extends Activity {
             case R.id.mainmenu_samba:{
                 if(curPanel==0){
                     textCurrentPathLeft.setText("smb://");
-                    textCurrentPathLeft.findFocus();
+                    textCurrentPathLeft.requestFocus();
                 } else {
                     textCurrentPathRight.setText("smb://");
-                    textCurrentPathRight.findFocus();
+                    textCurrentPathRight.requestFocus();
                 }
                 return true;}
             default:
@@ -1126,6 +1126,8 @@ public class datFM extends Activity {
                     prevName = new datFM_IO(curentLeftDir).getName();
                     if(!curentLeftDir.equals("/") && curentLeftDir!=null){
                         fill_new(parent_left, 0);}
+                } else {
+                    notify_toast("Deselect all item, before change directory.");
                 }
                 break;}
             case R.id.btnUPright:{
@@ -1147,19 +1149,26 @@ public class datFM extends Activity {
                         }
                     }
                 */
+                } else {
+                    notify_toast("Deselect all item, before change directory.");
                 }
                 break;}
             case R.id.btnGOleft:{
                 if (selLeft==0){
                     curPanel=0; competPanel=1;
                     String path = textCurrentPathLeft.getText().toString();
-                    fill_new(path, 0);}
+                    fill_new(path, 0);} else {
+                    notify_toast("Deselect all item, before change directory.");
+                }
                 EditText_unfocused();
                 break;}
             case R.id.btnGOright:{
+                if (selRight==0){
                 curPanel=1; competPanel=0;
                 String path = textCurrentPathRight.getText().toString();
-                fill_new(path, 1);
+                fill_new(path, 1);} else {
+                    notify_toast("Deselect all item, before change directory.");
+                }
                 EditText_unfocused();
                 break;}
             case R.id.btnSelectAll: {
