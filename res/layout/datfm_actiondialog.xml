@@ -6,13 +6,15 @@
             android:layout_height="wrap_content"
             android:text="New Text"
             android:id="@+id/textDialogFrom" android:layout_alignParentLeft="true" android:layout_marginLeft="26dp"
-            android:layout_alignParentTop="true" android:layout_marginTop="23dp"/>
+            android:layout_alignParentTop="true" android:layout_marginTop="23dp"
+            />
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
             android:id="@+id/textDialogTo"
-            android:layout_alignLeft="@+id/textDialogFrom" android:layout_below="@+id/textDialogFrom"/>
+            android:layout_alignLeft="@+id/textDialogFrom" android:layout_below="@+id/textDialogFrom"
+            />
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -73,6 +73,7 @@
     <string name="settings_elements_title_sambalogin">Samba logging</string>
     <string name="settings_elements_title_kamikaze">Kamikaze mode</string>
     <string name="settings_elements_title_root">root</string>
+    <string name="settings_elements_title_show_hide">Show hidden files and folders</string>
     <!-- Settings Elements Summary -->
     <string name="settings_elements_summary_cp">Show always</string>
     <string name="settings_elements_summary_appicons">Get application icons from APK</string>
@@ -99,6 +100,7 @@
     <string name="settings_elements_summary_sambalogin">Support logging for Samba</string>
     <string name="settings_elements_summary_kamikaze">Not ask anything, just execute</string>
     <string name="settings_elements_summary_root">Use root privilege</string>
+    <string name="settings_elements_summary_show_hide">Show hidden elements for local or remote storage</string>
 
     <!-- Files List Items -->
     <string name="fileslist_parent_directory">Parent Directory</string>

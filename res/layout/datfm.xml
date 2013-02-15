@@ -20,8 +20,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/layoutPathPannelLeft"
-                    android:layout_marginLeft="-5dp" android:layout_marginTop="-5dp" android:layout_marginRight="-5dp"
-                    android:layout_marginBottom="-10dp" android:background="@android:drawable/dialog_holo_light_frame">
+                    android:layout_marginLeft="-5dp"
+                    android:layout_marginTop="-5dp"
+                    android:layout_marginRight="-5dp"
+                    android:layout_marginBottom="-10dp"
+                    android:background="@drawable/dialog_full_holo_light">
                 <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -84,7 +87,7 @@
                 android:layout_height="match_parent" android:layout_weight="0.5">
             <LinearLayout android:orientation="horizontal" android:layout_width="match_parent"
                           android:layout_height="wrap_content" android:id="@+id/layoutPathPannelRight"
-                          android:background="@android:drawable/dialog_holo_light_frame"
+                          android:background="@drawable/dialog_full_holo_light"
                           android:layout_marginLeft="-5dp" android:layout_marginTop="-5dp"
                           android:layout_marginRight="-5dp" android:layout_marginBottom="-10dp">
                 <LinearLayout
@@ -144,17 +147,22 @@
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/layoutButtonPanel" android:visibility="visible"
-            android:background="@android:drawable/dialog_holo_dark_frame"
-            android:baselineAligned="false" android:layout_marginTop="-10dp" android:layout_marginBottom="-5dp"
-            android:layout_marginLeft="-5dp" android:layout_marginRight="-5dp">
+            android:layout_height="wrap_content"
+            android:id="@+id/layoutButtonPanel"
+            android:visibility="visible"
+            android:baselineAligned="false"
+            android:layout_marginTop="-10dp"
+            android:layout_marginBottom="-5dp"
+            android:layout_marginLeft="-5dp"
+            android:layout_marginRight="-5dp"
+            android:background="@drawable/dialog_full_holo_dark" >
         <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:onClick="init_UI_Listener"
                 android:layout_weight="1" android:id="@+id/btnShare"
-                style="@android:style/Widget.DeviceDefault.Button">
+                style="@style/PanButton">
             <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -164,13 +172,13 @@
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/btnShareText" android:singleLine="true"
-                    android:gravity="center" android:text="@string/btn_share"/>
+                    android:gravity="center" android:text="@string/btn_share" android:textColor="#ffffff"/>
         </LinearLayout>
         <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                style="@android:style/Widget.DeviceDefault.Button" android:onClick="init_UI_Listener"
+                style="@style/PanButton" android:onClick="init_UI_Listener"
                 android:layout_weight="1" android:id="@+id/btnAddFolder">
             <ImageView
                     android:layout_width="wrap_content"
@@ -181,13 +189,13 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:id="@+id/btnAddFolderText" android:singleLine="true" android:gravity="center"
-                    android:text="@string/btn_newfolder"/>
+                    android:text="@string/btn_newfolder" android:textColor="#ffffff"/>
         </LinearLayout>
         <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                style="@android:style/Widget.DeviceDefault.Button" android:onClick="init_UI_Listener"
+                style="@style/PanButton" android:onClick="init_UI_Listener"
                 android:layout_weight="1" android:id="@+id/btnAddToArchive">
             <ImageView
                     android:layout_width="wrap_content"
@@ -198,13 +206,13 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:id="@+id/btnAddToArchiveText" android:singleLine="true" android:gravity="center"
-                    android:text="@string/btn_addtoarchive"/>
+                    android:text="@string/btn_addtoarchive" android:textColor="#ffffff"/>
         </LinearLayout>
         <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                style="@android:style/Widget.DeviceDefault.Button" android:onClick="init_UI_Listener"
+                style="@style/PanButton" android:onClick="init_UI_Listener"
                 android:layout_weight="1" android:id="@+id/btnCopy">
             <ImageView
                     android:layout_width="wrap_content"
@@ -215,13 +223,13 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:id="@+id/btnCopyText" android:singleLine="true" android:gravity="center"
-                    android:text="@string/btn_copy"/>
+                    android:text="@string/btn_copy" android:textColor="#ffffff"/>
         </LinearLayout>
         <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                style="@android:style/Widget.DeviceDefault.Button" android:onClick="init_UI_Listener"
+                style="@style/PanButton" android:onClick="init_UI_Listener"
                 android:layout_weight="1" android:id="@+id/btnCut">
             <ImageView
                     android:layout_width="wrap_content"
@@ -232,13 +240,13 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:id="@+id/btnCutText" android:singleLine="true" android:gravity="center"
-                    android:text="@string/btn_move"/>
+                    android:text="@string/btn_move" android:textColor="#ffffff"/>
         </LinearLayout>
         <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                style="@android:style/Widget.DeviceDefault.Button" android:onClick="init_UI_Listener"
+                style="@style/PanButton" android:onClick="init_UI_Listener"
                 android:layout_weight="1" android:id="@+id/btnRename">
             <ImageView
                     android:layout_width="wrap_content"
@@ -249,13 +257,13 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:id="@+id/btnRenameText" android:singleLine="true" android:gravity="center"
-                    android:text="@string/btn_rename"/>
+                    android:text="@string/btn_rename" android:textColor="#ffffff"/>
         </LinearLayout>
         <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                style="@android:style/Widget.DeviceDefault.Button" android:onClick="init_UI_Listener"
+                style="@style/PanButton" android:onClick="init_UI_Listener"
                 android:layout_weight="1" android:id="@+id/btnSelectAll">
             <ImageView
                     android:layout_width="wrap_content"
@@ -266,13 +274,13 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:id="@+id/btnSelectAllText" android:singleLine="true" android:gravity="center"
-                    android:text="@string/btn_selectall"/>
+                    android:text="@string/btn_selectall" android:textColor="#ffffff"/>
         </LinearLayout>
         <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                style="@android:style/Widget.DeviceDefault.Button" android:onClick="init_UI_Listener"
+                style="@style/PanButton" android:onClick="init_UI_Listener"
                 android:layout_weight="1" android:id="@+id/btnDeselectAll">
             <ImageView
                     android:layout_width="wrap_content"
@@ -283,13 +291,13 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:id="@+id/btnDeselectAllText" android:singleLine="true" android:gravity="center"
-                    android:text="@string/btn_deselectall"/>
+                    android:text="@string/btn_deselectall" android:textColor="#ffffff"/>
         </LinearLayout>
         <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                style="@android:style/Widget.DeviceDefault.Button" android:onClick="init_UI_Listener"
+                style="@style/PanButton" android:onClick="init_UI_Listener"
                 android:layout_weight="1" android:id="@+id/btnDelete">
             <ImageView
                     android:layout_width="wrap_content"
@@ -300,7 +308,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:id="@+id/btnDeleteText" android:singleLine="true" android:gravity="center"
-                    android:text="@string/btn_delete"/>
+                    android:text="@string/btn_delete" android:textColor="#ffffff"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

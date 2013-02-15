@@ -174,7 +174,7 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
         }
 
         if(!ic_finded){
-                if(!datFM.scroll && datFM.protocols[datFM.curPanel].equals("local")){
+                if(!datFM.scroll/* && datFM.protocols[datFM.curPanel].equals("local")*/){
                     if (ext.equalsIgnoreCase("apk") &&
                                datFM.pref_show_apk){
                         icon_getter_apk(path);
@@ -190,7 +190,8 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
 
                     if ((ext.equalsIgnoreCase("mkv") ||
                             ext.equalsIgnoreCase("mp4") ||
-                            ext.equalsIgnoreCase("3gp"))&&
+                            ext.equalsIgnoreCase("3gp") ||
+                            ext.equalsIgnoreCase("avi")) &&
                             datFM.pref_show_video){
                         icon_getter_video(path);
                     }

@@ -73,6 +73,7 @@
     <string name="settings_elements_title_sambalogin">Авторизация в Samba</string>
     <string name="settings_elements_title_kamikaze">Режим Камикадзе</string>
     <string name="settings_elements_title_root">root</string>
+    <string name="settings_elements_title_show_hide">Показывать скрытые элементы</string>
     <!-- Settings Elements Summary -->
     <string name="settings_elements_summary_cp">Показывать всегда</string>
     <string name="settings_elements_summary_appicons">Показывать иконку приложения для APK</string>
@@ -99,6 +100,7 @@
     <string name="settings_elements_summary_sambalogin">Поддержка авторизации для Samba</string>
     <string name="settings_elements_summary_kamikaze">Ничего не спрашивать, просто делать свою работу</string>
     <string name="settings_elements_summary_root">Использовать root привилегии</string>
+    <string name="settings_elements_summary_show_hide">Показывать скрытые элементы в локальных и удаленных каталогах</string>
 
     <!-- Files List Items -->
     <string name="fileslist_parent_directory">Родительский каталог</string>

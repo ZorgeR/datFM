@@ -17,6 +17,7 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
@@ -70,7 +71,7 @@ public class datFM extends Activity {
             pref_kamikaze,pref_show_text_on_panel,pref_show_navbar,
             pref_show_panel_discr,pref_small_panel;
     static boolean pref_show_apk,pref_show_video,pref_show_photo,
-            pref_show_folder_discr,pref_show_files_discr,pref_root,pref_sambalogin,pref_font_bold_folder;
+            pref_show_folder_discr,pref_show_files_discr,pref_root,pref_sambalogin,pref_font_bold_folder,pref_show_hide;
     boolean firstAlert;
     boolean settings_opened = false;
     String pref_icons_cache,pref_icons_size,pref_text_name_size,pref_text_discr_size,pref_font_style,pref_font_typeface;
@@ -108,6 +109,9 @@ public class datFM extends Activity {
         pref_getter();
         pref_setter();
 
+        /** OLD API **/
+        old_api_fixes();
+
         /** Инициализация каталогов **/
         fill_new(curentLeftDir, 0);
         fill_new(curentRightDir, 1);
@@ -143,6 +147,7 @@ public class datFM extends Activity {
         // setContentView(R.layout.activity_main_screen);
         // Checks the orientation of the screen
 
+        /* TODO ui_change_on_action(); Сделать проброс newConfig */
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             int size_in_dp=12;
             if(pref_small_panel){size_in_dp = 9;}
@@ -182,6 +187,7 @@ public class datFM extends Activity {
                 action_dialog.setTitle("About");
                 LayoutInflater inflater = getLayoutInflater();
                 View layer = inflater.inflate(R.layout.datfm_about,null);
+                if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
                 action_dialog.setView(layer);
                 AlertDialog AboutDialog = action_dialog.create();
                 AboutDialog.show();
@@ -246,6 +252,7 @@ public class datFM extends Activity {
 
     private ArrayList<Uri> root_build_content(File dir){
         ArrayList<Uri> uri_list = new ArrayList<Uri>();
+        try{
         if (dir.isDirectory()) {
             for (File child : dir.listFiles()) {
                 uri_list.addAll(root_build_content(child));
@@ -253,6 +260,10 @@ public class datFM extends Activity {
         } else {
             uri_list.add(Uri.fromFile(dir));
         }
+        } catch (Exception e){
+            Log.e("ERR:","Listing Error");
+        }
+
         return uri_list;
     }
 
@@ -416,11 +427,13 @@ public class datFM extends Activity {
 
             if (sel==0){
                 itemsSelected.setVisibility(View.GONE);
-                textPanel.setVisibility(View.VISIBLE);
+                if(pref_show_panel_discr){
+                    textPanel.setVisibility(View.VISIBLE);}
             } else {
                 itemsSelected.setText("Selected: "+sel);
                 itemsSelected.setVisibility(View.VISIBLE);
-                textPanel.setVisibility(View.GONE);
+                if(pref_show_panel_discr){
+                    textPanel.setVisibility(View.GONE);}
             }
 
             if (curPanel ==0){
@@ -462,16 +475,7 @@ public class datFM extends Activity {
             }
         }
 
-        if (curPanel ==0 && selLeft==0){
-            btnShare.setEnabled(false);
-            btnCopy.setEnabled(false);
-            btnCut.setEnabled(false);
-            btnDelete.setEnabled(false);
-            btnDeselectAll.setEnabled(false);
-            btnRename.setEnabled(false);
-            btnAddFolder.setVisibility(View.VISIBLE);
-            btnAddToArchive.setVisibility(View.GONE);
-        } else if (curPanel ==1 && selRight==0){
+        if (sel==0){
             btnShare.setEnabled(false);
             btnCopy.setEnabled(false);
             btnCut.setEnabled(false);
@@ -583,6 +587,7 @@ public class datFM extends Activity {
             action_dialog.setTitle(title);
             LayoutInflater inflater = getLayoutInflater();
             View layer = inflater.inflate(R.layout.datfm_actiondialog,null);
+            if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
 
             TextView textDialogCount = (TextView) layer.findViewById(R.id.textDialogCount);
             TextView textDialogFrom = (TextView) layer.findViewById(R.id.textDialogFrom);
@@ -639,6 +644,8 @@ public class datFM extends Activity {
         newFolderDialog.setTitle(getResources().getString(R.string.ui_dialog_title_newfolder));
         LayoutInflater inflater = getLayoutInflater();
         View layer = inflater.inflate(R.layout.datfm_newfolder,null);
+        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+
         final EditText textNewFolderName = (EditText) layer.findViewById(R.id.textNewFolderName);
         textNewFolderName.setHint(getResources().getString(R.string.ui_dialog_hint_newfolder));
         newFolderDialog.setView(layer);
@@ -689,6 +696,8 @@ public class datFM extends Activity {
         newFolderDialog.setTitle(getResources().getString(R.string.ui_dialog_title_rename));
         LayoutInflater inflater = getLayoutInflater();
         View layer = inflater.inflate(R.layout.datfm_newfolder,null);
+        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+
         final EditText textNewFolderName = (EditText) layer.findViewById(R.id.textNewFolderName);
         textNewFolderName.setHint(getResources().getString(R.string.ui_dialog_hint_rename));
         newFolderDialog.setView(layer);
@@ -872,6 +881,8 @@ public class datFM extends Activity {
         NewArchiveDialog.setTitle(getResources().getString(R.string.ui_dialog_title_archive));
         LayoutInflater inflater = getLayoutInflater();
         View layer = inflater.inflate(R.layout.datfm_newarchive,null);
+        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+
         final EditText textNewArchiveName = (EditText) layer.findViewById(R.id.textNewArchiveName);
         final Spinner spinArchType = (Spinner) layer.findViewById(R.id.archiveType);
         final Spinner spinArchLevel = (Spinner) layer.findViewById(R.id.archiveLevel);
@@ -1013,6 +1024,7 @@ public class datFM extends Activity {
         NewArchiveDialog.setTitle(getResources().getString(R.string.ui_dialog_title_archive_extract));
         LayoutInflater inflater = getLayoutInflater();
         View layer = inflater.inflate(R.layout.datfm_newfolder,null);
+        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
 
         final EditText arcExtractPath = (EditText) layer.findViewById(R.id.textNewFolderName);
 
@@ -1343,7 +1355,6 @@ public class datFM extends Activity {
                 return true;
             }
         });
-
     }
 
     private void EditText_unfocused(){
@@ -1386,17 +1397,18 @@ public class datFM extends Activity {
         pref_sambalogin = prefs.getBoolean("pref_sambalogin",true);
         pref_icons_size = prefs.getString("pref_icons_size","64");
         pref_text_name_size = prefs.getString("pref_text_name_size","14");
-        pref_text_discr_size = prefs.getString("pref_text_discr_size","14");
-        pref_font_style = prefs.getString("pref_font_style","bold");
+        pref_text_discr_size = prefs.getString("pref_text_discr_size","12");
+        pref_font_style = prefs.getString("pref_font_style","normal");
         pref_font_typeface = prefs.getString("pref_font_typeface","normal");
         pref_font_bold_folder = prefs.getBoolean("pref_font_bold_folder",false);
         pref_small_panel = prefs.getBoolean("pref_small_panel",false);
+        pref_show_hide = prefs.getBoolean("pref_show_hide",false);
 
         /** Fonts **/
-        if(pref_font_style.equalsIgnoreCase("bold")){
-            font_style=Typeface.BOLD;
-        } else if(pref_font_style.equalsIgnoreCase("normal")){
+        if(pref_font_style.equalsIgnoreCase("normal")){
             font_style=Typeface.NORMAL;
+        } else if(pref_font_style.equalsIgnoreCase("bold")){
+            font_style=Typeface.BOLD;
         } else {
             font_style=Typeface.ITALIC;
         }
@@ -1459,7 +1471,7 @@ public class datFM extends Activity {
             btnRenameText.setVisibility(View.GONE);
         }
 
-        /** TextColor Theme **/
+        /** TextColor Theme **
         btnShareText.setTextColor(Color.WHITE);
         btnAddFolderText.setTextColor(Color.WHITE);
         btnAddToArchiveText.setTextColor(Color.WHITE);
@@ -1469,6 +1481,7 @@ public class datFM extends Activity {
         btnDeselectAllText.setTextColor(Color.WHITE);
         btnDeleteText.setTextColor(Color.WHITE);
         btnRenameText.setTextColor(Color.WHITE);
+        /** **/
 
         /** Nav Bar Show **/
         if(!pref_show_navbar){
@@ -1516,12 +1529,9 @@ public class datFM extends Activity {
         } else {
             layoutButtonPanel.setVisibility(View.VISIBLE);
         }
-        /** FIX OLD API LEVEL UI **/
-        if (currentApiVersion <= Build.VERSION_CODES.HONEYCOMB){
-            layoutButtonPanel.setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_full_holo_dark));
-            layoutPathPanelLeft.setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_full_holo_light));
-            layoutPathPanelRight.setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_full_holo_light));
-        }// else{}
+
+        /** Смена элементов интерфейса **/
+        ui_change_on_action();
 
         /** Root **/
         if (pref_root){
@@ -1539,6 +1549,10 @@ public class datFM extends Activity {
          //
          pref_btn_text_size(size_in_px);
          } else*/
+
+    }
+
+    private void ui_change_on_action(){
         if (getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
             int size_in_dp = 8;
             final float scale = getResources().getDisplayMetrics().density;
@@ -1553,6 +1567,25 @@ public class datFM extends Activity {
             //
             pref_btn_text_size(size_in_px);
         }
+    }
+    private void old_api_fixes(){
+        /** FIX OLD API LEVEL UI **/
+        if (currentApiVersion < Build.VERSION_CODES.HONEYCOMB){
+            //layoutButtonPanel.setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_full_holo_dark));
+            listRight.setCacheColorHint(Color.TRANSPARENT);
+            listLeft.setCacheColorHint(Color.TRANSPARENT);
+
+            btnShareText.setTextColor(Color.BLACK);
+            btnAddFolderText.setTextColor(Color.BLACK);
+            btnAddToArchiveText.setTextColor(Color.BLACK);
+            btnCopyText.setTextColor(Color.BLACK);
+            btnCutText.setTextColor(Color.BLACK);
+            btnSelectAllText.setTextColor(Color.BLACK);
+            btnDeselectAllText.setTextColor(Color.BLACK);
+            btnDeleteText.setTextColor(Color.BLACK);
+            btnRenameText.setTextColor(Color.BLACK);
+        }// else{}
+        // android:background="@android:drawable/dialog_holo_dark_frame"
     }
     private void pref_btn_text_size(int size){
         btnShareText.setTextSize(size);
@@ -1573,6 +1606,8 @@ public class datFM extends Activity {
         action_dialog.setTitle("Alert");
         LayoutInflater inflater = getLayoutInflater();
         View layer = inflater.inflate(R.layout.datfm_firstalert,null);
+
+        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
 
         action_dialog.setView(layer);
         action_dialog.setPositiveButton(getResources().getString(R.string.ui_dialog_btn_ok),

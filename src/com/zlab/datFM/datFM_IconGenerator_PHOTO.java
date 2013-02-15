@@ -42,13 +42,12 @@ protected void onPreExecute() {
                     //imageBitmap = BitmapFactory.decodeStream(new datFM_IO(filePath).getInput(), null, options);
                     //imageBitmap = Bitmap.createScaledBitmap(imageBitmap, THUMBNAIL_SIZE, THUMBNAIL_SIZE, false);
 
-
                     icon = new BitmapDrawable(imageBitmap);
                     //if (prop_icon_file==null){prop_icon_file=activity.getContext().getResources().getDrawable(R.drawable.ext_pdf);}
                     datFM.cache_icons[id]=icon;
                 }
                 catch(Exception ex) {
-                    icon=activity.getContext().getResources().getDrawable(R.drawable.ext_pdf);
+                    icon=activity.getContext().getResources().getDrawable(R.drawable.ext_unknown);
                 }
                 return icon;
             }
