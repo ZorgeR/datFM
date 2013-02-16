@@ -280,7 +280,7 @@ public class datFM extends Activity {
         } else if (smb){
             protocols[Panel_ID]="smb";
         } else {
-            Toast.makeText(datf_context,"Unknown protocol!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(datf_context,getResources().getString(R.string.notify_unknown_protocol),Toast.LENGTH_SHORT).show();
             protocol_accepted=false;
         }
 
@@ -446,7 +446,7 @@ public class datFM extends Activity {
                 if(pref_show_panel_discr){
                     textPanel.setVisibility(View.VISIBLE);}
             } else {
-                itemsSelected.setText("Selected: "+sel);
+                itemsSelected.setText(getResources().getString(R.string.fileslist_file_selected)+sel);
                 itemsSelected.setVisibility(View.VISIBLE);
                 if(pref_show_panel_discr){
                     textPanel.setVisibility(View.GONE);}
@@ -813,7 +813,7 @@ public class datFM extends Activity {
                 selectedLeft[i]=true;
             }
             selLeft=selectedLeft.length-1;
-            textItemsLeftSelected.setText("Selected: "+selLeft);
+            textItemsLeftSelected.setText(getResources().getString(R.string.fileslist_file_selected)+selLeft);
             textItemsLeftSelected.setVisibility(View.VISIBLE);
             textPanelLeft.setVisibility(View.GONE);
             adapterLeft.notifyDataSetChanged();
@@ -822,7 +822,7 @@ public class datFM extends Activity {
                 selectedRight[i]=true;
             }
             selRight=selectedRight.length-1;
-            textItemsRightSelected.setText("Selected: "+selRight);
+            textItemsRightSelected.setText(getResources().getString(R.string.fileslist_file_selected)+selRight);
             textItemsRightSelected.setVisibility(View.VISIBLE);
             textPanelRight.setVisibility(View.GONE);
             adapterRight.notifyDataSetChanged();
@@ -996,7 +996,7 @@ public class datFM extends Activity {
 
                             if ( !ZA.isSupport() )
                             {
-                                Toast.makeText(getApplicationContext(),"ZArchiver 0.6.0 or later required!",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),getResources().getString(R.string.notify_cant_find_ZA),Toast.LENGTH_SHORT).show();
                                 return;
                             } else {
                                 if(checkArchFileToDelete.isChecked()){
@@ -1108,7 +1108,7 @@ public class datFM extends Activity {
 
                             if ( !ZA.isSupport() )
                             {
-                                Toast.makeText(datf_context,"ZArchiver 0.6.0 or later required!",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(datf_context,getResources().getString(R.string.notify_cant_find_ZA),Toast.LENGTH_SHORT).show();
                                 return;
                             } else {
                                 ZA.setOnActionComplete(new OnActionComplete() {
@@ -1187,7 +1187,7 @@ public class datFM extends Activity {
                     if(!curentLeftDir.equals("/") && curentLeftDir!=null){
                         fill_new(parent_left, 0);}
                 } else {
-                    notify_toast("Deselect all item, before change directory.");
+                    notify_toast(getResources().getString(R.string.notify_deselect_before_change_dir));
                 }
                 break;}
             case R.id.btnUPright:{
@@ -1210,7 +1210,7 @@ public class datFM extends Activity {
                     }
                 */
                 } else {
-                    notify_toast("Deselect all item, before change directory.");
+                    notify_toast(getResources().getString(R.string.notify_deselect_before_change_dir));
                 }
                 break;}
             case R.id.btnGOleft:{
@@ -1218,7 +1218,7 @@ public class datFM extends Activity {
                     curPanel=0; competPanel=1;
                     String path = textCurrentPathLeft.getText().toString();
                     fill_new(path, 0);} else {
-                    notify_toast("Deselect all item, before change directory.");
+                    notify_toast(getResources().getString(R.string.notify_deselect_before_change_dir));
                 }
                 EditText_unfocused();
                 break;}
@@ -1227,7 +1227,7 @@ public class datFM extends Activity {
                 curPanel=1; competPanel=0;
                 String path = textCurrentPathRight.getText().toString();
                 fill_new(path, 1);} else {
-                    notify_toast("Deselect all item, before change directory.");
+                    notify_toast(getResources().getString(R.string.notify_deselect_before_change_dir));
                 }
                 EditText_unfocused();
                 break;}

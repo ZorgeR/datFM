@@ -86,8 +86,8 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
         //if(fetch_err){datFM.notify_toast("Listing error!");}
 
             if(protocol.equals("smb") && (!success_auth || fetch_err)){
-                if(!success_auth){datFM.notify_toast("Logon error!");}
-                if(fetch_err){datFM.notify_toast("Connection error.");}
+                if(!success_auth){datFM.notify_toast(datFM.datFM_state.getResources().getString(R.string.notify_logon_error));}
+                if(fetch_err){datFM.notify_toast(datFM.datFM_state.getResources().getString(R.string.notify_connection_error));}
                 if(datFM.pref_sambalogin){
                     logonScreenSMB();}
             } else {
