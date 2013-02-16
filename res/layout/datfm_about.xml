@@ -13,17 +13,22 @@
             android:text="datFM - dual panel file manager for Android."
             android:id="@+id/textView"
             android:layout_centerHorizontal="true" android:layout_below="@+id/imageView" android:paddingBottom="5dp"/>
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/scrollView" android:layout_centerHorizontal="true" android:layout_below="@+id/textView"
+            >
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/about_message"
+                android:id="@+id/textView2" android:singleLine="false"/>
+    </ScrollView>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="r0.1.5b - Zlab - 2013"
             android:id="@+id/textView1"
-            android:paddingBottom="20dp"
-            android:layout_centerHorizontal="true" android:layout_below="@+id/textView2"/>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="zorg.rhrd@gmail.com"
-            android:id="@+id/textView2"
-            android:layout_centerHorizontal="true" android:layout_below="@+id/textView" android:paddingBottom="5dp"/>
+            android:paddingBottom="5dp"
+            android:layout_centerHorizontal="true" android:layout_below="@+id/scrollView"/>
 </RelativeLayout>

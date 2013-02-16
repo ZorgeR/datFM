@@ -45,7 +45,7 @@ public class datFM extends Activity {
     int selLeft=0;
     int selRight=0;
     int posLeft,posRight;
-    static String user, pass, url, domain, protocol,id;
+    static String user, pass, url, domain;
     String prevName;
     static String[] protocols=new String[2];
     static int currentApiVersion;
@@ -334,25 +334,51 @@ public class datFM extends Activity {
     protected void openContextMenu(final int pos, int id){
         if(id==listLeft.getId()){curPanel=0;}else{curPanel=1;}
         update_operation_vars();
-        String open,open_with,properties;
+        String open,open_with,unpack_archive,properties;
+
         open = getResources().getString(R.string.contextmenu_open);
         open_with = getResources().getString(R.string.contextmenu_open_with);
+        unpack_archive = getResources().getString(R.string.contextmenu_open_unpack_ZA);
         properties = getResources().getString(R.string.contextmenu_properties);
 
-        CharSequence[] items = {open, open_with, properties};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-                if(item == 0) {
-                    if(sel==0)onFileClick(adapter.getItem(pos));
-                } else if(item == 1) {
-                    if(sel==0)openFileAs(adapter.getItem(pos));
-                } else if(item == 2) {
-                    action_properties(pos);
-                }
-            }
-        });
 
+        if ( (ZA.isSupport()) &&
+             (adapter.getItem(pos).getExt().equals("zip")||
+              adapter.getItem(pos).getExt().equals("rar")||
+              adapter.getItem(pos).getExt().equals("7z") ||
+              adapter.getItem(pos).getExt().equals("tar"))){
+            CharSequence[] items = {open, open_with, unpack_archive, properties};
+            builder.setItems(items, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int item) {
+                    if(item == 0) {
+                        if(sel==0)onFileClick(adapter.getItem(pos));
+                    } else if(item == 1) {
+                        if(sel==0)openFileAs(adapter.getItem(pos));
+                    } else if(item == 2) {
+                        String path,name;
+                        path = adapter.getItem(pos).getPath();
+                        name = adapter.getItem(pos).getName().substring(0, adapter.getItem(pos).getName().lastIndexOf("."));
+                        ZA_unpack(path, name);
+                    } else if(item == 3){
+                        action_properties(pos);
+                    }
+                }
+            });
+        } else {
+            CharSequence[] items = {open, open_with, properties};
+            builder.setItems(items, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int item) {
+                    if(item == 0) {
+                        if(sel==0)onFileClick(adapter.getItem(pos));
+                    } else if(item == 1) {
+                        if(sel==0)openFileAs(adapter.getItem(pos));
+                    } else if(item == 2) {
+                        action_properties(pos);
+                    }
+                }
+            });
+        }
         AlertDialog dialog = builder.create();
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         WindowManager.LayoutParams WMLP = dialog.getWindow().getAttributes();
@@ -364,18 +390,12 @@ public class datFM extends Activity {
     }
     protected void openFile(String path,String name, String ext){
 
-        if ( (ZA.isSupport()) &&
-                (ext.equals("zip")||
-                        ext.equals("rar")||
-                        ext.equals("7z") ||
-                        ext.equals("tar"))){
-            ZA_unpack(path, name.substring(0, name.lastIndexOf(".")));
-        } else {
             Intent intent = new Intent(Intent.ACTION_VIEW);
-
             Uri uri = Uri.fromFile(new File(path));
-
             String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(uri.toString()));
+
+            if(ext.equals("7z")){mimeType="zip";}
+
             intent.setDataAndType(uri, mimeType);
 
             try {
@@ -383,14 +403,10 @@ public class datFM extends Activity {
             catch (RuntimeException i){
                 notify_toast(getResources().getString(R.string.notify_file_unknown));
             }
-        }
     }
     protected void openFileAs(datFM_FileInformation o){
-        //int dotPos = o.getName().lastIndexOf(".")+1;
-        //String ext = o.getName().substring(dotPos);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         Uri uri = Uri.fromFile(new File(o.getPath()));
-        //String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(uri.toString()));
         intent.setDataAndType(uri, "*/*");
 
         try {
@@ -532,6 +548,7 @@ public class datFM extends Activity {
             posRight = listRight.getFirstVisiblePosition();
             fill_new(curentLeftDir, 0);
             fill_new(curentRightDir, 1);
+            action_deselect_all(2);
         } else if (panel_update_ID==0){
             posLeft = listLeft.getFirstVisiblePosition();
             if (operation.equals("new_folder")){

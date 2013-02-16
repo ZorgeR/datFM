@@ -149,4 +149,7 @@
     <string name="notify_file_unknown">Неизвестный тип файла!</string>
     <string name="notify_operation_same_folder">Текущий каталог и каталог назначения совпадают!</string>
 
+    <!-- About -->
+    <string name="about_message">Иконки:\nQuartz Icon Set - Andy Gongea\n\nПереводчики:\nUK - Stigr (Motofan)\nPL - galonpzw (XDA)\nFR - nikwist (XDA)\nDE - Milestone:enotseliM (XDA)\nSK - pvdeejay (XDA), pyler(XDA)\n\nОтдельная благодарность:\nAnt-ON - за его помощь\nRamallah - за его не помощь\nИнаре - просто так!</string>
+
 </resources>
