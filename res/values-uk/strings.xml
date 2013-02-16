@@ -1,13 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">datFM</string>
     <string name="app_properties">Властивості</string>
 
-    <!--  NavBar  -->
+    <!-- NavBar -->
     <string name="navbar_up">Батьківський каталог</string>
     <string name="navbar_go">Перейти</string>
 
-    <!--  Panel  -->
+    <!-- Panel -->
     <string name="btn_share">Поділитись</string>
     <string name="btn_newfolder">Нова папка</string>
     <string name="btn_addtoarchive">Архівувати</string>
@@ -18,7 +17,7 @@
     <string name="btn_deselectall">Зняти виділення</string>
     <string name="btn_delete">Видалити</string>
 
-    <!-- Main Menu  -->
+    <!-- Main Menu -->
     <string name="mainmenu_addfolder">Нова папка</string>
     <string name="mainmenu_refresh">Оновити</string>
     <string name="mainmenu_favorite">Вибране</string>
@@ -27,7 +26,7 @@
     <string name="mainmenu_about">Про додаток</string>
     <string name="mainmenu_exit">Вихід</string>
 
-    <!-- Context Menu  -->
+    <!-- Context Menu -->
     <string name="contextmenu_title">Меню:</string>
     <string name="contextmenu_open">Відкрити</string>
     <string name="contextmenu_open_with">Відкрити за допомогою...</string>
@@ -45,6 +44,7 @@
     <string name="settings_group_view">Зовнішній вигляд</string>
     <string name="settings_group_other">Інше</string>
     <string name="settings_group_performance">Продуктивність</string>
+    <string name="settings_group_network">Мережа</string>
     <string name="settings_group_dangerous">Небезпечно</string>
     <!-- Settings Elements Title -->
     <string name="settings_elements_title_cp">Панель дій</string>
@@ -52,6 +52,13 @@
     <string name="settings_elements_title_photoicons">Мініатюри для фото</string>
     <string name="settings_elements_title_videoicons">Мініатюри для відео</string>
     <string name="settings_elements_title_icons_cache">Кеш мініатюр</string>
+    <string name="settings_elements_title_icons_size">Висота рядка</string>
+    <string name="settings_elements_title_text_name_size">Розмір шрифта для імені файлу</string>
+    <string name="settings_elements_title_text_discr_size">Розмір шрифта для опису</string>
+    <string name="settings_elements_title_text_font_style">Стиль шрифтів</string>
+    <string name="settings_elements_title_text_font_typeface">Накреслення шрифтів</string>
+    <string name="settings_elements_title_text_bold_folder">Жирний шрифт для папок</string>
+    <string name="settings_elements_title_small_panel">Маленькі панелі</string>
     <string name="settings_elements_title_cptext">Текст у панелі</string>
     <string name="settings_elements_title_navbar">Адресний рядок</string>
     <string name="settings_elements_title_folder_discription">Опис каталогів</string>
@@ -62,14 +69,23 @@
     <string name="settings_elements_title_openarcdir_window">Панель для архівної папки</string>
     <string name="settings_elements_title_savepath">Зберігати шляхи</string>
     <string name="settings_elements_title_focusondir">Фокус на папці</string>
+    <string name="settings_elements_title_sambalogin">Авторизація в Samba</string>
     <string name="settings_elements_title_kamikaze">Режим Камікадзе</string>
     <string name="settings_elements_title_root">root</string>
+    <string name="settings_elements_title_show_hide">Показувати приховані елементи</string>
     <!-- Settings Elements Summary -->
     <string name="settings_elements_summary_cp">Показувати завжди</string>
     <string name="settings_elements_summary_appicons">Показувати іконку додатка для APK</string>
     <string name="settings_elements_summary_photoicons">Відображати мініатюри для фото</string>
     <string name="settings_elements_summary_videoicons">Відображати мініатюри для відео</string>
     <string name="settings_elements_summary_icons_cache">Вибрати кількість мініатюр у кеші</string>
+    <string name="settings_elements_summary_icons_size">Виставити висоту рядка і розмір іконки</string>
+    <string name="settings_elements_summary_text_name_size">Виставити розмір шрифту для імен</string>
+    <string name="settings_elements_summary_text_discr_size">Виставити розмір шрифту для опису</string>
+    <string name="settings_elements_summary_text_font_style">Вибрати стиль для шрифтів</string>
+    <string name="settings_elements_summary_text_font_typeface">Вибрати накреслення для шрифтів</string>
+    <string name="settings_elements_summary_text_bold_folder">Завжди жирний шрифт для імен папок</string>
+    <string name="settings_elements_summary_small_panel">Використовувати маленькі панелі, для телефонів</string>
     <string name="settings_elements_summary_cptext">Показувати написи на кнопках панелі</string>
     <string name="settings_elements_summary_navbar">Показувати адресний рядок нагорі</string>
     <string name="settings_elements_summary_folder_discription">Показувати опис для каталогів</string>
@@ -80,8 +96,10 @@
     <string name="settings_elements_summary_openarcdir_window">Відкривати в поточні панелі</string>
     <string name="settings_elements_summary_savepath">Відновити шляхи панелів при старті</string>
     <string name="settings_elements_summary_focusondir">Встановити фокус на поточні папці при натисканні Вгроу</string>
+    <string name="settings_elements_summary_sambalogin">Підтримка авторизації для Samba</string>
     <string name="settings_elements_summary_kamikaze">Нічого не питати, просто робити свою роботу</string>
     <string name="settings_elements_summary_root">Використовувати root привілеї</string>
+    <string name="settings_elements_summary_show_hide">Показувати приховані елементи в локальних та віддалених каталогах</string>
 
     <!-- Files List Items -->
     <string name="fileslist_parent_directory">Батьківський каталог</string>
@@ -129,5 +147,8 @@
     <string name="notify_refresh_tab">Вміст панелей оновлено!</string>
     <string name="notify_file_unknown">Невідомий тип файлу!</string>
     <string name="notify_operation_same_folder">Поточний каталог і каталог призначення співпадають!</string>
+
+    <!-- About -->
+    <string name="about_message">Іконки:\nQuartz Icon Set - Andy Gongea\n\nПерекладачі:\nUK - stigr (Motofan.ru)\nPL - galonpzw (XDA)\nFR - nikwist (XDA)\nDE - Milestone:enotseliM (XDA)\nSK - pvdeejay (XDA), pyler(XDA)\n\nОкрема подяка:\nAnt-ON - за його допомогу\nRamallah - за його допомогу\nИнаре - просто так!</string>
 
 </resources>

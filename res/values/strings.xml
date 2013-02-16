@@ -156,6 +156,6 @@
     <string name="notify_connection_error">Connection error!</string>
 
     <!-- About -->
-    <string name="about_message">Icons:\nQuartz Icon Set - Andy Gongea\n\nLocalization:\nUK - Stigr (Motofan)\nPL - galonpzw (XDA)\nFR - nikwist (XDA)\nDE - Milestone:enotseliM (XDA)\nSK - pvdeejay (XDA), pyler(XDA)\n\nSpecial thanks to:\nAnt-ON - for his help\nRamallah - for something that did not help\nInara - just like that!</string>
+    <string name="about_message">Icons:\nQuartz Icon Set - Andy Gongea\n\nLocalization:\nUK - stigr (Motofan.ru)\nPL - galonpzw (XDA)\nFR - nikwist (XDA)\nDE - Milestone:enotseliM (XDA)\nSK - pvdeejay (XDA), pyler(XDA)\n\nSpecial thanks to:\nAnt-ON - for his help\nRamallah - for something that did not help\nInara - just like that!</string>
 
 </resources>
