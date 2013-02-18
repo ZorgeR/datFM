@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -14,7 +15,7 @@ import java.util.HashMap;
 public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
 
     int srcPannelID,competPannelID;
-    String destDir, srcDir, operation, new_name, mask;
+    String destDir, srcDir, operation, new_name, mask,ext;
     public datFM activity;
     static AlertDialog dialog_operation;
     int count;
@@ -66,6 +67,15 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
             competPannelID = Integer.parseInt(params[6]);
 
             count=0;
+
+            if(operation.equals("open_remote") || operation.equals("open_as_remote")){
+                    progr_overal.setMax(1);
+                    ext=params[3];
+                    boolean exist = new File(destDir).exists();
+                    boolean success;
+                    success = exist || protocol_copy(srcDir, destDir);
+                    if (success) {count++;onProgressUpdate(count);}
+            }
 
             if(operation.equals("copy")){
                 dialog_operation.setTitle(datFM.datf_context.getResources().getString(R.string.ui_dialog_title_copy));
@@ -165,6 +175,14 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
 
             if (operation.equals("new_folder")){
                 activity.update_tab(count,"new_folder",srcDir,srcPannelID);}
+
+            if (operation.equals("open_remote")){
+                activity.openFile(destDir,"",ext);
+            }
+
+            if (operation.equals("open_as_remote")){
+                activity.openFileAs(destDir, "", ext);
+            }
 
             dialog_operation.dismiss();
         }

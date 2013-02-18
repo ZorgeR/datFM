@@ -29,10 +29,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b68612f9-3348-4342-8d34-ba591f5277dc" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/zlab/datFM/datFM.java" afterPath="$PROJECT_DIR$/src/com/zlab/datFM/datFM.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/zlab/datFM/datFM_FileOperation.java" afterPath="$PROJECT_DIR$/src/com/zlab/datFM/datFM_FileOperation.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/menu/datfm_mainmenu.xml" afterPath="$PROJECT_DIR$/res/menu/datfm_mainmenu.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/xml/datfm_preferences.xml" afterPath="$PROJECT_DIR$/res/xml/datfm_preferences.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/xml-v14/datfm_preferences.xml" afterPath="$PROJECT_DIR$/res/xml-v14/datfm_preferences.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/strings.xml" afterPath="$PROJECT_DIR$/res/values/strings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values-en/strings.xml" afterPath="$PROJECT_DIR$/res/values-en/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values-fr/strings.xml" afterPath="$PROJECT_DIR$/res/values-fr/strings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values-ru/strings.xml" afterPath="$PROJECT_DIR$/res/values-ru/strings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values-uk/strings.xml" afterPath="$PROJECT_DIR$/res/values-uk/strings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="datFM.iws" />
@@ -41,18 +46,18 @@
     <file path="/main.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1358621330872" ignored="false" />
     <file path="/datFM_Main.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1358625154843" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1360237100156" ignored="false" />
-    <file path="/datFM.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1361055813946" ignored="false" />
-    <file path="/Dummy.txt" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1361056279391" ignored="false" />
-    <file path="/fragment.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1360940606669" ignored="false" />
+    <file path="/datFM.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1361182287348" ignored="false" />
+    <file path="/Dummy.txt" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1361206159794" ignored="false" />
+    <file path="/fragment.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1361206170513" ignored="false" />
     <file path="/datfm.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1360831697350" ignored="false" />
     <file path="/datfm_mainmenu.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1360609753424" ignored="false" />
     <file path="/a.dummy" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1358956328291" ignored="false" />
     <file path="/styles.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1360828793946" ignored="false" />
     <file path="/datFM_Preferences.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1359841035982" ignored="false" />
-    <file path="/datfm_preferences.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1360940898789" ignored="false" />
+    <file path="/datfm_preferences.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1361181369428" ignored="false" />
     <file path="/datfm_firstalert.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1359138234815" ignored="false" />
     <file path="/datFM_fileoperation.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1359592224207" ignored="false" />
-    <file path="/strings.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1361056526453" ignored="false" />
+    <file path="/strings.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1361182180579" ignored="false" />
     <file path="/datFM_Preferences_Category.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1359238194212" ignored="false" />
     <file path="/datFM_Operation.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1360368742742" ignored="false" />
     <file path="/datFM_IconGenerator.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1359753094694" ignored="false" />
@@ -84,7 +89,7 @@
     <file path="/datFM_IO.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1360645598684" ignored="false" />
     <file path="/datFM_IconGenerator_PHOTO.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1360495192467" ignored="false" />
     <file path="/datFM_IconGenerator_APK.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1360495188801" ignored="false" />
-    <file path="/datFM_FileOperation.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1360752653256" ignored="false" />
+    <file path="/datFM_FileOperation.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1361181631207" ignored="false" />
     <file path="/datfm_path_pannel.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1360770753504" ignored="false" />
     <file path="/datfm_dark_btn.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1360771143152" ignored="false" />
     <file path="/datfm_light_btn.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1360771203647" ignored="false" />
@@ -107,6 +112,23 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
+    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM_Protocol_Fetch.java" line="282" class="com.zlab.datFM.datFM_Protocol_Fetch$3" package="com.zlab.datFM">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </line_breakpoints>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -141,23 +163,6 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
-    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
-      <breakpoint url="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM_Protocol_Fetch.java" line="282" class="com.zlab.datFM.datFM_Protocol_Fetch$3" package="com.zlab.datFM">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </line_breakpoints>
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -170,12 +175,18 @@
       <file leaf-file-name="datFM.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="824" column="101" selection-start="36363" selection-end="36363" vertical-scroll-proportion="0.32122904">
+            <state line="60" column="49" selection-start="2087" selection-end="2087" vertical-scroll-proportion="0.5433589">
               <folding>
-                <element signature="method#onConfigurationChanged#0;class#datFM#0" expanded="false" />
-                <element signature="method#onCreateOptionsMenu#0;class#datFM#0" expanded="false" />
-                <element signature="method#onOptionsItemSelected#0;class#datFM#0" expanded="false" />
-                <element signature="method#root_build_content#0;class#datFM#0" expanded="false" />
+                <element signature="e#14251#15113#0" expanded="true" />
+                <element signature="e#15098#15099#0" expanded="true" />
+                <element signature="e#15235#15778#0" expanded="true" />
+                <element signature="e#15763#15764#0" expanded="true" />
+                <element signature="method#ui_change_on_action#0;class#datFM#0" expanded="false" />
+                <element signature="method#old_api_fixes#0;class#datFM#0" expanded="false" />
+                <element signature="method#pref_btn_text_size#0;class#datFM#0" expanded="false" />
+                <element signature="method#firstAlertShow#0;class#datFM#0" expanded="false" />
+                <element signature="method#notify_toast#0;class#datFM#0" expanded="false" />
+                <element signature="method#RunAsRoot#0;class#datFM#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -204,30 +215,29 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/res/values-v14/styles.xml" />
-        <option value="$PROJECT_DIR$/res/values-v11/styles.xml" />
-        <option value="$PROJECT_DIR$/res/layout/datfm_actiondialog.xml" />
         <option value="$PROJECT_DIR$/src/com/zlab/datFM/datFM_Adaptor.java" />
         <option value="$PROJECT_DIR$/src/com/zlab/datFM/datFM_IconGenerator_PHOTO.java" />
         <option value="$PROJECT_DIR$/res/layout/datfm.xml" />
-        <option value="$PROJECT_DIR$/res/xml-v14/datfm_preferences.xml" />
-        <option value="$PROJECT_DIR$/res/xml/datfm_preferences.xml" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/res/layout/datfm_about.xml" />
         <option value="$PROJECT_DIR$/src/com/zlab/datFM/datFM_Protocol_Fetch.java" />
-        <option value="$PROJECT_DIR$/src/com/zlab/datFM/datFM.java" />
         <option value="$PROJECT_DIR$/res/values-uk/strings.xml" />
+        <option value="$PROJECT_DIR$/res/values-fr/strings.xml" />
+        <option value="$PROJECT_DIR$/res/xml-v14/datfm_preferences.xml" />
+        <option value="$PROJECT_DIR$/res/xml/datfm_preferences.xml" />
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/res/values-ru/strings.xml" />
+        <option value="$PROJECT_DIR$/src/com/zlab/datFM/datFM_FileOperation.java" />
         <option value="$PROJECT_DIR$/res/values-en/strings.xml" />
+        <option value="$PROJECT_DIR$/res/values-ru/strings.xml" />
+        <option value="$PROJECT_DIR$/res/menu/datfm_mainmenu.xml" />
+        <option value="$PROJECT_DIR$/src/com/zlab/datFM/datFM.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1" />
-    <option name="y" value="-4" />
-    <option name="width" value="1922" />
-    <option name="height" value="1085" />
+    <option name="y" value="24" />
+    <option name="width" value="1920" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -279,6 +289,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="datFM" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="datFM" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="datFM" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -287,15 +315,15 @@
     <property name="GenerateAntBuildDialog.generateIdeaHomeProperty" value="false" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="259" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="OverrideImplement.combined" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="261" />
+    <property name="OverrideImplement.combined" value="false" />
+    <property name="project.structure.proportion" value="0.15" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="ExportedApkPath" value="$USER_HOME$/datFM_0.1.5b.apk" />
-    <property name="MemberChooser.sorted" value="false" />
-    <property name="recentsLimit" value="5" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="259" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="recentsLimit" value="5" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="ExportedApkPath" value="$USER_HOME$/datFM_0.1.5b.apk" />
     <property name="GenerateAntBuildDialog.generateSingleFile" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
     <property name="ExportedModule" value="datFM" />
@@ -314,15 +342,15 @@
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="options.splitter.details.proportions" value="0.2" />
-    <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
     <property name="options.lastSelected" value="preferences.updates" />
     <property name="AndroidLayoutSelectedEditor" value="android-designer" />
-    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="AndroidRunProguardForReleaseBuild" value="false" />
     <property name="GenerateAntBuildDialog.backupFiles" value="true" />
@@ -369,19 +397,6 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method />
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -407,6 +422,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -640,7 +668,11 @@
       <created>1361056289351</created>
       <updated>1361056289351</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="0.1.6b - string update UK,EN,RU.">
+      <created>1361056720173</created>
+      <updated>1361056720173</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -664,11 +696,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="-4" width="1922" height="1085" extended-state="6" />
+    <frame x="0" y="24" width="1920" height="1056" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31430095" sideWeight="0.791889" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26307365" sideWeight="0.791889" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32870865" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -677,17 +707,19 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39487725" sideWeight="0.50053364" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2913554" sideWeight="0.4914621" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29028815" sideWeight="0.4914621" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3370044" sideWeight="0.48719317" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32599118" sideWeight="0.49427918" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15581644" sideWeight="0.791889" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20811099" sideWeight="0.9989328" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15581644" sideWeight="0.79295623" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20704375" sideWeight="0.9989328" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" x="83" y="500" width="1720" height="335" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31430095" sideWeight="0.791889" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26307365" sideWeight="0.791889" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32550693" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -732,7 +764,7 @@
     <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="0.1.6b - string update." />
+    <option name="LAST_COMMIT_MESSAGE" value="0.1.6b - string update UK,EN,RU." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -761,6 +793,7 @@
     <MESSAGE value="0.1.5b" />
     <MESSAGE value="0.1.6b - fix crash on 8 api, samba photo thumbnail, hide file and folder." />
     <MESSAGE value="0.1.6b - string update." />
+    <MESSAGE value="0.1.6b - string update UK,EN,RU." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -770,121 +803,109 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM_IconGenerator_VIDEO.java">
+    <entry file="file://$PROJECT_DIR$/res/values/array.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="90" selection-start="1303" selection-end="1381" vertical-scroll-proportion="0.8118669">
+        <state line="14" column="22" selection-start="402" selection-end="402" vertical-scroll-proportion="-8.4" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/values-uk/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="151" column="238" selection-start="10119" selection-end="10173" vertical-scroll-proportion="0.82300884" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM_Preferences.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="13" selection-start="264" selection-end="264" vertical-scroll-proportion="0.077097505">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM_IconGenerator_PHOTO.java">
+    <entry file="file://$PROJECT_DIR$/res/values-fr/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="58" selection-start="1951" selection-end="1951" vertical-scroll-proportion="0.8031838">
+        <state line="158" column="295" selection-start="11140" selection-end="11140" vertical-scroll-proportion="0.76551723" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM_FileInformation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="13" selection-start="38" selection-end="38" vertical-scroll-proportion="0.048991356">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM_FileOperation.java">
+    <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM_IO.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="13" selection-start="308" selection-end="308" vertical-scroll-proportion="-0.27062228">
+        <state line="9" column="13" selection-start="208" selection-end="208" vertical-scroll-proportion="0.09798271">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/xml-v14/datfm_preferences.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="215" selection-start="2458" selection-end="2458" vertical-scroll-proportion="0.20618556" />
+        <state line="39" column="216" selection-start="6793" selection-end="6813" vertical-scroll-proportion="0.65758294" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/xml/datfm_preferences.xml">
+    <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM_FileOperation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="197" selection-start="2971" selection-end="2971" vertical-scroll-proportion="0.24054983" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM_ZA_Interface.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="32" selection-start="1798" selection-end="1798" vertical-scroll-proportion="0.33240223">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/datfm_about.xml">
-      <provider editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="33" selection-start="176" selection-end="176" vertical-scroll-proportion="0.062849164">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/datfm.xml">
-      <provider editor-type-id="text-editor">
-        <state line="26" column="20" selection-start="1329" selection-end="1329" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM_Protocol_Fetch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="89" column="124" selection-start="3166" selection-end="3166" vertical-scroll-proportion="1.1007667">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/array.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="22" selection-start="402" selection-end="402" vertical-scroll-proportion="-8.4">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/values-uk/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="151" column="238" selection-start="10119" selection-end="10173" vertical-scroll-proportion="0.82300884">
+        <state line="272" column="26" selection-start="10822" selection-end="10849" vertical-scroll-proportion="0.40489915">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values-en/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="161" column="0" selection-start="10276" selection-end="10276" vertical-scroll-proportion="0.9041298">
-          <folding />
-        </state>
+        <state line="101" column="67" selection-start="6602" selection-end="6606" vertical-scroll-proportion="0.65758294" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="158" column="111" selection-start="0" selection-end="10276" vertical-scroll-proportion="0.80088496">
-          <folding />
-        </state>
+        <state line="101" column="96" selection-start="6539" selection-end="6631" vertical-scroll-proportion="0.6255924" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values-ru/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="140" column="65" selection-start="9243" selection-end="9243" vertical-scroll-proportion="0.47935104">
+        <state line="101" column="73" selection-start="6945" selection-end="6945" vertical-scroll-proportion="0.7985782" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/xml/datfm_preferences.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="94" selection-start="6417" selection-end="6456" vertical-scroll-proportion="0.68720376" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/menu/datfm_contextmenu.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/menu/datfm_mainmenu.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="40" selection-start="1289" selection-end="1289" vertical-scroll-proportion="0.6069364">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="824" column="101" selection-start="36363" selection-end="36363" vertical-scroll-proportion="0.32122904">
+        <state line="60" column="49" selection-start="2087" selection-end="2087" vertical-scroll-proportion="0.5433589">
           <folding>
-            <element signature="method#onConfigurationChanged#0;class#datFM#0" expanded="false" />
-            <element signature="method#onCreateOptionsMenu#0;class#datFM#0" expanded="false" />
-            <element signature="method#onOptionsItemSelected#0;class#datFM#0" expanded="false" />
-            <element signature="method#root_build_content#0;class#datFM#0" expanded="false" />
+            <element signature="e#14251#15113#0" expanded="true" />
+            <element signature="e#15098#15099#0" expanded="true" />
+            <element signature="e#15235#15778#0" expanded="true" />
+            <element signature="e#15763#15764#0" expanded="true" />
+            <element signature="method#ui_change_on_action#0;class#datFM#0" expanded="false" />
+            <element signature="method#old_api_fixes#0;class#datFM#0" expanded="false" />
+            <element signature="method#pref_btn_text_size#0;class#datFM#0" expanded="false" />
+            <element signature="method#firstAlertShow#0;class#datFM#0" expanded="false" />
+            <element signature="method#notify_toast#0;class#datFM#0" expanded="false" />
+            <element signature="method#RunAsRoot#0;class#datFM#0" expanded="false" />
           </folding>
         </state>
       </provider>

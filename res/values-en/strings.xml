@@ -71,6 +71,7 @@
     <string name="settings_elements_title_savepath">Save path</string>
     <string name="settings_elements_title_focusondir">Focus on directory</string>
     <string name="settings_elements_title_sambalogin">Samba logging</string>
+    <string name="settings_elements_title_clear_filecache">Clear file cache</string>
     <string name="settings_elements_title_kamikaze">Kamikaze mode</string>
     <string name="settings_elements_title_root">root</string>
     <string name="settings_elements_title_show_hide">Show hidden files and folders</string>
@@ -98,6 +99,7 @@
     <string name="settings_elements_summary_savepath">Restore path on start</string>
     <string name="settings_elements_summary_focusondir">Set focus on current directory when go UP</string>
     <string name="settings_elements_summary_sambalogin">Support logging for Samba</string>
+    <string name="settings_elements_summary_clear_filecache">Clear file cache when exit</string>
     <string name="settings_elements_summary_kamikaze">Not ask anything, just execute</string>
     <string name="settings_elements_summary_root">Use root privilege</string>
     <string name="settings_elements_summary_show_hide">Show hidden elements for local or remote storage</string>

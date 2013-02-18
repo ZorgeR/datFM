@@ -69,7 +69,7 @@ public class datFM extends Activity {
     boolean pref_show_panel,pref_open_dir,pref_open_arcdir,
             pref_open_arcdir_window,pref_save_path,pref_dir_focus,
             pref_kamikaze,pref_show_text_on_panel,pref_show_navbar,
-            pref_show_panel_discr,pref_small_panel;
+            pref_show_panel_discr,pref_small_panel,pref_clear_filecache;
     static boolean pref_show_apk,pref_show_video,pref_show_photo,
             pref_show_folder_discr,pref_show_files_discr,pref_root,pref_sambalogin,pref_font_bold_folder,pref_show_hide;
     boolean firstAlert;
@@ -136,6 +136,9 @@ public class datFM extends Activity {
         if (pref_root){
             String[] commands = {"mount -o ro,remount /system\n"};
             RunAsRoot(commands);
+        }
+        if(pref_clear_filecache){
+            action_clear_file_cache();
         }
         super.onDestroy();
     }
@@ -209,6 +212,7 @@ public class datFM extends Activity {
                 }
                 return true;
             }
+            /**
             case R.id.mainmenu_find: {
                 Toast.makeText(getApplicationContext(),"In development.",Toast.LENGTH_SHORT).show();
                 return true;
@@ -220,7 +224,7 @@ public class datFM extends Activity {
             case R.id.mainmenu_sort: {
                 Toast.makeText(getApplicationContext(),"In development.",Toast.LENGTH_SHORT).show();
                 return true;
-            }
+            } */
             case R.id.mainmenu_update: {
                 update_tab(0,"null","null",2);
                 return true;
@@ -354,7 +358,7 @@ public class datFM extends Activity {
                     if(item == 0) {
                         if(sel==0)onFileClick(adapter.getItem(pos));
                     } else if(item == 1) {
-                        if(sel==0)openFileAs(adapter.getItem(pos));
+                        if(sel==0)openFileAs(adapter.getItem(pos).getPath(),adapter.getItem(pos).getName(),adapter.getItem(pos).getExt());
                     } else if(item == 2) {
                         String path,name;
                         path = adapter.getItem(pos).getPath();
@@ -372,7 +376,7 @@ public class datFM extends Activity {
                     if(item == 0) {
                         if(sel==0)onFileClick(adapter.getItem(pos));
                     } else if(item == 1) {
-                        if(sel==0)openFileAs(adapter.getItem(pos));
+                        if(sel==0)openFileAs(adapter.getItem(pos).getPath(),adapter.getItem(pos).getName(),adapter.getItem(pos).getExt());
                     } else if(item == 2) {
                         action_properties(pos);
                     }
@@ -388,13 +392,32 @@ public class datFM extends Activity {
         dialog.getWindow().setAttributes(WMLP);
         dialog.show();
     }
+    protected void openRemoteFile(String path,String name, String ext){
+        File tmp_dir = new File(Environment.getExternalStorageDirectory().getPath()+"/Android/data/datFM");
+        if(!tmp_dir.exists()){
+            tmp_dir.mkdir();
+        }
+        new datFM_FileOperation(this).execute("open_remote", path, tmp_dir.getPath()+"/"+name,ext,"",String.valueOf(curPanel),String.valueOf(competPanel));
+    }
+    protected void openRemoteFileAs(String path,String name, String ext){
+        File tmp_dir = new File(Environment.getExternalStorageDirectory().getPath()+"/Android/data/datFM");
+        if(!tmp_dir.exists()){
+            tmp_dir.mkdir();
+        }
+        new datFM_FileOperation(this).execute("open_as_remote", path, tmp_dir.getPath()+"/"+name,ext,"",String.valueOf(curPanel),String.valueOf(competPanel));
+    }
     protected void openFile(String path,String name, String ext){
-
+        boolean local = path.startsWith("/");
+        if(!local){
+                openRemoteFile(path, name, ext);
+        } else {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             Uri uri = Uri.fromFile(new File(path));
             String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(uri.toString()));
 
+            /* TODO Перейти к библиотеке типов */
             if(ext.equals("7z")){mimeType="zip";}
+            if(ext.equals("txt")){mimeType="text/plain-text";}
 
             intent.setDataAndType(uri, mimeType);
 
@@ -403,16 +426,22 @@ public class datFM extends Activity {
             catch (RuntimeException i){
                 notify_toast(getResources().getString(R.string.notify_file_unknown));
             }
+        }
     }
-    protected void openFileAs(datFM_FileInformation o){
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        Uri uri = Uri.fromFile(new File(o.getPath()));
-        intent.setDataAndType(uri, "*/*");
+    protected void openFileAs(String path,String name, String ext){
+        boolean local = path.startsWith("/");
+        if(!local){
+            openRemoteFileAs(path, name, ext);
+        } else {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            Uri uri = Uri.fromFile(new File(path));
+            intent.setDataAndType(uri, "*/*");
 
-        try {
-            startActivity(intent);}
-        catch (RuntimeException i){
-            notify_toast(getResources().getString(R.string.notify_file_unknown));
+            try {
+                startActivity(intent);}
+            catch (RuntimeException i){
+                notify_toast(getResources().getString(R.string.notify_file_unknown));
+            }
         }
     }
     protected void onFileClick(datFM_FileInformation o){
@@ -891,6 +920,10 @@ public class datFM extends Activity {
 
         properties.putStringArrayListExtra("paths", paths);
         startActivity(properties);
+    }
+    private void action_clear_file_cache(){try {
+        new datFM_IO(Environment.getExternalStorageDirectory().getPath()+"/Android/data/datFM").delete();
+    } catch (IOException e) {e.printStackTrace();}
     }
 
     private void ZA_pack(){
@@ -1420,6 +1453,7 @@ public class datFM extends Activity {
         pref_font_bold_folder = prefs.getBoolean("pref_font_bold_folder",false);
         pref_small_panel = prefs.getBoolean("pref_small_panel",false);
         pref_show_hide = prefs.getBoolean("pref_show_hide",false);
+        pref_clear_filecache = prefs.getBoolean("pref_clear_filecache",true);
 
         /** Fonts **/
         if(pref_font_style.equalsIgnoreCase("normal")){
@@ -1452,11 +1486,11 @@ public class datFM extends Activity {
         /** Cache size **/
 
         if (pref_save_path){
-            curentLeftDir = prefs.getString("lastLeftDir", "/sdcard");
-            curentRightDir = prefs.getString("lastRightDir", "/sdcard");
+            curentLeftDir = prefs.getString("lastLeftDir", Environment.getExternalStorageDirectory().getPath());
+            curentRightDir = prefs.getString("lastRightDir", Environment.getExternalStorageDirectory().getPath());
         } else {
-            curentLeftDir="/sdcard";
-            curentRightDir="/sdcard";
+            curentLeftDir=Environment.getExternalStorageDirectory().getPath();
+            curentRightDir=Environment.getExternalStorageDirectory().getPath();
         }
 
         /** First Time ALERT **/

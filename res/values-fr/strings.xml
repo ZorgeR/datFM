@@ -19,13 +19,13 @@
     <string name="btn_delete">Supprimer</string>
 
     <!-- Main Menu  -->
-    <string name="mainmenu_addfolder">Créer un répertoire</string>
+    <string name="mainmenu_addfolder">Créer un nouveau répertoire</string>
     <string name="mainmenu_refresh">Rafraîchir</string>
-    <string name="mainmenu_favorite">Favori</string>
+    <string name="mainmenu_favorite">Favoris</string>
     <string name="mainmenu_udev">udev</string>
-    <string name="mainmenu_settings">Paramètres</string>
+    <string name="mainmenu_settings">Préférences</string>
     <string name="mainmenu_about">A propos</string>
-    <string name="mainmenu_exit">Sortir</string>
+    <string name="mainmenu_exit">Quitter</string>
 
     <!-- Context Menu  -->
     <string name="contextmenu_title">Menu:</string>
@@ -45,54 +45,74 @@
     <string name="settings_group_view">Apparence</string>
     <string name="settings_group_other">Autres</string>
     <string name="settings_group_performance">Performances</string>
+    <string name="settings_group_network">Réseau</string>
     <string name="settings_group_dangerous">Dangereux</string>
     <!-- Settings Elements Title -->
     <string name="settings_elements_title_cp">Panneau de contrôle</string>
     <string name="settings_elements_title_appicons">Icônes d\'applications</string>
-    <string name="settings_elements_title_photoicons">Icônes photos</string>
-    <string name="settings_elements_title_videoicons">Icônes vidéos</string>
+    <string name="settings_elements_title_photoicons">Icônes de photos</string>
+    <string name="settings_elements_title_videoicons">Icônes de vidéos</string>
     <string name="settings_elements_title_icons_cache">Cache d\'icônes</string>
-    <string name="settings_elements_title_cptext">Texte du panneau</string>
+    <string name="settings_elements_title_icons_size">Hauteur des icônes</string>
+    <string name="settings_elements_title_text_name_size">Taille de texte des noms de fichier</string>
+    <string name="settings_elements_title_text_discr_size">Taille de texte des descriptions</string>
+    <string name="settings_elements_title_text_font_style">Style de police</string>
+    <string name="settings_elements_title_text_font_typeface">Type de police</string>
+    <string name="settings_elements_title_text_bold_folder">Noms de répertoires en gras</string>
+    <string name="settings_elements_title_small_panel">Petits panneaux</string>
+    <string name="settings_elements_title_cptext">Texte sur les panneaux</string>
     <string name="settings_elements_title_navbar">Barre d\'adresse</string>
     <string name="settings_elements_title_folder_discription">Descriptions des répertoires</string>
     <string name="settings_elements_title_files_discription">Descriptions des fichiers</string>
-    <string name="settings_elements_title_panel_discription">Descriptions du panneau</string>
+    <string name="settings_elements_title_panel_discription">Descriptions des panneaux</string>
     <string name="settings_elements_title_opendir">Ouvrir le nouveau répertoire</string>
     <string name="settings_elements_title_openarcdir">Ouvrir le répertoire d\'archive</string>
     <string name="settings_elements_title_openarcdir_window">Panneau de répertoire d\'archive</string>
     <string name="settings_elements_title_savepath">Enregistrer l\'adresse</string>
     <string name="settings_elements_title_focusondir">Mettre le focus sur le répertoire</string>
+    <string name="settings_elements_title_sambalogin">Identification Samba</string>
     <string name="settings_elements_title_kamikaze">Mode Kamikaze</string>
     <string name="settings_elements_title_root">root</string>
+    <string name="settings_elements_title_show_hide">Afficher les répertoires et fichiers cachés</string>
     <!-- Settings Elements Summary -->
     <string name="settings_elements_summary_cp">Toujours afficher</string>
     <string name="settings_elements_summary_appicons">Récupérer les icônes d\'applications depuis APK</string>
     <string name="settings_elements_summary_photoicons">Afficher les miniatures de photos</string>
-    <string name="settings_elements_summary_videoicons">Afficher les miniatures de videos</string>
-    <string name="settings_elements_summary_icons_cache">Choisir la taille de cache préférée</string>
+    <string name="settings_elements_summary_videoicons">Afficher les miniatures de vidéo</string>
+    <string name="settings_elements_summary_icons_cache">Définir la taille de cache préférée</string>
+    <string name="settings_elements_summary_icons_size">Définir la hauteur des objets en nombre de lignes et la taille des icônes</string>
+    <string name="settings_elements_summary_text_name_size">Définir la taille du texte pour les noms de fichiers</string>
+    <string name="settings_elements_summary_text_discr_size">Définir la taille du texte pour la description des fichiers</string>
+    <string name="settings_elements_summary_text_font_style">Définir le style de police</string>
+    <string name="settings_elements_summary_text_font_typeface">Définir le type de police</string>
+    <string name="settings_elements_summary_text_bold_folder">Toujours afficher les noms de répertoire en gras</string>
+    <string name="settings_elements_summary_small_panel">Utiliser des petits panneaux, pour les téléphones</string>
     <string name="settings_elements_summary_cptext">Afficher le texte sur les boutons du panneau</string>
     <string name="settings_elements_summary_navbar">Afficher la barre d\'adresse en haut</string>
     <string name="settings_elements_summary_folder_discription">Afficher les descriptions de répertoires</string>
     <string name="settings_elements_summary_files_discription">Afficher les descriptions de fichiers</string>
-    <string name="settings_elements_summary_panel_discription">Afficher les descriptions en dessous du panneau</string>
+    <string name="settings_elements_summary_panel_discription">Afficher les descriptions en bas du panneau</string>
     <string name="settings_elements_summary_opendir">Ouvrir le nouveau répertoire après création</string>
-    <string name="settings_elements_summary_openarcdir">Ouvrir le nouveau répertoire d\'archive après décompression</string>
+    <string name="settings_elements_summary_openarcdir">Ouvrir le répertoire d\'archive après décompression</string>
     <string name="settings_elements_summary_openarcdir_window">Ouvrir dans le panneau courant</string>
     <string name="settings_elements_summary_savepath">Récupérer l\'adresse au démarrage</string>
-    <string name="settings_elements_summary_focusondir">Mettre le focus sur le répertoire en le quittant</string>
-    <string name="settings_elements_summary_kamikaze">Ne rien demander, seulement exécuter (Réfléchir, c\'est désobéir)</string>
-    <string name="settings_elements_summary_root">Utiliser avec les droits root</string>
+    <string name="settings_elements_summary_focusondir">Mettre le focus sur le répertoire courant en le quittant</string>
+    <string name="settings_elements_summary_sambalogin">Support de l\'identification avec Samba</string>
+    <string name="settings_elements_summary_kamikaze">Ne rien demander, seulement exécuter</string>
+    <string name="settings_elements_summary_root">Utiliser les privilèges root</string>
+    <string name="settings_elements_summary_show_hide">Afficher les éléments cachés en local ou sur un support de stockage distant</string>
 
     <!-- Files List Items -->
     <string name="fileslist_parent_directory">Répertoire parent</string>
-    <string name="fileslist_directory">&lt;rep&gt;</string>
-    <string name="fileslist_folders_count">Répertoires:</string>
-    <string name="fileslist_files_count">Fichiers:</string>
+    <string name="fileslist_directory">&lt;rép&gt;</string>
+    <string name="fileslist_folders_count">Répertoires :</string>
+    <string name="fileslist_files_count">Fichiers :</string>
+    <string name="fileslist_file_selected">Sélectionnés :</string>
 
     <!-- UI Elements -->
     <!-- Pop-up Dialogs -->
     <!-- Dialog Buttons -->
-    <string name="ui_dialog_btn_ok">OK</string>
+    <string name="ui_dialog_btn_ok">Confirmer</string>
     <string name="ui_dialog_btn_cancel">Annuler</string>
     <!-- Pop-up Dialogs Title-->
     <string name="ui_dialog_title_newfolder">Nouveau répertoire</string>
@@ -103,9 +123,9 @@
     <string name="ui_dialog_title_rename">Renommer</string>
     <string name="ui_dialog_title_delete">Supprimer</string>
     <!-- Pop-up Dialogs content -->
-    <string name="ui_dialog_header_copy">Les fichiers et répertoires seront copiés</string>
-    <string name="ui_dialog_header_move">Les fichiers et répertoires seront déplacés</string>
-    <string name="ui_dialog_header_delete">Les fichiers et répertoires seront supprimés</string>
+    <string name="ui_dialog_header_copy">fichiers et répertoires seront copiés</string>
+    <string name="ui_dialog_header_move">fichiers et répertoires seront déplacés</string>
+    <string name="ui_dialog_header_delete">fichiers et répertoires seront supprimés</string>
     <string name="ui_dialog_header_please_wait">Veuillez patienter...</string>
     <!-- Pop-up Dialogs other content -->
     <string name="ui_dialog_from">depuis :</string>
@@ -117,17 +137,25 @@
     <string name="ui_dialog_archive_archive">Nom de l\'archive :</string>
     <string name="ui_dialog_archive_type">Type d\'archive :</string>
     <string name="ui_dialog_archive_level">Niveau de compression :</string>
-    <string name="ui_dialog_archive_del_after_compress">Supprimer les fichiers quand la compression est terminée.</string>
-    <string name="ui_dialog_archive_unpack_to_name">Nom de l\'archive</string>
-    <string name="ui_dialog_archive_unpack_to_dir">Répertoire courant</string>
+    <string name="ui_dialog_archive_del_after_compress">Supprimer les fichiers après la compression.</string>
+    <string name="ui_dialog_archive_unpack_to_name">Extraire dans ./nom_de_l_archive/</string>
+    <string name="ui_dialog_archive_unpack_to_dir">Extraire dans le répertoire courant</string>
     <string name="ui_dialog_archive_unpack_to_user">Répertoire préféré de l\'utilisateur</string>
     <!-- Notification -->
-    <string name="notify_copy">Objet copié vers :</string>
-    <string name="notify_move">Objet déplacé vers :</string>
+    <string name="notify_copy">objet copié dans :</string>
+    <string name="notify_move">objet déplacé vers :</string>
     <string name="notify_newfolder">Nouveau répertoire :</string>
     <string name="notify_delete">Objet supprimé !</string>
     <string name="notify_refresh_tab">Rafraîchissement effectué !</string>
     <string name="notify_file_unknown">Type de fichier inconnu !</string>
     <string name="notify_operation_same_folder">Les répertoires courant et de destination sont identiques !</string>
+    <string name="notify_deselect_before_change_dir">Désélectionnez tous les objets avant de changer de répertoire !</string>
+    <string name="notify_cant_find_ZA">ZArchiver 0.6.0 ou plus récent requis !</string>
+    <string name="notify_unknown_protocol">Protocole inconnu !</string>
+    <string name="notify_logon_error">Erreur d\'identification !</string>
+    <string name="notify_connection_error">Erreur de connexion !</string>
+
+    <!-- About -->
+    <string name="about_message">Icônes:\nQuartz Icon Set - Andy Gongea\n\nLocalisation:\nUK - stigr (Motofan.ru)\nPL - galonpzw (XDA)\nFR - nikwist (XDA)\nDE - Milestone:enotseliM (XDA)\nSK - pvdeejay (XDA), pyler(XDA)\n\nRemerciement à :\nAnt-ON - pour son aide\nRamallah - pour un truc qui n\'a pas aidé\nInara - juste comme ça !</string>
 
 </resources>
