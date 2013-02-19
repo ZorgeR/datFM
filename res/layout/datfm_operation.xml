@@ -6,6 +6,26 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Source:"
+            android:id="@+id/textView1"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textFile" android:layout_gravity="left|center_vertical" android:singleLine="true"
+            android:paddingBottom="5dp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Destination:"
+            android:id="@+id/textView2"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textTo" android:layout_gravity="left|center_vertical" android:singleLine="true"
+            android:paddingBottom="10dp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Current:"
             android:id="@+id/dialog_operation_file_name" android:layout_gravity="left|center_vertical"/>
     <ProgressBar
@@ -16,10 +36,20 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="(0/0)"
+            android:id="@+id/textCurrent" android:layout_gravity="center"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Overall:"
             android:id="@+id/textView" android:layout_gravity="left|center_vertical"/>
     <ProgressBar style="@style/Progress" android:layout_width="match_parent"
                  android:layout_height="wrap_content" android:id="@+id/dialog_operation_progress_overall"
                  android:layout_gravity="left|center_vertical" android:indeterminate="false" android:max="100"
                  android:progress="0"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(0/0)"
+            android:id="@+id/textOverall" android:layout_gravity="center"/>
 </LinearLayout>

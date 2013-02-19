@@ -1,16 +1,15 @@
 package com.zlab.datFM;
 
 import android.app.AlertDialog;
-import android.content.Context;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
-import android.os.Environment;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.io.*;
-import java.util.HashMap;
+import java.util.List;
 
 public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
 
@@ -19,27 +18,37 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
     public datFM activity;
     static AlertDialog dialog_operation;
     int count;
-    static long cur_f;
+    static int overalMax;
 
+    static TextView textCurrent,textOverall,textTo,textFile;
     static ProgressBar progr_current;
-    ProgressBar progr_overal;
+    static ProgressBar progr_overal;
     public datFM_FileOperation(datFM a)
     {
         activity = a;
     }
 
+    static protected Handler mHandler = new Handler();
+
     protected void onPreExecute() {
             super.onPreExecute();
+        overalMax=datFM.sel;
 
         AlertDialog.Builder progr_dialog = new AlertDialog.Builder(activity);
         progr_dialog.setTitle("operation");
         LayoutInflater inflater = activity.getLayoutInflater();
         View layer = inflater.inflate(R.layout.datfm_operation,null);
-        //final EditText textNewFolderName = (EditText) layer.findViewById(R.id.textNewFolderName);
+        textCurrent = (TextView) layer.findViewById(R.id.textCurrent);
+        textOverall = (TextView) layer.findViewById(R.id.textOverall);
+        textFile = (TextView) layer.findViewById(R.id.textFile);
+        textTo = (TextView) layer.findViewById(R.id.textTo);
+        //textTo.setText(datFM.destDir);
         progr_current = (ProgressBar) layer.findViewById(R.id.dialog_operation_progress_current);
         progr_overal = (ProgressBar) layer.findViewById(R.id.dialog_operation_progress_overall);
         progr_overal.setMax(datFM.sel);
         progr_current.setMax(100);
+        textCurrent.setText("("+0+"/"+100+")");
+        textOverall.setText("("+0+"/"+overalMax+")");
         progr_dialog.setView(layer);
         dialog_operation = progr_dialog.create();
         dialog_operation.show();
@@ -75,84 +84,82 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
                     boolean success;
                     success = exist || protocol_copy(srcDir, destDir);
                     if (success) {count++;onProgressUpdate(count);}
-            }
 
-            if(operation.equals("copy")){
+            } else if(operation.equals("new_folder")){
                 dialog_operation.setTitle(datFM.datf_context.getResources().getString(R.string.ui_dialog_title_copy));
-                for (int i=1;i<activity.selected.length;i++){
-                    if (activity.selected[i]){
-                        datFM_FileInformation from = activity.adapter.getItem(i);
-                        cur_f = from.getSize();
-                        boolean success = protocol_copy(from.getPath(), destDir + "/" + from.getName());
-                        if (success) {count++;onProgressUpdate(count);}
-                    }
-                }
-            }
+                if (protocol_newfolder(srcDir)) {count++;onProgressUpdate(count);}
 
-            if (operation.equals("delete")){
-                dialog_operation.setTitle(datFM.datf_context.getResources().getString(R.string.ui_dialog_title_delete));
-                    for (int i=1;i<activity.selected.length;i++){
-                        if (activity.selected[i]){
-                            datFM_FileInformation from = activity.adapter.getItem(i);
+            } else {
+
+                boolean[] selectionHolder = activity.selected.clone();
+                List<datFM_FileInformation> adaptorHolder = activity.adapter.getAllItems();
+
+                if(operation.equals("copy")){
+                    dialog_operation.setTitle(datFM.datf_context.getResources().getString(R.string.ui_dialog_title_copy));
+                    for (int i=1;i<selectionHolder.length;i++){
+                        if (selectionHolder[i]){
+                            datFM_FileInformation from = adaptorHolder.get(i);
+                            boolean success = protocol_copy(from.getPath(), destDir + "/" + from.getName());
+                            if (success) {count++;onProgressUpdate(count);}
+                        }
+                    }
+                } else if (operation.equals("delete")){
+                    dialog_operation.setTitle(datFM.datf_context.getResources().getString(R.string.ui_dialog_title_delete));
+                    for (int i=1;i<selectionHolder.length;i++){
+                        if (selectionHolder[i]){
+                            datFM_FileInformation from = adaptorHolder.get(i);
                             boolean success = protocol_delete(from.getPath());
                             if (success) {count++;onProgressUpdate(count);}
                         }
                     }
-            }
-
-            if (operation.equals("move")){
-                dialog_operation.setTitle(datFM.datf_context.getResources().getString(R.string.ui_dialog_title_move));
-                for (int i=1;i<activity.selected.length;i++){
-                    if (activity.selected[i]){
-                        datFM_FileInformation from = activity.adapter.getItem(i);
-                        boolean success = protocol_move(from.getPath(), destDir + "/" + from.getName());
-                        if (success) {count++;onProgressUpdate(count);}
-                    }
-                }
-            }
-
-            if (operation.equals("rename")){
-                dialog_operation.setTitle(datFM.datf_context.getResources().getString(R.string.ui_dialog_title_rename));
-
-                new_name = params[3];
-                mask = params[4];
-                int j=1;
-                if (!mask.equals("true")){
-                    for (int i=1;i<activity.selected.length;i++){
-                        if (activity.selected[i]){
-                            datFM_FileInformation from = activity.adapter.getItem(i);
-                            boolean success = protocol_rename(from.getPath(), srcDir+"/"+new_name);
+                } else if (operation.equals("move")){
+                    dialog_operation.setTitle(datFM.datf_context.getResources().getString(R.string.ui_dialog_title_move));
+                    for (int i=1;i<selectionHolder.length;i++){
+                        if (selectionHolder[i]){
+                            datFM_FileInformation from = adaptorHolder.get(i);
+                            boolean success = protocol_move(from.getPath(), destDir + "/" + from.getName());
                             if (success) {count++;onProgressUpdate(count);}
                         }
                     }
-                } else {
-                    for (int i=1;i<activity.selected.length;i++){
-                        if (activity.selected[i]){
-                            datFM_FileInformation from = activity.adapter.getItem(i);
-                            boolean success;
-                            if (from.getType().equals("file")){
-                                int dotPos = from.getName().lastIndexOf(".")+1;
-                                String ext = from.getName().substring(dotPos);
-                                if (dotPos>0){
-                                    success = protocol_rename(from.getPath(), srcDir+"/"+new_name+"_"+j+"."+ext);
-                                    if (success) {count++;onProgressUpdate(count);}
+                } else if (operation.equals("rename")){
+                    dialog_operation.setTitle(datFM.datf_context.getResources().getString(R.string.ui_dialog_title_rename));
+
+                    new_name = params[3];
+                    mask = params[4];
+                    int j=1;
+                    if (!mask.equals("true")){
+                        for (int i=1;i<selectionHolder.length;i++){
+                            if (selectionHolder[i]){
+                                datFM_FileInformation from = adaptorHolder.get(i);
+                                boolean success = protocol_rename(from.getPath(), srcDir+"/"+new_name);
+                                if (success) {count++;onProgressUpdate(count);}
+                            }
+                        }
+                    } else {
+                        for (int i=1;i<selectionHolder.length;i++){
+                            if (selectionHolder[i]){
+                                datFM_FileInformation from = adaptorHolder.get(i);
+                                boolean success;
+                                if (from.getType().equals("file")){
+                                    int dotPos = from.getName().lastIndexOf(".")+1;
+                                    String ext = from.getName().substring(dotPos);
+                                    if (dotPos>0){
+                                        success = protocol_rename(from.getPath(), srcDir+"/"+new_name+"_"+j+"."+ext);
+                                        if (success) {count++;onProgressUpdate(count);}
+                                    } else {
+                                        success = protocol_rename(from.getPath(), srcDir+"/"+new_name+"_"+j);
+                                        if (success) {count++;onProgressUpdate(count);}
+                                    }
                                 } else {
                                     success = protocol_rename(from.getPath(), srcDir+"/"+new_name+"_"+j);
                                     if (success) {count++;onProgressUpdate(count);}
                                 }
-                            } else {
-                                success = protocol_rename(from.getPath(), srcDir+"/"+new_name+"_"+j);
-                                if (success) {count++;onProgressUpdate(count);}
+                                if (success) {count++;j++;onProgressUpdate(count);}
                             }
-                            if (success) {count++;j++;onProgressUpdate(count);}
                         }
                     }
                 }
-            }
 
-            if(operation.equals("new_folder")){
-                dialog_operation.setTitle(datFM.datf_context.getResources().getString(R.string.ui_dialog_title_copy));
-                if (protocol_newfolder(srcDir)) {count++;onProgressUpdate(count);}
             }
 
             return true;
@@ -332,7 +339,6 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
         String[] commands = {"mkdir \""+path+"\"\n","chmod 775 \""+path+"\"\n"};
         RunAsRoot(commands);
     }
-
 
     /** other **/
     private void RunAsRoot(String[] cmds){

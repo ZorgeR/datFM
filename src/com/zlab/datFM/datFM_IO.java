@@ -4,6 +4,7 @@ import android.util.Log;
 import android.widget.Toast;
 import jcifs.smb.*;
 import java.io.*;
+import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 
@@ -35,6 +36,20 @@ public class datFM_IO {
         SmbFile f = new SmbFile(path,auth);
         //---------END SMB WORKS-------------------------
         return f;
+    }
+    public Long getFileSize(String filepath){
+        long size=1;
+        smb = filepath.startsWith("smb://");
+        local = filepath.startsWith("/");
+
+        if(local){
+            size = new datFM_IO(filepath).getFileLocal().length();
+        } else if (smb){try {
+            size = new datFM_IO(filepath).getFileSmb().length();
+            } catch (SmbException e) {e.printStackTrace();} catch (MalformedURLException e) {e.printStackTrace();}
+        }
+
+        return size;
     }
 
     /** STREAM **/
@@ -107,12 +122,15 @@ public class datFM_IO {
     public boolean copy_recursively_smb(SmbFile file,String dest) throws IOException {
         if (file.isDirectory()) {
             new datFM_IO(dest).mkdir();
+            updateOverallBar(datFM_FileOperation.progr_overal.getProgress()+1,file.getPath(),dest);
             SmbFile[] children = file.listFiles();
+            datFM_FileOperation.progr_overal.setMax(datFM_FileOperation.progr_overal.getMax()+children.length);
             for (SmbFile ff : children) {
                 copy_recursively_smb(ff, dest+"/"+ff.getName());}
         } else {
             try {
                 IO_Stream_Worker(file.getPath(), dest);
+                updateOverallBar(datFM_FileOperation.progr_overal.getProgress() + 1, file.getPath(), dest);
             } catch (Exception e){}
         }
         return file_exist(dest);
@@ -120,12 +138,15 @@ public class datFM_IO {
     public boolean copy_recursively_local(File file,String dest) throws IOException {
         if (file.isDirectory()) {
             new datFM_IO(dest).mkdir();
+            updateOverallBar(datFM_FileOperation.progr_overal.getProgress() + 1, file.getPath(), dest);
             File[] children = file.listFiles();
+            datFM_FileOperation.progr_overal.setMax(datFM_FileOperation.progr_overal.getMax()+children.length);
             for (File ff : children) {
                 copy_recursively_local(ff, dest+"/"+ff.getName());}
         } else {
             try {
                 IO_Stream_Worker(file.getPath(), dest);
+                updateOverallBar(datFM_FileOperation.progr_overal.getProgress() + 1, file.getPath(), dest);
             } catch (Exception e){}
         }
         return file_exist(dest);
@@ -213,7 +234,8 @@ public class datFM_IO {
         byte[] buf = new byte[1024];
         int len;
 
-        long one_percent = datFM_FileOperation.cur_f/100;
+        long fullsize = getFileSize(src);
+        long one_percent = fullsize/100;
         long cnt=0;
         int cur_file_progress=0;
         while ((len = in.read(buf)) > 0){
@@ -222,11 +244,34 @@ public class datFM_IO {
             if(cnt>one_percent){
                 cur_file_progress=cur_file_progress+1;
                 datFM_FileOperation.progr_current.setProgress(cur_file_progress);
+                updateCurrentBar(cur_file_progress,fullsize,cur_file_progress*one_percent);
                 cnt=0;
             }
         }
         in.close();
         out.close();
+    }
+
+    private void updateCurrentBar(final int CurrentProgress,final long fullsize, final long currentsize){
+
+        final BigDecimal sizeinMB = new BigDecimal(fullsize/1024.00/1024.00).setScale(3, BigDecimal.ROUND_HALF_UP);
+        final BigDecimal CurrentSizeinMB = new BigDecimal(currentsize/1024.00/1024.00).setScale(3, BigDecimal.ROUND_HALF_UP);
+
+        datFM_FileOperation.mHandler.post(new Runnable() {
+            public void run() {
+                datFM_FileOperation.textCurrent.setText(String.valueOf(CurrentSizeinMB)+"MiB / "+String.valueOf(sizeinMB)+"MiB"+" ("+CurrentProgress+"/100%)");
+            }
+        });
+    }
+    private void updateOverallBar(final int OverallProgress,final String pathtofile,final String dest){
+        datFM_FileOperation.progr_overal.setProgress(OverallProgress);
+        datFM_FileOperation.mHandler.post(new Runnable() {
+            public void run() {
+                datFM_FileOperation.textOverall.setText("("+OverallProgress+"/"+datFM_FileOperation.overalMax+")");
+                datFM_FileOperation.textFile.setText(pathtofile);
+                datFM_FileOperation.textTo.setText(dest);
+            }
+        });
     }
 
     /** GetName in UI thread **/

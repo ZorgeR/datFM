@@ -40,6 +40,12 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
         return items.get(i);
     }
 
+    public List getAllItems()
+    {
+        return items;
+    }
+
+
     @Override
     public View getView(final int position, View view,final ViewGroup parent) {
         View v = view;
