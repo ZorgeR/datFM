@@ -8,6 +8,8 @@ import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
 
+import java.io.InputStream;
+
 public class datFM_IconGenerator_PHOTO extends AsyncTask<String, Void, Drawable> {
 Bitmap imageBitmap;
 public datFM_Adaptor activity;
@@ -35,9 +37,10 @@ protected void onPreExecute() {
                     /** LOCAL MODE **/
                     //imageBitmap = BitmapFactory.decodeFile(filePath, options);
                     /** MULTI MODE **/
-                    imageBitmap = BitmapFactory.decodeStream(new datFM_IO(filePath).getInput(), null, options);
+                    InputStream io = new datFM_IO(filePath).getInput();
+                    imageBitmap = BitmapFactory.decodeStream(io, null, options);
                     imageBitmap = ThumbnailUtils.extractThumbnail(imageBitmap,THUMBNAIL_SIZE,THUMBNAIL_SIZE);
-
+                    io.close();
                     /** NETWORK MODE **/
                     //imageBitmap = BitmapFactory.decodeStream(new datFM_IO(filePath).getInput(), null, options);
                     //imageBitmap = Bitmap.createScaledBitmap(imageBitmap, THUMBNAIL_SIZE, THUMBNAIL_SIZE, false);
