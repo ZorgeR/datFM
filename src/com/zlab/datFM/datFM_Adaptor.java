@@ -122,7 +122,7 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
                     resID = ext_check(audio,"audio",ext);
                 }
                 if (resID==0){
-                    String[] video = {"mp4", "mkv", "avi"};
+                    String[] video = {"mp4", "3gp", "mkv", "avi", "mpg", "mpeg"};
                     resID = ext_check(video,"video",ext);
                 }
                 if (resID == 0) {
@@ -202,7 +202,9 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
         } else if (ext.equalsIgnoreCase("mkv")  ||
                    ext.equalsIgnoreCase("mp4")  ||
                    ext.equalsIgnoreCase("3gp")  ||
-                   ext.equalsIgnoreCase("avi")) {
+                   ext.equalsIgnoreCase("avi")  ||
+                   ext.equalsIgnoreCase("mpg")  ||
+                   ext.equalsIgnoreCase("mpeg")) {
             video=true;
         } else {
             unknown=true;

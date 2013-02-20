@@ -82,6 +82,11 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
             count=0;
 
             if(operation.equals("open_remote") || operation.equals("open_as_remote")){
+                    mHandler.post(new Runnable() {
+                    public void run() {
+                        currentLayout.setVisibility(View.VISIBLE);
+                    }
+                });
                     progr_overal.setMax(1);
                     ext=params[3];
                     boolean exist = new File(destDir).exists();
