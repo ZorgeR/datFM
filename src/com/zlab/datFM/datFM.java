@@ -44,7 +44,7 @@ public class datFM extends Activity {
     static int curPanel,competPanel;
     int selLeft=0;
     int selRight=0;
-    int posLeft,posRight,pathPanelBgr;
+    int posLeft,posRight,pathPanelBgr,pathPanelBgrOther;
     static String user, pass, url, domain;
     String prevName;
     static String[] protocols=new String[2];
@@ -153,6 +153,7 @@ public class datFM extends Activity {
             pathPanelBgr=R.drawable.dialog_full_holo_light;
             color_item_selected=Color.parseColor("#ff46b2ff");
         }
+        pathPanelBgrOther=Color.TRANSPARENT;/****/
     }
     protected void onResume() {
         super.onResume();
@@ -651,12 +652,12 @@ public class datFM extends Activity {
         if (curPanel ==0){
             //noinspection deprecation
             layoutPathPanelLeft.setBackgroundDrawable(getResources().getDrawable(pathPanelBgr));
-            layoutPathPanelRight.setBackgroundColor(Color.TRANSPARENT);
+            layoutPathPanelRight.setBackgroundColor(pathPanelBgrOther);
         } else {
             /** only API 16 -> layoutPathPanelRight.setBackground(getResources().getDrawable(android.R.drawable.dialog_holo_light_frame)); **/
             //noinspection deprecation
             layoutPathPanelRight.setBackgroundDrawable(getResources().getDrawable(pathPanelBgr));
-            layoutPathPanelLeft.setBackgroundColor(Color.TRANSPARENT);
+            layoutPathPanelLeft.setBackgroundColor(pathPanelBgrOther);
         }
         update_operation_vars();
         setTitle(curDir);
