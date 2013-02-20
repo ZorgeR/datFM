@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.os.Environment;
+import android.os.StatFs;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,13 +35,14 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
     String user, pass, url, hostname, domain;
     boolean fetch_err=false;
     boolean success_auth=true;
+    boolean valid_url=true;
     NtlmPasswordAuthentication auth;
 
     public datFM activity;
     public datFM_Protocol_Fetch(datFM a){activity = a;}
 
     protected void onPreExecute() {
-        if(!datFM.protocols[datFM.curPanel].equals("local")){
+        if(!datFM.protocols[datFM.curPanel].equals("local") && !datFM.protocols[datFM.curPanel].equals("datfm")){
             dialog_operation_remote = new ProgressDialog(datFM.datf_context);
             dialog_operation_remote.setTitle(datFM.protocols[datFM.curPanel]);
             dialog_operation_remote.setMessage("Please wait...");
@@ -72,6 +75,8 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
             fetch_local();
         } else if (protocol.equals("smb")){
             fetch_smb();
+        } else if (protocol.equals("datfm")){
+            fetch_datFM();
         } else {
             Log.e("UNSUPPORT PROTOCOL:", protocol);
         }
@@ -111,68 +116,115 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
             hostname = url;
             hostname = hostname.replace("smb://","");
             if(hostname.contains("/")){hostname = hostname.substring(0, hostname.indexOf("/"));}
-            UniAddress uniaddress = null;
-            try {
-                    if(!hostname.equals("")){uniaddress = UniAddress.getByName(hostname);}
-            } catch (UnknownHostException e) {
-                    success_auth=false;
-            }
-            try {
-                    if(uniaddress!=null){SmbSession.logon(uniaddress, auth);}else{success_auth=false;}
+
+            if(!hostname.equals("")){
+                UniAddress uniaddress = null;
+                try {
+                        uniaddress = UniAddress.getByName(hostname);
+                } catch (UnknownHostException e) {
+                        valid_url=false;
+                }
+                if(valid_url){
+                    try {
+                        SmbSession.logon(uniaddress, auth);
                     } catch (SmbAuthException e ) {
-                    // AUTHENTICATION FAILURE
+                        // AUTHENTICATION FAILURE
                         success_auth=false;
                     } catch(SmbException e ) {
-                    // NETWORK PROBLEMS?
+                        // NETWORK PROBLEMS?
                         fetch_err=true;
-                    }
-                    // catch (Exception e){Log.e("ERR:",e.getMessage());}
+                    }/* catch (Exception e){*/
+                    /*Log.e("ERR:",e.getMessage());*//*fetch_err=true;*/
+                    /*}*/
+                } else {
+                    success_auth=false;
+                }
+            } else {
+                valid_url=false;success_auth=false;
             }
+        }
         //---------START SMB WORKS-------------------------
         //if(success_auth || url.equals("smb://")){
-            SmbFile dir = null;
             try {
+                SmbFile dir = null;
                 dir = new SmbFile(url, auth);
+                if (panel_ID ==0){
+                    datFM.parent_left=dir.getParent();
+                    datFM.curentLeftDir=dir.getPath();
+                } else {
+                    datFM.parent_right=dir.getParent();
+                    datFM.curentRightDir=dir.getPath();}
+
+                if(dir!=null){
+                    try{
+                        for(SmbFile ff: dir.listFiles()){
+                            if(!datFM.pref_show_hide && ff.getName().endsWith("$/")){} else {
+                                if(ff.isDirectory()){
+                                    String data = datFM.datf_context.getResources().getString(R.string.fileslist_directory);
+                                    dir_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),0,"smb","dir",data, ff.getParent()));
+                                } else {
+                                    BigDecimal size = new BigDecimal(ff.length()/1024.00/1024.00);
+                                    size = size.setScale(2, BigDecimal.ROUND_HALF_UP);
+                                    fls_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),ff.length(),"smb","file",size+" MiB",ff.getParent()));
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        //fetch_err=true;
+                    }
+                }
+
+                Collections.sort(dir_info);
+                Collections.sort(fls_info);
+
+                dir_info.addAll(fls_info);
+                if(dir_info.size()>0){
+                    success_auth=true;
+                    fetch_err=false;
+                }
+
             } catch (MalformedURLException e) {
                 fetch_err=true;
             }
         //-------END SMB WORKS---------------------
 
-            if (panel_ID ==0){
-                datFM.parent_left=dir.getParent();
-                datFM.curentLeftDir=dir.getPath();
-            } else {
-                datFM.parent_right=dir.getParent();
-                datFM.curentRightDir=dir.getPath();}
 
-            if(dir!=null){
-                try{
-                    for(SmbFile ff: dir.listFiles()){
-                        if(!datFM.pref_show_hide && ff.getName().endsWith("$/")){} else {
-                            if(ff.isDirectory()){
-                                String data = datFM.datf_context.getResources().getString(R.string.fileslist_directory);
-                                dir_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),0,"smb","dir",data, ff.getParent()));
-                            } else {
-                                BigDecimal size = new BigDecimal(ff.length()/1024.00/1024.00);
-                                size = size.setScale(2, BigDecimal.ROUND_HALF_UP);
-                                fls_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),ff.length(),"smb","file",size+" MiB",ff.getParent()));
-                            }
-                        }
-                    }
-                } catch (Exception e) {
-                    //fetch_err=true;
-                }
-            }
-
-            Collections.sort(dir_info);
-            Collections.sort(fls_info);
-
-            dir_info.addAll(fls_info);
-            if(dir_info.size()>0){success_auth=true;}
             //if(dir_info.size()==0){fetch_err=true;}
             //} else {
             //logonScreenSMB();
         //}
+    }
+    protected void fetch_datFM(){
+        String section=path.replace("datFM://", "");
+
+        if (panel_ID ==0){
+            datFM.parent_left=path;
+            datFM.curentLeftDir=path;
+        } else {
+            datFM.parent_right=path;
+            datFM.curentRightDir=path;}
+
+        if (section.contains("/")){
+            section=section.substring(0,section.indexOf("/")-1);
+        } else if(section.equals("")){
+            section="home";
+        }
+
+        if(section.equals("home")){
+            dir_info.add(new datFM_FileInformation("External Storage", Environment.getExternalStorageDirectory().getPath(),0,"local","sdcard",
+                    getAvailableExternalMemorySize()+" / "+getTotalExternalMemorySize(), "datFM://"));
+
+            dir_info.add(new datFM_FileInformation("Root","/",0,"local","root",
+                    getAvailableInternalMemorySize()+" / "+getTotalInternalMemorySize(), "datFM://"));
+
+            dir_info.add(new datFM_FileInformation("Favorite","datFM://favorite",0,"local","favorite","Favorites", "datFM://"));
+
+            dir_info.add(new datFM_FileInformation("Samba","smb://",0,"smb","network","Network", "datFM://"));
+        } else if(section.equals("favorite")){
+            dir_info.add(new datFM_FileInformation("Add to favorite","datFM://favorite/add",0,"smb","dir","Network", "datFM://"));
+        }
+
+        //dir_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),0,"smb","dir",data, ff.getParent()));
     }
     private void fetch_local(){
         File dir = new File (path);
@@ -328,6 +380,81 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
         }
 
         return dirs;
+    }
+
+    public static boolean externalMemoryAvailable() {
+        return android.os.Environment.getExternalStorageState().equals(
+                android.os.Environment.MEDIA_MOUNTED);
+    }
+    public static String getAvailableInternalMemorySize() {
+        File path = Environment.getDataDirectory();
+        StatFs stat = new StatFs(path.getPath());
+        long blockSize = stat.getBlockSize();
+        long availableBlocks = stat.getAvailableBlocks();
+        return formatSize(availableBlocks * blockSize);
+    }
+    public static String getTotalInternalMemorySize() {
+        File path = Environment.getDataDirectory();
+        StatFs stat = new StatFs(path.getPath());
+        long blockSize = stat.getBlockSize();
+        long totalBlocks = stat.getBlockCount();
+        return formatSize(totalBlocks * blockSize);
+    }
+    public static String getAvailableExternalMemorySize() {
+        if (externalMemoryAvailable()) {
+            File path = Environment.getExternalStorageDirectory();
+            StatFs stat = new StatFs(path.getPath());
+            long blockSize = stat.getBlockSize();
+            long availableBlocks = stat.getAvailableBlocks();
+            return formatSize(availableBlocks * blockSize);
+        } else {
+            return "ERROR";
+        }
+    }
+    public static String getTotalExternalMemorySize() {
+        if (externalMemoryAvailable()) {
+            File path = Environment.getExternalStorageDirectory();
+            StatFs stat = new StatFs(path.getPath());
+            long blockSize = stat.getBlockSize();
+            long totalBlocks = stat.getBlockCount();
+            return formatSize(totalBlocks * blockSize);
+        } else {
+            return "ERROR";
+        }
+    }
+    public static String formatSize(long size) {
+        String suffix = null;
+        BigDecimal size_comma=new BigDecimal(0);
+
+        if (size >= 1024) {
+            suffix = "KB";
+            size_comma=new BigDecimal(size/1024.00);
+            size /= 1024;
+            if (size >= 1024) {
+                suffix = " MiB";
+                size_comma=new BigDecimal(size/1024.00);
+                size /= 1024;
+                if (size >= 1024) {
+                    suffix = " GiB";
+                    size_comma=new BigDecimal(size/1024.00);
+                    size /= 1024;
+                }
+            }
+        }
+
+        size_comma = size_comma.setScale(1, BigDecimal.ROUND_HALF_UP);
+        StringBuilder resultBuffer = new StringBuilder(String.valueOf(size_comma));
+
+        /*
+        int commaOffset = resultBuffer.length() - 3;
+        while (commaOffset > 0) {
+            resultBuffer.insert(commaOffset, ',');
+            commaOffset -= 3;
+        }
+        */
+
+        if (suffix != null) resultBuffer.append(suffix);
+        return resultBuffer.toString();
     }
 
 }

@@ -1,6 +1,7 @@
 package com.zlab.datFM;
 
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 import jcifs.smb.*;
 import java.io.*;
@@ -29,10 +30,11 @@ public class datFM_IO {
     }
     public SmbFile getFileSmb() throws MalformedURLException {
         //---------START SMB WORKS-------------------------
-        String user, pass;
+        String user, pass, domain;
         user = datFM.user;
         pass = datFM.pass;
-        NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(datFM.domain, user, pass);
+        domain = datFM.domain;
+        NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(domain, user, pass);
         SmbFile f = new SmbFile(path,auth);
         //---------END SMB WORKS-------------------------
         return f;
@@ -129,6 +131,7 @@ public class datFM_IO {
                 copy_recursively_smb(ff, dest+"/"+ff.getName());}
         } else {
             try {
+                updateOverallBar(datFM_FileOperation.progr_overal.getProgress(), file.getPath(), dest);
                 IO_Stream_Worker(file.getPath(), dest);
                 updateOverallBar(datFM_FileOperation.progr_overal.getProgress() + 1, file.getPath(), dest);
             } catch (Exception e){}
@@ -145,6 +148,7 @@ public class datFM_IO {
                 copy_recursively_local(ff, dest+"/"+ff.getName());}
         } else {
             try {
+                updateOverallBar(datFM_FileOperation.progr_overal.getProgress(), file.getPath(), dest);
                 IO_Stream_Worker(file.getPath(), dest);
                 updateOverallBar(datFM_FileOperation.progr_overal.getProgress() + 1, file.getPath(), dest);
             } catch (Exception e){}
@@ -253,7 +257,6 @@ public class datFM_IO {
     }
 
     private void updateCurrentBar(final int CurrentProgress,final long fullsize, final long currentsize){
-
         final BigDecimal sizeinMB = new BigDecimal(fullsize/1024.00/1024.00).setScale(3, BigDecimal.ROUND_HALF_UP);
         final BigDecimal CurrentSizeinMB = new BigDecimal(currentsize/1024.00/1024.00).setScale(3, BigDecimal.ROUND_HALF_UP);
 

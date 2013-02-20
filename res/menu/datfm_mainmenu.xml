@@ -23,9 +23,9 @@
           android:icon="@drawable/ui_menu_update"
           android:title="@string/mainmenu_refresh"
           android:showAsAction="ifRoom"/>
-    <item android:id="@+id/mainmenu_samba"
+    <item android:id="@+id/mainmenu_home"
           android:icon="@drawable/ui_menu_cloud"
-          android:title="Samba"
+          android:title="@string/mainmenu_home"
           android:showAsAction="never"/>
     <item android:id="@+id/mainmenu_settings"
           android:icon="@drawable/ui_menu_settings"

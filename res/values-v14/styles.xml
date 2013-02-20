@@ -6,6 +6,7 @@
     <style name="AppTheme" parent="android:Theme.Holo.Light.NoActionBar" />
     <style name="PropTheme" parent="android:Theme.Holo.Light" />
     <style name="PrefTheme" parent="android:Theme.Holo" />
+    <style name="PrefTheme2" parent="android:Theme.Holo.NoActionBar" />
     <style name="Progress" parent="android:Widget.Holo.ProgressBar.Horizontal" />
     <style name="PanButton" parent="android:Widget.DeviceDefault.Button"/>
 

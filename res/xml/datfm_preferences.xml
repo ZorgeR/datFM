@@ -2,6 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceScreen android:title="@string/settings_group_view">
         <PreferenceCategory android:title="@string/settings_group_view">
+            <ListPreference android:title="@string/settings_elements_title_theme" android:summary="@string/settings_elements_summary_theme" android:key="pref_theme" android:defaultValue="datFM Classic" android:entries="@array/text_themes" android:entryValues="@array/text_themes" />
             <CheckBoxPreference android:title="@string/settings_elements_title_cp" android:summary="@string/settings_elements_summary_cp" android:key="pref_show_panel" android:defaultValue="true" />
             <CheckBoxPreference android:title="@string/settings_elements_title_cptext" android:summary="@string/settings_elements_summary_cptext" android:key="pref_show_text_on_panel" android:defaultValue="true" />
             <CheckBoxPreference android:title="@string/settings_elements_title_navbar" android:summary="@string/settings_elements_summary_navbar" android:key="pref_show_navbar" android:defaultValue="true" />

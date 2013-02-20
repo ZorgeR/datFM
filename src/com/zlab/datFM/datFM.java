@@ -44,11 +44,12 @@ public class datFM extends Activity {
     static int curPanel,competPanel;
     int selLeft=0;
     int selRight=0;
-    int posLeft,posRight;
+    int posLeft,posRight,pathPanelBgr;
     static String user, pass, url, domain;
     String prevName;
     static String[] protocols=new String[2];
     static int currentApiVersion;
+    static int color_item_selected;
 
     /** VARS FOR OPERATION**/
     static int sel;
@@ -75,6 +76,7 @@ public class datFM extends Activity {
     boolean firstAlert;
     boolean settings_opened = false;
     String pref_icons_cache,pref_icons_size,pref_text_name_size,pref_text_discr_size,pref_font_style,pref_font_typeface;
+    static String pref_theme;
     static int icons_size,text_name_size,text_discr_size,font_style;
     static Typeface font_typeface;
 
@@ -94,6 +96,13 @@ public class datFM extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /** Инициализация настроек **/
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        pref_getter();
+
+        /** Инициализация темы **/
+        setTheme();
+
         setContentView(R.layout.datfm);
         datf_context = this;
         datFM_state = ((datFM) datFM.datf_context);
@@ -105,8 +114,7 @@ public class datFM extends Activity {
         init_UI();
         init_Listener();
 
-        /** Инициализация настроек **/
-        pref_getter();
+        /** Применение настроек **/
         pref_setter();
 
         /** OLD API **/
@@ -116,12 +124,40 @@ public class datFM extends Activity {
         fill_new(curentLeftDir, 0);
         fill_new(curentRightDir, 1);
 
+        if (!pref_theme.contains("Light") && !pref_theme.contains("Classic")) {
+        listLeft.setSelector(R.drawable.datfm_listselector);
+        listRight.setSelector(R.drawable.datfm_listselector);
+        }
+
         /** Интерфейс для ZArchiver **/
         ZA = new datFM_ZA_Interface(datf_context);
+    }
+    protected void setTheme(){
+        if (pref_theme.equals("Holo Light")) {
+            setTheme(android.R.style.Theme_Holo_Light);
+            pathPanelBgr=R.drawable.dialog_full_holo_light;
+            color_item_selected=Color.parseColor("#ff46b2ff");
+        } else if (pref_theme.equals("Holo")){
+            setTheme(android.R.style.Theme_Holo);
+            pathPanelBgr=R.drawable.dialog_full_holo_dark;
+            color_item_selected=Color.parseColor("#aa3486ad");
+        } else if (pref_theme.equals("Holo Fullscreen")){
+            setTheme(android.R.style.Theme_Holo_NoActionBar);
+            pathPanelBgr=R.drawable.dialog_full_holo_dark;
+            color_item_selected=Color.parseColor("#aa3486ad");
+        } else if (pref_theme.equals("Sharp")){
+            setTheme(android.R.style.Theme_Holo);
+            pathPanelBgr=R.drawable.dialog_full_holo_dark;
+            color_item_selected=Color.parseColor("#88980000");
+        } else {
+            pathPanelBgr=R.drawable.dialog_full_holo_light;
+            color_item_selected=Color.parseColor("#ff46b2ff");
+        }
     }
     protected void onResume() {
         super.onResume();
         if(settings_opened){
+            pref_getter();
             pref_setter();
             adapterLeft.notifyDataSetChanged();
             adapterRight.notifyDataSetChanged();
@@ -240,14 +276,18 @@ public class datFM extends Activity {
                 finish();
                 return true;
             }
-            case R.id.mainmenu_samba:{
+            case R.id.mainmenu_home:{
+                fill_new("datFM://",curPanel);
+                /*
                 if(curPanel==0){
-                    textCurrentPathLeft.setText("smb://");
+                    fill_new("datFM://")
+                    textCurrentPathLeft.setText();
                     textCurrentPathLeft.requestFocus();
                 } else {
-                    textCurrentPathRight.setText("smb://");
+                    textCurrentPathRight.setText("datFM://");
                     textCurrentPathRight.requestFocus();
                 }
+                */
                 return true;}
             default:
                 return super.onOptionsItemSelected(item);
@@ -274,6 +314,7 @@ public class datFM extends Activity {
     protected void fill_new(String path, int Panel_ID){
         boolean smb = path.startsWith("smb://");
         boolean local = path.startsWith("/");
+        boolean home = path.startsWith("datFM://");
         boolean protocol_accepted=true;
 
         curPanel=Panel_ID;
@@ -283,6 +324,8 @@ public class datFM extends Activity {
             protocols[Panel_ID]="local";
         } else if (smb){
             protocols[Panel_ID]="smb";
+        } else if (home){
+            protocols[Panel_ID]="datfm";
         } else {
             Toast.makeText(datf_context,getResources().getString(R.string.notify_unknown_protocol),Toast.LENGTH_SHORT).show();
             protocol_accepted=false;
@@ -297,12 +340,12 @@ public class datFM extends Activity {
         if(panel_ID==0){competPanel=1;}else{competPanel=0;}
 
         if(panel_ID==0){
-            if(!curentLeftDir.equals("/") && !curentLeftDir.equals("smb:////")){
+            if(!curentLeftDir.equals("/") && !curentLeftDir.equals("smb:////") && !curentLeftDir.equals("datFM://")){
                 String data = getResources().getString(R.string.fileslist_parent_directory);
                 dir.add(0,new datFM_FileInformation("..",parent_left,0,protocols[0],"parent_dir", data, parent_left));
             }
         }else{
-            if(!curentRightDir.equals("/") && !curentRightDir.equals("smb:////")){
+            if(!curentRightDir.equals("/") && !curentRightDir.equals("smb:////") && !curentRightDir.equals("datFM://")){
                 String data = getResources().getString(R.string.fileslist_parent_directory);
                 dir.add(0,new datFM_FileInformation("..",parent_right,0,protocols[1],"parent_dir", data, parent_right));
             }
@@ -445,8 +488,8 @@ public class datFM extends Activity {
         }
     }
     protected void onFileClick(datFM_FileInformation o){
-        if(o.getType().equals("dir")){
-            fill_new(o.getPath(), curPanel);
+        if(o.getType().equals("file")){
+            openFile(o.getPath(), o.getName(), o.getExt());
         } else if (o.getType().equals("parent_dir")){
             if (curPanel==0){
                 prevName = new datFM_IO(curentLeftDir).getName();
@@ -456,7 +499,7 @@ public class datFM extends Activity {
                 fill_new(o.getPath(), curPanel);
             }
         } else {
-            openFile(o.getPath(), o.getName(), o.getExt());
+            fill_new(o.getPath(), curPanel);
         }
     }
     protected void onFileClickLong(datFM_FileInformation o, int position){
@@ -607,20 +650,12 @@ public class datFM extends Activity {
     protected void update_panel_focus(){
         if (curPanel ==0){
             //noinspection deprecation
-            if (currentApiVersion <= Build.VERSION_CODES.HONEYCOMB){
-                layoutPathPanelLeft.setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_full_holo_light));
-            } else {
-                layoutPathPanelLeft.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.dialog_holo_light_frame));
-            }
+            layoutPathPanelLeft.setBackgroundDrawable(getResources().getDrawable(pathPanelBgr));
             layoutPathPanelRight.setBackgroundColor(Color.TRANSPARENT);
         } else {
             /** only API 16 -> layoutPathPanelRight.setBackground(getResources().getDrawable(android.R.drawable.dialog_holo_light_frame)); **/
             //noinspection deprecation
-            if (currentApiVersion <= Build.VERSION_CODES.HONEYCOMB){
-                layoutPathPanelRight.setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_full_holo_light));
-            } else {
-                layoutPathPanelRight.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.dialog_holo_light_frame));
-            }
+            layoutPathPanelRight.setBackgroundDrawable(getResources().getDrawable(pathPanelBgr));
             layoutPathPanelLeft.setBackgroundColor(Color.TRANSPARENT);
         }
         update_operation_vars();
@@ -1424,9 +1459,6 @@ public class datFM extends Activity {
     }
 
     private void pref_getter(){
-        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-    }
-    private void pref_setter(){
         pref_show_panel = prefs.getBoolean("pref_show_panel",true);
         pref_open_dir = prefs.getBoolean("pref_open_dir",true);
         pref_open_arcdir = prefs.getBoolean("pref_open_arcdir",false);
@@ -1454,6 +1486,10 @@ public class datFM extends Activity {
         pref_small_panel = prefs.getBoolean("pref_small_panel",false);
         pref_show_hide = prefs.getBoolean("pref_show_hide",false);
         pref_clear_filecache = prefs.getBoolean("pref_clear_filecache",true);
+        pref_theme = prefs.getString("pref_theme","datFM Classic");
+    }
+    private void pref_setter(){
+
 
         /** Fonts **/
         if(pref_font_style.equalsIgnoreCase("normal")){
@@ -1486,11 +1522,11 @@ public class datFM extends Activity {
         /** Cache size **/
 
         if (pref_save_path){
-            curentLeftDir = prefs.getString("lastLeftDir", Environment.getExternalStorageDirectory().getPath());
-            curentRightDir = prefs.getString("lastRightDir", Environment.getExternalStorageDirectory().getPath());
+            curentLeftDir = prefs.getString("lastLeftDir", "datFM://");
+            curentRightDir = prefs.getString("lastRightDir", "datFM://");
         } else {
-            curentLeftDir=Environment.getExternalStorageDirectory().getPath();
-            curentRightDir=Environment.getExternalStorageDirectory().getPath();
+            curentLeftDir="datFM://";
+            curentRightDir="datFM://";
         }
 
         /** First Time ALERT **/

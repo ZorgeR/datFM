@@ -23,6 +23,7 @@
     <string name="mainmenu_refresh">Обновить</string>
     <string name="mainmenu_favorite">Избранное</string>
     <string name="mainmenu_udev">udev</string>
+    <string name="mainmenu_home">Домашняя страница</string>
     <string name="mainmenu_settings">Настройки</string>
     <string name="mainmenu_about">О программе</string>
     <string name="mainmenu_exit">Выход</string>
@@ -129,6 +130,8 @@
     <string name="ui_dialog_header_move">файлов и папок будет перемещено</string>
     <string name="ui_dialog_header_delete">файлов и папок будет удалено</string>
     <string name="ui_dialog_header_please_wait">Пожалуйста подождите...</string>
+    <string name="ui_dialog_operation_current">Текущий:</string>
+    <string name="ui_dialog_operation_overall">Общий:</string>
     <!-- Pop-up Dialogs other content -->
     <string name="ui_dialog_from">из каталога:</string>
     <string name="ui_dialog_to">в каталог:</string>

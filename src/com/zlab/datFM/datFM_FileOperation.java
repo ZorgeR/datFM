@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
     static TextView textCurrent,textOverall,textTo,textFile;
     static ProgressBar progr_current;
     static ProgressBar progr_overal;
+    static LinearLayout currentLayout;
     public datFM_FileOperation(datFM a)
     {
         activity = a;
@@ -42,13 +44,15 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
         textOverall = (TextView) layer.findViewById(R.id.textOverall);
         textFile = (TextView) layer.findViewById(R.id.textFile);
         textTo = (TextView) layer.findViewById(R.id.textTo);
-        //textTo.setText(datFM.destDir);
         progr_current = (ProgressBar) layer.findViewById(R.id.dialog_operation_progress_current);
         progr_overal = (ProgressBar) layer.findViewById(R.id.dialog_operation_progress_overall);
         progr_overal.setMax(datFM.sel);
         progr_current.setMax(100);
         textCurrent.setText("("+0+"/"+100+")");
         textOverall.setText("("+0+"/"+overalMax+")");
+
+        currentLayout = (LinearLayout) layer.findViewById(R.id.currentLayout);
+        currentLayout.setVisibility(View.GONE);
         progr_dialog.setView(layer);
         dialog_operation = progr_dialog.create();
         dialog_operation.show();
@@ -95,6 +99,12 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
                 List<datFM_FileInformation> adaptorHolder = activity.adapter.getAllItems();
 
                 if(operation.equals("copy")){
+                    mHandler.post(new Runnable() {
+                        public void run() {
+                           currentLayout.setVisibility(View.VISIBLE);
+                        }
+                    });
+
                     dialog_operation.setTitle(datFM.datf_context.getResources().getString(R.string.ui_dialog_title_copy));
                     for (int i=1;i<selectionHolder.length;i++){
                         if (selectionHolder[i]){
@@ -113,6 +123,12 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
                         }
                     }
                 } else if (operation.equals("move")){
+                    mHandler.post(new Runnable() {
+                        public void run() {
+                            currentLayout.setVisibility(View.VISIBLE);
+                        }
+                    });
+
                     dialog_operation.setTitle(datFM.datf_context.getResources().getString(R.string.ui_dialog_title_move));
                     for (int i=1;i<selectionHolder.length;i++){
                         if (selectionHolder[i]){

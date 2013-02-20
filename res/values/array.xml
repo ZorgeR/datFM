@@ -58,4 +58,11 @@
         <item>Serif</item>
         <item>Monospace</item>
     </string-array>
+    <string-array name="text_themes">
+        <item>datFM Classic</item>
+        <item>Holo Light</item>
+        <item>Holo</item>
+        <item>Holo Fullscreen</item>
+        <item>Sharp</item>
+    </string-array>
 </resources>

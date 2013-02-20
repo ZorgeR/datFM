@@ -75,9 +75,14 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
             ll = (LinearLayout) v.findViewById(R.id.itemOfRow);
 
             if (sel[position]){
-                ll.setBackgroundColor(Color.parseColor("#ff46b2ff"));
+                ll.setBackgroundColor(datFM.color_item_selected);
             } else {
+                if(datFM.pref_theme.equals("Sharp") || datFM.pref_theme.equals("Holo Fullscreen")){
+                    //ll.setBackgroundDrawable(datFM.datFM_state.getResources().getDrawable(R.drawable.datfm_theme_stripe));
+                    ll.setBackgroundColor(Color.parseColor("#88222222"));
+                } else {
                 ll.setBackgroundColor(Color.TRANSPARENT);
+                }
             }
 
             if(text_FileName!=null){
@@ -85,15 +90,15 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
             if(text_FileDescription!=null){
                 text_FileDescription.setText(o.getData());}
 
-            if (o.getData().equals(datFM.datf_context.getResources().getString(R.string.fileslist_directory))){
-                imgFileIcon.setImageResource(R.drawable.ext_folder);
-                if(datFM.pref_font_bold_folder){text_FileName.setTypeface(datFM.font_typeface, Typeface.BOLD);}
-                if (datFM.pref_show_folder_discr){
-                    text_FileDescription.setVisibility(View.VISIBLE);
-                } else {
-                    text_FileDescription.setVisibility(View.GONE);
-                }
-            } else if (o.getData().equals(datFM.datf_context.getResources().getString(R.string.fileslist_parent_directory))){
+            if (o.getType().equals("dir")){
+                    imgFileIcon.setImageResource(R.drawable.ext_folder);
+                    if(datFM.pref_font_bold_folder){text_FileName.setTypeface(datFM.font_typeface, Typeface.BOLD);}
+                    if (datFM.pref_show_folder_discr){
+                        text_FileDescription.setVisibility(View.VISIBLE);
+                    } else {
+                        text_FileDescription.setVisibility(View.GONE);
+                    }
+            } else if (o.getType().equals("parent_dir")){
                 imgFileIcon.setImageResource(R.drawable.ext_folder_up);
                 if(datFM.pref_font_bold_folder){text_FileName.setTypeface(datFM.font_typeface, Typeface.BOLD);}
                 if (datFM.pref_show_folder_discr){
@@ -101,6 +106,14 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
                 } else {
                     text_FileDescription.setVisibility(View.GONE);
                 }
+            } else if (o.getType().equals("favorites")){
+                    imgFileIcon.setImageResource(R.drawable.ext_favorite);
+            } else if (o.getType().equals("network")){
+                    imgFileIcon.setImageResource(R.drawable.ext_network);
+            } else if(o.getType().equals("sdcard")){
+                    imgFileIcon.setImageResource(R.drawable.ext_drive);
+            } else if(o.getType().equals("root")){
+                    imgFileIcon.setImageResource(R.drawable.ext_folder_root);
             } else {
                 if (datFM.pref_show_files_discr){
                     text_FileDescription.setVisibility(View.VISIBLE);
@@ -135,6 +148,14 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
                     if (resID==0){
                         String[] pptx = {"pptx", "ppt"};
                         resID = ext_check(pptx,"pptx",ext);
+                    }
+                    if (resID==0){
+                        String[] audio = {"mp3", "m4a", "aac", "ogg"};
+                        resID = ext_check(audio,"audio",ext);
+                    }
+                    if (resID==0){
+                        String[] video = {"mp4", "mkv", "avi"};
+                        resID = ext_check(video,"video",ext);
                     }
                     if (resID==0){
                         resID = R.drawable.ext_unknown;
