@@ -90,15 +90,7 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
             if(text_FileDescription!=null){
                 text_FileDescription.setText(o.getData());}
 
-            if (o.getType().equals("dir")){
-                    imgFileIcon.setImageResource(R.drawable.ext_folder);
-                    if(datFM.pref_font_bold_folder){text_FileName.setTypeface(datFM.font_typeface, Typeface.BOLD);}
-                    if (datFM.pref_show_folder_discr){
-                        text_FileDescription.setVisibility(View.VISIBLE);
-                    } else {
-                        text_FileDescription.setVisibility(View.GONE);
-                    }
-            } else if (o.getType().equals("parent_dir")){
+            if (o.getType().equals("parent_dir")){
                 imgFileIcon.setImageResource(R.drawable.ext_folder_up);
                 if(datFM.pref_font_bold_folder){text_FileName.setTypeface(datFM.font_typeface, Typeface.BOLD);}
                 if (datFM.pref_show_folder_discr){
@@ -106,64 +98,74 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
                 } else {
                     text_FileDescription.setVisibility(View.GONE);
                 }
-            } else if (o.getType().equals("favorites")){
-                    imgFileIcon.setImageResource(R.drawable.ext_favorite);
-            } else if (o.getType().equals("network")){
-                    imgFileIcon.setImageResource(R.drawable.ext_network);
-            } else if(o.getType().equals("sdcard")){
-                    imgFileIcon.setImageResource(R.drawable.ext_drive);
-            } else if(o.getType().equals("root")){
-                    imgFileIcon.setImageResource(R.drawable.ext_folder_root);
-            } else {
+            } else if (o.getType().equals("dir")){
+                imgFileIcon.setImageResource(R.drawable.ext_folder);
+                if(datFM.pref_font_bold_folder){text_FileName.setTypeface(datFM.font_typeface, Typeface.BOLD);}
+                if (datFM.pref_show_folder_discr){
+                    text_FileDescription.setVisibility(View.VISIBLE);
+                } else {
+                    text_FileDescription.setVisibility(View.GONE);
+                }
+            } else if (o.getType().equals("file")){
                 if (datFM.pref_show_files_discr){
                     text_FileDescription.setVisibility(View.VISIBLE);
                 } else {
                     text_FileDescription.setVisibility(View.GONE);
                 }
                     /* Get ext */
-                int dotPos = o.getName().lastIndexOf(".")+1;
-                String ext = o.getName().substring(dotPos);
+                String ext = o.getExt();
 
                 resID = getContext().getResources().getIdentifier("ext_" + ext.toLowerCase(), "drawable", "com.zlab.datFM");
+
+                if (resID==0){
+                    String[] audio = {"mp3", "m4a", "aac", "ogg"};
+                    resID = ext_check(audio,"audio",ext);
+                }
+                if (resID==0){
+                    String[] video = {"mp4", "mkv", "avi"};
+                    resID = ext_check(video,"video",ext);
+                }
                 if (resID == 0) {
                     String[] docx = {"doc", "docx", "rtf", "odt"};
                     resID = ext_check(docx,"docx",ext);
-
-                    if (resID==0){
-                        String[] xlsx = {"xlsx", "xls", "ods"};
-                        resID = ext_check(xlsx,"xlsx",ext);
-                    }
-                    if (resID==0){
-                        String[] fb2  = {"fb2", "djvu", "chm", "epub", "ibooks"};
-                        resID = ext_check(fb2,"fb2",ext);
-                    }
-                    if (resID==0){
-                        String[] zip  = {"zip", "7z", "rar"};
-                        resID = ext_check(zip,"zip",ext);
-                    }
-                    if (resID==0){
-                        String[] ttf  = {"ttf", "otf"};
-                        resID = ext_check(ttf,"ttf",ext);
-                    }
-                    if (resID==0){
-                        String[] pptx = {"pptx", "ppt"};
-                        resID = ext_check(pptx,"pptx",ext);
-                    }
-                    if (resID==0){
-                        String[] audio = {"mp3", "m4a", "aac", "ogg"};
-                        resID = ext_check(audio,"audio",ext);
-                    }
-                    if (resID==0){
-                        String[] video = {"mp4", "mkv", "avi"};
-                        resID = ext_check(video,"video",ext);
-                    }
-                    if (resID==0){
-                        resID = R.drawable.ext_unknown;
-                    }
+                }
+                if (resID==0){
+                    String[] xlsx = {"xlsx", "xls", "ods"};
+                    resID = ext_check(xlsx,"xlsx",ext);
+                }
+                if (resID==0){
+                    String[] fb2  = {"fb2", "djvu", "chm", "epub", "ibooks"};
+                    resID = ext_check(fb2,"fb2",ext);
+                }
+                if (resID==0){
+                    String[] zip  = {"zip", "7z", "rar", "bz", "tar", "gzip"};
+                    resID = ext_check(zip,"zip",ext);
+                }
+                if (resID==0){
+                    String[] ttf  = {"ttf", "otf"};
+                    resID = ext_check(ttf,"ttf",ext);
+                }
+                if (resID==0){
+                    String[] pptx = {"pptx", "ppt"};
+                    resID = ext_check(pptx,"pptx",ext);
+                }
+                if (resID==0){
+                    resID = R.drawable.ext_unknown;
                 }
 
                 imgFileIcon.setImageResource(resID);
                 icon_setter(o.getPath(), ext);
+
+            } else {
+                if (o.getType().equals("favorites")){
+                    imgFileIcon.setImageResource(R.drawable.ext_favorite);
+                } else if (o.getType().equals("network")){
+                    imgFileIcon.setImageResource(R.drawable.ext_network);
+                } else if(o.getType().equals("sdcard")){
+                    imgFileIcon.setImageResource(R.drawable.ext_drive);
+                } else if(o.getType().equals("root")){
+                    imgFileIcon.setImageResource(R.drawable.ext_folder_root);
+                }
             }
 
             imgFileIcon.setOnClickListener(new View.OnClickListener() {
@@ -185,50 +187,65 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
     }
 
     public void icon_setter(String path, String ext){
-        boolean ic_finded=false;
+        boolean apk=false;
+        boolean photo=false;
+        boolean video=false;
+        boolean unknown=false;
 
-        for(int i=0;i<datFM.cache_size;i++){
-            if (datFM.cache_paths[i]!=null){
-                if (datFM.cache_paths[i].equals(path)){
-                    if(datFM.cache_icons[i]!=null){
-                        imgFileIcon.setImageDrawable(datFM.cache_icons[i]);}
-                    ic_finded=true;
+        if (ext.equalsIgnoreCase("apk")){
+            apk=true;
+        } else if (ext.equalsIgnoreCase("jpg")  ||
+                   ext.equalsIgnoreCase("png")  ||
+                   ext.equalsIgnoreCase("jpeg") ||
+                   ext.equalsIgnoreCase("gif")){
+            photo=true;
+        } else if (ext.equalsIgnoreCase("mkv")  ||
+                   ext.equalsIgnoreCase("mp4")  ||
+                   ext.equalsIgnoreCase("3gp")  ||
+                   ext.equalsIgnoreCase("avi")) {
+            video=true;
+        } else {
+            unknown=true;
+        }
+
+        if(!unknown){
+            boolean ic_finded=false;
+
+            for(int i=0;i<datFM.cache_size;i++){
+                if (datFM.cache_paths[i]!=null){
+                    if (datFM.cache_paths[i].equals(path)){
+                        if(datFM.cache_icons[i]!=null){
+                            imgFileIcon.setImageDrawable(datFM.cache_icons[i]);}
+                        ic_finded=true;
+                        break;
+                    }
+                } else {
                     break;
                 }
-            } else {
-                break;
             }
+
+            if(!ic_finded){
+                    if(!datFM.scroll/* && datFM.protocols[datFM.curPanel].equals("local")*/){
+                        if (apk && datFM.pref_show_apk){
+                            icon_getter_apk(path);
+                        }
+
+                        if (photo && datFM.pref_show_photo){
+                            icon_getter_photo(path);
+                        }
+
+                        if (video && datFM.pref_show_video){
+                            icon_getter_video(path);
+                        }
+                    }
+            }
+
         }
-
-        if(!ic_finded){
-                if(!datFM.scroll/* && datFM.protocols[datFM.curPanel].equals("local")*/){
-                    if (ext.equalsIgnoreCase("apk") &&
-                               datFM.pref_show_apk){
-                        icon_getter_apk(path);
-                    }
-
-                    if ((ext.equalsIgnoreCase("jpg")  ||
-                            ext.equalsIgnoreCase("png")  ||
-                            ext.equalsIgnoreCase("jpeg") ||
-                            ext.equalsIgnoreCase("gif"))&&
-                            datFM.pref_show_photo){
-                        icon_getter_photo(path);
-                    }
-
-                    if ((ext.equalsIgnoreCase("mkv") ||
-                            ext.equalsIgnoreCase("mp4") ||
-                            ext.equalsIgnoreCase("3gp") ||
-                            ext.equalsIgnoreCase("avi")) &&
-                            datFM.pref_show_video){
-                        icon_getter_video(path);
-                    }
-                }
-        }
-
     }
     public void icon_getter_video(String path){
         if (datFM.cache_counter<datFM.cache_size){
             datFM.cache_paths[datFM.cache_counter]=path;
+            datFM.cache_icons[datFM.cache_counter]=null;
             new datFM_IconGenerator_VIDEO(this).execute(path,String.valueOf(datFM.cache_counter));
             datFM.cache_counter++;
         } else {
@@ -238,6 +255,7 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
     public void icon_getter_photo(String path){
         if (datFM.cache_counter<datFM.cache_size){
             datFM.cache_paths[datFM.cache_counter]=path;
+            datFM.cache_icons[datFM.cache_counter]=null;
             new datFM_IconGenerator_PHOTO(this).execute(path,String.valueOf(datFM.cache_counter));
             datFM.cache_counter++;
         } else {
@@ -247,6 +265,7 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
     public void icon_getter_apk(String path){
         if (datFM.cache_counter<datFM.cache_size){
             datFM.cache_paths[datFM.cache_counter]=path;
+            datFM.cache_icons[datFM.cache_counter]=null;
             new datFM_IconGenerator_APK(this).execute(path,String.valueOf(datFM.cache_counter));
             datFM.cache_counter++;
         } else {

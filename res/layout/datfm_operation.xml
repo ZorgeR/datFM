@@ -14,11 +14,11 @@
             <ImageView
                     android:layout_width="24px"
                     android:layout_height="24px"
-                    android:id="@+id/imageView1" android:src="@android:drawable/ic_menu_save" android:paddingRight="2dp"/>
+                    android:id="@+id/imageView" android:src="@android:drawable/ic_menu_upload" android:paddingRight="2dp"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textTo" android:layout_gravity="left|center_vertical" android:singleLine="true"
+                    android:id="@+id/textFile" android:layout_gravity="left|center_vertical" android:singleLine="true"
                     />
         </LinearLayout>
         <LinearLayout
@@ -28,11 +28,11 @@
             <ImageView
                     android:layout_width="24px"
                     android:layout_height="24px"
-                    android:id="@+id/imageView" android:src="@android:drawable/ic_menu_upload" android:paddingRight="2dp"/>
+                    android:id="@+id/imageView1" android:src="@android:drawable/ic_menu_save" android:paddingRight="2dp"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textFile" android:layout_gravity="left|center_vertical" android:singleLine="true"
+                    android:id="@+id/textTo" android:layout_gravity="left|center_vertical" android:singleLine="true"
                     />
         </LinearLayout>
         <ProgressBar

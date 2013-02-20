@@ -32,10 +32,12 @@ public class datFM_IconGenerator_APK extends AsyncTask<String, Void, Drawable> {
             icon = appInfo.loadIcon(activity.getContext().getPackageManager());
         }
         if (icon==null){icon=activity.getContext().getResources().getDrawable(R.drawable.ext_apk);}
+
         datFM.cache_icons[id]=icon;
         return icon;
     }
     protected void onPostExecute(Drawable result) {
+        super.onPostExecute(result);
         /** **/
         if(!datFM.scroll){
         activity.notifyDataSetChanged();}

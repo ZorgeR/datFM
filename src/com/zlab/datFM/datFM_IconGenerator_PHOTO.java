@@ -23,7 +23,7 @@ protected void onPreExecute() {
      protected Drawable doInBackground(String... params) {
                     String filePath = params[0];
                     int id = Integer.parseInt(params[1]);
-                    Drawable icon;
+                    Drawable icon=null;
 
                 try
                 {
@@ -44,15 +44,16 @@ protected void onPreExecute() {
 
                     icon = new BitmapDrawable(imageBitmap);
                     //if (prop_icon_file==null){prop_icon_file=activity.getContext().getResources().getDrawable(R.drawable.ext_pdf);}
-                    datFM.cache_icons[id]=icon;
+                } catch(Exception ex) {
                 }
-                catch(Exception ex) {
-                    icon=activity.getContext().getResources().getDrawable(R.drawable.ext_unknown);
-                }
+
+                if (icon==null){icon=activity.getContext().getResources().getDrawable(R.drawable.ext_unknown);}
+                datFM.cache_icons[id]=icon;
                 return icon;
             }
 
     protected void onPostExecute(Drawable result) {
+        super.onPostExecute(result);
         /** **/
         if(!datFM.scroll){
         activity.notifyDataSetChanged();}

@@ -124,9 +124,12 @@ public class datFM_IO {
     public boolean copy_recursively_smb(SmbFile file,String dest) throws IOException {
         if (file.isDirectory()) {
             new datFM_IO(dest).mkdir();
-            updateOverallBar(datFM_FileOperation.progr_overal.getProgress()+1,file.getPath(),dest);
+
+            updateOverallBar(datFM_FileOperation.progr_overal.getProgress() + 1,file.getPath(),dest);
+
             SmbFile[] children = file.listFiles();
-            datFM_FileOperation.progr_overal.setMax(datFM_FileOperation.progr_overal.getMax()+children.length);
+            datFM_FileOperation.overalMax=datFM_FileOperation.progr_overal.getMax()+children.length;
+            datFM_FileOperation.progr_overal.setMax(datFM_FileOperation.overalMax);
             for (SmbFile ff : children) {
                 copy_recursively_smb(ff, dest+"/"+ff.getName());}
         } else {
@@ -141,9 +144,12 @@ public class datFM_IO {
     public boolean copy_recursively_local(File file,String dest) throws IOException {
         if (file.isDirectory()) {
             new datFM_IO(dest).mkdir();
+
             updateOverallBar(datFM_FileOperation.progr_overal.getProgress() + 1, file.getPath(), dest);
+
             File[] children = file.listFiles();
-            datFM_FileOperation.progr_overal.setMax(datFM_FileOperation.progr_overal.getMax()+children.length);
+            datFM_FileOperation.overalMax=datFM_FileOperation.progr_overal.getMax()+children.length;
+            datFM_FileOperation.progr_overal.setMax(datFM_FileOperation.overalMax);
             for (File ff : children) {
                 copy_recursively_local(ff, dest+"/"+ff.getName());}
         } else {
