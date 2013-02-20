@@ -1519,6 +1519,7 @@ public class datFM extends Activity {
         cache_size=Integer.parseInt(pref_icons_cache);
         cache_icons=new Drawable[cache_size];
         cache_paths=new String[cache_size];
+        cache_counter=0;
         /** Cache size **/
 
         if (pref_save_path){
