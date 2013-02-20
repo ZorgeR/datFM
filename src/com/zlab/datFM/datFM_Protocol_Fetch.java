@@ -43,7 +43,7 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
 
     protected void onPreExecute() {
         if(!datFM.protocols[datFM.curPanel].equals("local") && !datFM.protocols[datFM.curPanel].equals("datfm")){
-            dialog_operation_remote = new ProgressDialog(datFM.datf_context);
+            dialog_operation_remote = new ProgressDialog(activity);
             dialog_operation_remote.setTitle(datFM.protocols[datFM.curPanel]);
             dialog_operation_remote.setMessage("Please wait...");
             dialog_operation_remote.setIndeterminate(false);
