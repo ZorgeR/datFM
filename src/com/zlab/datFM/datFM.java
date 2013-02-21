@@ -460,12 +460,14 @@ public class datFM extends Activity {
                 openRemoteFile(path, name, ext);
         } else {
             Intent intent = new Intent(Intent.ACTION_VIEW);
+
             Uri uri = Uri.fromFile(new File(path));
-            String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(uri.toString()));
+            //String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(uri.toString()));
+            String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(ext.toLowerCase());
 
             /* TODO Перейти к библиотеке типов */
             if(ext.equals("7z")){mimeType="zip";}
-            if(ext.equals("txt")){mimeType="text/plain-text";}
+            //if(ext.equals("txt")){mimeType="text/plain-text";}
 
             intent.setDataAndType(uri, mimeType);
 
