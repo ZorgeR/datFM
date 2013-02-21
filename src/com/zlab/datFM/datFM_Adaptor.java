@@ -77,7 +77,7 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
             if (sel[position]){
                 ll.setBackgroundColor(datFM.color_item_selected);
             } else {
-                if(datFM.pref_theme.equals("Sharp") || datFM.pref_theme.equals("Holo Fullscreen")){
+                if(/*datFM.pref_theme.equals("Dark") || */datFM.pref_theme.equals("Dark Fullscreen")){
                     //ll.setBackgroundDrawable(datFM.datFM_state.getResources().getDrawable(R.drawable.datfm_theme_stripe));
                     ll.setBackgroundColor(Color.parseColor("#88222222"));
                 } else {
@@ -122,7 +122,7 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
                     resID = ext_check(audio,"audio",ext);
                 }
                 if (resID==0){
-                    String[] video = {"mp4", "3gp", "mkv", "avi", "mpg", "mpeg"};
+                    String[] video = {"mp4", "3gp", "mkv", "avi", "mpg", "mpeg", "flv", "vob"};
                     resID = ext_check(video,"video",ext);
                 }
                 if (resID == 0) {

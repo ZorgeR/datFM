@@ -32,7 +32,7 @@ import static com.zlab.datFM.datFM_ZA_Interface.*;
 public class datFM extends Activity {
 
     /** VAR GLOBAL **/
-    LinearLayout layoutPathPanelLeft, layoutPathPanelRight,layoutButtonPanel;
+    LinearLayout layoutPathPanelLeft, layoutPathPanelRight,layoutButtonPanel,layoutActiveLeft,layoutActiveRight;
     static ListView listLeft,listRight;
     TextView textPanelRight,textPanelLeft,textItemsRightSelected,textItemsLeftSelected;
     EditText textCurrentPathLeft, textCurrentPathRight;
@@ -45,6 +45,7 @@ public class datFM extends Activity {
     int selLeft=0;
     int selRight=0;
     int posLeft,posRight,pathPanelBgr,pathPanelBgrOther;
+    int pathPanelBgrFill=0;
     static String user, pass, url, domain;
     String prevName;
     static String[] protocols=new String[2];
@@ -133,27 +134,30 @@ public class datFM extends Activity {
         ZA = new datFM_ZA_Interface(datf_context);
     }
     protected void setTheme(){
-        if (pref_theme.equals("Holo Light")) {
+        //pathPanelBgrOther=Color.TRANSPARENT;/****/
+        pathPanelBgr=Color.parseColor("#ff46b2ff");
+        pathPanelBgrOther=Color.parseColor("#5046b2ff");
+
+        /*if (pref_theme.equals("Holo Light")) {
             setTheme(android.R.style.Theme_Holo_Light);
-            pathPanelBgr=R.drawable.dialog_full_holo_light;
+            //pathPanelBgr=R.drawable.spacer;
             color_item_selected=Color.parseColor("#ff46b2ff");
-        } else if (pref_theme.equals("Holo")){
-            setTheme(android.R.style.Theme_Holo);
-            pathPanelBgr=R.drawable.dialog_full_holo_dark;
-            color_item_selected=Color.parseColor("#aa3486ad");
-        } else if (pref_theme.equals("Holo Fullscreen")){
+        } else */if (pref_theme.equals("Dark Fullscreen")){
             setTheme(android.R.style.Theme_Holo_NoActionBar);
-            pathPanelBgr=R.drawable.dialog_full_holo_dark;
-            color_item_selected=Color.parseColor("#aa3486ad");
-        } else if (pref_theme.equals("Sharp")){
-            setTheme(android.R.style.Theme_Holo);
-            pathPanelBgr=R.drawable.dialog_full_holo_dark;
+            //pathPanelBgr=R.drawable.theme_sharp;
             color_item_selected=Color.parseColor("#88980000");
-        } else {
-            pathPanelBgr=R.drawable.dialog_full_holo_light;
+            pathPanelBgrFill=Color.parseColor("#ff131514");
+        /*} else if (pref_theme.equals("Dark")){
+            setTheme(android.R.style.Theme_Holo);
+            //pathPanelBgr=R.drawable.dialog_full_holo_dark;
+            //pathPanelBgr=R.drawable.spacer;
+            color_item_selected=Color.parseColor("#88980000");
+            pathPanelBgrFill=Color.parseColor("#ff131514");
+        */} else {
+            //pathPanelBgr=R.drawable.dialog_full_holo_light;
             color_item_selected=Color.parseColor("#ff46b2ff");
         }
-        pathPanelBgrOther=Color.TRANSPARENT;/****/
+        //pathPanelBgrOther=R.drawable.spacer;
     }
     protected void onResume() {
         super.onResume();
@@ -651,14 +655,23 @@ public class datFM extends Activity {
     protected void update_panel_focus(){
         if (curPanel ==0){
             //noinspection deprecation
+            /*
             layoutPathPanelLeft.setBackgroundDrawable(getResources().getDrawable(pathPanelBgr));
             layoutPathPanelRight.setBackgroundColor(pathPanelBgrOther);
+            */
+            layoutActiveLeft.setBackgroundColor(pathPanelBgr);
+            layoutActiveRight.setBackgroundColor(pathPanelBgrOther);
         } else {
             /** only API 16 -> layoutPathPanelRight.setBackground(getResources().getDrawable(android.R.drawable.dialog_holo_light_frame)); **/
             //noinspection deprecation
+            /*
             layoutPathPanelRight.setBackgroundDrawable(getResources().getDrawable(pathPanelBgr));
             layoutPathPanelLeft.setBackgroundColor(pathPanelBgrOther);
+            */
+            layoutActiveRight.setBackgroundColor(pathPanelBgr);
+            layoutActiveLeft.setBackgroundColor(pathPanelBgrOther);
         }
+        if(pathPanelBgrFill!=0){layoutPathPanelRight.setBackgroundColor(pathPanelBgrFill);layoutPathPanelLeft.setBackgroundColor(pathPanelBgrFill);}
         update_operation_vars();
         setTitle(curDir);
     }
@@ -783,6 +796,12 @@ public class datFM extends Activity {
         final EditText textNewFolderName = (EditText) layer.findViewById(R.id.textNewFolderName);
         textNewFolderName.setHint(getResources().getString(R.string.ui_dialog_hint_rename));
         newFolderDialog.setView(layer);
+
+        if (sel==1){
+            for(int i=0;i<selected.length;i++){
+            if(selected[i])textNewFolderName.setText(adapter.getItem(i).getName());
+            }
+        }
 
         newFolderDialog.setPositiveButton(getResources().getString(R.string.ui_dialog_btn_ok),
                 new DialogInterface.OnClickListener() {
@@ -1225,6 +1244,8 @@ public class datFM extends Activity {
         layoutPathPanelLeft = (LinearLayout) findViewById(R.id.layoutPathPannelLeft);
         layoutPathPanelRight = (LinearLayout) findViewById(R.id.layoutPathPannelRight);
         layoutButtonPanel = (LinearLayout) findViewById(R.id.layoutButtonPanel);
+        layoutActiveLeft = (LinearLayout) findViewById(R.id.layoutActiveLeft);
+        layoutActiveRight = (LinearLayout) findViewById(R.id.layoutActiveRight);
 
         //btnShare = (Button) findViewById(R.id.btnShare);
         btnShare = (LinearLayout) findViewById(R.id.btnShare);
@@ -1583,14 +1604,14 @@ public class datFM extends Activity {
 
         /** Small panel **/
         if(pref_small_panel){
-            int in_dp = 48;
+            int in_dp = 32;
             final float scale_px = getResources().getDisplayMetrics().density;
             int in_px = (int) (in_dp * scale_px + 0.5f);
             layoutPathPanelLeft.getLayoutParams().height = in_px;
             layoutPathPanelRight.getLayoutParams().height = in_px;
             layoutButtonPanel.getLayoutParams().height = in_px;
         } else {
-            int in_dp = 60;
+            int in_dp = 42;
             final float scale_px = getResources().getDisplayMetrics().density;
             int in_px = (int) (in_dp * scale_px + 0.5f);
             layoutPathPanelLeft.getLayoutParams().height = in_px;

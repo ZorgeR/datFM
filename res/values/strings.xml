@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="list_pressed">#444444</color>
-
     <string name="app_name">datFM</string>
     <string name="app_properties">Properties</string>
 
