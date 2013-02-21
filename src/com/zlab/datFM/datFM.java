@@ -2,10 +2,7 @@ package com.zlab.datFM;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -22,8 +19,13 @@ import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.*;
+import jcifs.smb.SmbException;
+import jcifs.smb.SmbFile;
+import jcifs.smb.SmbFileInputStream;
 
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -454,10 +456,41 @@ public class datFM extends Activity {
         }
         new datFM_FileOperation(this).execute("open_as_remote", path, tmp_dir.getPath()+"/"+name,ext,"",String.valueOf(curPanel),String.valueOf(competPanel));
     }
-    protected void openFile(String path,String name, String ext){
+    protected void openFile(final String path,String name, String ext){
         boolean local = path.startsWith("/");
         if(!local){
+
+            if(Streamer.isStreamMediaByExt(name)){
+                new Thread(){
+                    public void run(){
+                        try{
+                            Streamer s;
+                            s = Streamer.getInstance();
+
+                            SmbFile smbfile = new datFM_IO(path).getFileSmb();
+                            s.setStreamSrc(smbfile, null);//the second argument can be a list of subtitle files
+                            runOnUiThread(new Runnable(){
+                                public void run(){
+                                    try{
+                                        Uri uri = Uri.parse(Streamer.URL + Uri.fromFile(new File(Uri.parse(path).getPath())).getEncodedPath());
+                                        Intent i = new Intent(Intent.ACTION_VIEW);
+                                        i.setDataAndType(uri, "video/mp4");
+                                        startActivity(i);
+                                    }catch (ActivityNotFoundException e){
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
+
+            } else {
                 openRemoteFile(path, name, ext);
+            }
         } else {
             Intent intent = new Intent(Intent.ACTION_VIEW);
 
