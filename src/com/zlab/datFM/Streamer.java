@@ -19,6 +19,8 @@ public class Streamer extends StreamServer {
     // private long length;
     private static Streamer instance;
     private static Pattern pattern = Pattern.compile("^.*\\.(?i)(mp3|wma|wav|aac|ogg|m4a|flac|mp4|avi|mpg|mpeg|3gp|3gpp|mkv|flv|rmvb)$");
+    private static Pattern pattern_audio = Pattern.compile("^.*\\.(?i)(mp3|wma|wav|aac|ogg|m4a|flac|mp4)$");
+    private static Pattern pattern_video = Pattern.compile("^.*\\.(?i)(mp4|avi|mpg|mpeg|3gp|3gpp|mkv|flv|rmvb)$");
 
     // private CBItem source;
     // private String mime;
@@ -42,6 +44,15 @@ public class Streamer extends StreamServer {
     }
     public static boolean isStreamMediaByExt(String ext) {
         return pattern.matcher(ext).matches();
+    }
+    public static String mediaType(String ext) {
+        if(pattern_audio.matcher(ext).matches()){
+            return "audio/*";
+        } else if(pattern_video.matcher(ext).matches()){
+            return "video/*";
+        } else {
+            return "*/*";
+        }
     }
 
     public void setStreamSrc(SmbFile file,List<SmbFile> extraFiles) {

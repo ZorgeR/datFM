@@ -456,10 +456,9 @@ public class datFM extends Activity {
         }
         new datFM_FileOperation(this).execute("open_as_remote", path, tmp_dir.getPath()+"/"+name,ext,"",String.valueOf(curPanel),String.valueOf(competPanel));
     }
-    protected void openFile(final String path,String name, String ext){
+    protected void openFile(final String path,final String name, String ext){
         boolean local = path.startsWith("/");
         if(!local){
-
             if(Streamer.isStreamMediaByExt(name)){
                 new Thread(){
                     public void run(){
@@ -474,7 +473,7 @@ public class datFM extends Activity {
                                     try{
                                         Uri uri = Uri.parse(Streamer.URL + Uri.fromFile(new File(Uri.parse(path).getPath())).getEncodedPath());
                                         Intent i = new Intent(Intent.ACTION_VIEW);
-                                        i.setDataAndType(uri, "video/mp4");
+                                        i.setDataAndType(uri, Streamer.mediaType(name));
                                         startActivity(i);
                                     }catch (ActivityNotFoundException e){
                                         e.printStackTrace();
@@ -487,7 +486,6 @@ public class datFM extends Activity {
                         }
                     }
                 }.start();
-
             } else {
                 openRemoteFile(path, name, ext);
             }
