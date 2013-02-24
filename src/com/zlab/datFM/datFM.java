@@ -34,7 +34,8 @@ import static com.zlab.datFM.datFM_ZA_Interface.*;
 public class datFM extends Activity {
 
     /** VAR GLOBAL **/
-    LinearLayout layoutPathPanelLeft, layoutPathPanelRight,layoutButtonPanel,layoutActiveLeft,layoutActiveRight;
+    LinearLayout layoutPathPanelLeft, layoutPathPanelRight,layoutButtonPanel,layoutActiveLeft,layoutActiveRight,
+            layoutParentPathPanelLeft,layoutParentPathPanelRight,pathBarSpacer;
     static ListView listLeft,listRight;
     TextView textPanelRight,textPanelLeft,textItemsRightSelected,textItemsLeftSelected;
     EditText textCurrentPathLeft, textCurrentPathRight;
@@ -73,7 +74,7 @@ public class datFM extends Activity {
     boolean pref_show_panel,pref_open_dir,pref_open_arcdir,
             pref_open_arcdir_window,pref_save_path,pref_dir_focus,
             pref_kamikaze,pref_show_text_on_panel,pref_show_navbar,
-            pref_show_panel_discr,pref_small_panel,pref_clear_filecache;
+            pref_show_panel_discr,pref_small_panel,pref_clear_filecache,pref_show_single_navbar;
     static boolean pref_show_apk,pref_show_video,pref_show_photo,
             pref_show_folder_discr,pref_show_files_discr,pref_root,pref_sambalogin,pref_font_bold_folder,pref_show_hide;
     boolean firstAlert;
@@ -166,9 +167,11 @@ public class datFM extends Activity {
         if(settings_opened){
             pref_getter();
             pref_setter();
+            update_panel_focus();
             adapterLeft.notifyDataSetChanged();
             adapterRight.notifyDataSetChanged();
-            settings_opened = false;}
+            settings_opened = false;
+        }
     }
     protected void onStop(){
         prefs.edit().putString("lastLeftDir", curentLeftDir).commit();
@@ -686,6 +689,7 @@ public class datFM extends Activity {
         }
     }
     protected void update_panel_focus(){
+
         if (curPanel ==0){
             //noinspection deprecation
             /*
@@ -694,6 +698,7 @@ public class datFM extends Activity {
             */
             layoutActiveLeft.setBackgroundColor(pathPanelBgr);
             layoutActiveRight.setBackgroundColor(pathPanelBgrOther);
+            if(pref_show_single_navbar){layoutParentPathPanelRight.setVisibility(View.GONE);layoutParentPathPanelLeft.setVisibility(View.VISIBLE);}
         } else {
             /** only API 16 -> layoutPathPanelRight.setBackground(getResources().getDrawable(android.R.drawable.dialog_holo_light_frame)); **/
             //noinspection deprecation
@@ -703,7 +708,9 @@ public class datFM extends Activity {
             */
             layoutActiveRight.setBackgroundColor(pathPanelBgr);
             layoutActiveLeft.setBackgroundColor(pathPanelBgrOther);
+            if(pref_show_single_navbar){layoutParentPathPanelLeft.setVisibility(View.GONE);layoutParentPathPanelRight.setVisibility(View.VISIBLE);}
         }
+
         if(pathPanelBgrFill!=0){layoutPathPanelRight.setBackgroundColor(pathPanelBgrFill);layoutPathPanelLeft.setBackgroundColor(pathPanelBgrFill);}
         update_operation_vars();
         setTitle(curDir);
@@ -1274,6 +1281,9 @@ public class datFM extends Activity {
         textItemsLeftSelected = (TextView) findViewById(R.id.textItemsLeftSelected);
         textCurrentPathLeft = (EditText) findViewById(R.id.textCurrentPathLeft);
         textCurrentPathRight = (EditText) findViewById(R.id.textCurrentPathRight);
+        layoutParentPathPanelLeft = (LinearLayout) findViewById(R.id.leftPath);
+        layoutParentPathPanelRight = (LinearLayout) findViewById(R.id.rightPath);
+        pathBarSpacer = (LinearLayout) findViewById(R.id.pathBarSpacer);
         layoutPathPanelLeft = (LinearLayout) findViewById(R.id.layoutPathPannelLeft);
         layoutPathPanelRight = (LinearLayout) findViewById(R.id.layoutPathPannelRight);
         layoutButtonPanel = (LinearLayout) findViewById(R.id.layoutButtonPanel);
@@ -1542,9 +1552,9 @@ public class datFM extends Activity {
         pref_show_hide = prefs.getBoolean("pref_show_hide",false);
         pref_clear_filecache = prefs.getBoolean("pref_clear_filecache",true);
         pref_theme = prefs.getString("pref_theme","datFM Classic");
+        pref_show_single_navbar = prefs.getBoolean("pref_show_single_navbar",false);
     }
     private void pref_setter(){
-
 
         /** Fonts **/
         if(pref_font_style.equalsIgnoreCase("normal")){
@@ -1627,6 +1637,13 @@ public class datFM extends Activity {
         /** **/
 
         /** Nav Bar Show **/
+        if(pref_show_single_navbar){
+            pathBarSpacer.setVisibility(View.GONE);
+        } else {
+            pathBarSpacer.setVisibility(View.VISIBLE);
+            layoutParentPathPanelRight.setVisibility(View.VISIBLE);
+            layoutParentPathPanelLeft.setVisibility(View.VISIBLE);
+        }
         if(!pref_show_navbar){
             layoutPathPanelLeft.setVisibility(View.GONE);
             layoutPathPanelRight.setVisibility(View.GONE);

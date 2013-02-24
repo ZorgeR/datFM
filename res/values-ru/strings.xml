@@ -49,6 +49,7 @@
     <string name="settings_group_network">Сеть</string>
     <string name="settings_group_dangerous">Опасно</string>
     <!-- Settings Elements Title -->
+    <string name="settings_elements_title_theme">Темы</string>
     <string name="settings_elements_title_cp">Панель действий</string>
     <string name="settings_elements_title_appicons">Иконки приложений</string>
     <string name="settings_elements_title_photoicons">Миниатюры для фото</string>
@@ -63,6 +64,7 @@
     <string name="settings_elements_title_small_panel">Маленькие панели</string>
     <string name="settings_elements_title_cptext">Текст в панели</string>
     <string name="settings_elements_title_navbar">Адресная строка</string>
+    <string name="settings_elements_title_single_navbar">Одна адресная строка</string>
     <string name="settings_elements_title_folder_discription">Описание каталогов</string>
     <string name="settings_elements_title_files_discription">Описание файлов</string>
     <string name="settings_elements_title_panel_discription">Сводка о панели</string>
@@ -77,6 +79,7 @@
     <string name="settings_elements_title_root">root</string>
     <string name="settings_elements_title_show_hide">Показывать скрытые элементы</string>
     <!-- Settings Elements Summary -->
+    <string name="settings_elements_summary_theme">Применяется после перезапуска приложения</string>
     <string name="settings_elements_summary_cp">Показывать всегда</string>
     <string name="settings_elements_summary_appicons">Показывать иконку приложения для APK</string>
     <string name="settings_elements_summary_photoicons">Отображать миниатюры для фото</string>
@@ -91,6 +94,7 @@
     <string name="settings_elements_summary_small_panel">Использовать маленькие панели, для телефонов</string>
     <string name="settings_elements_summary_cptext">Показывать надписи на кнопках панели</string>
     <string name="settings_elements_summary_navbar">Показывать адресную строку наверху</string>
+    <string name="settings_elements_summary_single_navbar">Показывать только активную адресную строку</string>
     <string name="settings_elements_summary_folder_discription">Показывать описание для каталогов</string>
     <string name="settings_elements_summary_files_discription">Показывать описание для файлов</string>
     <string name="settings_elements_summary_panel_discription">Показывать информацию в нижней части панели</string>

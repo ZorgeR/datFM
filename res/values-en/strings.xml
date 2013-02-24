@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="list_pressed">#444444</color>
-
     <string name="app_name">datFM</string>
     <string name="app_properties">Properties</string>
 
@@ -66,6 +64,7 @@
     <string name="settings_elements_title_small_panel">Small panels</string>
     <string name="settings_elements_title_cptext">Text on panel</string>
     <string name="settings_elements_title_navbar">Address bar</string>
+    <string name="settings_elements_title_single_navbar">Single address bar</string>
     <string name="settings_elements_title_folder_discription">Folder descriptions</string>
     <string name="settings_elements_title_files_discription">Files descriptions</string>
     <string name="settings_elements_title_panel_discription">Panel descriptions</string>
@@ -95,6 +94,7 @@
     <string name="settings_elements_summary_small_panel">Use small panels, for phones</string>
     <string name="settings_elements_summary_cptext">Show text on buttons in panel</string>
     <string name="settings_elements_summary_navbar">Show address bar on the top</string>
+    <string name="settings_elements_summary_single_navbar">Show only active address bar</string>
     <string name="settings_elements_summary_folder_discription">Show folder descriptions</string>
     <string name="settings_elements_summary_files_discription">Show files descriptions</string>
     <string name="settings_elements_summary_panel_discription">Show descriptions in bottom of panel</string>

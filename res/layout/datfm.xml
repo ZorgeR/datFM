@@ -9,6 +9,126 @@
         >
 
     <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:layout_weight="0.5" android:id="@+id/leftPath">
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/layoutPathPannelLeft"
+                        >
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            style="@android:style/Widget.DeviceDefault.Button" android:onClick="init_UI_Listener"
+                            android:id="@+id/btnUPleft"
+                            android:contentDescription="@string/navbar_up">
+                        <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/navbar_upImage" android:src="@drawable/ui_panel_back"
+                                android:contentDescription="@string/navbar_up"/>
+                    </LinearLayout>
+                    <EditText
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:id="@+id/textCurrentPathLeft" android:layout_weight="1"
+                            android:selectAllOnFocus="true" android:singleLine="true" android:inputType="textUri"/>
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            style="@android:style/Widget.DeviceDefault.Button" android:onClick="init_UI_Listener"
+                            android:id="@+id/btnGOleft"
+                            android:contentDescription="@string/navbar_go">
+                        <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/navbar_goImage" android:src="@drawable/ui_panel_go"
+                                android:contentDescription="@string/navbar_go"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="1px"
+                    android:layout_height="match_parent" android:background="#46b2ff" android:id="@+id/pathBarSpacer">
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:layout_weight="0.5" android:id="@+id/rightPath">
+                <LinearLayout android:orientation="horizontal" android:layout_width="match_parent"
+                              android:layout_height="wrap_content" android:id="@+id/layoutPathPannelRight"
+                        >
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            style="@android:style/Widget.DeviceDefault.Button" android:onClick="init_UI_Listener"
+                            android:id="@+id/btnUPright"
+                            android:contentDescription="@string/navbar_up">
+                        <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/navbar_upImage" android:src="@drawable/ui_panel_back"
+                                android:contentDescription="@string/navbar_up"/>
+                    </LinearLayout>
+                    <EditText android:layout_width="0dp" android:layout_height="match_parent"
+                              android:id="@+id/textCurrentPathRight" android:layout_weight="1" android:selectAllOnFocus="true"
+                              android:singleLine="true" android:inputType="textUri"/>
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            style="@android:style/Widget.DeviceDefault.Button" android:onClick="init_UI_Listener"
+                            android:id="@+id/btnGOright"
+                            android:contentDescription="@string/navbar_go">
+                        <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/navbar_goImage" android:src="@drawable/ui_panel_go"
+                                android:contentDescription="@string/navbar_go"/>
+                    </LinearLayout>
+                    </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:layout_weight="0.5">
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="1px" android:background="#5046b2ff" android:id="@+id/layoutActiveLeft">
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:orientation="vertical" android:layout_width="1px" android:layout_height="match_parent"
+                          android:background="#46b2ff" android:id="@+id/linearLayout"/>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:layout_weight="0.5">
+                <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="1px"
+                              android:background="#5046b2ff" android:id="@+id/layoutActiveRight"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="0dp" android:baselineAligned="false" android:layout_weight="1">
@@ -16,49 +136,6 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" android:layout_weight="0.5">
-            <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/layoutPathPannelLeft"
-                    >
-                <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        style="@android:style/Widget.DeviceDefault.Button" android:onClick="init_UI_Listener"
-                        android:id="@+id/btnUPleft"
-                        android:contentDescription="@string/navbar_up">
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:id="@+id/navbar_upImage" android:src="@drawable/ui_panel_back"
-                            android:contentDescription="@string/navbar_up"/>
-                </LinearLayout>
-                <EditText
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:id="@+id/textCurrentPathLeft" android:layout_weight="1"
-                        android:selectAllOnFocus="true" android:singleLine="true" android:inputType="textUri"/>
-                <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        style="@android:style/Widget.DeviceDefault.Button" android:onClick="init_UI_Listener"
-                        android:id="@+id/btnGOleft"
-                        android:contentDescription="@string/navbar_go">
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:id="@+id/navbar_goImage" android:src="@drawable/ui_panel_go"
-                            android:contentDescription="@string/navbar_go"/>
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="1px" android:background="#5046b2ff" android:id="@+id/layoutActiveLeft">
-            </LinearLayout>
             <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -85,43 +162,8 @@
         </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent" android:layout_weight="0.5">
-            <LinearLayout android:orientation="horizontal" android:layout_width="match_parent"
-                          android:layout_height="wrap_content" android:id="@+id/layoutPathPannelRight"
-                    >
-                <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        style="@android:style/Widget.DeviceDefault.Button" android:onClick="init_UI_Listener"
-                        android:id="@+id/btnUPright"
-                        android:contentDescription="@string/navbar_up">
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:id="@+id/navbar_upImage" android:src="@drawable/ui_panel_back"
-                            android:contentDescription="@string/navbar_up"/>
-                </LinearLayout>
-                <EditText android:layout_width="0dp" android:layout_height="match_parent"
-                          android:id="@+id/textCurrentPathRight" android:layout_weight="1" android:selectAllOnFocus="true"
-                          android:singleLine="true" android:inputType="textUri"/>
-                <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        style="@android:style/Widget.DeviceDefault.Button" android:onClick="init_UI_Listener"
-                        android:id="@+id/btnGOright"
-                        android:contentDescription="@string/navbar_go">
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:id="@+id/navbar_goImage" android:src="@drawable/ui_panel_go"
-                            android:contentDescription="@string/navbar_go"/>
-                </LinearLayout>
-                </LinearLayout>
-            <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="1px"
-                          android:background="#5046b2ff" android:id="@+id/layoutActiveRight"/>
             <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
