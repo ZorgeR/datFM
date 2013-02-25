@@ -29,7 +29,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b68612f9-3348-4342-8d34-ba591f5277dc" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/datfm_smb_add_server.xml" afterPath="$PROJECT_DIR$/res/layout/datfm_smb_add_server.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/zlab/datFM/datFM.java" afterPath="$PROJECT_DIR$/src/com/zlab/datFM/datFM.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="datFM.iws" />
@@ -39,7 +39,7 @@
     <file path="/datFM_Main.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1358625154843" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1360237100156" ignored="false" />
     <file path="/datFM.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1361824739994" ignored="false" />
-    <file path="/Dummy.txt" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1361824877164" ignored="false" />
+    <file path="/Dummy.txt" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1361824995372" ignored="false" />
     <file path="/fragment.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1361803058729" ignored="false" />
     <file path="/datfm.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1360831697350" ignored="false" />
     <file path="/datfm_mainmenu.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1361389623889" ignored="false" />
@@ -156,10 +156,32 @@
       <file leaf-file-name="datFM.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="840" column="55" selection-start="37241" selection-end="37241" vertical-scroll-proportion="0.4698134">
+            <state line="650" column="39" selection-start="26755" selection-end="26755" vertical-scroll-proportion="0.2755214">
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="method#onCreate#0;class#datFM#0" expanded="false" />
+                <element signature="method#setTheme#0;class#datFM#0" expanded="false" />
+                <element signature="method#onResume#0;class#datFM#0" expanded="false" />
+                <element signature="method#onStop#0;class#datFM#0" expanded="false" />
+                <element signature="method#onDestroy#0;class#datFM#0" expanded="false" />
+                <element signature="method#onConfigurationChanged#0;class#datFM#0" expanded="false" />
+                <element signature="method#onCreateOptionsMenu#0;class#datFM#0" expanded="false" />
+                <element signature="method#onOptionsItemSelected#0;class#datFM#0" expanded="false" />
+                <element signature="method#root_build_content#0;class#datFM#0" expanded="false" />
+                <element signature="method#fill_new#0;class#datFM#0" expanded="false" />
+                <element signature="method#fill_panel#0;class#datFM#0" expanded="false" />
+                <element signature="method#openContextMenu#0;class#datFM#0" expanded="false" />
+                <element signature="method#openRemoteFile#0;class#datFM#0" expanded="false" />
+                <element signature="method#openRemoteFileAs#0;class#datFM#0" expanded="false" />
+                <element signature="method#openFile#0;class#datFM#0" expanded="false" />
+                <element signature="method#openFileAs#0;class#datFM#0" expanded="false" />
+                <element signature="method#onFileClick#0;class#datFM#0" expanded="false" />
+                <element signature="method#onFileClickLong#0;class#datFM#0" expanded="false" />
+                <element signature="method#update_operation_vars#0;class#datFM#0" expanded="false" />
+                <element signature="method#update_tab#0;class#datFM#0" expanded="false" />
+                <element signature="method#update_panel_focus#0;class#datFM#0" expanded="false" />
                 <element signature="method#action_smb_newserver#0;class#datFM#0" expanded="false" />
+                <element signature="method#action_smb_openserver#0;class#datFM#0" expanded="false" />
                 <element signature="method#action_dialog#0;class#datFM#0" expanded="false" />
                 <element signature="method#action_new_folder#0;class#datFM#0" expanded="false" />
                 <element signature="method#action_copy#0;class#datFM#0" expanded="false" />
@@ -170,7 +192,7 @@
                 <element signature="method#action_select_all#0;class#datFM#0" expanded="false" />
                 <element signature="method#action_deselect_all#0;class#datFM#0" expanded="false" />
                 <element signature="method#action_properties#0;class#datFM#0" expanded="false" />
-                <element signature="e#53073#53081#0" expanded="true" />
+                <element signature="e#50537#50545#0" expanded="true" />
                 <element signature="method#action_clear_file_cache#0;class#datFM#0" expanded="false" />
                 <element signature="method#ZA_pack#0;class#datFM#0" expanded="false" />
                 <element signature="method#ZA_unpack#0;class#datFM#0" expanded="false" />
@@ -229,8 +251,8 @@
         <option value="$PROJECT_DIR$/src/com/zlab/datFM/datFM_Protocol_Fetch.java" />
         <option value="$PROJECT_DIR$/res/layout/datfm.xml" />
         <option value="$PROJECT_DIR$/src/com/zlab/datFM/datFM_FileOperation.java" />
-        <option value="$PROJECT_DIR$/src/com/zlab/datFM/datFM.java" />
         <option value="$PROJECT_DIR$/res/layout/datfm_smb_add_server.xml" />
+        <option value="$PROJECT_DIR$/src/com/zlab/datFM/datFM.java" />
       </list>
     </option>
   </component>
@@ -300,36 +322,8 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-          </PATH>
-          <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="datFM" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="datFM" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="datFM" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="datFM" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="layout" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -801,7 +795,11 @@
       <created>1361824887036</created>
       <updated>1361824887036</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="0.1.6.3b - keychain auth loop&#10;">
+      <created>1361824997518</created>
+      <updated>1361824997518</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -826,7 +824,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="24" width="1920" height="1056" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19530416" sideWeight="0.7225187" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26307365" sideWeight="0.7225187" order="2" side_tool="false" content_ui="tabs" />
@@ -844,7 +842,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1638207" sideWeight="0.7225187" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1638207" sideWeight="0.7225187" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27748132" sideWeight="0.9338314" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" x="83" y="500" width="1720" height="335" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
@@ -940,11 +938,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$PROJECT_DIR$/../../jcifs-1.3.17.jar!/jcifs/smb/SmbFileInputStream.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="4" selection-start="698" selection-end="698" vertical-scroll-proportion="0.2878104" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/values/array.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="71" column="28" selection-start="1901" selection-end="1901" vertical-scroll-proportion="0.60661155" />
@@ -1023,13 +1016,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM_Protocol_Fetch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="239" column="57" selection-start="9640" selection-end="9640" vertical-scroll-proportion="0.8830735">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM_FileOperation.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="124" column="78" selection-start="5085" selection-end="5085" vertical-scroll-proportion="0.24698134">
@@ -1047,12 +1033,48 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM_SwitchPreference.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="13" selection-start="236" selection-end="236" vertical-scroll-proportion="0.06586169">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM_Protocol_Fetch.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="229" column="43" selection-start="9144" selection-end="9144" vertical-scroll-proportion="1.2672606">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="840" column="55" selection-start="37241" selection-end="37241" vertical-scroll-proportion="0.4698134">
+        <state line="650" column="39" selection-start="26755" selection-end="26755" vertical-scroll-proportion="0.2755214">
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#onCreate#0;class#datFM#0" expanded="false" />
+            <element signature="method#setTheme#0;class#datFM#0" expanded="false" />
+            <element signature="method#onResume#0;class#datFM#0" expanded="false" />
+            <element signature="method#onStop#0;class#datFM#0" expanded="false" />
+            <element signature="method#onDestroy#0;class#datFM#0" expanded="false" />
+            <element signature="method#onConfigurationChanged#0;class#datFM#0" expanded="false" />
+            <element signature="method#onCreateOptionsMenu#0;class#datFM#0" expanded="false" />
+            <element signature="method#onOptionsItemSelected#0;class#datFM#0" expanded="false" />
+            <element signature="method#root_build_content#0;class#datFM#0" expanded="false" />
+            <element signature="method#fill_new#0;class#datFM#0" expanded="false" />
+            <element signature="method#fill_panel#0;class#datFM#0" expanded="false" />
+            <element signature="method#openContextMenu#0;class#datFM#0" expanded="false" />
+            <element signature="method#openRemoteFile#0;class#datFM#0" expanded="false" />
+            <element signature="method#openRemoteFileAs#0;class#datFM#0" expanded="false" />
+            <element signature="method#openFile#0;class#datFM#0" expanded="false" />
+            <element signature="method#openFileAs#0;class#datFM#0" expanded="false" />
+            <element signature="method#onFileClick#0;class#datFM#0" expanded="false" />
+            <element signature="method#onFileClickLong#0;class#datFM#0" expanded="false" />
+            <element signature="method#update_operation_vars#0;class#datFM#0" expanded="false" />
+            <element signature="method#update_tab#0;class#datFM#0" expanded="false" />
+            <element signature="method#update_panel_focus#0;class#datFM#0" expanded="false" />
             <element signature="method#action_smb_newserver#0;class#datFM#0" expanded="false" />
+            <element signature="method#action_smb_openserver#0;class#datFM#0" expanded="false" />
             <element signature="method#action_dialog#0;class#datFM#0" expanded="false" />
             <element signature="method#action_new_folder#0;class#datFM#0" expanded="false" />
             <element signature="method#action_copy#0;class#datFM#0" expanded="false" />
@@ -1063,7 +1085,7 @@
             <element signature="method#action_select_all#0;class#datFM#0" expanded="false" />
             <element signature="method#action_deselect_all#0;class#datFM#0" expanded="false" />
             <element signature="method#action_properties#0;class#datFM#0" expanded="false" />
-            <element signature="e#53073#53081#0" expanded="true" />
+            <element signature="e#50537#50545#0" expanded="true" />
             <element signature="method#action_clear_file_cache#0;class#datFM#0" expanded="false" />
             <element signature="method#ZA_pack#0;class#datFM#0" expanded="false" />
             <element signature="method#ZA_unpack#0;class#datFM#0" expanded="false" />

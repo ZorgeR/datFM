@@ -135,30 +135,16 @@ public class datFM extends Activity {
         ZA = new datFM_ZA_Interface(datf_context);
     }
     protected void setTheme(){
-        //pathPanelBgrOther=Color.TRANSPARENT;/****/
         pathPanelBgr=Color.parseColor("#ff46b2ff");
         pathPanelBgrOther=Color.parseColor("#5046b2ff");
 
-        /*if (pref_theme.equals("Holo Light")) {
-            setTheme(android.R.style.Theme_Holo_Light);
-            //pathPanelBgr=R.drawable.spacer;
-            color_item_selected=Color.parseColor("#ff46b2ff");
-        } else */if (pref_theme.equals("Dark Fullscreen")){
+        if (pref_theme.equals("Dark Fullscreen")){
             setTheme(android.R.style.Theme_Holo_NoActionBar);
-            //pathPanelBgr=R.drawable.theme_sharp;
             color_item_selected=Color.parseColor("#88980000");
             pathPanelBgrFill=Color.parseColor("#ff131514");
-        /*} else if (pref_theme.equals("Dark")){
-            setTheme(android.R.style.Theme_Holo);
-            //pathPanelBgr=R.drawable.dialog_full_holo_dark;
-            //pathPanelBgr=R.drawable.spacer;
-            color_item_selected=Color.parseColor("#88980000");
-            pathPanelBgrFill=Color.parseColor("#ff131514");
-        */} else {
-            //pathPanelBgr=R.drawable.dialog_full_holo_light;
+        } else {
             color_item_selected=Color.parseColor("#ff46b2ff");
         }
-        //pathPanelBgrOther=R.drawable.spacer;
     }
     protected void onResume() {
         super.onResume();
@@ -190,21 +176,14 @@ public class datFM extends Activity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        // check new orientation, use new layout
-        // setContentView(R.layout.activity_main_screen);
-        // Checks the orientation of the screen
-
         /* TODO ui_change_on_action(); Сделать проброс newConfig */
 
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            //int size_in_dp=12;
-            //if(pref_small_panel){size_in_dp = 9;}
             final float scale = getResources().getDisplayMetrics().density;
             int size_in_px = (int) (pref_bartext_size * scale + 0.5f);
             //
             pref_btn_text_size(size_in_px);
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
-            //int size_in_dp = 8;
             final float scale = getResources().getDisplayMetrics().density;
             int size_in_px = (int) (pref_bartext_size  * scale + 0.5f);
             //
@@ -213,13 +192,7 @@ public class datFM extends Activity {
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
-        //if (selLeft==0 && selRight==0){
         getMenuInflater().inflate(R.menu.datfm_mainmenu, menu);
-        //} else {
-        //    getMenuInflater().inflate(R.menu.datfm_actionmenu, menu);
-        //}
-
         return true;
     }
     @Override
@@ -257,19 +230,6 @@ public class datFM extends Activity {
                 }
                 return true;
             }
-            /**
-            case R.id.mainmenu_find: {
-                Toast.makeText(getApplicationContext(),"In development.",Toast.LENGTH_SHORT).show();
-                return true;
-            }
-            case R.id.mainmenu_help: {
-                Toast.makeText(getApplicationContext(),"In development.",Toast.LENGTH_SHORT).show();
-                return true;
-            }
-            case R.id.mainmenu_sort: {
-                Toast.makeText(getApplicationContext(),"In development.",Toast.LENGTH_SHORT).show();
-                return true;
-            } */
             case R.id.mainmenu_update: {
                 update_tab(0,"null","null",2);
                 return true;
@@ -287,16 +247,6 @@ public class datFM extends Activity {
             }
             case R.id.mainmenu_home:{
                 fill_new("datFM://",curPanel);
-                /*
-                if(curPanel==0){
-                    fill_new("datFM://")
-                    textCurrentPathLeft.setText();
-                    textCurrentPathLeft.requestFocus();
-                } else {
-                    textCurrentPathRight.setText("datFM://");
-                    textCurrentPathRight.requestFocus();
-                }
-                */
                 return true;}
             default:
                 return super.onOptionsItemSelected(item);
@@ -702,20 +652,12 @@ public class datFM extends Activity {
 
         if (curPanel ==0){
             //noinspection deprecation
-            /*
-            layoutPathPanelLeft.setBackgroundDrawable(getResources().getDrawable(pathPanelBgr));
-            layoutPathPanelRight.setBackgroundColor(pathPanelBgrOther);
-            */
             layoutActiveLeft.setBackgroundColor(pathPanelBgr);
             layoutActiveRight.setBackgroundColor(pathPanelBgrOther);
             if(pref_show_single_navbar){layoutParentPathPanelRight.setVisibility(View.GONE);layoutParentPathPanelLeft.setVisibility(View.VISIBLE);}
         } else {
             /** only API 16 -> layoutPathPanelRight.setBackground(getResources().getDrawable(android.R.drawable.dialog_holo_light_frame)); **/
             //noinspection deprecation
-            /*
-            layoutPathPanelRight.setBackgroundDrawable(getResources().getDrawable(pathPanelBgr));
-            layoutPathPanelLeft.setBackgroundColor(pathPanelBgrOther);
-            */
             layoutActiveRight.setBackgroundColor(pathPanelBgr);
             layoutActiveLeft.setBackgroundColor(pathPanelBgrOther);
             if(pref_show_single_navbar){layoutParentPathPanelLeft.setVisibility(View.GONE);layoutParentPathPanelRight.setVisibility(View.VISIBLE);}
