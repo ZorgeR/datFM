@@ -21,13 +21,13 @@
             <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/smb_add_server_startdir" android:layout_gravity="left|center_vertical"
-                    android:hint="start directory" android:singleLine="true"/>
+                    android:id="@+id/smb_add_server_ip" android:layout_gravity="left|center_vertical"
+                    android:hint="hostname/ip" android:singleLine="true"/>
             <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/smb_add_server_ip" android:layout_gravity="left|center_vertical"
-                    android:hint="hostname/ip" android:singleLine="true"/>
+                    android:id="@+id/smb_add_server_startdir" android:layout_gravity="left|center_vertical"
+                    android:hint="start directory" android:singleLine="true"/>
         </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"
@@ -41,13 +41,13 @@
             <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/smb_add_server_domain" android:layout_gravity="left|center_vertical" android:hint="domain"
-                    android:singleLine="true"/>
+                    android:id="@+id/smb_add_server_pass" android:layout_gravity="left|center_vertical"
+                    android:hint="password" android:singleLine="true"/>
             <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/smb_add_server_pass" android:layout_gravity="left|center_vertical"
-                    android:hint="password" android:singleLine="true"/>
+                    android:id="@+id/smb_add_server_domain" android:layout_gravity="left|center_vertical" android:hint="domain"
+                    android:singleLine="true"/>
         </LinearLayout>
     </LinearLayout>
     <EditText

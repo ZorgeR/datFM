@@ -698,14 +698,9 @@ public class datFM extends Activity {
                         try {
                             String iscrypted="0";
 
-                            if(!server_pass.equals("")){
-                                if (!server_encrypt_pass.equals("")){
+                            if(!server_pass.equals("") && !server_encrypt_pass.equals("")){
                                     server_pass = SimpleCrypto.encrypt(server_encrypt_pass,server_pass);
-                                    //server_pass = encrypt(server_pass,decrypt_pass(server_encrypt_pass));
                                     iscrypted="1";
-                                }// else {
-                                //   server_pass = encrypt(server_pass,decrypt_pass("datFM.store"));
-                                //}
                             }
 
                             String FILENAME = "smb_data_"+server_name;
@@ -718,12 +713,7 @@ public class datFM extends Activity {
                             fos.write(DATA.getBytes());
                             fos.close();
 
-                            /*
-                            prefs.edit().putString("smb_data_"+server_ip_hostname,
-                                    server_name+"\n"+server_ip_hostname+"\n"+server_start_dir+"\n"+server_user+"\n"+
-                                    server_pass+"\n"+server_domain);
-                              */
-                            //prefs.edit().putStringSet("smb_data",)
+                            update_tab(0,"","",3);
 
                         } catch (Exception e) {e.printStackTrace();}
                     }
@@ -773,7 +763,7 @@ public class datFM extends Activity {
                             if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
 
                             final EditText smb_keychain = (EditText) layer.findViewById(R.id.smb_auth_keychain);
-                            final String trow_serverpass = server_pass;
+                            final String server_pass_encrypted = server_pass;
 
                             action_dialog.setView(layer);
                             action_dialog.setPositiveButton(getResources().getString(R.string.ui_dialog_btn_ok),
@@ -781,12 +771,12 @@ public class datFM extends Activity {
                                         public void onClick(DialogInterface dialog, int which) {
                                             String smb_keychainpass = smb_keychain.getText().toString();
                                             try {
-                                                //pass=decrypt(trow_serverpass,decrypt_pass(smb_keychainpass));
-                                                pass = SimpleCrypto.decrypt(smb_keychainpass,trow_serverpass);
+                                                pass = SimpleCrypto.decrypt(smb_keychainpass,server_pass_encrypted);
                                                 fill_new(o.getPath(), curPanel);
                                             } catch (Exception e) {
                                                 e.printStackTrace();
                                                 action_smb_openserver(o);
+                                                notify_toast("Access denied!");
                                             }
                                         }
                                     });

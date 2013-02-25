@@ -123,7 +123,15 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
                     for (int i=1;i<selectionHolder.length;i++){
                         if (selectionHolder[i]){
                             datFM_FileInformation from = adaptorHolder.get(i);
-                            boolean success = protocol_delete(from.getPath());
+                            boolean success=false;
+
+                            if (from.getType().equals("dir") || from.getType().equals("file") ){
+                                success = protocol_delete(from.getPath());
+
+                            } else if(from.getType().equals("smb_store_network")){
+                                success = protocol_delete(activity.getFilesDir().getPath()+"/smb_data_"+from.getName());
+                            }
+
                             if (success) {count++;onProgressUpdate(count);}
                         }
                     }
