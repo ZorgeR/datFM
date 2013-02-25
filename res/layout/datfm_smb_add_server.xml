@@ -5,38 +5,54 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent">
 
-    <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/smb_add_server_name" android:layout_gravity="left|center_vertical"
-            android:hint="shortcut name"/>
-    <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/smb_add_server_ip" android:layout_gravity="left|center_vertical"
-            android:hint="hostname/ip"/>
-    <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/smb_add_server_startdir" android:layout_gravity="left|center_vertical"
-            android:hint="start directory"/>
-    <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/smb_add_server_user" android:layout_gravity="left|center_vertical"
-            android:hint="username"/>
-    <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/smb_add_server_pass" android:layout_gravity="left|center_vertical"
-            android:hint="password"/>
-    <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/smb_add_server_domain" android:layout_gravity="left|center_vertical" android:hint="domain"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:layout_weight="1">
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/smb_add_server_name" android:layout_gravity="left|center_vertical"
+                    android:hint="shortcut name" android:singleLine="true"/>
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/smb_add_server_startdir" android:layout_gravity="left|center_vertical"
+                    android:hint="start directory" android:singleLine="true"/>
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/smb_add_server_ip" android:layout_gravity="left|center_vertical"
+                    android:hint="hostname/ip" android:singleLine="true"/>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:layout_weight="1">
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/smb_add_server_user" android:layout_gravity="left|center_vertical"
+                    android:hint="username" android:singleLine="true"/>
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/smb_add_server_domain" android:layout_gravity="left|center_vertical" android:hint="domain"
+                    android:singleLine="true"/>
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/smb_add_server_pass" android:layout_gravity="left|center_vertical"
+                    android:hint="password" android:singleLine="true"/>
+        </LinearLayout>
+    </LinearLayout>
     <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/smb_add_server_encrypt_pass" android:layout_gravity="left|center_vertical"
-            android:hint="password for encryption"/>
+            android:hint="password for encryption" android:singleLine="true"/>
 </LinearLayout>

@@ -145,11 +145,13 @@
             <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="items"
                       android:id="@+id/textItemsLeft" android:singleLine="false" android:textSize="16dp"
                       android:layout_marginTop="-3dp" android:layout_gravity="bottom"
-                      android:paddingRight="2dp" android:gravity="center_horizontal"/>
+                      android:paddingRight="2dp" android:gravity="center_horizontal"
+                      android:background="@drawable/dialog_full_holo_dark"/>
             <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="selected"
                       android:id="@+id/textItemsLeftSelected" android:singleLine="false" android:textSize="16dp"
                       android:visibility="gone" android:layout_marginTop="-3dp"
-                      android:layout_gravity="bottom" android:paddingRight="2dp" android:gravity="center_horizontal"/>
+                      android:layout_gravity="bottom" android:paddingRight="2dp" android:gravity="center_horizontal"
+                      android:background="@drawable/dialog_full_holo_dark"/>
         </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"
@@ -173,11 +175,12 @@
                     android:id="@+id/textItemsRight"
                     android:singleLine="false"
                     android:textSize="16dp"
-                    android:layout_gravity="bottom" android:paddingRight="2dp" android:gravity="center_horizontal"/>
+                    android:layout_gravity="bottom" android:paddingRight="2dp" android:gravity="center_horizontal"
+                    android:background="@drawable/dialog_full_holo_dark"/>
             <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="selected"
                       android:id="@+id/textItemsRightSelected" android:singleLine="false" android:textSize="16dp"
                       android:visibility="gone" android:gravity="center_horizontal" android:layout_gravity="bottom"
-                      android:paddingRight="2dp"/>
+                      android:paddingRight="2dp" android:background="@drawable/dialog_full_holo_dark"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout

@@ -795,7 +795,7 @@ public class datFM extends Activity {
         AlertDialog AprooveDialog = action_dialog.create();
         AprooveDialog.show();
     }
-    private void action_smb_openserver(datFM_FileInformation o){
+    private void action_smb_openserver(final datFM_FileInformation o){
         File dirs = getFilesDir();
         for(File ff : dirs.listFiles()){
             String name = ff.getName().replace("smb_data_","");
@@ -832,7 +832,6 @@ public class datFM extends Activity {
 
                             final EditText smb_keychain = (EditText) layer.findViewById(R.id.smb_auth_keychain);
                             final String trow_serverpass = server_pass;
-                            final String remotepath = o.getPath();
 
                             action_dialog.setView(layer);
                             action_dialog.setPositiveButton(getResources().getString(R.string.ui_dialog_btn_ok),
@@ -842,8 +841,11 @@ public class datFM extends Activity {
                                             try {
                                                 //pass=decrypt(trow_serverpass,decrypt_pass(smb_keychainpass));
                                                 pass = SimpleCrypto.decrypt(smb_keychainpass,trow_serverpass);
-                                                fill_new(remotepath, curPanel);
-                                            } catch (Exception e) {e.printStackTrace();}
+                                                fill_new(o.getPath(), curPanel);
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                                action_smb_openserver(o);
+                                            }
                                         }
                                     });
                             action_dialog.setNegativeButton(getResources().getString(R.string.ui_dialog_btn_cancel),
@@ -866,6 +868,7 @@ public class datFM extends Activity {
             }
         }
     }
+
     private void action_dialog(String title, String from, String to, int count, final String operation){
         if (!pref_kamikaze){
             AlertDialog.Builder action_dialog = new AlertDialog.Builder(this);
