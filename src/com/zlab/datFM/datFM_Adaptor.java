@@ -158,7 +158,7 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
 
             } else if (o.getType().equals("favorite")){
                     imgFileIcon.setImageResource(R.drawable.ext_favorite);
-            } else if (o.getType().equals("network")){
+            } else if (o.getType().equals("network") || o.getType().equals("smb_store_network")){
                     imgFileIcon.setImageResource(R.drawable.ext_network);
             } else if(o.getType().equals("sdcard")){
                     imgFileIcon.setImageResource(R.drawable.ext_drive);
@@ -244,8 +244,8 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
     }
     public void icon_getter_video(String path){
         if (datFM.cache_counter<datFM.cache_size){
-            datFM.cache_paths[datFM.cache_counter]=path;
             datFM.cache_icons[datFM.cache_counter]=null;
+            datFM.cache_paths[datFM.cache_counter]=path;
             new datFM_IconGenerator_VIDEO(this).execute(path,String.valueOf(datFM.cache_counter));
             datFM.cache_counter++;
         } else {
@@ -254,8 +254,8 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
     }
     public void icon_getter_photo(String path){
         if (datFM.cache_counter<datFM.cache_size){
-            datFM.cache_paths[datFM.cache_counter]=path;
             datFM.cache_icons[datFM.cache_counter]=null;
+            datFM.cache_paths[datFM.cache_counter]=path;
             new datFM_IconGenerator_PHOTO(this).execute(path,String.valueOf(datFM.cache_counter));
             datFM.cache_counter++;
         } else {
@@ -264,8 +264,8 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
     }
     public void icon_getter_apk(String path){
         if (datFM.cache_counter<datFM.cache_size){
-            datFM.cache_paths[datFM.cache_counter]=path;
             datFM.cache_icons[datFM.cache_counter]=null;
+            datFM.cache_paths[datFM.cache_counter]=path;
             new datFM_IconGenerator_APK(this).execute(path,String.valueOf(datFM.cache_counter));
             datFM.cache_counter++;
         } else {

@@ -64,6 +64,9 @@
     <string name="settings_elements_title_small_panel">Small panels</string>
     <string name="settings_elements_title_cptext">Text on panel</string>
     <string name="settings_elements_title_navbar">Address bar</string>
+    <string name="settings_elements_title_buttonbar_size">Control panel height</string>
+    <string name="settings_elements_title_pathbar_size">Address bar height</string>
+    <string name="settings_elements_title_bartext_size">Bar text size</string>
     <string name="settings_elements_title_single_navbar">Single address bar</string>
     <string name="settings_elements_title_folder_discription">Folder descriptions</string>
     <string name="settings_elements_title_files_discription">Files descriptions</string>
@@ -79,7 +82,7 @@
     <string name="settings_elements_title_root">root</string>
     <string name="settings_elements_title_show_hide">Show hidden files and folders</string>
     <!-- Settings Elements Summary -->
-    <string name="settings_elements_summary_theme">Change default theme</string>
+    <string name="settings_elements_summary_theme">Change apply after application restart</string>
     <string name="settings_elements_summary_cp">Show always</string>
     <string name="settings_elements_summary_appicons">Get application icons from APK</string>
     <string name="settings_elements_summary_photoicons">Show photo thumbnail</string>
@@ -95,6 +98,9 @@
     <string name="settings_elements_summary_cptext">Show text on buttons in panel</string>
     <string name="settings_elements_summary_navbar">Show address bar on the top</string>
     <string name="settings_elements_summary_single_navbar">Show only active address bar</string>
+    <string name="settings_elements_summary_buttonbar_size">Change height of control panel</string>
+    <string name="settings_elements_summary_pathbar_size">Change height of address bar</string>
+    <string name="settings_elements_summary_bartext_size">Change text size in bar</string>
     <string name="settings_elements_summary_folder_discription">Show folder descriptions</string>
     <string name="settings_elements_summary_files_discription">Show files descriptions</string>
     <string name="settings_elements_summary_panel_discription">Show descriptions in bottom of panel</string>

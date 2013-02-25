@@ -14,6 +14,7 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.*;
 import android.view.inputmethod.InputMethodManager;
@@ -23,6 +24,8 @@ import jcifs.smb.SmbException;
 import jcifs.smb.SmbFile;
 import jcifs.smb.SmbFileInputStream;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
@@ -74,12 +77,13 @@ public class datFM extends Activity {
     boolean pref_show_panel,pref_open_dir,pref_open_arcdir,
             pref_open_arcdir_window,pref_save_path,pref_dir_focus,
             pref_kamikaze,pref_show_text_on_panel,pref_show_navbar,
-            pref_show_panel_discr,pref_small_panel,pref_clear_filecache,pref_show_single_navbar;
+            pref_show_panel_discr,/*pref_small_panel,*/pref_clear_filecache,pref_show_single_navbar;
     static boolean pref_show_apk,pref_show_video,pref_show_photo,
             pref_show_folder_discr,pref_show_files_discr,pref_root,pref_sambalogin,pref_font_bold_folder,pref_show_hide;
     boolean firstAlert;
     boolean settings_opened = false;
     String pref_icons_cache,pref_icons_size,pref_text_name_size,pref_text_discr_size,pref_font_style,pref_font_typeface;
+    int pref_actionbar_size,pref_path_bar_size,pref_bartext_size;
     static String pref_theme;
     static int icons_size,text_name_size,text_discr_size,font_style;
     static Typeface font_typeface;
@@ -197,17 +201,18 @@ public class datFM extends Activity {
         // Checks the orientation of the screen
 
         /* TODO ui_change_on_action(); Сделать проброс newConfig */
+
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            int size_in_dp=12;
-            if(pref_small_panel){size_in_dp = 9;}
+            //int size_in_dp=12;
+            //if(pref_small_panel){size_in_dp = 9;}
             final float scale = getResources().getDisplayMetrics().density;
-            int size_in_px = (int) (size_in_dp * scale + 0.5f);
+            int size_in_px = (int) (pref_bartext_size * scale + 0.5f);
             //
             pref_btn_text_size(size_in_px);
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
-            int size_in_dp = 8;
+            //int size_in_dp = 8;
             final float scale = getResources().getDisplayMetrics().density;
-            int size_in_px = (int) (size_in_dp * scale + 0.5f);
+            int size_in_px = (int) (pref_bartext_size  * scale + 0.5f);
             //
             pref_btn_text_size(size_in_px);
         }
@@ -322,6 +327,7 @@ public class datFM extends Activity {
     }
 
     protected void fill_new(String path, int Panel_ID){
+        /* TODO убрать костыль */
         boolean smb = path.startsWith("smb://");
         boolean local = path.startsWith("/");
         boolean home = path.startsWith("datFM://");
@@ -350,12 +356,14 @@ public class datFM extends Activity {
         if(panel_ID==0){competPanel=1;}else{competPanel=0;}
 
         if(panel_ID==0){
-            if(!curentLeftDir.equals("/") && !curentLeftDir.equals("smb:////") && !curentLeftDir.equals("datFM://")){
+            if(curentLeftDir.equals("/") || curentLeftDir.equals("smb:////")){parent_left="datFM://";}
+            if(!curentLeftDir.equals("datFM://")){
                 String data = getResources().getString(R.string.fileslist_parent_directory);
                 dir.add(0,new datFM_FileInformation("..",parent_left,0,protocols[0],"parent_dir", data, parent_left));
             }
-        }else{
-            if(!curentRightDir.equals("/") && !curentRightDir.equals("smb:////") && !curentRightDir.equals("datFM://")){
+        } else {
+            if(curentRightDir.equals("/") || curentRightDir.equals("smb:////")){parent_right="datFM://";}
+            if(!curentRightDir.equals("datFM://")){
                 String data = getResources().getString(R.string.fileslist_parent_directory);
                 dir.add(0,new datFM_FileInformation("..",parent_right,0,protocols[1],"parent_dir", data, parent_right));
             }
@@ -539,13 +547,89 @@ public class datFM extends Activity {
                 prevName = new datFM_IO(curentRightDir).getName();
                 fill_new(o.getPath(), curPanel);
             }
+        } else if (o.getType().equals("smb_store_network")){
+            File dirs = getFilesDir();
+            for(File ff : dirs.listFiles()){
+                String name = ff.getName().replace("smb_data_","");
+                if(name.equals(o.getName())){
+                    try {
+                        FileInputStream fis = openFileInput(ff.getName());
+                        StringBuffer fileContent = new StringBuffer("");
+                        byte[] buffer = new byte[1024];
+                        int length;
+                        while ((length = fis.read(buffer)) != -1) {
+                            fileContent.append(new String(buffer));
+                        }
+
+                        //String server_name = fileContent.toString().split("\n")[0];
+                        //String server_ip_hostname = fileContent.toString().split("\n")[1];
+                        //String server_start_dir = fileContent.toString().split("\n")[2];
+                        String server_user = fileContent.toString().split("\n")[3];
+                        String server_pass = fileContent.toString().split("\n")[4];
+                        String server_domain = fileContent.toString().split("\n")[5];
+                        String iscrypted = fileContent.toString().split("\n")[6];
+
+                            if(!server_user.equals("")){
+                                user=server_user;
+                                domain=server_domain;
+                                if(iscrypted.equals("0")){
+                                    pass=server_pass;
+                                    fill_new(o.getPath(), curPanel);
+                                } else {
+                                    AlertDialog.Builder action_dialog = new AlertDialog.Builder(this);
+                                    action_dialog.setTitle("Keychain");
+                                    LayoutInflater inflater = getLayoutInflater();
+                                    View layer = inflater.inflate(R.layout.datfm_smb_keychainpass,null);
+                                    if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+
+                                    final EditText smb_keychain = (EditText) layer.findViewById(R.id.smb_auth_keychain);
+                                    final String trow_serverpass = server_pass;
+                                    final String remotepath = o.getPath();
+
+                                    action_dialog.setView(layer);
+                                    action_dialog.setPositiveButton(getResources().getString(R.string.ui_dialog_btn_ok),
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    String smb_keychainpass = smb_keychain.getText().toString();
+                                                    try {
+                                                        //pass=decrypt(trow_serverpass,decrypt_pass(smb_keychainpass));
+                                                        pass = SimpleCrypto.decrypt(smb_keychainpass,trow_serverpass);
+                                                        fill_new(remotepath, curPanel);
+                                                    } catch (Exception e) {e.printStackTrace();}
+                                                }
+                                            });
+                                    action_dialog.setNegativeButton(getResources().getString(R.string.ui_dialog_btn_cancel),
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                }
+                                            });
+
+                                    AlertDialog AprooveDialog = action_dialog.create();
+                                    AprooveDialog.show();
+                                }
+                            } else {
+                                user=null;
+                                pass=null;
+                                domain=null;
+                                fill_new(o.getPath(), curPanel);
+                            }
+                        fis.close();
+                    } catch (Exception e) {e.printStackTrace();}
+                }
+            }
         } else {
-            fill_new(o.getPath(), curPanel);
+            if(o.getPath().equals("datFM://samba/add")){
+                action_add_samba_server();
+            } else if(o.getPath().equals("datFM://favorite/add")){
+
+            } else {
+                fill_new(o.getPath(), curPanel);
+            }
         }
     }
     protected void onFileClickLong(datFM_FileInformation o, int position){
         update_operation_vars();
-        if(!o.getName().equals("..")){
+        if(!o.getType().equals("parent_dir")){
             if (!selected[position]){
                 selected[position]=true;
                 sel++;
@@ -575,6 +659,76 @@ public class datFM extends Activity {
             update_operation_vars();
             adapter.notifyDataSetChanged();
         }
+    }
+
+    public void action_add_samba_server(){
+        AlertDialog.Builder action_dialog = new AlertDialog.Builder(this);
+        action_dialog.setTitle("SMB Server");
+        LayoutInflater inflater = getLayoutInflater();
+        View layer = inflater.inflate(R.layout.datfm_smb_add_server,null);
+        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+
+        final EditText smb_add_server_name = (EditText) layer.findViewById(R.id.smb_add_server_name);
+        final EditText smb_add_server_ip_hostname = (EditText) layer.findViewById(R.id.smb_add_server_ip);
+        final EditText smb_add_server_start_dir = (EditText) layer.findViewById(R.id.smb_add_server_startdir);
+        final EditText smb_add_server_user = (EditText) layer.findViewById(R.id.smb_add_server_user);
+        final EditText smb_add_server_pass = (EditText) layer.findViewById(R.id.smb_add_server_pass);
+        final EditText smb_add_server_domain = (EditText) layer.findViewById(R.id.smb_add_server_domain);
+        final EditText smb_add_server_encrypt_pass = (EditText) layer.findViewById(R.id.smb_add_server_encrypt_pass);
+
+        action_dialog.setView(layer);
+        action_dialog.setPositiveButton(getResources().getString(R.string.ui_dialog_btn_ok),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String server_name = smb_add_server_name.getText().toString();
+                        String server_ip_hostname = smb_add_server_ip_hostname.getText().toString();
+                        String server_start_dir = smb_add_server_start_dir.getText().toString();
+                        String server_user = smb_add_server_user.getText().toString();
+                        String server_pass = smb_add_server_pass.getText().toString();
+                        String server_domain = smb_add_server_domain.getText().toString();
+                        String server_encrypt_pass = smb_add_server_encrypt_pass.getText().toString();
+
+                        try {
+                            String iscrypted="0";
+
+                            if(!server_pass.equals("")){
+                                if (!server_encrypt_pass.equals("")){
+                                    server_pass = SimpleCrypto.encrypt(server_encrypt_pass,server_pass);
+                                    //server_pass = encrypt(server_pass,decrypt_pass(server_encrypt_pass));
+                                    iscrypted="1";
+                                }// else {
+                                 //   server_pass = encrypt(server_pass,decrypt_pass("datFM.store"));
+                                //}
+                            }
+
+                            String FILENAME = "smb_data_"+server_name;
+                            String DATA = server_name+"\n"      +server_ip_hostname+"\n"+
+                                          server_start_dir+"\n" +server_user+"\n"+
+                                          server_pass+"\n"      +server_domain+"\n"+
+                                          iscrypted+"\n"+"END";
+
+                            FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+                            fos.write(DATA.getBytes());
+                            fos.close();
+
+                            /*
+                            prefs.edit().putString("smb_data_"+server_ip_hostname,
+                                    server_name+"\n"+server_ip_hostname+"\n"+server_start_dir+"\n"+server_user+"\n"+
+                                    server_pass+"\n"+server_domain);
+                              */
+                            //prefs.edit().putStringSet("smb_data",)
+
+                        } catch (Exception e) {e.printStackTrace();}
+                    }
+                });
+        action_dialog.setNegativeButton(getResources().getString(R.string.ui_dialog_btn_cancel),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+
+        AlertDialog AprooveDialog = action_dialog.create();
+        AprooveDialog.show();
     }
 
     protected void update_operation_vars(){
@@ -1317,7 +1471,7 @@ public class datFM extends Activity {
                 if(selLeft==0){
                     curPanel=0; competPanel=1;
                     prevName = new datFM_IO(curentLeftDir).getName();
-                    if(!curentLeftDir.equals("/") && curentLeftDir!=null){
+                    if(curentLeftDir!=null){
                         fill_new(parent_left, 0);}
                 } else {
                     notify_toast(getResources().getString(R.string.notify_deselect_before_change_dir));
@@ -1327,7 +1481,7 @@ public class datFM extends Activity {
                 if (selRight==0){
                     curPanel=1; competPanel=2;
                     prevName = new datFM_IO(curentRightDir).getName();
-                    if(!curentRightDir.equals("/") && curentRightDir!=null){
+                    if(curentRightDir!=null){
                         fill_new(parent_right, 1);}
                 /*
                     String prevName = new File(curentRightDir).getName();
@@ -1548,7 +1702,10 @@ public class datFM extends Activity {
         pref_font_style = prefs.getString("pref_font_style","normal");
         pref_font_typeface = prefs.getString("pref_font_typeface","normal");
         pref_font_bold_folder = prefs.getBoolean("pref_font_bold_folder",false);
-        pref_small_panel = prefs.getBoolean("pref_small_panel",false);
+        //pref_small_panel = prefs.getBoolean("pref_small_panel",false);
+        pref_actionbar_size = Integer.parseInt(prefs.getString("pref_actionbar_size","36"));
+        pref_path_bar_size = Integer.parseInt(prefs.getString("pref_path_bar_size","30"));
+        pref_bartext_size = Integer.parseInt(prefs.getString("pref_bartext_size","10"));
         pref_show_hide = prefs.getBoolean("pref_show_hide",false);
         pref_clear_filecache = prefs.getBoolean("pref_clear_filecache",true);
         pref_theme = prefs.getString("pref_theme","datFM Classic");
@@ -1652,7 +1809,7 @@ public class datFM extends Activity {
             layoutPathPanelRight.setVisibility(View.VISIBLE);
         }
 
-        /** Small panel **/
+        /** Small panel **//*
         if(pref_small_panel){
             int in_dp = 32;
             final float scale_px = getResources().getDisplayMetrics().density;
@@ -1667,7 +1824,15 @@ public class datFM extends Activity {
             layoutPathPanelLeft.getLayoutParams().height = in_px;
             layoutPathPanelRight.getLayoutParams().height = in_px;
             layoutButtonPanel.getLayoutParams().height = in_px;
-        }
+        }*/
+        int in_dp = pref_actionbar_size;
+        final float scale_px = getResources().getDisplayMetrics().density;
+        int in_px = (int) (in_dp * scale_px + 0.5f);
+        layoutButtonPanel.getLayoutParams().height = in_px;
+        in_dp = pref_path_bar_size;
+        in_px = (int) (in_dp * scale_px + 0.5f);
+        layoutPathPanelLeft.getLayoutParams().height = in_px;
+        layoutPathPanelRight.getLayoutParams().height = in_px;
         //*/
 
         /** Panel Descriptions **/
@@ -1714,16 +1879,16 @@ public class datFM extends Activity {
 
     private void ui_change_on_action(){
         if (getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            int size_in_dp = 8;
+            //int size_in_dp = 8;
             final float scale = getResources().getDisplayMetrics().density;
-            int size_in_px = (int) (size_in_dp * scale + 0.5f);
+            int size_in_px = (int) (pref_bartext_size * scale + 0.5f);
             //
             pref_btn_text_size(size_in_px);
         } else {
-            int size_in_dp=12;
-            if(pref_small_panel){size_in_dp = 9;}
+            //int size_in_dp=pref_bartext_size;
+            //if(pref_small_panel){size_in_dp = 9;}
             final float scale = getResources().getDisplayMetrics().density;
-            int size_in_px = (int) (size_in_dp * scale + 0.5f);
+            int size_in_px = (int) (pref_bartext_size * scale + 0.5f);
             //
             pref_btn_text_size(size_in_px);
         }
@@ -1814,4 +1979,5 @@ public class datFM extends Activity {
             } catch (InterruptedException e) {/*("not root");*/}
         } catch (IOException e) {/*("not root");*/}
     }
+
 }

@@ -16,7 +16,9 @@
             <ListPreference android:title="@string/settings_elements_title_text_font_style" android:summary="@string/settings_elements_summary_text_font_style" android:key="pref_font_style" android:defaultValue="Normal" android:entries="@array/text_style" android:entryValues="@array/text_style" />
             <ListPreference android:title="@string/settings_elements_title_text_font_typeface" android:summary="@string/settings_elements_summary_text_font_typeface" android:key="pref_font_typeface" android:defaultValue="Normal" android:entries="@array/text_family" android:entryValues="@array/text_family" />
             <CheckBoxPreference android:title="@string/settings_elements_title_text_bold_folder" android:summary="@string/settings_elements_summary_text_bold_folder" android:key="pref_font_bold_folder" android:defaultValue="false" />
-            <CheckBoxPreference android:title="@string/settings_elements_title_small_panel" android:summary="@string/settings_elements_summary_small_panel" android:key="pref_small_panel" android:defaultValue="false" />
+            <ListPreference android:title="@string/settings_elements_title_buttonbar_size" android:summary="@string/settings_elements_summary_buttonbar_size" android:key="pref_actionbar_size" android:defaultValue="36" android:entries="@array/panel_size" android:entryValues="@array/panel_size" />
+            <ListPreference android:title="@string/settings_elements_title_pathbar_size" android:summary="@string/settings_elements_summary_pathbar_size" android:key="pref_path_bar_size" android:defaultValue="30" android:entries="@array/panel_size" android:entryValues="@array/panel_size" />
+            <ListPreference android:title="@string/settings_elements_title_bartext_size" android:summary="@string/settings_elements_summary_bartext_size" android:key="pref_bartext_size" android:defaultValue="10" android:entries="@array/text_bar_size" android:entryValues="@array/text_bar_size" />
         </PreferenceCategory>
     </PreferenceScreen>
     <PreferenceScreen android:title="@string/settings_group_performance">

@@ -62,4 +62,21 @@
         <item>datFM Classic</item>
         <item>Dark Fullscreen</item>
     </string-array>
+    <string-array name="panel_size">
+        <item>28</item>
+        <item>30</item>
+        <item>32</item>
+        <item>34</item>
+        <item>36</item>
+        <item>38</item>
+        <item>40</item>
+        <item>42</item>
+    </string-array>
+    <string-array name="text_bar_size">
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>12</item>
+        <item>14</item>
+    </string-array>
 </resources>

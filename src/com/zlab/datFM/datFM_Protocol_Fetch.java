@@ -2,6 +2,7 @@ package com.zlab.datFM;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -15,10 +16,7 @@ import android.widget.EditText;
 import jcifs.UniAddress;
 import jcifs.smb.*;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
@@ -198,10 +196,10 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
         String section=path.replace("datFM://", "");
 
         if (panel_ID ==0){
-            datFM.parent_left=path;
+            datFM.parent_left="datFM://";
             datFM.curentLeftDir=path;
         } else {
-            datFM.parent_right=path;
+            datFM.parent_right="datFM://";
             datFM.curentRightDir=path;}
 
         if (section.contains("/")){
@@ -219,9 +217,42 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
 
             dir_info.add(new datFM_FileInformation("Favorite","datFM://favorite",0,"local","favorite","Favorites", "datFM://"));
 
-            dir_info.add(new datFM_FileInformation("Samba","smb://",0,"smb","network","Network", "datFM://"));
+            dir_info.add(new datFM_FileInformation("Samba","datFM://samba",0,"smb","network","Network", "datFM://"));
+
         } else if(section.equals("favorite")){
             dir_info.add(new datFM_FileInformation("Add to favorite","datFM://favorite/add",0,"smb","dir","Network", "datFM://"));
+        } else if(section.equals("samba")){
+
+            dir_info.add(new datFM_FileInformation("Browse smb://","smb://",0,"smb","network","Network", "datFM://samba"));
+            dir_info.add(new datFM_FileInformation("Add Samba server","datFM://samba/add",0,"smb","dir","Network", "datFM://samba"));
+
+            File dir = activity.getFilesDir();
+            for(File ff : dir.listFiles()){
+                if(ff.getName().startsWith("smb_data_")){
+                    try {
+                        FileInputStream fis = activity.openFileInput(ff.getName());
+                        StringBuffer fileContent = new StringBuffer("");
+                        byte[] buffer = new byte[1024];
+                        int length;
+                        while ((length = fis.read(buffer)) != -1) {
+                            fileContent.append(new String(buffer));
+                        }
+
+                        String server_name = fileContent.toString().split("\n")[0];
+                        String server_ip_hostname = fileContent.toString().split("\n")[1];
+                        String server_start_dir = fileContent.toString().split("\n")[2];
+                        String server_user = fileContent.toString().split("\n")[3];
+
+                        if(server_user.equals("")){
+                            dir_info.add(new datFM_FileInformation(server_name,"smb://"+server_ip_hostname+"/"+server_start_dir,0,"smb","smb_store_network",server_ip_hostname, "datFM://samba"));
+                        } else {
+                            dir_info.add(new datFM_FileInformation(server_name,"smb://"+server_user+"@"+server_ip_hostname+"/"+server_start_dir,0,"smb","smb_store_network",server_user+"@"+server_ip_hostname, "datFM://samba"));
+                        }
+
+                        fis.close();
+                    } catch (Exception e) {e.printStackTrace();}
+                }
+            }
         }
 
         //dir_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),0,"smb","dir",data, ff.getParent()));
@@ -271,7 +302,7 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
         AlertDialog.Builder action_dialog = new AlertDialog.Builder(datFM.datFM_state);
         action_dialog.setTitle("Samba logon");
         LayoutInflater inflater = datFM.datFM_state.getLayoutInflater();
-        View layer = inflater.inflate(R.layout.datfm_logon_smb,null);
+        View layer = inflater.inflate(R.layout.datfm_smb_logon,null);
 
         final EditText domains = (EditText) layer.findViewById(R.id.logon_domain);
         final EditText names   = (EditText) layer.findViewById(R.id.logon_name);
