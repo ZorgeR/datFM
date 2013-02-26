@@ -353,10 +353,11 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
         final EditText names   = (EditText) layer.findViewById(R.id.logon_name);
         final EditText passs   = (EditText) layer.findViewById(R.id.logon_pass);
 
-        domains.setText(datFM.auth[panel_ID].getDomain());
-        names.setText(datFM.auth[panel_ID].getUsername());
-        passs.setText(datFM.auth[panel_ID].getPassword());
-
+        if(datFM.auth[panel_ID]!=null){
+            domains.setText(datFM.auth[panel_ID].getDomain());
+            names.setText(datFM.auth[panel_ID].getUsername());
+            passs.setText(datFM.auth[panel_ID].getPassword());
+        }
         final CheckBox logon_guest = (CheckBox) layer.findViewById(R.id.logon_guest);
         logon_guest.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

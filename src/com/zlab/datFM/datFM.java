@@ -224,22 +224,6 @@ public class datFM extends Activity {
                 AboutDialog.show();
                 return true;
             }
-            case R.id.mainmenu_fav_downloads: {
-                if (curPanel ==0){
-                    fill_new(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString(), 0);
-                } else {
-                    fill_new(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString(), 1);
-                }
-                return true;
-            }
-            case R.id.mainmenu_fav_dcim: {
-                if (curPanel ==0){
-                    fill_new(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString(), 0);
-                } else {
-                    fill_new(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString(), 1);
-                }
-                return true;
-            }
             case R.id.mainmenu_update: {
                 update_tab(0,"null","null",2);
                 return true;

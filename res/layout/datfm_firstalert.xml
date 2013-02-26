@@ -7,26 +7,26 @@
               android:layout_height="wrap_content"
               android:text="Warning!"
               android:id="@+id/textView" android:layout_gravity="center" android:gravity="center_vertical|center_horizontal"
-              android:textColor="@android:color/holo_red_dark" android:singleLine="false" android:phoneNumber="false"
+              android:textColor="#ff0016" android:singleLine="false" android:phoneNumber="false"
               android:typeface="monospace" android:textStyle="bold"/>
     <TextView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:text="This is Alpha software!"
               android:id="@+id/textView1" android:layout_gravity="center"
-              android:gravity="center_vertical|center_horizontal" android:textColor="@android:color/holo_red_dark"
+              android:gravity="center_vertical|center_horizontal" android:textColor="#ff0016"
               android:singleLine="false" android:phoneNumber="false" android:typeface="monospace"
               android:textStyle="bold"/>
     <TextView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:text="It may damage you brain and kill you cat!"
               android:id="@+id/textView2" android:layout_gravity="center"
-              android:gravity="center_vertical|center_horizontal" android:textColor="@android:color/holo_red_dark"
+              android:gravity="center_vertical|center_horizontal" android:textColor="#ff0016"
               android:singleLine="false" android:phoneNumber="false" android:typeface="monospace"
               android:textStyle="bold"/>
     <TextView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="fill_parent"
               android:layout_height="wrap_content" android:text="Don't use it for critical data!"
               android:id="@+id/textView4" android:layout_gravity="center"
-              android:gravity="center_vertical|center_horizontal" android:textColor="@android:color/holo_red_dark"
+              android:gravity="center_vertical|center_horizontal" android:textColor="#ff0016"
               android:singleLine="false" android:phoneNumber="false" android:typeface="monospace"
               android:textStyle="bold"/>
 </LinearLayout>

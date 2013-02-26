@@ -5,20 +5,6 @@
           android:icon="@drawable/ui_menu_add"
           android:title="@string/mainmenu_addfolder"
           android:showAsAction="ifRoom|withText"/>
-    <item android:id="@+id/mainmenu_fav" android:icon="@drawable/ui_menu_fav"
-          android:title="@string/mainmenu_favorite"
-          android:showAsAction="ifRoom|withText" >
-        <menu>
-            <item android:id="@+id/mainmenu_fav_downloads"
-                  android:icon="@drawable/ui_menu_downloads"
-                  android:title="Downloads"
-                  android:showAsAction="never"/>
-            <item android:id="@+id/mainmenu_fav_dcim"
-                  android:icon="@drawable/ui_menu_downloads"
-                  android:title="DCIM"
-                  android:showAsAction="never"/>
-        </menu>
-    </item>
     <item android:id="@+id/mainmenu_update"
           android:icon="@drawable/ui_menu_update"
           android:title="@string/mainmenu_refresh"
