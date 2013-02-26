@@ -42,7 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/smb_add_server_pass" android:layout_gravity="left|center_vertical"
-                    android:hint="password" android:singleLine="true"/>
+                    android:hint="password" android:singleLine="true" android:password="true"/>
             <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -54,5 +54,5 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/smb_add_server_encrypt_pass" android:layout_gravity="left|center_vertical"
-            android:hint="password for keychain encryption" android:singleLine="true"/>
+            android:hint="password for keychain encryption" android:singleLine="true" android:password="true"/>
 </LinearLayout>

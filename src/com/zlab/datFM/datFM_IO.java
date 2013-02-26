@@ -316,17 +316,35 @@ public class datFM_IO {
         return name;
     }
     /** GetParent in UI thread **/
-    public String getParent(){
-        String parent;
+    public String[] getParent(){
+        String[] parent=new String[3];
         checkProtocol();
 
         if(local){
-            parent=getFileLocal().getParent();
+            if(path.equals("/")){
+                parent[0]="datFM://";
+                parent[1]="home";
+                parent[2]=datFM.datFM_state.getResources().getString(R.string.fileslist_parent_directory);
+            } else {
+                parent[0]=getFileLocal().getParent();
+                parent[1]="parent_dir";
+                parent[2]=datFM.datFM_state.getResources().getString(R.string.fileslist_parent_directory);
+            }
         } else if(smb){
-            parent=path.substring(0,path.lastIndexOf("/"));
-            parent=parent.substring(0,parent.lastIndexOf("/"));
+            if(path.equals("smb:////")){
+                parent[0]="datFM://samba";
+                parent[1]="parent_dir";
+                parent[2]=datFM.datFM_state.getResources().getString(R.string.fileslist_parent_directory);
+            } else {
+                parent[0]=path.substring(0,path.lastIndexOf("/"));
+                parent[0]=parent[0].substring(0,parent[0].lastIndexOf("/")+1);
+                parent[1]="parent_dir";
+                parent[2]=datFM.datFM_state.getResources().getString(R.string.fileslist_parent_directory);
+            }
         } else {
-            parent=path.substring(0,path.lastIndexOf("/"));
+            parent[0]=path.substring(0,path.lastIndexOf("/")+1);
+            parent[1]="home";
+            parent[2]=datFM.datFM_state.getResources().getString(R.string.fileslist_parent_directory);
         }
 
         return parent;

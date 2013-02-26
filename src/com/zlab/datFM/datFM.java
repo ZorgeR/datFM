@@ -305,30 +305,18 @@ public class datFM extends Activity {
         if(panel_ID==0){competPanel=1;}else{competPanel=0;}
 
         if(panel_ID==0){
-            if(curentLeftDir.equals("/") || curentLeftDir.equals("smb:////") || curentLeftDir.equals("datFM://samba") || curentLeftDir.equals("datFM://favorite")){
-                parent_left = new datFM_IO(curentLeftDir).getParent();
                 if(!curentLeftDir.equals("datFM://")){
-                    String data = getResources().getString(R.string.fileslist_parent_directory);
-                    dir.add(0,new datFM_FileInformation("..",parent_left,0,protocols[0],"home", data, parent_left));
+                String[] parent_data=new datFM_IO(curentLeftDir).getParent();
+                parent_left = parent_data[0];
+                String data = parent_data[2];
+                    dir.add(0,new datFM_FileInformation("..",parent_left,0,protocols[0],parent_data[1], data, parent_left));
                 }
-            } else {
-                if(!curentLeftDir.equals("datFM://")){
-                    String data = getResources().getString(R.string.fileslist_parent_directory);
-                    dir.add(0,new datFM_FileInformation("..",parent_left,0,protocols[0],"parent_dir", data, parent_left));
-                }
-            }
         } else {
-            if(curentRightDir.equals("/") || curentRightDir.equals("smb:////") || curentRightDir.equals("datFM://samba") || curentRightDir.equals("datFM://favorite")){
-                parent_right = new datFM_IO(curentLeftDir).getParent();
-                if(!curentRightDir.equals("datFM://")){
-                    String data = getResources().getString(R.string.fileslist_parent_directory);
-                    dir.add(0,new datFM_FileInformation("..",parent_right,0,protocols[1],"home", data, parent_right));
-                }
-            } else {
-                if(!curentRightDir.equals("datFM://")){
-                    String data = getResources().getString(R.string.fileslist_parent_directory);
-                    dir.add(0,new datFM_FileInformation("..",parent_right,0,protocols[1],"parent_dir", data, parent_right));
-                }
+            if(!curentRightDir.equals("datFM://")){
+                String[] parent_data=new datFM_IO(curentRightDir).getParent();
+                parent_right = parent_data[0];
+                String data = parent_data[2];
+                dir.add(0,new datFM_FileInformation("..",parent_right,0,protocols[1],parent_data[1], data, parent_right));
             }
         }
 
