@@ -32,7 +32,13 @@ public class datFM_IO {
     }
     public SmbFile getFileSmb() throws MalformedURLException {
         //---------START SMB WORKS-------------------------
-        NtlmPasswordAuthentication auth = datFM.auth[PanelID];
+        NtlmPasswordAuthentication auth;
+        if(datFM.auth[PanelID]!=null){
+            auth = datFM.auth[PanelID];
+        } else {
+            auth = new NtlmPasswordAuthentication(null, null, null);
+        }
+
         SmbFile f = new SmbFile(path,auth);
         //---------END SMB WORKS-------------------------
         return f;

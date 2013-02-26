@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.*;
@@ -352,12 +353,15 @@ public class datFM extends Activity {
     protected void openContextMenu(final int pos, int id){
         if(id==listLeft.getId()){curPanel=0;}else{curPanel=1;}
         update_operation_vars();
-        String open,open_with,unpack_archive,properties;
+        String open,open_with,unpack_archive,properties,add_to_favorite,edit,delete;
         boolean show=true;
         open = getResources().getString(R.string.contextmenu_open);
         open_with = getResources().getString(R.string.contextmenu_open_with);
         unpack_archive = getResources().getString(R.string.contextmenu_open_unpack_ZA);
         properties = getResources().getString(R.string.contextmenu_properties);
+        add_to_favorite="add_to_favorite";
+        edit="edit";
+        delete="delete";
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -385,18 +389,27 @@ public class datFM extends Activity {
                 }
             });
         } else if (adapter.getItem(pos).getType().equals("smb_store_network")){
-            CharSequence[] items = {"edit", "delete"};
+            CharSequence[] items = {edit,delete};
             builder.setItems(items, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int item) {
                     if(item == 0) {
-                        if(sel==0)action_smb_editserver(adapter.getItem(pos).getName());
+                        action_smb_editserver(adapter.getItem(pos).getName());
                     } else if(item == 1) {
-                        if(sel==0)selected[pos]=true;action_delete();
+                        selected[pos]=true;action_delete();
+                    }
+                }
+            });
+        } else if (adapter.getItem(pos).getType().equals("fav_bookmarkk")){
+            CharSequence[] items = {delete};
+            builder.setItems(items, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int item) {
+                    if(item == 0) {
+                        selected[pos]=true;action_delete();
                     }
                 }
             });
         } else if (adapter.getItem(pos).getType().equals("dir") || adapter.getItem(pos).getType().equals("file")){
-            CharSequence[] items = {open, open_with, properties};
+            CharSequence[] items = {open, open_with, add_to_favorite, properties};
             builder.setItems(items, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int item) {
                     if(item == 0) {
@@ -404,6 +417,8 @@ public class datFM extends Activity {
                     } else if(item == 1) {
                         if(sel==0)openFileAs(adapter.getItem(pos).getPath(),adapter.getItem(pos).getName(),adapter.getItem(pos).getExt());
                     } else if(item == 2) {
+                        action_fav_new(adapter.getItem(pos));
+                    } else if(item == 3) {
                         action_properties(pos);
                     }
                 }
@@ -484,7 +499,7 @@ public class datFM extends Activity {
             try {
                 startActivity(intent);}
             catch (RuntimeException i){
-                notify_toast(getResources().getString(R.string.notify_file_unknown));
+                notify_toast(getResources().getString(R.string.notify_file_unknown),true);
             }
         }
     }
@@ -500,7 +515,7 @@ public class datFM extends Activity {
             try {
                 startActivity(intent);}
             catch (RuntimeException i){
-                notify_toast(getResources().getString(R.string.notify_file_unknown));
+                notify_toast(getResources().getString(R.string.notify_file_unknown),true);
             }
         }
     }
@@ -521,7 +536,7 @@ public class datFM extends Activity {
             if(o.getPath().equals("datFM://samba/add")){
                 action_smb_newserver(null);
             } else if(o.getPath().equals("datFM://favorite/add")){
-
+                /* TODO Всплывающее окно */
             } else {
                 fill_new(o.getPath(), curPanel);
             }
@@ -529,7 +544,10 @@ public class datFM extends Activity {
     }
     protected void onFileClickLong(datFM_FileInformation o, int position){
         update_operation_vars();
-        if(o.getType().equals("file") || o.getType().equals("dir") || o.getType().equals("smb_store_network")){
+        if(     o.getType().equals("file") ||
+                o.getType().equals("dir")  ||
+                o.getType().equals("smb_store_network") ||
+                o.getType().equals("fav_bookmark")){
             if (!selected[position]){
                 selected[position]=true;
                 sel++;
@@ -692,6 +710,51 @@ public class datFM extends Activity {
         setTitle(curDir);
     }
 
+    private void action_fav_new(final datFM_FileInformation o){
+        AlertDialog.Builder action_dialog = new AlertDialog.Builder(this);
+        action_dialog.setTitle("Favorite");
+        LayoutInflater inflater = getLayoutInflater();
+        View layer = inflater.inflate(R.layout.datfm_smb_keychainpass,null);
+        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+
+        final EditText fav_name_text = (EditText) layer.findViewById(R.id.smb_auth_keychain);
+        fav_name_text.setInputType(InputType.TYPE_CLASS_TEXT);
+        fav_name_text.setHint("Favorite name");
+        fav_name_text.setText(o.getName());
+
+        action_dialog.setView(layer);
+        action_dialog.setPositiveButton(getResources().getString(R.string.ui_dialog_btn_ok),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String name = fav_name_text.getText().toString();
+                        if (!name.equals("")){
+                            try {
+                                String FILENAME = "fav_data_"+fav_name_text.getText().toString();
+                                String DATA = o.getName()+"\n"+o.getPath()    +"\n"+
+                                              o.getType()+"\n"+o.getProtocol()+"\n"+
+                                              o.getSize()+"\n"+o.getData()+"\n"+
+                                              fav_name_text.getText().toString()+"\n"+"END";
+
+                                FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+                                fos.write(DATA.getBytes());
+                                fos.close();
+                                notify_toast("Done!",false);
+                            } catch (Exception e) {e.printStackTrace();}
+                        } else {
+                            notify_toast("Please enter name!",true);
+                            action_fav_new(o);
+                        }
+                    }
+                });
+        action_dialog.setNegativeButton(getResources().getString(R.string.ui_dialog_btn_cancel),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+
+        AlertDialog AprooveDialog = action_dialog.create();
+        AprooveDialog.show();
+    }
     private void action_smb_newserver(String[] formdata){
         AlertDialog.Builder action_dialog = new AlertDialog.Builder(this);
         action_dialog.setTitle("SMB Server");
@@ -818,7 +881,7 @@ public class datFM extends Activity {
                                             } catch (Exception e) {
                                                 e.printStackTrace();
                                                 action_smb_openserver(o);
-                                                notify_toast("Access denied!");
+                                                notify_toast("Access denied!",true);
                                             }
                                         }
                                     });
@@ -892,7 +955,7 @@ public class datFM extends Activity {
                                             } catch (Exception e) {
                                                 e.printStackTrace();
                                                 action_smb_editserver(bookmarkname);
-                                                notify_toast("Access denied!");
+                                                notify_toast("Access denied!",true);
                                             }
                                         }
                                     });
@@ -1011,14 +1074,14 @@ public class datFM extends Activity {
         if (!curDir.equals(destDir)){
             new datFM_FileOperation(this).execute("copy", "unknown", destDir,"","",String.valueOf(curPanel),String.valueOf(competPanel));
         } else {
-            notify_toast(getResources().getString(R.string.notify_operation_same_folder));
+            notify_toast(getResources().getString(R.string.notify_operation_same_folder),true);
         }
     }
     private void action_move() {
         if (!curDir.equals(destDir)){
             new datFM_FileOperation(this).execute("move", "unknown", destDir,"","",String.valueOf(curPanel),String.valueOf(competPanel));
         } else {
-            notify_toast(getResources().getString(R.string.notify_operation_same_folder));
+            notify_toast(getResources().getString(R.string.notify_operation_same_folder),true);
         }
     }
     private void action_rename(){
@@ -1519,7 +1582,7 @@ public class datFM extends Activity {
                     if(curentLeftDir!=null){
                         fill_new(parent_left, 0);}
                 } else {
-                    notify_toast(getResources().getString(R.string.notify_deselect_before_change_dir));
+                    notify_toast(getResources().getString(R.string.notify_deselect_before_change_dir),true);
                 }
                 break;}
             case R.id.btnUPright:{
@@ -1542,7 +1605,7 @@ public class datFM extends Activity {
                     }
                 */
                 } else {
-                    notify_toast(getResources().getString(R.string.notify_deselect_before_change_dir));
+                    notify_toast(getResources().getString(R.string.notify_deselect_before_change_dir),true);
                 }
                 break;}
             case R.id.btnGOleft:{
@@ -1550,7 +1613,7 @@ public class datFM extends Activity {
                     curPanel=0; competPanel=1;
                     String path = textCurrentPathLeft.getText().toString();
                     fill_new(path, 0);} else {
-                    notify_toast(getResources().getString(R.string.notify_deselect_before_change_dir));
+                    notify_toast(getResources().getString(R.string.notify_deselect_before_change_dir),true);
                 }
                 EditText_unfocused();
                 break;}
@@ -1559,7 +1622,7 @@ public class datFM extends Activity {
                 curPanel=1; competPanel=0;
                 String path = textCurrentPathRight.getText().toString();
                 fill_new(path, 1);} else {
-                    notify_toast(getResources().getString(R.string.notify_deselect_before_change_dir));
+                    notify_toast(getResources().getString(R.string.notify_deselect_before_change_dir),true);
                 }
                 EditText_unfocused();
                 break;}
@@ -2012,10 +2075,16 @@ public class datFM extends Activity {
         AlertDialog AprooveDialog = action_dialog.create();
         AprooveDialog.show();
     }
-    public static void notify_toast(String msg){
+    public static void notify_toast(String msg,boolean err){
         Toast toast = Toast.makeText(datFM_state, msg, Toast.LENGTH_LONG);
         View view2 = toast.getView();
+
+        if(err){
         view2.setBackgroundResource(R.drawable.toast_err);
+        } else {
+        view2.setBackgroundResource(R.drawable.toast_sec);
+        }
+
         TextView text = (TextView) view2.findViewById(android.R.id.message);
         text.setTextColor(Color.BLACK);
         text.setShadowLayer(0,0,0,0);

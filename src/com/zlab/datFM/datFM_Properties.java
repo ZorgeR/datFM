@@ -382,7 +382,7 @@ public class datFM_Properties extends Activity {
                     RunAsRoot(commands);
                     Toast.makeText(datFM.datf_context,"Done!",Toast.LENGTH_SHORT).show();
                 } else {
-                    datFM.notify_toast("Need root permission");
+                    datFM.notify_toast("Need root permission",true);
                 }
                 break;}
             case R.id.prop_btn_calc_md5: {

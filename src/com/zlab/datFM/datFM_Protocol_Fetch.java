@@ -40,12 +40,14 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
     public datFM_Protocol_Fetch(datFM a){activity = a;}
 
     protected void onPreExecute() {
-        if(!datFM.protocols[datFM.curPanel].equals("local") && !datFM.protocols[datFM.curPanel].equals("datfm")){
+        if(!datFM.protocols[activity.curPanel].equals("local") &&
+           !datFM.protocols[activity.curPanel].equals("datfm")){
             dialog_operation_remote = new ProgressDialog(activity);
-            dialog_operation_remote.setTitle(datFM.protocols[datFM.curPanel]);
+            dialog_operation_remote.setTitle(activity.protocols[activity.curPanel]);
             dialog_operation_remote.setMessage("Please wait...");
             dialog_operation_remote.setIndeterminate(false);
-            dialog_operation_remote.show();}
+            dialog_operation_remote.show();
+        }
         super.onPreExecute();
     }
     protected void onProgressUpdate(Integer values) {
@@ -89,8 +91,8 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
         //if(fetch_err){datFM.notify_toast("Listing error!");}
 
             if(protocol.equals("smb") && (!success_auth || fetch_err)){
-                if(!success_auth){datFM.notify_toast(datFM.datFM_state.getResources().getString(R.string.notify_logon_error));}
-                if(fetch_err){datFM.notify_toast(datFM.datFM_state.getResources().getString(R.string.notify_connection_error));}
+                if(!success_auth){datFM.notify_toast(datFM.datFM_state.getResources().getString(R.string.notify_logon_error),true);}
+                if(fetch_err){datFM.notify_toast(datFM.datFM_state.getResources().getString(R.string.notify_connection_error),true);}
                 if(datFM.pref_sambalogin){
                     logonScreenSMB();}
             } else {
@@ -110,7 +112,11 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
         */
         //if(domain==null&&hostname.length()>0){domain=hostname;}
         //auth = new NtlmPasswordAuthentication(domain, user, pass);
-        auth = datFM.auth[panel_ID];
+        if(datFM.auth[panel_ID]!=null){
+            auth = datFM.auth[panel_ID];
+        } else {
+            auth = new NtlmPasswordAuthentication(null, null, null);
+        }
 
         // ------ CHECK SMB AUTH ------------ //
         if(datFM.pref_sambalogin){
@@ -224,6 +230,34 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
 
         } else if(section.equals("favorite")){
             dir_info.add(new datFM_FileInformation("Add to favorite","datFM://favorite/add",0,"local","add","Favorites", "datFM://"));
+
+            File dir = activity.getFilesDir();
+            for(File ff : dir.listFiles()){
+                if(ff.getName().startsWith("fav_data_")){
+                    try {
+                        FileInputStream fis = activity.openFileInput(ff.getName());
+                        StringBuffer fileContent = new StringBuffer("");
+                        byte[] buffer = new byte[1024];
+                        int length;
+                        while ((length = fis.read(buffer)) != -1) {
+                            fileContent.append(new String(buffer));
+                        }
+
+                        //String fav_name = fileContent.toString().split("\n")[0];
+                        String fav_path = fileContent.toString().split("\n")[1];
+                        //String fav_type = fileContent.toString().split("\n")[2];
+                        String fav_protocol = fileContent.toString().split("\n")[3];
+                        String fav_size = fileContent.toString().split("\n")[4];
+                        String fav_data = fileContent.toString().split("\n")[5];
+                        String fav_bookmark_name = fileContent.toString().split("\n")[6];
+
+                            dir_info.add(new datFM_FileInformation(fav_bookmark_name,fav_path,Long.parseLong(fav_size),fav_protocol,"fav_bookmark",fav_data, "datFM://favorite"));
+
+                        fis.close();
+                    } catch (Exception e) {e.printStackTrace();}
+                }
+            }
+
         } else if(section.equals("samba")){
             dir_info.add(new datFM_FileInformation("Add Samba server","datFM://samba/add",0,"smb","add","Network", "datFM://samba"));
             dir_info.add(new datFM_FileInformation("Browse smb://","smb://",0,"smb","network","Network", "datFM://samba"));
