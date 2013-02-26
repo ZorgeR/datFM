@@ -366,29 +366,7 @@ public class datFM extends Activity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 
-        if ( (ZA.isSupport()) &&
-             (adapter.getItem(pos).getExt().equals("zip")||
-              adapter.getItem(pos).getExt().equals("rar")||
-              adapter.getItem(pos).getExt().equals("7z") ||
-              adapter.getItem(pos).getExt().equals("tar"))){
-            CharSequence[] items = {open, open_with, unpack_archive, properties};
-            builder.setItems(items, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int item) {
-                    if(item == 0) {
-                        if(sel==0)onFileClick(adapter.getItem(pos));
-                    } else if(item == 1) {
-                        if(sel==0)openFileAs(adapter.getItem(pos).getPath(),adapter.getItem(pos).getName(),adapter.getItem(pos).getExt());
-                    } else if(item == 2) {
-                        String path,name;
-                        path = adapter.getItem(pos).getPath();
-                        name = adapter.getItem(pos).getName().substring(0, adapter.getItem(pos).getName().lastIndexOf("."));
-                        ZA_unpack(path, name);
-                    } else if(item == 3){
-                        action_properties(pos);
-                    }
-                }
-            });
-        } else if (adapter.getItem(pos).getType().equals("smb_store_network")){
+        if (adapter.getItem(pos).getType().equals("smb_store_network")){
             CharSequence[] items = {edit,delete};
             builder.setItems(items, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int item) {
@@ -409,20 +387,46 @@ public class datFM extends Activity {
                 }
             });
         } else if (adapter.getItem(pos).getType().equals("dir") || adapter.getItem(pos).getType().equals("file")){
-            CharSequence[] items = {open, open_with, add_to_favorite, properties};
-            builder.setItems(items, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int item) {
-                    if(item == 0) {
-                        if(sel==0)onFileClick(adapter.getItem(pos));
-                    } else if(item == 1) {
-                        if(sel==0)openFileAs(adapter.getItem(pos).getPath(),adapter.getItem(pos).getName(),adapter.getItem(pos).getExt());
-                    } else if(item == 2) {
-                        action_fav_new(adapter.getItem(pos));
-                    } else if(item == 3) {
-                        action_properties(pos);
+            if ( (ZA.isSupport()) &&
+                    (adapter.getItem(pos).getExt().equals("zip")||
+                            adapter.getItem(pos).getExt().equals("rar")||
+                            adapter.getItem(pos).getExt().equals("7z") ||
+                            adapter.getItem(pos).getExt().equals("tar"))){
+                CharSequence[] items = {open, open_with, unpack_archive,add_to_favorite, properties};
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        if(item == 0) {
+                            if(sel==0)onFileClick(adapter.getItem(pos));
+                        } else if(item == 1) {
+                            if(sel==0)openFileAs(adapter.getItem(pos).getPath(),adapter.getItem(pos).getName(),adapter.getItem(pos).getExt());
+                        } else if(item == 2) {
+                            String path,name;
+                            path = adapter.getItem(pos).getPath();
+                            name = adapter.getItem(pos).getName().substring(0, adapter.getItem(pos).getName().lastIndexOf("."));
+                            ZA_unpack(path, name);
+                        } else if(item == 3) {
+                            action_fav_new(adapter.getItem(pos));
+                        } else if(item == 4){
+                            action_properties(pos);
+                        }
                     }
-                }
-            });
+                });
+            } else {
+                CharSequence[] items = {open, open_with, add_to_favorite, properties};
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        if(item == 0) {
+                            if(sel==0)onFileClick(adapter.getItem(pos));
+                        } else if(item == 1) {
+                            if(sel==0)openFileAs(adapter.getItem(pos).getPath(),adapter.getItem(pos).getName(),adapter.getItem(pos).getExt());
+                        } else if(item == 2) {
+                            action_fav_new(adapter.getItem(pos));
+                        } else if(item == 3) {
+                            action_properties(pos);
+                        }
+                    }
+                });
+            }
         } else {
             show=false;
         }
@@ -536,7 +540,7 @@ public class datFM extends Activity {
             if(o.getPath().equals("datFM://samba/add")){
                 action_smb_newserver(null);
             } else if(o.getPath().equals("datFM://favorite/add")){
-                /* TODO Всплывающее окно */
+                    action_fav_newalert();
             } else if(o.getType().equals("fav_bookmark_file")){
                 openFile(o.getPath(), o.getName(), o.getExt());
             } else {
@@ -712,6 +716,30 @@ public class datFM extends Activity {
         setTitle(curDir);
     }
 
+    private void action_fav_newalert(){
+        AlertDialog.Builder action_dialog = new AlertDialog.Builder(this);
+        action_dialog.setTitle("Add favorite");
+        LayoutInflater inflater = getLayoutInflater();
+        View layer = inflater.inflate(R.layout.datfm_actiondialog,null);
+        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+
+        TextView textDialogCount = (TextView) layer.findViewById(R.id.textDialogCount);
+        TextView textDialogFrom = (TextView) layer.findViewById(R.id.textDialogFrom);
+        TextView textDialogTo = (TextView) layer.findViewById(R.id.textDialogTo);
+        textDialogFrom.setVisibility(View.GONE);
+        textDialogTo.setVisibility(View.GONE);
+        textDialogCount.setText("Use context menu of file and folder, for add it in favorites");
+
+        action_dialog.setView(layer);
+        action_dialog.setNegativeButton(getResources().getString(R.string.ui_dialog_btn_cancel),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+
+        AlertDialog AprooveDialog = action_dialog.create();
+        AprooveDialog.show();
+    }
     private void action_fav_new(final datFM_FileInformation o){
         AlertDialog.Builder action_dialog = new AlertDialog.Builder(this);
         action_dialog.setTitle("Favorite");
