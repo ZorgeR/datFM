@@ -351,13 +351,14 @@ public class datFM extends Activity {
         if(id==listLeft.getId()){curPanel=0;}else{curPanel=1;}
         update_operation_vars();
         String open,open_with,unpack_archive,properties;
-
+        boolean show=true;
         open = getResources().getString(R.string.contextmenu_open);
         open_with = getResources().getString(R.string.contextmenu_open_with);
         unpack_archive = getResources().getString(R.string.contextmenu_open_unpack_ZA);
         properties = getResources().getString(R.string.contextmenu_properties);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
 
         if ( (ZA.isSupport()) &&
              (adapter.getItem(pos).getExt().equals("zip")||
@@ -381,7 +382,18 @@ public class datFM extends Activity {
                     }
                 }
             });
-        } else {
+        } else if (adapter.getItem(pos).getType().equals("smb_store_network")){
+            CharSequence[] items = {"edit", "delete"};
+            builder.setItems(items, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int item) {
+                    if(item == 0) {
+                        if(sel==0)action_smb_editserver(adapter.getItem(pos).getName());
+                    } else if(item == 1) {
+                        if(sel==0)selected[pos]=true;action_delete();
+                    }
+                }
+            });
+        } else if (adapter.getItem(pos).getType().equals("dir") || adapter.getItem(pos).getType().equals("file")){
             CharSequence[] items = {open, open_with, properties};
             builder.setItems(items, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int item) {
@@ -394,7 +406,10 @@ public class datFM extends Activity {
                     }
                 }
             });
+        } else {
+            show=false;
         }
+
         AlertDialog dialog = builder.create();
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         WindowManager.LayoutParams WMLP = dialog.getWindow().getAttributes();
@@ -402,7 +417,7 @@ public class datFM extends Activity {
         WMLP.gravity = Gravity.CENTER;
 
         dialog.getWindow().setAttributes(WMLP);
-        dialog.show();
+        if(show)dialog.show();
     }
     protected void openRemoteFile(String path,String name, String ext){
         File tmp_dir = new File(Environment.getExternalStorageDirectory().getPath()+"/Android/data/datFM");
@@ -502,7 +517,7 @@ public class datFM extends Activity {
             action_smb_openserver(o);
         } else {
             if(o.getPath().equals("datFM://samba/add")){
-                action_smb_newserver();
+                action_smb_newserver(null);
             } else if(o.getPath().equals("datFM://favorite/add")){
 
             } else {
@@ -512,7 +527,7 @@ public class datFM extends Activity {
     }
     protected void onFileClickLong(datFM_FileInformation o, int position){
         update_operation_vars();
-        if(!o.getType().equals("parent_dir")){
+        if(o.getType().equals("file") || o.getType().equals("dir") || o.getType().equals("smb_store_network")){
             if (!selected[position]){
                 selected[position]=true;
                 sel++;
@@ -675,7 +690,7 @@ public class datFM extends Activity {
         setTitle(curDir);
     }
 
-    private void action_smb_newserver(){
+    private void action_smb_newserver(String[] formdata){
         AlertDialog.Builder action_dialog = new AlertDialog.Builder(this);
         action_dialog.setTitle("SMB Server");
         LayoutInflater inflater = getLayoutInflater();
@@ -689,6 +704,20 @@ public class datFM extends Activity {
         final EditText smb_add_server_pass = (EditText) layer.findViewById(R.id.smb_add_server_pass);
         final EditText smb_add_server_domain = (EditText) layer.findViewById(R.id.smb_add_server_domain);
         final EditText smb_add_server_encrypt_pass = (EditText) layer.findViewById(R.id.smb_add_server_encrypt_pass);
+
+        if(formdata!=null){
+            smb_add_server_name.setText(formdata[0]);
+            smb_add_server_ip_hostname.setText(formdata[1]);
+            smb_add_server_start_dir.setText(formdata[2]);
+            smb_add_server_user.setText(formdata[3]);
+            smb_add_server_pass.setText(formdata[4]);
+            smb_add_server_domain.setText(formdata[5]);
+
+            if(formdata[6].equals("1")){
+                smb_add_server_encrypt_pass.setText(formdata[7]);
+                formdata[7]=null;
+            }
+        }
 
         action_dialog.setView(layer);
         action_dialog.setPositiveButton(getResources().getString(R.string.ui_dialog_btn_ok),
@@ -802,6 +831,75 @@ public class datFM extends Activity {
                         domain=null;
                         fill_new(o.getPath(), curPanel);
                     }
+                    fis.close();
+                } catch (Exception e) {e.printStackTrace();}
+            }
+        }
+    }
+    private void action_smb_editserver(final String bookmarkname){
+        File dirs = getFilesDir();
+        for(File ff : dirs.listFiles()){
+            String name = ff.getName().replace("smb_data_","");
+            if(name.equals(bookmarkname)){
+                try {
+                    FileInputStream fis = openFileInput(ff.getName());
+                    StringBuffer fileContent = new StringBuffer("");
+                    byte[] buffer = new byte[1024];
+                    int length;
+                    while ((length = fis.read(buffer)) != -1) {
+                        fileContent.append(new String(buffer));
+                    }
+
+                    String server_name = fileContent.toString().split("\n")[0];
+                    String server_ip_hostname = fileContent.toString().split("\n")[1];
+                    String server_start_dir = fileContent.toString().split("\n")[2];
+                    String server_user = fileContent.toString().split("\n")[3];
+                    String server_pass = fileContent.toString().split("\n")[4];
+                    String server_domain = fileContent.toString().split("\n")[5];
+                    String iscrypted = fileContent.toString().split("\n")[6];
+
+
+                        if(iscrypted.equals("0")){
+                            String[] formdata = {server_name,server_ip_hostname,server_start_dir,server_user,server_pass,server_domain,iscrypted};
+                            action_smb_newserver(formdata);
+                        } else {
+                            AlertDialog.Builder action_dialog = new AlertDialog.Builder(this);
+                            action_dialog.setTitle("Keychain");
+                            LayoutInflater inflater = getLayoutInflater();
+                            View layer = inflater.inflate(R.layout.datfm_smb_keychainpass,null);
+                            if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+
+                            final EditText smb_keychain = (EditText) layer.findViewById(R.id.smb_auth_keychain);
+                            final String server_pass_encrypted = server_pass;
+                            final String[] formdata = {server_name,server_ip_hostname,server_start_dir,server_user,server_pass,server_domain,iscrypted,null};
+
+                            action_dialog.setView(layer);
+                            action_dialog.setPositiveButton(getResources().getString(R.string.ui_dialog_btn_ok),
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            String smb_keychainpass = smb_keychain.getText().toString();
+                                            try {
+                                                pass = SimpleCrypto.decrypt(smb_keychainpass,server_pass_encrypted);
+                                                formdata[4]=pass;
+                                                formdata[7]=smb_keychainpass;
+                                                action_smb_newserver(formdata);
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                                action_smb_editserver(bookmarkname);
+                                                notify_toast("Access denied!");
+                                            }
+                                        }
+                                    });
+                            action_dialog.setNegativeButton(getResources().getString(R.string.ui_dialog_btn_cancel),
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                        }
+                                    });
+
+                            AlertDialog AprooveDialog = action_dialog.create();
+                            AprooveDialog.show();
+                        }
+
                     fis.close();
                 } catch (Exception e) {e.printStackTrace();}
             }

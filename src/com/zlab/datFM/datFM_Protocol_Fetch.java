@@ -222,9 +222,8 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
         } else if(section.equals("favorite")){
             dir_info.add(new datFM_FileInformation("Add to favorite","datFM://favorite/add",0,"local","add","Favorites", "datFM://"));
         } else if(section.equals("samba")){
-
-            dir_info.add(new datFM_FileInformation("Browse smb://","smb://",0,"smb","network","Network", "datFM://samba"));
             dir_info.add(new datFM_FileInformation("Add Samba server","datFM://samba/add",0,"smb","add","Network", "datFM://samba"));
+            dir_info.add(new datFM_FileInformation("Browse smb://","smb://",0,"smb","network","Network", "datFM://samba"));
 
             File dir = activity.getFilesDir();
             for(File ff : dir.listFiles()){
