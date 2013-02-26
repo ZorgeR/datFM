@@ -399,7 +399,7 @@ public class datFM extends Activity {
                     }
                 }
             });
-        } else if (adapter.getItem(pos).getType().equals("fav_bookmarkk")){
+        } else if (adapter.getItem(pos).getType().startsWith("fav_bookmarkk")){
             CharSequence[] items = {delete};
             builder.setItems(items, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int item) {
@@ -537,6 +537,8 @@ public class datFM extends Activity {
                 action_smb_newserver(null);
             } else if(o.getPath().equals("datFM://favorite/add")){
                 /* TODO Всплывающее окно */
+            } else if(o.getType().equals("fav_bookmark_file")){
+                openFile(o.getPath(), o.getName(), o.getExt());
             } else {
                 fill_new(o.getPath(), curPanel);
             }
@@ -547,7 +549,7 @@ public class datFM extends Activity {
         if(     o.getType().equals("file") ||
                 o.getType().equals("dir")  ||
                 o.getType().equals("smb_store_network") ||
-                o.getType().equals("fav_bookmark")){
+                o.getType().startsWith("fav_bookmark")){
             if (!selected[position]){
                 selected[position]=true;
                 sel++;

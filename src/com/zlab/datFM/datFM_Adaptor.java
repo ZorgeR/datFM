@@ -158,7 +158,7 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
                 imgFileIcon.setImageResource(resID);
                 icon_setter(o.getPath(), ext);
 
-            } else if (o.getType().equals("favorite") || o.getType().equals("fav_bookmark") ){
+            } else if (o.getType().equals("favorite") || o.getType().startsWith("fav_bookmark") ){
                     imgFileIcon.setImageResource(R.drawable.ext_favorite);
             } else if (o.getType().equals("network") || o.getType().equals("smb_store_network")){
                     imgFileIcon.setImageResource(R.drawable.ext_network);

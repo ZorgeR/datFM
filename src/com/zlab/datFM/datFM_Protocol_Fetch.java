@@ -245,13 +245,17 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
 
                         //String fav_name = fileContent.toString().split("\n")[0];
                         String fav_path = fileContent.toString().split("\n")[1];
-                        //String fav_type = fileContent.toString().split("\n")[2];
+                        String fav_type = fileContent.toString().split("\n")[2];
                         String fav_protocol = fileContent.toString().split("\n")[3];
                         String fav_size = fileContent.toString().split("\n")[4];
                         String fav_data = fileContent.toString().split("\n")[5];
                         String fav_bookmark_name = fileContent.toString().split("\n")[6];
 
-                            dir_info.add(new datFM_FileInformation(fav_bookmark_name,fav_path,Long.parseLong(fav_size),fav_protocol,"fav_bookmark",fav_data, "datFM://favorite"));
+                        if(fav_type.equals("dir")){
+                            dir_info.add(new datFM_FileInformation(fav_bookmark_name,fav_path,Long.parseLong(fav_size),fav_protocol,"fav_bookmark_dir",fav_data, "datFM://favorite"));
+                        } else if(fav_type.equals("file")){
+                            dir_info.add(new datFM_FileInformation(fav_bookmark_name,fav_path,Long.parseLong(fav_size),fav_protocol,"fav_bookmark_file",fav_data, "datFM://favorite"));
+                        }
 
                         fis.close();
                     } catch (Exception e) {e.printStackTrace();}
