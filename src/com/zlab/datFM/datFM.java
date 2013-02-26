@@ -718,7 +718,7 @@ public class datFM extends Activity {
 
     private void action_fav_newalert(){
         AlertDialog.Builder action_dialog = new AlertDialog.Builder(this);
-        action_dialog.setTitle("Add favorite");
+        action_dialog.setTitle(getResources().getString(R.string.fileslist_add_favorite));
         LayoutInflater inflater = getLayoutInflater();
         View layer = inflater.inflate(R.layout.datfm_actiondialog,null);
         if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
@@ -728,7 +728,7 @@ public class datFM extends Activity {
         TextView textDialogTo = (TextView) layer.findViewById(R.id.textDialogTo);
         textDialogFrom.setVisibility(View.GONE);
         textDialogTo.setVisibility(View.GONE);
-        textDialogCount.setText("Use context menu of file and folder, for add it in favorites");
+        textDialogCount.setText(getResources().getString(R.string.notify_fav_add_instruction));
 
         action_dialog.setView(layer);
         action_dialog.setNegativeButton(getResources().getString(R.string.ui_dialog_btn_cancel),
@@ -742,14 +742,14 @@ public class datFM extends Activity {
     }
     private void action_fav_new(final datFM_FileInformation o){
         AlertDialog.Builder action_dialog = new AlertDialog.Builder(this);
-        action_dialog.setTitle("Favorite");
+        action_dialog.setTitle(getResources().getString(R.string.fileslist_favorites));
         LayoutInflater inflater = getLayoutInflater();
         View layer = inflater.inflate(R.layout.datfm_smb_keychainpass,null);
         if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
 
         final EditText fav_name_text = (EditText) layer.findViewById(R.id.smb_auth_keychain);
         fav_name_text.setInputType(InputType.TYPE_CLASS_TEXT);
-        fav_name_text.setHint("Favorite name");
+        fav_name_text.setHint(getResources().getString(R.string.ui_dialog_smd_addserver_bookmark_name));
         fav_name_text.setText(o.getName());
 
         action_dialog.setView(layer);
@@ -911,7 +911,7 @@ public class datFM extends Activity {
                                             } catch (Exception e) {
                                                 e.printStackTrace();
                                                 action_smb_openserver(o);
-                                                notify_toast("Access denied!",true);
+                                                notify_toast(getResources().getString(R.string.notify_access_denied),true);
                                             }
                                         }
                                     });
@@ -985,7 +985,7 @@ public class datFM extends Activity {
                                             } catch (Exception e) {
                                                 e.printStackTrace();
                                                 action_smb_editserver(bookmarkname);
-                                                notify_toast("Access denied!",true);
+                                                notify_toast(getResources().getString(R.string.notify_access_denied),true);
                                             }
                                         }
                                     });

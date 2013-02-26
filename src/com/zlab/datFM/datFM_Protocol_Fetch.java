@@ -218,18 +218,21 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
         }
 
         if(section.equals("home")){
-            dir_info.add(new datFM_FileInformation("External Storage", Environment.getExternalStorageDirectory().getPath(),0,"local","sdcard",
+            dir_info.add(new datFM_FileInformation(activity.getResources().getString(R.string.fileslist_memory_card), Environment.getExternalStorageDirectory().getPath(),0,"local","sdcard",
                     getAvailableExternalMemorySize()+" / "+getTotalExternalMemorySize(), "datFM://"));
 
-            dir_info.add(new datFM_FileInformation("Root","/",0,"local","root",
+            dir_info.add(new datFM_FileInformation(activity.getResources().getString(R.string.fileslist_root),"/",0,"local","root",
                     getAvailableInternalMemorySize()+" / "+getTotalInternalMemorySize(), "datFM://"));
 
-            dir_info.add(new datFM_FileInformation("Favorite","datFM://favorite",0,"local","favorite","Favorites", "datFM://"));
+            dir_info.add(new datFM_FileInformation(activity.getResources().getString(R.string.fileslist_favorites),"datFM://favorite",0,"local","favorite",
+                    activity.getResources().getString(R.string.fileslist_favorites), "datFM://"));
 
-            dir_info.add(new datFM_FileInformation("Samba","datFM://samba",0,"smb","network","Network", "datFM://"));
+            dir_info.add(new datFM_FileInformation(activity.getResources().getString(R.string.fileslist_samba),"datFM://samba",0,"smb","network",
+                    activity.getResources().getString(R.string.fileslist_network), "datFM://"));
 
         } else if(section.equals("favorite")){
-            dir_info.add(new datFM_FileInformation("Add to favorite","datFM://favorite/add",0,"local","add","Favorites", "datFM://"));
+            dir_info.add(new datFM_FileInformation(activity.getResources().getString(R.string.fileslist_add_favorite),"datFM://favorite/add",0,"local","add",
+                    activity.getResources().getString(R.string.fileslist_favorites), "datFM://"));
 
             File dir = activity.getFilesDir();
             for(File ff : dir.listFiles()){
@@ -263,8 +266,10 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
             }
 
         } else if(section.equals("samba")){
-            dir_info.add(new datFM_FileInformation("Add Samba server","datFM://samba/add",0,"smb","add","Network", "datFM://samba"));
-            dir_info.add(new datFM_FileInformation("Browse smb://","smb://",0,"smb","network","Network", "datFM://samba"));
+            dir_info.add(new datFM_FileInformation(activity.getResources().getString(R.string.fileslist_add_samba),"datFM://samba/add",0,"smb","add",
+                    activity.getResources().getString(R.string.fileslist_network), "datFM://samba"));
+            dir_info.add(new datFM_FileInformation(activity.getResources().getString(R.string.fileslist_browse_samba),"smb://",0,"smb","network",
+                    activity.getResources().getString(R.string.fileslist_network), "datFM://samba"));
 
             File dir = activity.getFilesDir();
             for(File ff : dir.listFiles()){

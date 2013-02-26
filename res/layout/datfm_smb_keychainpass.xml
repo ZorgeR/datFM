@@ -9,5 +9,5 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/smb_auth_keychain" android:layout_gravity="left|center_vertical"
-            android:hint="keychain password" android:password="true"/>
+            android:hint="@string/ui_dialog_smd_addserver_secret_key" android:password="true"/>
 </LinearLayout>

@@ -17,17 +17,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/smb_add_server_name" android:layout_gravity="left|center_vertical"
-                    android:hint="shortcut name" android:singleLine="true"/>
+                    android:hint="@string/ui_dialog_smd_addserver_bookmark_name" android:singleLine="true"/>
             <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/smb_add_server_ip" android:layout_gravity="left|center_vertical"
-                    android:hint="hostname/ip" android:singleLine="true"/>
+                    android:hint="@string/ui_dialog_smd_addserver_ip_hostname" android:singleLine="true"/>
             <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/smb_add_server_startdir" android:layout_gravity="left|center_vertical"
-                    android:hint="start directory" android:singleLine="true"/>
+                    android:hint="@string/ui_dialog_smd_addserver_start_dir" android:singleLine="true"/>
         </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"
@@ -37,16 +37,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/smb_add_server_user" android:layout_gravity="left|center_vertical"
-                    android:hint="username" android:singleLine="true"/>
+                    android:hint="@string/ui_dialog_smd_addserver_username" android:singleLine="true"/>
             <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/smb_add_server_pass" android:layout_gravity="left|center_vertical"
-                    android:hint="password" android:singleLine="true" android:password="true"/>
+                    android:hint="@string/ui_dialog_smd_addserver_password" android:singleLine="true" android:password="true"/>
             <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/smb_add_server_domain" android:layout_gravity="left|center_vertical" android:hint="domain"
+                    android:id="@+id/smb_add_server_domain" android:layout_gravity="left|center_vertical" android:hint="@string/ui_dialog_smd_addserver_domain"
                     android:singleLine="true"/>
         </LinearLayout>
     </LinearLayout>
@@ -54,5 +54,5 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/smb_add_server_encrypt_pass" android:layout_gravity="left|center_vertical"
-            android:hint="password for keychain encryption" android:singleLine="true" android:password="true"/>
+            android:hint="@string/ui_dialog_smd_addserver_secret_key" android:singleLine="true" android:password="true"/>
 </LinearLayout>

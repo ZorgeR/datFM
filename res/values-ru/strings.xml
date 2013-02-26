@@ -121,6 +121,14 @@
     <string name="fileslist_folders_count">Папок:</string>
     <string name="fileslist_files_count">Файлов:</string>
     <string name="fileslist_file_selected">Выделено:</string>
+    <string name="fileslist_network">Сеть</string>
+    <string name="fileslist_favorites">Избранное</string>
+    <string name="fileslist_memory_card">Карта Памяти</string>
+    <string name="fileslist_root">Root</string>
+    <string name="fileslist_samba">Samba</string>
+    <string name="fileslist_add_favorite">Добавить в Избранное</string>
+    <string name="fileslist_add_samba">Добавить Samba сервер</string>
+    <string name="fileslist_browse_samba">Обозреватель smb://</string>
 
     <!-- UI Elements -->
     <!-- Pop-up Dialogs -->
@@ -156,6 +164,13 @@
     <string name="ui_dialog_archive_unpack_to_name">Распаковать в ./Имя_архива/</string>
     <string name="ui_dialog_archive_unpack_to_dir">Распаковать в текущую директорию</string>
     <string name="ui_dialog_archive_unpack_to_user">Выбрать путь распаковки</string>
+    <string name="ui_dialog_smd_addserver_bookmark_name">Имя закладки</string>
+    <string name="ui_dialog_smd_addserver_ip_hostname">IP/hostname</string>
+    <string name="ui_dialog_smd_addserver_start_dir">Начальный каталог</string>
+    <string name="ui_dialog_smd_addserver_username">Имя пользователя</string>
+    <string name="ui_dialog_smd_addserver_password">Пароль</string>
+    <string name="ui_dialog_smd_addserver_domain">Домен</string>
+    <string name="ui_dialog_smd_addserver_secret_key">Ключ шифрования (keychain password)</string>
     <!-- Notification -->
     <string name="notify_copy">объектов скопировано в:</string>
     <string name="notify_move">объектов перемещено в:</string>
@@ -168,7 +183,9 @@
     <string name="notify_cant_find_ZA">Для этого требуется ZArchiver версии 0.6.0 или выше!</string>
     <string name="notify_unknown_protocol">Неизвестный протокол!</string>
     <string name="notify_logon_error">Ошибка авторизации!</string>
+    <string name="notify_access_denied">Доступ запрещен!</string>
     <string name="notify_connection_error">Ошибка соединения!</string>
+    <string name="notify_fav_add_instruction">Используйте контекстное меню файлов и каталогов, для добавления в избранное</string>
 
     <!-- About -->
     <string name="about_message">Иконки:\nИконка приложения - http://iconfactory.com\nИконки файлов - Quartz Icon Set by Andy Gongea\n\nПереводчики:\nUK - stigr (Motofan.ru)\nPL - galonpzw (XDA)\nFR - nikwist (XDA)\nDE - Milestone:enotseliM (XDA)\nSK - pvdeejay (XDA), pyler(XDA)\n\nОтдельная благодарность:\nAnt-ON - за его помощь\nRamallah - за его не помощь\nИнаре - просто так!</string>

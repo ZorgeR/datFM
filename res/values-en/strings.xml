@@ -121,6 +121,14 @@
     <string name="fileslist_folders_count">Folders:</string>
     <string name="fileslist_files_count">Files:</string>
     <string name="fileslist_file_selected">Selected:</string>
+    <string name="fileslist_network">Network</string>
+    <string name="fileslist_favorites">Favorites</string>
+    <string name="fileslist_memory_card">External Storage</string>
+    <string name="fileslist_root">Root</string>
+    <string name="fileslist_samba">Samba</string>
+    <string name="fileslist_add_favorite">Add to favorites</string>
+    <string name="fileslist_add_samba">Add Samba server</string>
+    <string name="fileslist_browse_samba">Browse smb://</string>
 
     <!-- UI Elements -->
     <!-- Pop-up Dialogs -->
@@ -156,6 +164,13 @@
     <string name="ui_dialog_archive_unpack_to_name">Extract in ./Archive_name/</string>
     <string name="ui_dialog_archive_unpack_to_dir">Extract in current directory</string>
     <string name="ui_dialog_archive_unpack_to_user">User preferred directory</string>
+    <string name="ui_dialog_smd_addserver_bookmark_name">Bookmark name</string>
+    <string name="ui_dialog_smd_addserver_ip_hostname">IP/hostname</string>
+    <string name="ui_dialog_smd_addserver_start_dir">Start directory</string>
+    <string name="ui_dialog_smd_addserver_username">Username</string>
+    <string name="ui_dialog_smd_addserver_password">Password</string>
+    <string name="ui_dialog_smd_addserver_domain">Domain</string>
+    <string name="ui_dialog_smd_addserver_secret_key">Encryption key (keychain password)</string>
     <!-- Notification -->
     <string name="notify_copy">object copied to:</string>
     <string name="notify_move">object moved to:</string>
@@ -168,7 +183,9 @@
     <string name="notify_cant_find_ZA">ZArchiver 0.6.0 or later required!</string>
     <string name="notify_unknown_protocol">Unknown protocol!</string>
     <string name="notify_logon_error">Logon error!</string>
+    <string name="notify_access_denied">Access denied!</string>
     <string name="notify_connection_error">Connection error!</string>
+    <string name="notify_fav_add_instruction">Use context menu of file and folder, for add it in favorites</string>
 
     <!-- About -->
     <string name="about_message">Icons:\nApp icons - http://iconfactory.com\nFiles icon - Quartz Icon Set by Andy Gongea\n\nLocalization:\nUK - stigr (Motofan.ru)\nPL - galonpzw (XDA)\nFR - nikwist (XDA)\nDE - Milestone:enotseliM (XDA)\nSK - pvdeejay (XDA), pyler(XDA)\n\nSpecial thanks to:\nAnt-ON - for his help\nRamallah - for something that did not help\nInara - just like that!</string>
