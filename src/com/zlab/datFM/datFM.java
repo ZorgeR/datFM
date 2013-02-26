@@ -148,7 +148,9 @@ public class datFM extends Activity {
 
         if (pref_theme.equals("Dark Fullscreen")){
             setTheme(android.R.style.Theme_Holo_NoActionBar);
-            color_item_selected=Color.parseColor("#88980000");
+            //color_item_selected=Color.parseColor("#88980000");
+            color_item_selected=Color.parseColor("#88650000");
+            //color_item_selected=Color.parseColor("#40999999");
             pathPanelBgrFill=Color.parseColor("#ff131514");
         } else {
             color_item_selected=Color.parseColor("#ff46b2ff");
@@ -1862,7 +1864,7 @@ public class datFM extends Activity {
         pref_bartext_size = Integer.parseInt(prefs.getString("pref_bartext_size","10"));
         pref_show_hide = prefs.getBoolean("pref_show_hide",false);
         pref_clear_filecache = prefs.getBoolean("pref_clear_filecache",true);
-        pref_theme = prefs.getString("pref_theme","datFM Classic");
+        pref_theme = prefs.getString("pref_theme","Dark Fullscreen");
         pref_show_single_navbar = prefs.getBoolean("pref_show_single_navbar",false);
     }
     private void pref_setter(){
