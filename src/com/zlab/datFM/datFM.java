@@ -1414,7 +1414,7 @@ public class datFM extends Activity {
                             if ( !ZA.isSupport() )
                             {
                                 Toast.makeText(getApplicationContext(),getResources().getString(R.string.notify_cant_find_ZA),Toast.LENGTH_SHORT).show();
-                                return;
+                                //return;
                             } else {
                                 if(checkArchFileToDelete.isChecked()){
                                     ZA.setOnActionComplete(new OnActionComplete() {
@@ -1526,7 +1526,7 @@ public class datFM extends Activity {
                             if ( !ZA.isSupport() )
                             {
                                 Toast.makeText(datf_context,getResources().getString(R.string.notify_cant_find_ZA),Toast.LENGTH_SHORT).show();
-                                return;
+                                //return;
                             } else {
                                 ZA.setOnActionComplete(new OnActionComplete() {
                                     @Override
