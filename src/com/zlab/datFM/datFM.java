@@ -51,6 +51,7 @@ public class datFM extends Activity {
     static String[] protocols=new String[2];
     static int currentApiVersion;
     static int color_item_selected;
+    LinearLayout btnUPleft, btnUPright;
 
     /** VARS FOR OPERATION**/
     static int sel;
@@ -126,9 +127,13 @@ public class datFM extends Activity {
         fill_new(curentLeftDir, 0);
         fill_new(curentRightDir, 1);
 
-        if (!pref_theme.contains("Light") && !pref_theme.contains("Classic")) {
-        listLeft.setSelector(R.drawable.datfm_listselector);
-        listRight.setSelector(R.drawable.datfm_listselector);
+        if (!pref_theme.contains("Classic")) {
+            listLeft.setSelector(R.drawable.datfm_listselector);
+            listRight.setSelector(R.drawable.datfm_listselector);
+            textItemsLeftSelected.setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_full_holo_dark));
+            textItemsRightSelected.setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_full_holo_dark));
+            textPanelLeft.setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_full_holo_dark));
+            textPanelRight.setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_full_holo_dark));
         }
 
         /** Интерфейс для ZArchiver **/
@@ -300,16 +305,30 @@ public class datFM extends Activity {
         if(panel_ID==0){competPanel=1;}else{competPanel=0;}
 
         if(panel_ID==0){
-            if(curentLeftDir.equals("/") || curentLeftDir.equals("smb:////")){parent_left="datFM://";}
-            if(!curentLeftDir.equals("datFM://")){
-                String data = getResources().getString(R.string.fileslist_parent_directory);
-                dir.add(0,new datFM_FileInformation("..",parent_left,0,protocols[0],"parent_dir", data, parent_left));
+            if(curentLeftDir.equals("/") || curentLeftDir.equals("smb:////") || curentLeftDir.equals("datFM://samba") || curentLeftDir.equals("datFM://favorite")){
+                parent_left = new datFM_IO(curentLeftDir).getParent();
+                if(!curentLeftDir.equals("datFM://")){
+                    String data = getResources().getString(R.string.fileslist_parent_directory);
+                    dir.add(0,new datFM_FileInformation("..",parent_left,0,protocols[0],"home", data, parent_left));
+                }
+            } else {
+                if(!curentLeftDir.equals("datFM://")){
+                    String data = getResources().getString(R.string.fileslist_parent_directory);
+                    dir.add(0,new datFM_FileInformation("..",parent_left,0,protocols[0],"parent_dir", data, parent_left));
+                }
             }
         } else {
-            if(curentRightDir.equals("/") || curentRightDir.equals("smb:////")){parent_right="datFM://";}
-            if(!curentRightDir.equals("datFM://")){
-                String data = getResources().getString(R.string.fileslist_parent_directory);
-                dir.add(0,new datFM_FileInformation("..",parent_right,0,protocols[1],"parent_dir", data, parent_right));
+            if(curentRightDir.equals("/") || curentRightDir.equals("smb:////") || curentRightDir.equals("datFM://samba") || curentRightDir.equals("datFM://favorite")){
+                parent_right = new datFM_IO(curentLeftDir).getParent();
+                if(!curentRightDir.equals("datFM://")){
+                    String data = getResources().getString(R.string.fileslist_parent_directory);
+                    dir.add(0,new datFM_FileInformation("..",parent_right,0,protocols[1],"home", data, parent_right));
+                }
+            } else {
+                if(!curentRightDir.equals("datFM://")){
+                    String data = getResources().getString(R.string.fileslist_parent_directory);
+                    dir.add(0,new datFM_FileInformation("..",parent_right,0,protocols[1],"parent_dir", data, parent_right));
+                }
             }
         }
 
@@ -1395,6 +1414,9 @@ public class datFM extends Activity {
         btnDeselectAllText = (TextView) findViewById(R.id.btnDeselectAllText);
         btnDeleteText = (TextView) findViewById(R.id.btnDeleteText);
         btnRenameText = (TextView) findViewById(R.id.btnRenameText);
+
+        btnUPleft = (LinearLayout) findViewById(R.id.btnUPleft);
+        btnUPright = (LinearLayout) findViewById(R.id.btnUPright);
     }
     public  void init_UI_Listener(View view) {
         switch (view.getId()) {
@@ -1486,6 +1508,22 @@ public class datFM extends Activity {
         }
     }
     private void init_Listener(){
+
+        btnUPleft.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                fill_new("datFM://",0);
+                return false;
+            }
+        });
+        btnUPright.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                fill_new("datFM://",1);
+                return false;
+            }
+        });
+
         listLeft.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {

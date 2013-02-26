@@ -315,6 +315,22 @@ public class datFM_IO {
 
         return name;
     }
+    /** GetParent in UI thread **/
+    public String getParent(){
+        String parent;
+        checkProtocol();
+
+        if(local){
+            parent=getFileLocal().getParent();
+        } else if(smb){
+            parent=path.substring(0,path.lastIndexOf("/"));
+            parent=parent.substring(0,parent.lastIndexOf("/"));
+        } else {
+            parent=path.substring(0,path.lastIndexOf("/"));
+        }
+
+        return parent;
+    }
 
     /** Protocol identifier **/
     public boolean checkProtocol(){

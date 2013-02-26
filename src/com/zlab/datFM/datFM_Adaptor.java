@@ -164,6 +164,11 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
                     imgFileIcon.setImageResource(R.drawable.ext_drive);
             } else if(o.getType().equals("root")){
                     imgFileIcon.setImageResource(R.drawable.ext_folder_root);
+            } else if(o.getType().equals("home")){
+                imgFileIcon.setImageResource(R.drawable.ext_folder_home);
+            } else if(o.getType().equals("add")){
+                //resID = getContext().getResources().getIdentifier("ext_" + ext.toLowerCase(), "drawable", "com.zlab.datFM");
+                imgFileIcon.setImageResource(R.drawable.ext_folder_add);
             }
 
             imgFileIcon.setOnClickListener(new View.OnClickListener() {

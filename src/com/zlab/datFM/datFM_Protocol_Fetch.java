@@ -220,11 +220,11 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
             dir_info.add(new datFM_FileInformation("Samba","datFM://samba",0,"smb","network","Network", "datFM://"));
 
         } else if(section.equals("favorite")){
-            dir_info.add(new datFM_FileInformation("Add to favorite","datFM://favorite/add",0,"local","favorite","Network", "datFM://"));
+            dir_info.add(new datFM_FileInformation("Add to favorite","datFM://favorite/add",0,"local","add","Favorites", "datFM://"));
         } else if(section.equals("samba")){
 
             dir_info.add(new datFM_FileInformation("Browse smb://","smb://",0,"smb","network","Network", "datFM://samba"));
-            dir_info.add(new datFM_FileInformation("Add Samba server","datFM://samba/add",0,"smb","network","Network", "datFM://samba"));
+            dir_info.add(new datFM_FileInformation("Add Samba server","datFM://samba/add",0,"smb","add","Network", "datFM://samba"));
 
             File dir = activity.getFilesDir();
             for(File ff : dir.listFiles()){
@@ -246,7 +246,7 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
                         if(server_user.equals("")){
                             dir_info.add(new datFM_FileInformation(server_name,"smb://"+server_ip_hostname+"/"+server_start_dir,0,"smb","smb_store_network",server_ip_hostname, "datFM://samba"));
                         } else {
-                            dir_info.add(new datFM_FileInformation(server_name,"smb://"+server_user+"@"+server_ip_hostname+"/"+server_start_dir,0,"smb","smb_store_network",server_user+"@"+server_ip_hostname, "datFM://samba"));
+                            dir_info.add(new datFM_FileInformation(server_name,"smb://"+server_ip_hostname+"/"+server_start_dir,0,"smb","smb_store_network",server_user+"@"+server_ip_hostname, "datFM://samba"));
                         }
 
                         fis.close();
