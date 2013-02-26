@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">datFM</string>
+    <string name="app_properties">Eigenschappen</string>
+
+    <!--  NavBar  -->
+    <string name="navbar_up">Hogere directory</string>
+    <string name="navbar_go">Ga</string>
+
+    <!--  Panel  -->
+    <string name="btn_share">Delen</string>
+    <string name="btn_newfolder">Nieuwe Map</string>
+    <string name="btn_addtoarchive">Archief</string>
+    <string name="btn_copy">Kopieren</string>
+    <string name="btn_move">Verplaatsen</string>
+    <string name="btn_rename">Hernoemen</string>
+    <string name="btn_selectall">Alles Selecteren</string>
+    <string name="btn_deselectall">Niets Selecteren</string>
+    <string name="btn_delete">Verwijderen</string>
+
+    <!-- Main Menu  -->
+    <string name="mainmenu_addfolder">Map Maken</string>
+    <string name="mainmenu_refresh">Vernieuwen</string>
+    <string name="mainmenu_favorite">Favorieten</string>
+    <string name="mainmenu_udev">udev</string>
+    <string name="mainmenu_settings">Instellen</string>
+    <string name="mainmenu_about">Over</string>
+    <string name="mainmenu_exit">Afsluiten</string>
+
+    <!-- Context Menu  -->
+    <string name="contextmenu_title">Menu:</string>
+    <string name="contextmenu_open">Openen</string>
+    <string name="contextmenu_open_with">Openen met...</string>
+    <string name="contextmenu_open_as_archive">Open als archief</string>
+    <string name="contextmenu_open_unpack_ZA">Uitpakken met ZA</string>
+    <string name="contextmenu_copy">Kopieren</string>
+    <string name="contextmenu_move">Verplaatsen</string>
+    <string name="contextmenu_rename">Hernoemen</string>
+    <string name="contextmenu_delete">Verwijderen</string>
+    <string name="contextmenu_share">Delen</string>
+    <string name="contextmenu_properties">Eigenschappen</string>
+
+    <!-- Settings -->
+    <!-- Settings Groups -->
+    <string name="settings_group_view">Weergave</string>
+    <string name="settings_group_other">Overige</string>
+    <string name="settings_group_performance">Prestaties</string>
+    <string name="settings_group_network">Netwerk</string>
+    <string name="settings_group_dangerous">Gevaarlijk</string>
+    <!-- Settings Elements Title -->
+    <string name="settings_elements_title_cp">Configuratie</string>
+    <string name="settings_elements_title_appicons">App iconen</string>
+    <string name="settings_elements_title_photoicons">Foto iconen</string>
+    <string name="settings_elements_title_videoicons">Video iconen</string>
+    <string name="settings_elements_title_icons_cache">Icoon buffer</string>
+    <string name="settings_elements_title_icons_size">Hoogte van iconen</string>
+    <string name="settings_elements_title_text_name_size">Bestandsnaam textgrootte</string>
+    <string name="settings_elements_title_text_discr_size">Beschrijving textgrootte</string>
+    <string name="settings_elements_title_text_font_style">Lettertype stijl</string>
+    <string name="settings_elements_title_text_font_typeface">Lettertype typeface</string>
+    <string name="settings_elements_title_text_bold_folder">Vet voor mapnaam</string>
+    <string name="settings_elements_title_small_panel">Kleine panelen</string>
+    <string name="settings_elements_title_cptext">Tekst op paneel</string>
+    <string name="settings_elements_title_navbar">Adres balk</string>
+    <string name="settings_elements_title_folder_discription">Map omschrijvingen</string>
+    <string name="settings_elements_title_files_discription">Bestandsomschrijvingen</string>
+    <string name="settings_elements_title_panel_discription">Paneel omschrijvingen</string>
+    <string name="settings_elements_title_opendir">Open nieuwe map</string>
+    <string name="settings_elements_title_openarcdir">Open archief map</string>
+    <string name="settings_elements_title_openarcdir_window">Archief map paneel</string>
+    <string name="settings_elements_title_savepath">Pad opslaan</string>
+    <string name="settings_elements_title_focusondir">Focus op map</string>
+    <string name="settings_elements_title_sambalogin">Samba logging</string>
+    <string name="settings_elements_title_kamikaze">Suicidaal</string>
+    <string name="settings_elements_title_root">root</string>
+    <string name="settings_elements_title_show_hide">Toon verborgen mappen en bestanden</string>
+    <!-- Settings Elements Summary -->
+    <string name="settings_elements_summary_cp">Altijd weergeven</string>
+    <string name="settings_elements_summary_appicons">Gebruik app iconen van APK</string>
+    <string name="settings_elements_summary_photoicons">Fotominiatuur weergeven</string>
+    <string name="settings_elements_summary_videoicons">Video miniatuur weergeven</string>
+    <string name="settings_elements_summary_icons_cache">Selecteer voorkeur cachegrootte</string>
+    <string name="settings_elements_summary_icons_size">Hoogte instellen van items in rij en groott van iconen</string>
+    <string name="settings_elements_summary_text_name_size">Tekstgrootte instellen bestandsnaam</string>
+    <string name="settings_elements_summary_text_discr_size">Tekstgrootte instellen voor bestandsbeschrijving </string>
+    <string name="settings_elements_summary_text_font_style">Tekenstijl instellen</string>
+    <string name="settings_elements_summary_text_font_typeface">Instellen lettertype typeface</string>
+    <string name="settings_elements_summary_text_bold_folder">Gebruik altijd vet voor mapnaam</string>
+    <string name="settings_elements_summary_small_panel">Gebruik kleine panelen, voor telefoons</string>
+    <string name="settings_elements_summary_cptext">Tekst op knoppen in paneel</string>
+    <string name="settings_elements_summary_navbar">Toon adresbalk bovenin</string>
+    <string name="settings_elements_summary_folder_discription">Map beschrijvingen weergeven</string>
+    <string name="settings_elements_summary_files_discription">Bestandsbeschrijvingen weergeven</string>
+    <string name="settings_elements_summary_panel_discription">Beschrijvingen onderin paneel weergeven</string>
+    <string name="settings_elements_summary_opendir">Open nieuwe map na creatie</string>
+    <string name="settings_elements_summary_openarcdir">Open archief map na uitpakken</string>
+    <string name="settings_elements_summary_openarcdir_window">Open in het huidige paneel</string>
+    <string name="settings_elements_summary_savepath">Pad tijdens start herstellen</string>
+    <string name="settings_elements_summary_focusondir">Zet de focus op de huidige map bij omhoog gaan</string>
+    <string name="settings_elements_summary_sambalogin">Ondersteun log voor Samba</string>
+    <string name="settings_elements_summary_kamikaze">Niet alles vragen, gewoon uitvoeren</string>
+    <string name="settings_elements_summary_root">Root-rechten gebruiken</string>
+    <string name="settings_elements_summary_show_hide">Toon verborgen elementen voor lokale of externe opslag</string>
+
+    <!-- Files List Items -->
+    <string name="fileslist_parent_directory">Bovenliggende map</string>
+    <string name="fileslist_directory">&lt;dir&gt;</string>
+    <string name="fileslist_folders_count">Mappen:</string>
+    <string name="fileslist_files_count">Bestanden:</string>
+    <string name="fileslist_file_selected">Geselecteerd:</string>
+
+    <!-- UI Elements -->
+    <!-- Pop-up Dialogs -->
+    <!-- Dialog Buttons -->
+    <string name="ui_dialog_btn_ok">OK</string>
+    <string name="ui_dialog_btn_cancel">Annuleren</string>
+    <!-- Pop-up Dialogs Title-->
+    <string name="ui_dialog_title_newfolder">Nieuwe map</string>
+    <string name="ui_dialog_title_archive">Archief</string>
+    <string name="ui_dialog_title_archive_extract">Uitpakken naar:</string>
+    <string name="ui_dialog_title_copy">Kopieeren</string>
+    <string name="ui_dialog_title_move">Verplaatsen</string>
+    <string name="ui_dialog_title_rename">Hernoemen</string>
+    <string name="ui_dialog_title_delete">Verwijderen</string>
+    <!-- Pop-up Dialogs content -->
+    <string name="ui_dialog_header_copy">bestanden en mappen worden gekopieerd</string>
+    <string name="ui_dialog_header_move">bestanden en mappen worden verplaatst</string>
+    <string name="ui_dialog_header_delete">bestanden en mappen worden verwijderd</string>
+    <string name="ui_dialog_header_please_wait">Een ogenblik geduld...</string>
+    <!-- Pop-up Dialogs other content -->
+    <string name="ui_dialog_from">Van:</string>
+    <string name="ui_dialog_to">Aan:</string>
+    <string name="ui_dialog_in">in:</string>
+    <string name="ui_dialog_hint_newfolder">Nieuwe mapnaam</string>
+    <string name="ui_dialog_hint_archive">Nieuwe Archiefnaam</string>
+    <string name="ui_dialog_hint_rename">Nieuwe naam</string>
+    <string name="ui_dialog_archive_archive">Naam van het archief:</string>
+    <string name="ui_dialog_archive_type">Archieftype:</string>
+    <string name="ui_dialog_archive_level">Compressieniveau:</string>
+    <string name="ui_dialog_archive_del_after_compress">Verwijder bestanden na compressie.</string>
+    <string name="ui_dialog_archive_unpack_to_name">Uitpakken in ./Archive_name/</string>
+    <string name="ui_dialog_archive_unpack_to_dir">In de huidige map uitpakken</string>
+    <string name="ui_dialog_archive_unpack_to_user">Voorkeur gebruikersmappen</string>
+    <!-- Notification -->
+    <string name="notify_copy">object gekopieerd naar:</string>
+    <string name="notify_move">object verplaatst naar:</string>
+    <string name="notify_newfolder">Nieuwe map:</string>
+    <string name="notify_delete">object verwijderd!</string>
+    <string name="notify_refresh_tab">Vernieuwen gedaan!</string>
+    <string name="notify_file_unknown">Bestand Type onbekend!</string>
+    <string name="notify_operation_same_folder">Huidige map en doelmap zijn dezelfde!</string>
+    <string name="notify_deselect_before_change_dir">Hef selectie op, voor het wijzigen van map!</string>
+    <string name="notify_cant_find_ZA">ZArchiver 0.6.0 of hoger vereist!</string>
+    <string name="notify_unknown_protocol">Onbekend protocol!</string>
+    <string name="notify_logon_error">Aanmelding fout!</string>
+    <string name="notify_connection_error">Verbindingsfout!</string>
+
+    <!-- About -->
+    <string name="about_message">Icons:\nQuartz Icon Set - Andy Gongea\n\nLocalization:\nUK - stigr (Motofan.ru)\nPL - galonpzw (XDA)\nFR - nikwist (XDA)\nDE - Milestone:enotseliM (XDA)\nSK - pvdeejay (XDA), pyler(XDA)\n\nSpecial thanks to:\nAnt-ON - for his help\nRamallah - for something that did not help\nInara - just like that!</string>
+
+</resources>
