@@ -26,13 +26,15 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
     ImageView imgFileIcon;
     LinearLayout ll;
     int resID;
+    int PanelID;
 
-    public datFM_Adaptor(Context context, int LayoutID, List<datFM_FileInformation> objects, boolean[] selected) {
+    public datFM_Adaptor(Context context, int LayoutID, List<datFM_FileInformation> objects, boolean[] selected,int panelID) {
         super(context, LayoutID, objects);
         c = context;
         id = LayoutID;
         items = objects;
         sel = selected;
+        PanelID = panelID;
     }
 
     public datFM_FileInformation getItem(int i)

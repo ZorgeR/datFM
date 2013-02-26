@@ -19,6 +19,7 @@ import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.*;
+import jcifs.smb.NtlmPasswordAuthentication;
 import jcifs.smb.SmbFile;
 
 import java.io.*;
@@ -46,12 +47,13 @@ public class datFM extends Activity {
     int selRight=0;
     int posLeft,posRight,pathPanelBgr,pathPanelBgrOther;
     int pathPanelBgrFill=0;
-    static String user, pass, url, domain;
+    static String /*user, pass, */url/*, domain*/;
     String prevName;
     static String[] protocols=new String[2];
     static int currentApiVersion;
     static int color_item_selected;
     LinearLayout btnUPleft, btnUPright;
+    static NtlmPasswordAuthentication[] auth = new NtlmPasswordAuthentication[2];
 
     /** VARS FOR OPERATION**/
     static int sel;
@@ -306,14 +308,14 @@ public class datFM extends Activity {
 
         if(panel_ID==0){
                 if(!curentLeftDir.equals("datFM://")){
-                String[] parent_data=new datFM_IO(curentLeftDir).getParent();
+                String[] parent_data=new datFM_IO(curentLeftDir,curPanel).getParent();
                 parent_left = parent_data[0];
                 String data = parent_data[2];
                     dir.add(0,new datFM_FileInformation("..",parent_left,0,protocols[0],parent_data[1], data, parent_left));
                 }
         } else {
             if(!curentRightDir.equals("datFM://")){
-                String[] parent_data=new datFM_IO(curentRightDir).getParent();
+                String[] parent_data=new datFM_IO(curentRightDir,curPanel).getParent();
                 parent_right = parent_data[0];
                 String data = parent_data[2];
                 dir.add(0,new datFM_FileInformation("..",parent_right,0,protocols[1],parent_data[1], data, parent_right));
@@ -322,7 +324,7 @@ public class datFM extends Activity {
 
         if (panel_ID==0){
             selectedLeft = new boolean[dir.size()];
-            adapterLeft = new datFM_Adaptor(datFM.this,R.layout.datfm_list,dir,selectedLeft);
+            adapterLeft = new datFM_Adaptor(datFM.this,R.layout.datfm_list,dir,selectedLeft,curPanel);
             listLeft.setAdapter(adapterLeft);
             textPanelLeft.setText(
                     getResources().getString(R.string.fileslist_folders_count)+(dir.size()-fls.size()-1)+", "+
@@ -334,7 +336,7 @@ public class datFM extends Activity {
             update_panel_focus();
         } else {
             selectedRight = new boolean[dir.size()];
-            adapterRight = new datFM_Adaptor(datFM.this,R.layout.datfm_list,dir,selectedRight);
+            adapterRight = new datFM_Adaptor(datFM.this,R.layout.datfm_list,dir,selectedRight,curPanel);
             listRight.setAdapter(adapterRight);
             textPanelRight.setText(
                     getResources().getString(R.string.fileslist_folders_count)+(dir.size()-fls.size()-1)+", "+
@@ -443,7 +445,7 @@ public class datFM extends Activity {
                             Streamer s;
                             s = Streamer.getInstance();
 
-                            SmbFile smbfile = new datFM_IO(path).getFileSmb();
+                            SmbFile smbfile = new datFM_IO(path,curPanel).getFileSmb();
                             s.setStreamSrc(smbfile, null);//the second argument can be a list of subtitle files
                             runOnUiThread(new Runnable(){
                                 public void run(){
@@ -507,10 +509,10 @@ public class datFM extends Activity {
             openFile(o.getPath(), o.getName(), o.getExt());
         } else if (o.getType().equals("parent_dir")){
             if (curPanel==0){
-                prevName = new datFM_IO(curentLeftDir).getName();
+                prevName = new datFM_IO(curentLeftDir,curPanel).getName();
                 fill_new(o.getPath(), curPanel);
             } else {
-                prevName = new datFM_IO(curentRightDir).getName();
+                prevName = new datFM_IO(curentRightDir,curPanel).getName();
                 fill_new(o.getPath(), curPanel);
             }
         } else if (o.getType().equals("smb_store_network")){
@@ -786,10 +788,13 @@ public class datFM extends Activity {
                     String iscrypted = fileContent.toString().split("\n")[6];
 
                     if(!server_user.equals("")){
-                        user=server_user;
-                        domain=server_domain;
+                        //user=server_user;
+                        //domain=server_domain;
+                        auth[curPanel]= new NtlmPasswordAuthentication(server_domain,server_user,null);
+
                         if(iscrypted.equals("0")){
-                            pass=server_pass;
+                            //pass=server_pass;
+                            auth[curPanel]= new NtlmPasswordAuthentication(server_domain,server_user,server_pass);
                             fill_new(o.getPath(), curPanel);
                         } else {
                             AlertDialog.Builder action_dialog = new AlertDialog.Builder(this);
@@ -807,7 +812,8 @@ public class datFM extends Activity {
                                         public void onClick(DialogInterface dialog, int which) {
                                             String smb_keychainpass = smb_keychain.getText().toString();
                                             try {
-                                                pass = SimpleCrypto.decrypt(smb_keychainpass,server_pass_encrypted);
+                                                String pass = SimpleCrypto.decrypt(smb_keychainpass,server_pass_encrypted);
+                                                auth[curPanel] = new NtlmPasswordAuthentication(auth[curPanel].getDomain(),auth[curPanel].getUsername(),pass);
                                                 fill_new(o.getPath(), curPanel);
                                             } catch (Exception e) {
                                                 e.printStackTrace();
@@ -826,9 +832,10 @@ public class datFM extends Activity {
                             AprooveDialog.show();
                         }
                     } else {
-                        user=null;
+                        /*user=null;
                         pass=null;
-                        domain=null;
+                        domain=null;*/
+                        auth[curPanel]= new NtlmPasswordAuthentication(null,null,null);
                         fill_new(o.getPath(), curPanel);
                     }
                     fis.close();
@@ -879,8 +886,7 @@ public class datFM extends Activity {
                                         public void onClick(DialogInterface dialog, int which) {
                                             String smb_keychainpass = smb_keychain.getText().toString();
                                             try {
-                                                pass = SimpleCrypto.decrypt(smb_keychainpass,server_pass_encrypted);
-                                                formdata[4]=pass;
+                                                formdata[4]=SimpleCrypto.decrypt(smb_keychainpass,server_pass_encrypted);
                                                 formdata[7]=smb_keychainpass;
                                                 action_smb_newserver(formdata);
                                             } catch (Exception e) {
@@ -1207,7 +1213,7 @@ public class datFM extends Activity {
         startActivity(properties);
     }
     private void action_clear_file_cache(){try {
-        new datFM_IO(Environment.getExternalStorageDirectory().getPath()+"/Android/data/datFM").delete();
+        new datFM_IO(Environment.getExternalStorageDirectory().getPath()+"/Android/data/datFM",curPanel).delete();
     } catch (IOException e) {e.printStackTrace();}
     }
 
@@ -1509,7 +1515,7 @@ public class datFM extends Activity {
             case R.id.btnUPleft:{
                 if(selLeft==0){
                     curPanel=0; competPanel=1;
-                    prevName = new datFM_IO(curentLeftDir).getName();
+                    prevName = new datFM_IO(curentLeftDir,curPanel).getName();
                     if(curentLeftDir!=null){
                         fill_new(parent_left, 0);}
                 } else {
@@ -1519,7 +1525,7 @@ public class datFM extends Activity {
             case R.id.btnUPright:{
                 if (selRight==0){
                     curPanel=1; competPanel=2;
-                    prevName = new datFM_IO(curentRightDir).getName();
+                    prevName = new datFM_IO(curentRightDir,curPanel).getName();
                     if(curentRightDir!=null){
                         fill_new(parent_right, 1);}
                 /*

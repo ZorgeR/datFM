@@ -37,7 +37,7 @@ protected void onPreExecute() {
                     /** LOCAL MODE **/
                     //imageBitmap = BitmapFactory.decodeFile(filePath, options);
                     /** MULTI MODE **/
-                    InputStream io = new datFM_IO(filePath).getInput();
+                    InputStream io = new datFM_IO(filePath,activity.PanelID).getInput();
                     imageBitmap = BitmapFactory.decodeStream(io, null, options);
                     imageBitmap = ThumbnailUtils.extractThumbnail(imageBitmap,THUMBNAIL_SIZE,THUMBNAIL_SIZE);
                     io.close();

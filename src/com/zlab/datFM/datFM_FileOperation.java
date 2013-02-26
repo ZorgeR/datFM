@@ -230,7 +230,7 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
             if(datFM.protocols[0].equals("local") && datFM.protocols[1].equals("local")){
                 return root_copy(src, dest);
             } else {
-                success = new datFM_IO(src).copy(dest);
+                success = new datFM_IO(src,srcPannelID).copy(dest);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -260,7 +260,7 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
             if(datFM.protocols[srcPannelID].equals("local")){
                 return root_delete(src);
             } else {
-                success = new datFM_IO(src).delete();
+                success = new datFM_IO(src,srcPannelID).delete();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -270,7 +270,7 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
     }
     private boolean protocol_rename(String src,String new_name){
         boolean success=false;
-        try {success=new datFM_IO(src).rename(new_name);
+        try {success=new datFM_IO(src,srcPannelID).rename(new_name);
         } catch (IOException e) {e.printStackTrace();}
         if(!success){
             success=protocol_move(src,new_name);
@@ -279,8 +279,8 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
     }
     private boolean protocol_newfolder(String newfolder){
         boolean success=false;
-        if(!new datFM_IO(newfolder).dir_exist()){
-            success=new datFM_IO(newfolder).mkdir();
+        if(!new datFM_IO(newfolder,srcPannelID).dir_exist()){
+            success=new datFM_IO(newfolder,srcPannelID).mkdir();
             if (!success && datFM.pref_root){
                     File newdir_path = new File(newfolder);
                     root_newfolder(newdir_path.getPath());
@@ -289,14 +289,14 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
         } else {
             for (int i=1;i<1000;i++){
                 String dirs = newfolder+" "+"("+i+")";
-                if (!new datFM_IO(dirs).dir_exist()){
+                if (!new datFM_IO(dirs,srcPannelID).dir_exist()){
                     if (datFM.pref_root){
-                        success=new datFM_IO(dirs).mkdir();
+                        success=new datFM_IO(dirs,srcPannelID).mkdir();
                         if(!success){
                             File newdir_path = new File(dirs);
                             root_newfolder(newdir_path.getPath());}
                     } else {
-                        success=new datFM_IO(dirs).mkdir();
+                        success=new datFM_IO(dirs,srcPannelID).mkdir();
                     }
                     break;
                 }
@@ -306,7 +306,7 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
     }
     /** Operation **/
     private boolean root_delete(String file) throws IOException {
-        boolean success = new datFM_IO(file).delete();
+        boolean success = new datFM_IO(file,srcPannelID).delete();
         if (!success && datFM.pref_root){
             File f = new File(file);
             if (f.isDirectory()){
@@ -321,7 +321,7 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
         return success;
     }
     private boolean root_copy(String srcf, String destr) throws IOException{
-        boolean success = new datFM_IO(srcf).copy(destr);
+        boolean success = new datFM_IO(srcf,srcPannelID).copy(destr);
         if (!success && datFM.pref_root){
             File src = new File(srcf);
             File dst = new File(destr);

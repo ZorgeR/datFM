@@ -18,9 +18,11 @@ public class datFM_IO {
 
     /** Globals **/
     String path;
+    int PanelID;
 
-    public datFM_IO(String file){
+    public datFM_IO(String file,int panelID){
         path=file;
+        PanelID=panelID;
     }
 
     /** FILE **/
@@ -30,11 +32,7 @@ public class datFM_IO {
     }
     public SmbFile getFileSmb() throws MalformedURLException {
         //---------START SMB WORKS-------------------------
-        String user, pass, domain;
-        user = datFM.user;
-        pass = datFM.pass;
-        domain = datFM.domain;
-        NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(domain, user, pass);
+        NtlmPasswordAuthentication auth = datFM.auth[PanelID];
         SmbFile f = new SmbFile(path,auth);
         //---------END SMB WORKS-------------------------
         return f;
@@ -45,9 +43,9 @@ public class datFM_IO {
         local = filepath.startsWith("/");
 
         if(local){
-            size = new datFM_IO(filepath).getFileLocal().length();
+            size = new datFM_IO(filepath,PanelID).getFileLocal().length();
         } else if (smb){try {
-            size = new datFM_IO(filepath).getFileSmb().length();
+            size = new datFM_IO(filepath,PanelID).getFileSmb().length();
             } catch (SmbException e) {e.printStackTrace();} catch (MalformedURLException e) {e.printStackTrace();}
         }
 
@@ -123,7 +121,7 @@ public class datFM_IO {
     }
     public boolean copy_recursively_smb(SmbFile file,String dest) throws IOException {
         if (file.isDirectory()) {
-            new datFM_IO(dest).mkdir();
+            new datFM_IO(dest,PanelID).mkdir();
 
             updateOverallBar(datFM_FileOperation.progr_overal.getProgress() + 1,file.getPath(),dest);
 
@@ -143,7 +141,7 @@ public class datFM_IO {
     }
     public boolean copy_recursively_local(File file,String dest) throws IOException {
         if (file.isDirectory()) {
-            new datFM_IO(dest).mkdir();
+            new datFM_IO(dest,PanelID).mkdir();
 
             updateOverallBar(datFM_FileOperation.progr_overal.getProgress() + 1, file.getPath(), dest);
 
@@ -225,10 +223,10 @@ public class datFM_IO {
         boolean local_ = file.startsWith("/");
 
         if(local_){
-            success=new datFM_IO(file).getFileLocal().exists();
+            success=new datFM_IO(file,PanelID).getFileLocal().exists();
         } else if (smb_){
             try {
-                success=new datFM_IO(file).getFileSmb().exists();
+                success=new datFM_IO(file,PanelID).getFileSmb().exists();
             } catch (Exception e) {success=false;}
         } else {
             success=false;
@@ -238,8 +236,10 @@ public class datFM_IO {
 
     /** STREAM WORKER **/
     private void IO_Stream_Worker(String src, String dest) throws IOException {
-        InputStream in = new datFM_IO(src).getInput();
-        OutputStream out = new datFM_IO(dest).getOutput();
+        InputStream in = new datFM_IO(src,PanelID).getInput();
+        int compPanel=1;
+        if(PanelID==1)compPanel=0;
+        OutputStream out = new datFM_IO(dest,compPanel).getOutput();
 
         byte[] buf = new byte[1024];
         int len;

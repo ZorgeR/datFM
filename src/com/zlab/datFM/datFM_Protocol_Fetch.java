@@ -103,11 +103,14 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
     private void fetch_smb(){
         if(path.lastIndexOf("/")!=path.length()-1){path=path+"/";}
         url = path;datFM.url=url;
+        /*
         user = datFM.user;
         pass = datFM.pass;
         domain = datFM.domain;
+        */
         //if(domain==null&&hostname.length()>0){domain=hostname;}
-        auth = new NtlmPasswordAuthentication(domain, user, pass);
+        //auth = new NtlmPasswordAuthentication(domain, user, pass);
+        auth = datFM.auth[panel_ID];
 
         // ------ CHECK SMB AUTH ------------ //
         if(datFM.pref_sambalogin){
@@ -307,9 +310,9 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
         final EditText names   = (EditText) layer.findViewById(R.id.logon_name);
         final EditText passs   = (EditText) layer.findViewById(R.id.logon_pass);
 
-        domains.setText(datFM.domain);
-        names.setText(datFM.user);
-        passs.setText(datFM.pass);
+        domains.setText(datFM.auth[panel_ID].getDomain());
+        names.setText(datFM.auth[panel_ID].getUsername());
+        passs.setText(datFM.auth[panel_ID].getPassword());
 
         final CheckBox logon_guest = (CheckBox) layer.findViewById(R.id.logon_guest);
         logon_guest.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -320,9 +323,9 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
                     names.setText("");names.setEnabled(false);
                     passs.setText("");passs.setEnabled(false);
                 } else {
-                    domains.setText(datFM.domain);domains.setEnabled(true);
-                    names.setText(datFM.user);names.setEnabled(true);
-                    passs.setText(datFM.pass);passs.setEnabled(true);
+                    domains.setText(datFM.auth[panel_ID].getDomain());domains.setEnabled(true);
+                    names.setText(datFM.auth[panel_ID].getUsername());names.setEnabled(true);
+                    passs.setText(datFM.auth[panel_ID].getPassword());passs.setEnabled(true);
                 }
             }
         });
@@ -338,22 +341,16 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
                         //datFM.curPanel = Integer.parseInt(datFM.id);
 
                         if(domain_n.equals("")){
-                            datFM.domain = null;
-                        } else {
-                            datFM.domain = domain_n;
+                            domain_n = null;
                         }
-
                         if(user_n.equals("")){
-                            datFM.user = null;
-                        } else {
-                            datFM.user = user_n;
+                            user_n = null;
+                        }
+                        if(pass_n.equals("")){
+                            pass_n = null;
                         }
 
-                        if(pass_n.equals("")){
-                            datFM.pass = null;
-                        } else {
-                            datFM.pass = pass_n;
-                        }
+                        datFM.auth[panel_ID] = new NtlmPasswordAuthentication(domain_n,user_n,pass_n);
 
                         new datFM_Protocol_Fetch(datFM.datFM_state).execute(path, protocol, String.valueOf(panel_ID));
                         //fetch_smb();
