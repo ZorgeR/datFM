@@ -40,6 +40,7 @@
     <string name="contextmenu_delete">Delete</string>
     <string name="contextmenu_share">Share</string>
     <string name="contextmenu_properties">Properties</string>
+    <string name="contextmenu_edit">Edit</string>
 
     <!-- Settings -->
     <!-- Settings Groups -->

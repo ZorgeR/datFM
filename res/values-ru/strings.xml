@@ -40,6 +40,7 @@
     <string name="contextmenu_delete">Удалить</string>
     <string name="contextmenu_share">Отправить</string>
     <string name="contextmenu_properties">Свойства</string>
+    <string name="contextmenu_edit">Редактировать</string>
 
     <!-- Settings -->
     <!-- Settings Groups -->

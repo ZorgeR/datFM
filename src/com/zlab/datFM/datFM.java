@@ -345,9 +345,9 @@ public class datFM extends Activity {
         open_with = getResources().getString(R.string.contextmenu_open_with);
         unpack_archive = getResources().getString(R.string.contextmenu_open_unpack_ZA);
         properties = getResources().getString(R.string.contextmenu_properties);
-        add_to_favorite="add_to_favorite";
-        edit="edit";
-        delete="delete";
+        add_to_favorite=getResources().getString(R.string.fileslist_add_favorite);
+        edit=getResources().getString(R.string.contextmenu_edit);
+        delete=getResources().getString(R.string.btn_delete);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
