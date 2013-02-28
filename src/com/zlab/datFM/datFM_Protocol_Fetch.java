@@ -20,6 +20,7 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -173,10 +174,17 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
                                     Long date = ff.getLastModified();
                                     dir_info.add(new datFM_FileInformation(name,ff.getPath(),0,"smb","dir",data, ff.getParent(), date));
                                 } else {
-                                    BigDecimal size = new BigDecimal(ff.length()/1024.00/1024.00);
-                                    size = size.setScale(2, BigDecimal.ROUND_HALF_UP);
+                                    //BigDecimal size = new BigDecimal(ff.length()/1024.00/1024.00);
+                                    //size = size.setScale(2, BigDecimal.ROUND_HALF_UP);
+                                    String data = formatSize(ff.length());
                                     Long date = ff.getLastModified();
-                                    fls_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),ff.length(),"smb","file",size+" MiB",ff.getParent(),date));
+
+                                    if(datFM.pref_show_date){
+                                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm',' d MMM'.'");
+                                        data = data+" / "+sdf.format(date);
+                                    }
+
+                                    fls_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),ff.length(),"smb","file",data,ff.getParent(),date));
                                 }
                             }
                         }
@@ -333,12 +341,22 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
                     if(ff.isDirectory()){
                         String data = datFM.datf_context.getResources().getString(R.string.fileslist_directory);
                         Long date = ff.lastModified();
+
                         dir_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),0,"smb","dir",data, ff.getParent(), date));
                     } else {
-                        BigDecimal size = new BigDecimal(ff.length()/1024.00/1024.00);
-                        size = size.setScale(2, BigDecimal.ROUND_HALF_UP);
+
+                        //BigDecimal size = new BigDecimal(ff.length()/1024.00/1024.00);
+                        //size = size.setScale(2, BigDecimal.ROUND_HALF_UP);
+
+                        String data = formatSize(ff.length());
                         Long date = ff.lastModified();
-                        fls_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),ff.length(),"smb","file",size+" MiB",ff.getParent(), date));
+
+                        if(datFM.pref_show_date){
+                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm',' d MMM'.'");
+                            data = data+" / "+sdf.format(date);
+                        }
+
+                        fls_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),ff.length(),"smb","file",data,ff.getParent(), date));
                     }
                 }
             }
@@ -506,11 +524,11 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
         }
     }
     public static String formatSize(long size) {
-        String suffix = null;
-        BigDecimal size_comma=new BigDecimal(0);
+        String suffix = " Bytes";
+        BigDecimal size_comma=new BigDecimal(size);;
 
         if (size >= 1024) {
-            suffix = "KB";
+            suffix = " KiB";
             size_comma=new BigDecimal(size/1024.00);
             size /= 1024;
             if (size >= 1024) {

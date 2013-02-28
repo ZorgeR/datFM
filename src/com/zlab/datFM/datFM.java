@@ -78,7 +78,8 @@ public class datFM extends Activity {
             pref_kamikaze,pref_show_text_on_panel,pref_show_navbar,
             pref_show_panel_discr,/*pref_small_panel,*/pref_clear_filecache,pref_show_single_navbar;
     static boolean pref_show_apk,pref_show_video,pref_show_photo,
-            pref_show_folder_discr,pref_show_files_discr,pref_root,pref_sambalogin,pref_font_bold_folder,pref_show_hide;
+            pref_show_folder_discr,pref_show_files_discr,pref_root,pref_sambalogin,pref_font_bold_folder,pref_show_hide,
+            pref_show_date;
     boolean firstAlert;
     boolean settings_opened = false;
     String pref_icons_cache,pref_icons_size,pref_text_name_size,pref_text_discr_size,pref_font_style,pref_font_typeface;
@@ -167,8 +168,8 @@ public class datFM extends Activity {
             pref_getter();
             pref_setter();
             update_panel_focus();
-            adapterLeft.notifyDataSetChanged();
-            adapterRight.notifyDataSetChanged();
+            if(adapterLeft!=null)adapterLeft.notifyDataSetChanged();
+            if(adapterRight!=null)adapterRight.notifyDataSetChanged();
             settings_opened = false;
         }
     }
@@ -1861,6 +1862,7 @@ public class datFM extends Activity {
         pref_clear_filecache = prefs.getBoolean("pref_clear_filecache",true);
         pref_theme = prefs.getString("pref_theme","Dark Fullscreen");
         pref_show_single_navbar = prefs.getBoolean("pref_show_single_navbar",false);
+        pref_show_date = prefs.getBoolean("pref_show_date",false);
     }
     private void pref_setter(){
 

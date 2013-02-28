@@ -72,9 +72,10 @@ public class datFM_FileInformation implements Comparable<datFM_FileInformation> 
         }
 
         public int compareTo(datFM_FileInformation o) {
-        if(this.name != null)
-            return this.name.toLowerCase().compareTo(o.getName().toLowerCase());
-        else
-            throw new IllegalArgumentException();
+            if(this.name != null)
+                return this.name.toLowerCase().compareTo(o.getName().toLowerCase());
+            else
+                throw new IllegalArgumentException();
         }
+
 }

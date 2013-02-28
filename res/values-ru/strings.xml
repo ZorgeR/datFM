@@ -72,6 +72,7 @@
     <string name="settings_elements_title_folder_discription">Описание каталогов</string>
     <string name="settings_elements_title_files_discription">Описание файлов</string>
     <string name="settings_elements_title_panel_discription">Сводка о панели</string>
+    <string name="settings_elements_title_show_date">Показывать дату</string>
     <string name="settings_elements_title_opendir">Открывать новый каталог</string>
     <string name="settings_elements_title_openarcdir">Открывать архивные папки</string>
     <string name="settings_elements_title_openarcdir_window">Панель для архивной папки</string>
@@ -105,6 +106,7 @@
     <string name="settings_elements_summary_folder_discription">Показывать описание для каталогов</string>
     <string name="settings_elements_summary_files_discription">Показывать описание для файлов</string>
     <string name="settings_elements_summary_panel_discription">Показывать информацию в нижней части панели</string>
+    <string name="settings_elements_summary_show_date">Отображать дату в описаниях</string>
     <string name="settings_elements_summary_opendir">Открывать новую папку при создании</string>
     <string name="settings_elements_summary_openarcdir">Открыть каталог после распаковки архива</string>
     <string name="settings_elements_summary_openarcdir_window">Открывать в текущей панели</string>

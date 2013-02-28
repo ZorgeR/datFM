@@ -72,6 +72,7 @@
     <string name="settings_elements_title_folder_discription">Folder descriptions</string>
     <string name="settings_elements_title_files_discription">Files descriptions</string>
     <string name="settings_elements_title_panel_discription">Panel descriptions</string>
+    <string name="settings_elements_title_show_date">Show date</string>
     <string name="settings_elements_title_opendir">Open new directory</string>
     <string name="settings_elements_title_openarcdir">Open archive directory</string>
     <string name="settings_elements_title_openarcdir_window">Archive directory panel</string>
@@ -105,6 +106,7 @@
     <string name="settings_elements_summary_folder_discription">Show folder descriptions</string>
     <string name="settings_elements_summary_files_discription">Show files descriptions</string>
     <string name="settings_elements_summary_panel_discription">Show descriptions in bottom of panel</string>
+    <string name="settings_elements_summary_show_date">Show date in descriptions</string>
     <string name="settings_elements_summary_opendir">Open new directory after create</string>
     <string name="settings_elements_summary_openarcdir">Open archive directory after unpack</string>
     <string name="settings_elements_summary_openarcdir_window">Open in current panel</string>
