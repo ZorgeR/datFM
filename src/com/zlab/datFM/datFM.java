@@ -2080,6 +2080,7 @@ public class datFM extends Activity {
     }
 
     private void firstAlertShow(){
+                        /*
         AlertDialog.Builder action_dialog = new AlertDialog.Builder(this);
         action_dialog.setTitle("Alert");
         LayoutInflater inflater = getLayoutInflater();
@@ -2103,6 +2104,9 @@ public class datFM extends Activity {
 
         AlertDialog AprooveDialog = action_dialog.create();
         AprooveDialog.show();
+                          */
+
+
     }
     public static void notify_toast(String msg,boolean err){
         Toast toast = Toast.makeText(datFM_state, msg, Toast.LENGTH_LONG);
