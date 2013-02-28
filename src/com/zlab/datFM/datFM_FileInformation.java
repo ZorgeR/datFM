@@ -1,5 +1,7 @@
 package com.zlab.datFM;
 
+import java.util.Date;
+
 public class datFM_FileInformation implements Comparable<datFM_FileInformation> {
 
         private String name;
@@ -10,8 +12,9 @@ public class datFM_FileInformation implements Comparable<datFM_FileInformation> 
         private String protocol;
         private String parent;
         private String type;
+        private long date;
 
-        public datFM_FileInformation(String Name, String Path, long Size, String Prot, String Type, String Data, String Parent)
+        public datFM_FileInformation(String Name, String Path, long Size, String Prot, String Type, String Data, String Parent, long Date)
         {
             name = Name;
             path = Path;
@@ -20,6 +23,7 @@ public class datFM_FileInformation implements Comparable<datFM_FileInformation> 
             type = Type;
             data = Data;
             parent = Parent;
+            date = Date;
         }
 
         public String getName()
@@ -60,6 +64,11 @@ public class datFM_FileInformation implements Comparable<datFM_FileInformation> 
         public String getData()
         {
             return data;
+        }
+
+        public long getDate()
+        {
+            return date;
         }
 
         public int compareTo(datFM_FileInformation o) {

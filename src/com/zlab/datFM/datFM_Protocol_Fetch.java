@@ -22,6 +22,7 @@ import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_FileInformation>> {
@@ -40,10 +41,10 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
     public datFM_Protocol_Fetch(datFM a){activity = a;}
 
     protected void onPreExecute() {
-        if(!datFM.protocols[activity.curPanel].equals("local") &&
-           !datFM.protocols[activity.curPanel].equals("datfm")){
+        if(!datFM.protocols[datFM.curPanel].equals("local") &&
+           !datFM.protocols[datFM.curPanel].equals("datfm")){
             dialog_operation_remote = new ProgressDialog(activity);
-            dialog_operation_remote.setTitle(activity.protocols[activity.curPanel]);
+            dialog_operation_remote.setTitle(datFM.protocols[datFM.curPanel]);
             dialog_operation_remote.setMessage("Please wait...");
             dialog_operation_remote.setIndeterminate(false);
             dialog_operation_remote.show();
@@ -88,8 +89,6 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
         if(!datFM.protocols[panel_ID].equals("local") && dialog_operation_remote !=null){
             dialog_operation_remote.dismiss();
         }
-        //if(fetch_err){datFM.notify_toast("Listing error!");}
-
             if(protocol.equals("smb") && (!success_auth || fetch_err)){
                 if(!success_auth){datFM.notify_toast(datFM.datFM_state.getResources().getString(R.string.notify_logon_error),true);}
                 if(fetch_err){datFM.notify_toast(datFM.datFM_state.getResources().getString(R.string.notify_connection_error),true);}
@@ -98,20 +97,13 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
             } else {
                 datFM.datFM_state.fill_panel(dir_info, fls_info, panel_ID);
             }
-
-        //Toast.makeText(datFM.datf_context,result.length,Toast.LENGTH_SHORT).show();
     }
 
     private void fetch_smb(){
         if(path.lastIndexOf("/")!=path.length()-1){path=path+"/";}
-        url = path;datFM.url=url;
-        /*
-        user = datFM.user;
-        pass = datFM.pass;
-        domain = datFM.domain;
-        */
-        //if(domain==null&&hostname.length()>0){domain=hostname;}
-        //auth = new NtlmPasswordAuthentication(domain, user, pass);
+        url = path;
+        datFM.url=url;
+
         if(datFM.auth[panel_ID]!=null){
             auth = datFM.auth[panel_ID];
         } else {
@@ -121,8 +113,10 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
         // ------ CHECK SMB AUTH ------------ //
         if(datFM.pref_sambalogin){
             hostname = url;
-            hostname = hostname.replace("smb://","");
-            if(hostname.contains("/")){hostname = hostname.substring(0, hostname.indexOf("/"));}
+            if(!hostname.equals("smb://")){
+                hostname = hostname.replace("smb://","");
+                if(hostname.contains("/")){hostname = hostname.substring(0, hostname.indexOf("/"));}
+            }
 
             if(!hostname.equals("")){
                 UniAddress uniaddress = null;
@@ -147,20 +141,27 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
                     success_auth=false;
                 }
             } else {
-                valid_url=false;success_auth=false;
+                valid_url=false;
+                success_auth=false;
             }
         }
         //---------START SMB WORKS-------------------------
         //if(success_auth || url.equals("smb://")){
             try {
-                SmbFile dir = null;
-                dir = new SmbFile(url, auth);
+                //SmbFile dir = null;
+                SmbFile dir = new SmbFile(url, auth);
+
                 if (panel_ID ==0){
                     datFM.parent_left=dir.getParent();
-                    datFM.curentLeftDir=dir.getPath();
+                    datFM.curentLeftDir=dir.getPath().substring(0,dir.getPath().length()-1);
                 } else {
                     datFM.parent_right=dir.getParent();
-                    datFM.curentRightDir=dir.getPath();}
+                    if(dir.getPath().equals("smb:////")){
+                        datFM.curentRightDir=dir.getPath().substring(0, dir.getPath().length() - 2);
+                    } else {
+                        datFM.curentRightDir=dir.getPath().substring(0, dir.getPath().length() - 1);
+                    }
+                }
 
                 if(dir!=null){
                     try{
@@ -168,11 +169,14 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
                             if(!datFM.pref_show_hide && ff.getName().endsWith("$/")){} else {
                                 if(ff.isDirectory()){
                                     String data = datFM.datf_context.getResources().getString(R.string.fileslist_directory);
-                                    dir_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),0,"smb","dir",data, ff.getParent()));
+                                    String name = ff.getName().substring(0,ff.getName().length()-1);
+                                    Long date = ff.getLastModified();
+                                    dir_info.add(new datFM_FileInformation(name,ff.getPath(),0,"smb","dir",data, ff.getParent(), date));
                                 } else {
                                     BigDecimal size = new BigDecimal(ff.length()/1024.00/1024.00);
                                     size = size.setScale(2, BigDecimal.ROUND_HALF_UP);
-                                    fls_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),ff.length(),"smb","file",size+" MiB",ff.getParent()));
+                                    Long date = ff.getLastModified();
+                                    fls_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),ff.length(),"smb","file",size+" MiB",ff.getParent(),date));
                                 }
                             }
                         }
@@ -219,20 +223,20 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
 
         if(section.equals("home")){
             dir_info.add(new datFM_FileInformation(activity.getResources().getString(R.string.fileslist_memory_card), Environment.getExternalStorageDirectory().getPath(),0,"local","sdcard",
-                    getAvailableExternalMemorySize()+" / "+getTotalExternalMemorySize(), "datFM://"));
+                    getAvailableExternalMemorySize()+" / "+getTotalExternalMemorySize(), "datFM://", 0));
 
             dir_info.add(new datFM_FileInformation(activity.getResources().getString(R.string.fileslist_root),"/",0,"local","root",
-                    getAvailableInternalMemorySize()+" / "+getTotalInternalMemorySize(), "datFM://"));
+                    getAvailableInternalMemorySize()+" / "+getTotalInternalMemorySize(), "datFM://", 0));
 
             dir_info.add(new datFM_FileInformation(activity.getResources().getString(R.string.fileslist_favorites),"datFM://favorite",0,"local","favorite",
-                    activity.getResources().getString(R.string.fileslist_favorites), "datFM://"));
+                    activity.getResources().getString(R.string.fileslist_favorites), "datFM://", 0));
 
             dir_info.add(new datFM_FileInformation(activity.getResources().getString(R.string.fileslist_samba),"datFM://samba",0,"smb","network",
-                    activity.getResources().getString(R.string.fileslist_network), "datFM://"));
+                    activity.getResources().getString(R.string.fileslist_network), "datFM://", 0));
 
         } else if(section.equals("favorite")){
             dir_info.add(new datFM_FileInformation(activity.getResources().getString(R.string.fileslist_add_favorite),"datFM://favorite/add",0,"local","add",
-                    activity.getResources().getString(R.string.fileslist_favorites), "datFM://"));
+                    activity.getResources().getString(R.string.fileslist_favorites), "datFM://", 0));
 
             File dir = activity.getFilesDir();
             for(File ff : dir.listFiles()){
@@ -255,9 +259,9 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
                         String fav_bookmark_name = fileContent.toString().split("\n")[6];
 
                         if(fav_type.equals("dir")){
-                            dir_info.add(new datFM_FileInformation(fav_bookmark_name,fav_path,Long.parseLong(fav_size),fav_protocol,"fav_bookmark_dir",fav_data, "datFM://favorite"));
+                            dir_info.add(new datFM_FileInformation(fav_bookmark_name,fav_path,Long.parseLong(fav_size),fav_protocol,"fav_bookmark_dir",fav_data, "datFM://favorite", 0));
                         } else if(fav_type.equals("file")){
-                            dir_info.add(new datFM_FileInformation(fav_bookmark_name,fav_path,Long.parseLong(fav_size),fav_protocol,"fav_bookmark_file",fav_data, "datFM://favorite"));
+                            dir_info.add(new datFM_FileInformation(fav_bookmark_name,fav_path,Long.parseLong(fav_size),fav_protocol,"fav_bookmark_file",fav_data, "datFM://favorite", 0));
                         }
 
                         fis.close();
@@ -267,9 +271,9 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
 
         } else if(section.equals("samba")){
             dir_info.add(new datFM_FileInformation(activity.getResources().getString(R.string.fileslist_add_samba),"datFM://samba/add",0,"smb","add",
-                    activity.getResources().getString(R.string.fileslist_network), "datFM://samba"));
+                    activity.getResources().getString(R.string.fileslist_network), "datFM://samba", 0));
             dir_info.add(new datFM_FileInformation(activity.getResources().getString(R.string.fileslist_browse_samba),"smb://",0,"smb","network",
-                    activity.getResources().getString(R.string.fileslist_network), "datFM://samba"));
+                    activity.getResources().getString(R.string.fileslist_network), "datFM://samba", 0));
 
             File dir = activity.getFilesDir();
             for(File ff : dir.listFiles()){
@@ -289,9 +293,9 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
                         String server_user = fileContent.toString().split("\n")[3];
 
                         if(server_user.equals("")){
-                            dir_info.add(new datFM_FileInformation(server_name,"smb://"+server_ip_hostname+"/"+server_start_dir,0,"smb","smb_store_network",server_ip_hostname, "datFM://samba"));
+                            dir_info.add(new datFM_FileInformation(server_name,"smb://"+server_ip_hostname+"/"+server_start_dir,0,"smb","smb_store_network",server_ip_hostname, "datFM://samba", 0));
                         } else {
-                            dir_info.add(new datFM_FileInformation(server_name,"smb://"+server_ip_hostname+"/"+server_start_dir,0,"smb","smb_store_network",server_user+"@"+server_ip_hostname, "datFM://samba"));
+                            dir_info.add(new datFM_FileInformation(server_name,"smb://"+server_ip_hostname+"/"+server_start_dir,0,"smb","smb_store_network",server_user+"@"+server_ip_hostname, "datFM://samba", 0));
                         }
 
                         fis.close();
@@ -328,11 +332,13 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
                 if(!datFM.pref_show_hide && ff.getName().startsWith(".")){} else {
                     if(ff.isDirectory()){
                         String data = datFM.datf_context.getResources().getString(R.string.fileslist_directory);
-                        dir_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),0,"smb","dir",data, ff.getParent()));
+                        Long date = ff.lastModified();
+                        dir_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),0,"smb","dir",data, ff.getParent(), date));
                     } else {
                         BigDecimal size = new BigDecimal(ff.length()/1024.00/1024.00);
                         size = size.setScale(2, BigDecimal.ROUND_HALF_UP);
-                        fls_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),ff.length(),"smb","file",size+" MiB",ff.getParent()));
+                        Long date = ff.lastModified();
+                        fls_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),ff.length(),"smb","file",size+" MiB",ff.getParent(), date));
                     }
                 }
             }
@@ -383,6 +389,12 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
                         user_n = names.getText().toString();
                         pass_n = passs.getText().toString();
                         //datFM.curPanel = Integer.parseInt(datFM.id);
+                        datFM.curPanel=panel_ID;
+                        if(panel_ID==0){
+                            datFM.competPanel=1;
+                        }else{
+                            datFM.competPanel=0;
+                        }
 
                         if(domain_n.equals("")){
                             domain_n = null;

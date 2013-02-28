@@ -16,7 +16,7 @@
                   android:layout_alignParentLeft="true" android:layout_centerVertical="true"></TextView>
         <TextView android:text="@+id/textFileDiscription" android:id="@+id/textFileDiscription" android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:layout_alignParentRight="true" android:layout_alignParentBottom="true"
-                  android:paddingRight="10dp"></TextView>
+                  android:paddingRight="10dp" android:singleLine="true"></TextView>
     </RelativeLayout>
 </LinearLayout>
 

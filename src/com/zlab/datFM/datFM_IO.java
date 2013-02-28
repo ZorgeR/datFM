@@ -1,8 +1,6 @@
 package com.zlab.datFM;
 
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 import jcifs.smb.*;
 import java.io.*;
 import java.math.BigDecimal;
@@ -19,10 +17,13 @@ public class datFM_IO {
     /** Globals **/
     String path;
     int PanelID;
+    int CompetPanel;
 
     public datFM_IO(String file,int panelID){
         path=file;
         PanelID=panelID;
+        CompetPanel=1;
+        if(PanelID==1)CompetPanel=0;
     }
 
     /** FILE **/
@@ -43,16 +44,26 @@ public class datFM_IO {
         //---------END SMB WORKS-------------------------
         return f;
     }
-    public Long getFileSize(String filepath){
+    public Long getFileSize(){
         long size=1;
-        smb = filepath.startsWith("smb://");
-        local = filepath.startsWith("/");
-
+        checkProtocol();
         if(local){
-            size = new datFM_IO(filepath,PanelID).getFileLocal().length();
+            size = getFileLocal().length();
         } else if (smb){try {
-            size = new datFM_IO(filepath,PanelID).getFileSmb().length();
+            size = getFileSmb().length();
             } catch (SmbException e) {e.printStackTrace();} catch (MalformedURLException e) {e.printStackTrace();}
+        }
+
+        return size;
+    }
+    public Long getFileSizeCustom(String path,int Panel){
+        long size=1;
+        checkProtocol();
+        if(local){
+            size = new datFM_IO(path,Panel).getFileLocal().length();
+        } else if (smb){try {
+            size = new datFM_IO(path,Panel).getFileSmb().length();
+        } catch (SmbException e) {e.printStackTrace();} catch (MalformedURLException e) {e.printStackTrace();}
         }
 
         return size;
@@ -123,11 +134,11 @@ public class datFM_IO {
             return false;
         }
 
-        return file_exist(dest);
+        return is_exist_custom(dest, CompetPanel);
     }
-    public boolean copy_recursively_smb(SmbFile file,String dest) throws IOException {
+    private void copy_recursively_smb(SmbFile file,String dest) throws IOException {
         if (file.isDirectory()) {
-            new datFM_IO(dest,PanelID).mkdir();
+            new datFM_IO(dest,CompetPanel).mkdir();
 
             updateOverallBar(datFM_FileOperation.progr_overal.getProgress() + 1,file.getPath(),dest);
 
@@ -143,11 +154,11 @@ public class datFM_IO {
                 updateOverallBar(datFM_FileOperation.progr_overal.getProgress() + 1, file.getPath(), dest);
             } catch (Exception e){}
         }
-        return file_exist(dest);
+        //return is_exist_custom(dest,CompetPanel);
     }
-    public boolean copy_recursively_local(File file,String dest) throws IOException {
+    private void copy_recursively_local(File file,String dest) throws IOException {
         if (file.isDirectory()) {
-            new datFM_IO(dest,PanelID).mkdir();
+            new datFM_IO(dest,CompetPanel).mkdir();
 
             updateOverallBar(datFM_FileOperation.progr_overal.getProgress() + 1, file.getPath(), dest);
 
@@ -163,7 +174,7 @@ public class datFM_IO {
                 updateOverallBar(datFM_FileOperation.progr_overal.getProgress() + 1, file.getPath(), dest);
             } catch (Exception e){}
         }
-        return file_exist(dest);
+        //return is_exist_custom(dest,CompetPanel);
     }
 
     /** RENAME **/
@@ -172,22 +183,22 @@ public class datFM_IO {
         checkProtocol();
 
         if(local){
-            success=rename_local(getFileLocal(), new_name);
+            success=rename_local(new_name);
         } else if (smb){
-            success=rename_smb(getFileSmb(), new_name);
+            success=rename_smb(new_name);
         } else {
             success=false;
         }
 
         return success;
     }
-    public boolean rename_smb(SmbFile file,String new_name) throws IOException {
-        SmbFile dest=new SmbFile(file.getParent()+"/"+new_name);
-        file.renameTo(dest);
+    public boolean rename_smb(String new_name) throws IOException {
+        SmbFile dest = new datFM_IO(new_name,PanelID).getFileSmb();
+        getFileSmb().renameTo(dest);
         return dest.exists();
     }
-    public boolean rename_local(File file,String new_name) throws IOException {
-        return file.renameTo(new File(file.getParent()+"/"+new_name));
+    public boolean rename_local(String new_name) throws IOException {
+        return getFileLocal().renameTo(new File(new_name));
     }
 
     /** MKDIR **/
@@ -209,7 +220,7 @@ public class datFM_IO {
     }
 
     /** EXIST **/
-    public boolean dir_exist(){
+    public boolean is_exist(){
         boolean success;
         checkProtocol();
 
@@ -223,34 +234,72 @@ public class datFM_IO {
         }
         return success;
     }
-    public boolean file_exist(String file){
+    public boolean is_exist_custom(String file, int PanID){
         boolean success;
         boolean smb_ = file.startsWith("smb://");
         boolean local_ = file.startsWith("/");
 
         if(local_){
-            success=new datFM_IO(file,PanelID).getFileLocal().exists();
+            success=new datFM_IO(file,PanID).getFileLocal().exists();
         } else if (smb_){
             try {
-                success=new datFM_IO(file,PanelID).getFileSmb().exists();
+                success=new datFM_IO(file,PanID).getFileSmb().exists();
             } catch (Exception e) {success=false;}
         } else {
             success=false;
         }
         return success;
     }
+    /** IS DIR **/
+    public boolean is_dir(){
+        boolean success;
+        checkProtocol();
+
+        if(local){
+            success= getFileLocal().isDirectory();
+        } else if (smb){
+            try {success=getFileSmb().isDirectory();
+            } catch (Exception e) {success=false;}
+        } else {
+            success=false;
+        }
+        return success;
+    }
+    /** getDir list **/
+    public String[] get_dir_list(){
+        String[] filepathlist;
+        checkProtocol();
+
+        if(local){
+            File [] filelist = getFileLocal().listFiles();
+            filepathlist = new String[filelist.length];
+            for(int i=0;i<filelist.length;i++){
+                filepathlist[i]=filelist[i].getPath();
+            }
+        } else if (smb){
+            try {
+                SmbFile[] smbfilelist=getFileSmb().listFiles();
+                filepathlist = new String[smbfilelist.length];
+                for(int i=0;i<smbfilelist.length;i++){
+                    filepathlist[i]=smbfilelist[i].getPath();
+                }
+            } catch (Exception e) {filepathlist=new String[] {""};}
+        } else {
+            filepathlist=new String[] {""};
+        }
+
+        return filepathlist;
+    }
 
     /** STREAM WORKER **/
     private void IO_Stream_Worker(String src, String dest) throws IOException {
         InputStream in = new datFM_IO(src,PanelID).getInput();
-        int compPanel=1;
-        if(PanelID==1)compPanel=0;
-        OutputStream out = new datFM_IO(dest,compPanel).getOutput();
+        OutputStream out = new datFM_IO(dest,CompetPanel).getOutput();
 
         byte[] buf = new byte[1024];
         int len;
 
-        long fullsize = getFileSize(src);
+        long fullsize = getFileSizeCustom(src,PanelID);
         long one_percent = fullsize/100;
         long cnt=0;
         int cur_file_progress=0;
@@ -297,26 +346,30 @@ public class datFM_IO {
         if(local){
             name=getFileLocal().getName();
         } else if(smb){
-            String name_in_ui_parser=path.replace("smb://","");
-            while (name_in_ui_parser.contains("/")){
+            if (path.lastIndexOf("/")+1==path.length())
+            {path=path.substring(0,path.lastIndexOf("/"));}
 
-                    if(name_in_ui_parser.indexOf("/")==0){name_in_ui_parser=name_in_ui_parser.substring(1);}
-                    String holder=name_in_ui_parser;
-
-                    if(name_in_ui_parser.indexOf("/")!=-1){
-                        name_in_ui_parser=name_in_ui_parser.substring(name_in_ui_parser.indexOf("/"));
-                    } else {
-                        name_in_ui_parser=name_in_ui_parser+"/";
-                        break;
-                    }
-
-                    if(name_in_ui_parser.length()==1){
-                        name_in_ui_parser=holder;break;
-                    }
-            }
-            name=name_in_ui_parser.substring(0);
+            name = path.substring(path.lastIndexOf("/")+1);
         } else {
            name="";
+        }
+
+        return name;
+    }
+    public String getRealName(){
+        String name;
+        checkProtocol();
+
+        if(local){
+            name=getFileLocal().getName();
+        } else if(smb){
+            try {
+                name = getFileSmb().getName();
+            } catch (MalformedURLException e) {
+                name="null";
+            }
+        } else {
+            name="";
         }
 
         return name;
@@ -337,13 +390,15 @@ public class datFM_IO {
                 parent[2]=datFM.datFM_state.getResources().getString(R.string.fileslist_parent_directory);
             }
         } else if(smb){
-            if(path.equals("smb:////")){
+            if(path.equals("smb://")){
                 parent[0]="datFM://samba";
                 parent[1]="parent_dir";
                 parent[2]=datFM.datFM_state.getResources().getString(R.string.fileslist_parent_directory);
             } else {
-                parent[0]=path.substring(0,path.lastIndexOf("/"));
-                parent[0]=parent[0].substring(0,parent[0].lastIndexOf("/")+1);
+                if (path.lastIndexOf("/")+1==path.length())
+                {path=path.substring(0,path.lastIndexOf("/"));}
+
+                parent[0]=path.substring(0,path.lastIndexOf("/")+1);
                 parent[1]="parent_dir";
                 parent[2]=datFM.datFM_state.getResources().getString(R.string.fileslist_parent_directory);
             }
@@ -351,6 +406,24 @@ public class datFM_IO {
             parent[0]=path.substring(0,path.lastIndexOf("/")+1);
             parent[1]="home";
             parent[2]=datFM.datFM_state.getResources().getString(R.string.fileslist_parent_directory);
+        }
+
+        return parent;
+    }
+    public String getRealParent(){
+        String parent;
+        checkProtocol();
+
+        if(local){
+            parent=getFileLocal().getParent();
+        } else if(smb){
+            try {
+                parent=getFileSmb().getParent();
+            } catch (MalformedURLException e) {
+                parent="null";
+            }
+        } else {
+            parent="null";
         }
 
         return parent;

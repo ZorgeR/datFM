@@ -1,7 +1,7 @@
 <resources>
 
     <style name="AppTheme" parent="android:Theme.Light.NoTitleBar" />
-    <style name="PropTheme" parent="android:Theme.Light" />
+    <style name="PropTheme" parent="android:Theme.NoTitleBar" />
     <style name="PrefTheme" parent="android:Theme" />
     <style name="Progress" parent="android:Widget.ProgressBar.Horizontal" />
     <style name="PanButton" parent="android:Widget.Button"/>

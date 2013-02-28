@@ -177,6 +177,7 @@
     <string name="notify_move">object moved to:</string>
     <string name="notify_newfolder">New folder:</string>
     <string name="notify_delete">object deleted!</string>
+    <string name="notify_rename">object renamed!</string>
     <string name="notify_refresh_tab">Refresh done!</string>
     <string name="notify_file_unknown">File Type Unknown!</string>
     <string name="notify_operation_same_folder">Current dir and destination directory is same!</string>

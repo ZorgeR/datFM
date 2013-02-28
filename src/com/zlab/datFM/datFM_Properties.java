@@ -3,6 +3,7 @@ package com.zlab.datFM;
 
 import android.app.Activity;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.ClipboardManager;
 import android.text.Editable;
@@ -34,25 +35,27 @@ public class datFM_Properties extends Activity {
     static ProgressBar prop_size_progress,prop_md5_progress;
 
     /** FLAG */
-    boolean PROP_CHANGED;
 
     /** Data **/
-    ArrayList<String> paths;
+    ArrayList<datFM_FileInformation> paths;
     int count;
-    File file;
-    File[] files;
+    String file;
     String ext,name,real_name,parent_dir,date,mimeType;
-    BigDecimal file_size;
-    Uri uri;
+    boolean isDir;
     View.OnClickListener TextClick;
     TextWatcher md5Change;
-
-    //public static datFM_Properties datFM_Properties_state;
     CompoundButton.OnCheckedChangeListener CheckedListener;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        if (!datFM.pref_theme.equals("Dark Fullscreen")){
+            if(datFM.currentApiVersion < Build.VERSION_CODES.HONEYCOMB){
+                setTheme(android.R.style.Theme_Light);
+            } else {
+                setTheme(android.R.style.Theme_Holo_Light);
+            }
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.datfm_properties);
         //datFM_Properties_state = this;
@@ -157,22 +160,22 @@ public class datFM_Properties extends Activity {
     }
 
     void get_paths(){
-        paths = getIntent().getStringArrayListExtra("paths");
+        paths = datFM.properties_array;
     }
     void get_file(){
-        file=new File (paths.get(0));
-        name=file.getName();
+        file=paths.get(0).getPath();
+        name=paths.get(0).getName();
+        if(paths.get(0).getType().equals("dir")){isDir=true;}
 
         /** Name and extension **/
-        if(file.isDirectory()){
+        if(isDir){
             real_name = name;
             ext="directory";
         } else {
-            if (file.getName().lastIndexOf(".")!=-1){
-                real_name = file.getName().substring(0,file.getName().lastIndexOf("."));
-                ext = file.getName().substring(file.getName().lastIndexOf(".")+1);
-                uri = Uri.fromFile(file);
-                mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(uri.toString()));
+            if (name.lastIndexOf(".")!=-1){
+                real_name = name.substring(0,name.lastIndexOf("."));
+                ext = paths.get(0).getExt();
+                mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(ext);
             } else {
                 real_name = name;
                 ext = "unknown";
@@ -180,31 +183,28 @@ public class datFM_Properties extends Activity {
         }
 
         /** Parent dir **/
-        parent_dir = file.getParent();
+        parent_dir = paths.get(0).getParent();
 
         /** Size **/
-        new datFM_Properties_Operation().execute(paths);/*
-        BigDecimal size = new BigDecimal(file.length()/1024.00/1024.00);
-        file_size = size.setScale(3, BigDecimal.ROUND_HALF_UP);*/
+        new datFM_Properties_Operation().execute(paths);
 
         /** Date **/
         SimpleDateFormat sdf = new SimpleDateFormat("d MMMM yyyy',' H:mm");
-        date = sdf.format(file.lastModified());
+        date = sdf.format(paths.get(0).getDate());
 
         /** Icon **/
-        if(file.isDirectory()){
+        if(isDir){
             prop_icon_file.setImageResource(R.drawable.ext_folder);
         } else {
-        get_icon();
+            get_icon();
         }
     }
     void set_var(){
         count = paths.size();
+        get_file();
         if (count==1){
-            get_file();
             render_one();
         } else {
-            get_file();
             render_many();
         }
     }
@@ -215,13 +215,13 @@ public class datFM_Properties extends Activity {
         prop_size.setText("Calculating...");
         prop_date.setText(date);
 
-        if(datFM.pref_root && datFM.protocols[datFM.curPanel].equals("local")){
+        if(datFM.pref_root && file.startsWith("/")){
             String out = new String();
             String command;
-            if(file.isDirectory()){
-                command = "ls -ld \""+file.getPath()+"\"\n";
+            if(isDir){
+                command = "ls -ld \""+file+"\"\n";
             } else {
-                command = "ls -al \""+file.getPath()+"\"\n";
+                command = "ls -al \""+file+"\"\n";
             }
 
             Process p;
@@ -288,11 +288,14 @@ public class datFM_Properties extends Activity {
                 prop_perm_other_exec.setChecked(true);
             }
 
+        } else if (file.startsWith("/")){
+            if (new File(file).canRead()){prop_perm_other_read.setChecked(true);}
+            if (new File(file).canWrite()){prop_perm_other_write.setChecked(true);}
+            if (new File(file).canExecute()){prop_perm_other_exec.setChecked(true);}
         } else {
-        if (file.canRead()){prop_perm_other_read.setChecked(true);}
-        if (file.canWrite()){prop_perm_other_write.setChecked(true);}
-        if (file.canExecute()){prop_perm_other_exec.setChecked(true);}
+            prop_btn_apply.setVisibility(View.GONE);
         }
+
     }
     void render_many(){
         prop_name.setText(count+" files.");
@@ -302,7 +305,7 @@ public class datFM_Properties extends Activity {
         prop_date.setText("Files group.");
     }
 
-    public int ext_check(String[] ext_list, String ext, String name){
+    public int ext_check(String[] ext_list, String name, String ext){
         int resID=0;
         for (String find_ext : ext_list) {
             if (find_ext.equals(ext)) {
@@ -313,45 +316,46 @@ public class datFM_Properties extends Activity {
         return resID;
     }
 
-    void get_icon(){
+    public void get_icon(){
         int resID = datFM.datf_context.getResources().getIdentifier("ext_" + ext.toLowerCase(), "drawable", "com.zlab.datFM");
+
+        if (resID==0){
+            String[] audio = {"mp3", "m4a", "aac", "ogg"};
+            resID = ext_check(audio,"audio",ext);
+        }
+        if (resID==0){
+            String[] video = {"mp4", "3gp", "mkv", "avi", "mpg", "mpeg", "flv", "vob"};
+            resID = ext_check(video,"video",ext);
+        }
         if (resID == 0) {
             String[] docx = {"doc", "docx", "rtf", "odt"};
-            resID = ext_check(docx,ext,"docx");
-
-            if (resID==0){
-                String[] xlsx = {"xlsx", "xls", "ods"};
-                resID = ext_check(xlsx,ext,"xlsx");
-            }
-            if (resID==0){
-                String[] fb2  = {"fb2", "djvu", "chm", "epub", "ibooks"};
-                resID = ext_check(fb2,ext,"fb2");
-            }
-            if (resID==0){
-                String[] zip  = {"zip", "7z", "rar"};
-                resID = ext_check(zip,ext,"zip");
-            }
-            if (resID==0){
-                String[] ttf  = {"ttf", "otf"};
-                resID = ext_check(ttf,ext,"ttf");
-            }
-            if (resID==0){
-                String[] pptx = {"pptx", "ppt"};
-                resID = ext_check(pptx,ext,"pptx");
-            }
-            if (resID==0){
-                resID = R.drawable.ext_unknown;
-            }
+            resID = ext_check(docx,"docx",ext);
+        }
+        if (resID==0){
+            String[] xlsx = {"xlsx", "xls", "ods"};
+            resID = ext_check(xlsx,"xlsx",ext);
+        }
+        if (resID==0){
+            String[] fb2  = {"fb2", "djvu", "chm", "epub", "ibooks"};
+            resID = ext_check(fb2,"fb2",ext);
+        }
+        if (resID==0){
+            String[] zip  = {"zip", "7z", "rar", "bz", "tar", "gzip"};
+            resID = ext_check(zip,"zip",ext);
+        }
+        if (resID==0){
+            String[] ttf  = {"ttf", "otf"};
+            resID = ext_check(ttf,"ttf",ext);
+        }
+        if (resID==0){
+            String[] pptx = {"pptx", "ppt"};
+            resID = ext_check(pptx,"pptx",ext);
+        }
+        if (resID==0){
+            resID = R.drawable.ext_unknown;
         }
         prop_icon_file.setImageResource(resID);
     }
-
-    /*
-    public void recall_size(Long size_f){
-        BigDecimal size_d = new BigDecimal(size_f/1024.00/1024.00);
-        BigDecimal file_size_d = size_d.setScale(3, BigDecimal.ROUND_HALF_UP);
-        datFM_Properties.datFM_Properties_state.prop_size.setText(String.valueOf(file_size_d));
-    } */
 
     public  void btn_call_properties(View view) {
         switch (view.getId()) {
@@ -378,7 +382,7 @@ public class datFM_Properties extends Activity {
                     if(prop_perm_other_write.isChecked())perm_other=perm_other+2;
                     if(prop_perm_other_exec.isChecked())perm_other=perm_other+1;
 
-                    String[] commands = {"chmod "+perm_owner+perm_group+perm_other+" \""+file.getPath()+"\"\n"};
+                    String[] commands = {"chmod "+perm_owner+perm_group+perm_other+" \""+file+"\"\n"};
                     RunAsRoot(commands);
                     Toast.makeText(datFM.datf_context,"Done!",Toast.LENGTH_SHORT).show();
                 } else {

@@ -7,10 +7,10 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-public class datFM_Properties_Operation extends AsyncTask<ArrayList<String>, Void, String> {
+public class datFM_Properties_Operation extends AsyncTask<ArrayList<datFM_FileInformation>, Void, String> {
 
     Long holder;
-    ArrayList<String> paths;
+    ArrayList<datFM_FileInformation> paths;
 
     protected void onPreExecute() {
         datFM_Properties.prop_size_progress.setVisibility(View.VISIBLE);
@@ -22,15 +22,14 @@ public class datFM_Properties_Operation extends AsyncTask<ArrayList<String>, Voi
     }        */
 
     @Override
-    protected String doInBackground(ArrayList<String>... list) {
+    protected String doInBackground(ArrayList<datFM_FileInformation>... list) {
         paths = list[0];
-        for (int i=0;i<paths.size();i++){
 
-            File f = new File(paths.get(i));
-            if(f.isDirectory()){
-                get_directory(f);
+        for (int i=0;i<paths.size();i++){
+            if(paths.get(i).getType().equals("dir")){
+                get_directory(paths.get(i).getPath());
             } else {
-                get_file(f);
+                get_file(paths.get(i).getPath());
             }
         }
         return null;
@@ -48,22 +47,20 @@ public class datFM_Properties_Operation extends AsyncTask<ArrayList<String>, Voi
         super.onPostExecute(result);
     }
 
-    void get_directory(File file){
-        try{
-        for(File f : file.listFiles()){
-            if (f.isDirectory()){
+    void get_directory(String dir){
+        if (new datFM_IO(dir, datFM.curPanel).is_dir()){
+            for(String f : new datFM_IO(dir, datFM.curPanel).get_dir_list()){
                 get_directory(f);
-            } else {
-                get_file(f);
             }
-        }
-        } catch (Exception e){}
-    }
-    void get_file(File f){
-        if(holder==null){
-            holder=f.length();
         } else {
-            holder=holder+f.length();
+            get_file(dir);
+        }
+    }
+    void get_file(String file){
+        if(holder==null){
+            holder = new datFM_IO(file,datFM.curPanel).getFileSize();
+        } else {
+            holder=holder+new datFM_IO(file,datFM.curPanel).getFileSize();
         }
         //onProgressUpdate(holder);
     }

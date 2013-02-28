@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 
-public class datFM_Properties_md5sum extends AsyncTask<File, Void, String> {
+public class datFM_Properties_md5sum extends AsyncTask<String, Void, String> {
 
     protected void onPreExecute() {
         datFM_Properties.prop_md5_progress.setVisibility(View.VISIBLE);
@@ -18,12 +18,12 @@ public class datFM_Properties_md5sum extends AsyncTask<File, Void, String> {
     }
 
     @Override
-    protected String doInBackground(File... files) {
+    protected String doInBackground(String... files) {
         String hex="";
         try{
             MessageDigest digest = MessageDigest.getInstance("MD5");
-            File f = files[0];
-            InputStream is = new FileInputStream(f);
+            String f = files[0];
+            InputStream is = new datFM_IO(f,datFM.curPanel).getInput();
             byte[] buffer = new byte[8192];
             int read = 0;
             try {

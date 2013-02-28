@@ -68,7 +68,7 @@
     <string name="settings_elements_title_single_navbar">Одна адресная строка</string>
     <string name="settings_elements_title_buttonbar_size">Высота панели действий</string>
     <string name="settings_elements_title_pathbar_size">Высота адресной строки</string>
-    <string name="settings_elements_title_bartext_size">Размер шрифта пенелей</string>
+    <string name="settings_elements_title_bartext_size">Размер шрифта панелей</string>
     <string name="settings_elements_title_folder_discription">Описание каталогов</string>
     <string name="settings_elements_title_files_discription">Описание файлов</string>
     <string name="settings_elements_title_panel_discription">Сводка о панели</string>
@@ -177,6 +177,7 @@
     <string name="notify_move">объектов перемещено в:</string>
     <string name="notify_newfolder">Новая папка:</string>
     <string name="notify_delete">объектов удалено!</string>
+    <string name="notify_rename">объектов переименовано!</string>
     <string name="notify_refresh_tab">Содержимое панелей обновлено!</string>
     <string name="notify_file_unknown">Неизвестный тип файла!</string>
     <string name="notify_operation_same_folder">Текущий каталог и каталог назначения совпадают!</string>
