@@ -154,7 +154,11 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
 
                 if (panel_ID ==0){
                     datFM.parent_left=dir.getParent();
-                    datFM.curentLeftDir=dir.getPath().substring(0,dir.getPath().length()-1);
+                    if(dir.getPath().equals("smb:////")){
+                        datFM.curentLeftDir=dir.getPath().substring(0,dir.getPath().length()-2);
+                    } else {
+                        datFM.curentLeftDir=dir.getPath().substring(0,dir.getPath().length()-1);
+                    }
                 } else {
                     datFM.parent_right=dir.getParent();
                     if(dir.getPath().equals("smb:////")){
