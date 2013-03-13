@@ -1,7 +1,5 @@
 package com.zlab.datFM;
 
-import java.util.Date;
-
 public class datFM_FileInformation implements Comparable<datFM_FileInformation> {
 
         private String name;
@@ -39,8 +37,12 @@ public class datFM_FileInformation implements Comparable<datFM_FileInformation> 
         public String getExt()
         {
             int dotPos = name.lastIndexOf(".")+1;
-            String ext = name.substring(dotPos);
-            return ext;
+            if(dotPos!=0){
+                ext = name.substring(dotPos);
+                return ext;
+            } else {
+                return name;
+            }
         }
 
         public long getSize()
@@ -71,11 +73,24 @@ public class datFM_FileInformation implements Comparable<datFM_FileInformation> 
             return date;
         }
 
-        public int compareTo(datFM_FileInformation o) {
+        public int compareByName(datFM_FileInformation o) {
             if(this.name != null)
                 return this.name.toLowerCase().compareTo(o.getName().toLowerCase());
             else
                 throw new IllegalArgumentException();
         }
 
+        public int compareByExt(datFM_FileInformation o) {
+            if(this.getExt() != null)
+                return this.getExt().toLowerCase().compareTo(o.getExt().toLowerCase());
+            else
+                throw new IllegalArgumentException();
+        }
+
+        public int compareTo(datFM_FileInformation o) {
+            if(this.name != null)
+                return this.name.toLowerCase().compareTo(o.getName().toLowerCase());
+            else
+                throw new IllegalArgumentException();
+        }
 }

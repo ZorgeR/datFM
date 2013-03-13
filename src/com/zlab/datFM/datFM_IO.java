@@ -271,10 +271,24 @@ public class datFM_IO {
         checkProtocol();
 
         if(local){
-            File [] filelist = getFileLocal().listFiles();
-            filepathlist = new String[filelist.length];
-            for(int i=0;i<filelist.length;i++){
-                filepathlist[i]=filelist[i].getPath();
+            File[] filelist;
+
+            if (datFM.pref_root){
+                    filelist = getFileLocal().listFiles();
+                if(filelist==null){
+                    filelist=root_get_content(getFileLocal());
+                }
+            } else {
+                filelist = getFileLocal().listFiles();
+            }
+
+            if(filelist!=null){
+                filepathlist = new String[filelist.length];
+                for(int i=0;i<filelist.length;i++){
+                    filepathlist[i]=filelist[i].getPath();
+                }
+            } else {
+                return null;
             }
         } else if (smb){
             try {
@@ -289,6 +303,49 @@ public class datFM_IO {
         }
 
         return filepathlist;
+    }
+    private File[] root_get_content(File d){
+        File[] dirs;
+        String out = new String();
+        String command = "ls \""+d.getPath()+"\"\n";
+
+        Process p;
+        try {
+            p = Runtime.getRuntime().exec(new String[]{"su", "-c", "/system/bin/sh"});
+            DataOutputStream stdin = new DataOutputStream(p.getOutputStream());
+            byte[] buf = command.getBytes("UTF-8");
+            stdin.write(buf,0,buf.length);
+
+            stdin.writeBytes("echo \n");
+            DataInputStream stdout = new DataInputStream(p.getInputStream());
+            byte[] buffer = new byte[4096];
+            int read;
+            while(true){
+                read = stdout.read(buffer);
+                out += new String(buffer, 0, read);
+                if(read<4096){
+                    break;
+                }
+                // here is where you catch the error value
+                //int len = out.length();
+                //char suExitValue = out.charAt(len-2);
+                //Toast.makeText(getApplicationContext(), String.valueOf(suExitValue), Toast.LENGTH_SHORT).show();
+                //return0or1(Integer.valueOf(suExitValue), command); // 0 or 1 Method
+                // end catching exit value
+            }
+            stdin.writeBytes("exit\n");
+            stdin.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String[] dirs_array = out.split("\n");
+        dirs=new File[dirs_array.length];
+        for (int i=0;i<dirs_array.length;i++){
+            dirs[i]=new File (d,dirs_array[i]);
+        }
+
+        return dirs;
     }
 
     /** STREAM WORKER **/

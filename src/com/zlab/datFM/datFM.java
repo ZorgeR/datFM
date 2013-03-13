@@ -1634,7 +1634,7 @@ public class datFM extends Activity {
                 } else {
                     notify_toast(getResources().getString(R.string.notify_deselect_before_change_dir),true);
                 }
-                EditText_unfocused();
+                path_unfocused();
                 break;}
             case R.id.btnGOright:{
                 if (selRight==0){
@@ -1644,7 +1644,7 @@ public class datFM extends Activity {
                 } else {
                     notify_toast(getResources().getString(R.string.notify_deselect_before_change_dir),true);
                 }
-                EditText_unfocused();
+                path_unfocused();
                 break;}
             case R.id.btnSelectAll: {
                 action_select_all();
@@ -1766,7 +1766,7 @@ public class datFM extends Activity {
                 } else {
                     onFileClick(o);
                 }
-                EditText_unfocused();
+                path_unfocused();
             }
         });
         listRight.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -1779,7 +1779,7 @@ public class datFM extends Activity {
                 } else {
                     onFileClick(o);
                 }
-                EditText_unfocused();
+                path_unfocused();
             }
         });
         listLeft.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -1792,7 +1792,7 @@ public class datFM extends Activity {
                 } else {
                     onFileClickLong(o, position); // file
                 }
-                EditText_unfocused();
+                path_unfocused();
                 return true;
             }
         });
@@ -1807,23 +1807,23 @@ public class datFM extends Activity {
                 } else {
                     onFileClickLong(o, position); // file
                 }
-                EditText_unfocused();
+                path_unfocused();
                 return true;
             }
         });
     }
 
-    private void EditText_unfocused(){
+    private void path_unfocused(){
         if (textCurrentPathRight.isFocused()){
             textCurrentPathRight.clearFocus();
-            EditText_kb_close(textCurrentPathRight);
+            path_kb_close(textCurrentPathRight);
         }
         if (textCurrentPathLeft.isFocused()){
             textCurrentPathLeft.clearFocus();
-            EditText_kb_close(textCurrentPathLeft);
+            path_kb_close(textCurrentPathLeft);
         }
     }
-    private void EditText_kb_close(EditText et){
+    private void path_kb_close(EditText et){
         InputMethodManager imm = (InputMethodManager)getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(et.getWindowToken(), 0);

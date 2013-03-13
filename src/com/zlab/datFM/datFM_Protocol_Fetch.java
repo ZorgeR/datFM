@@ -21,10 +21,7 @@ import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_FileInformation>> {
 
@@ -320,14 +317,15 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
     }
     private void fetch_local(){
         File dir = new File (path);
-        File[] dirs;
+        File[] dir_listing;
 
         if (datFM.pref_root){
-            dirs = dir.listFiles();
-            if(dirs==null){
-                dirs = root_get_content(dir);}
+            dir_listing = dir.listFiles();
+            if(dir_listing==null){
+                dir_listing = root_get_content(dir);
+            }
         } else {
-            dirs = dir.listFiles();
+            dir_listing = dir.listFiles();
         }
 
         if (panel_ID ==0){
@@ -339,7 +337,7 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
 
 
         try{
-            for(File ff: dirs)
+            for(File ff: dir_listing)
             {
                 if(!datFM.pref_show_hide && ff.getName().startsWith(".")){} else {
                     if(ff.isDirectory()){
@@ -365,6 +363,9 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
                 }
             }
         }catch(Exception e){}
+
+        //Collections.sort(dir_info);
+
         Collections.sort(dir_info);
         Collections.sort(fls_info);
 
@@ -443,8 +444,8 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
         AboutDialog.show();
     }
 
-    private File[] root_get_content(File d){
-        File[] dirs;
+    private datFM_RootFile[] root_get_content(File d){
+        datFM_RootFile[] dirs;
         String out = new String();
         String command = "ls \""+d.getPath()+"\"\n";
 
@@ -479,9 +480,9 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
         }
 
         String[] dirs_array = out.split("\n");
-        dirs=new File[dirs_array.length];
+        dirs=new datFM_RootFile[dirs_array.length];
         for (int i=0;i<dirs_array.length;i++){
-            dirs[i]=new File (d,dirs_array[i]);
+            dirs[i] = new datFM_RootFile (d.getPath(),dirs_array[i]);
         }
 
         return dirs;

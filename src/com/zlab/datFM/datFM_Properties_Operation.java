@@ -49,7 +49,9 @@ public class datFM_Properties_Operation extends AsyncTask<ArrayList<datFM_FileIn
 
     void get_directory(String dir){
         if (new datFM_IO(dir, datFM.curPanel).is_dir()){
-            for(String f : new datFM_IO(dir, datFM.curPanel).get_dir_list()){
+            String [] dir_list = new datFM_IO(dir, datFM.curPanel).get_dir_list();
+            if(dir_list!=null)
+            for(String f : dir_list){
                 get_directory(f);
             }
         } else {
