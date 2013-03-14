@@ -66,6 +66,7 @@
     <string name="settings_elements_title_cptext">Текст в панели</string>
     <string name="settings_elements_title_navbar">Адресная строка</string>
     <string name="settings_elements_title_single_navbar">Одна адресная строка</string>
+    <string name="settings_elements_title_single_panel">Одна панель</string>
     <string name="settings_elements_title_buttonbar_size">Высота панели действий</string>
     <string name="settings_elements_title_pathbar_size">Высота адресной строки</string>
     <string name="settings_elements_title_bartext_size">Размер шрифта панелей</string>
@@ -100,6 +101,7 @@
     <string name="settings_elements_summary_cptext">Показывать надписи на кнопках панели</string>
     <string name="settings_elements_summary_navbar">Показывать адресную строку наверху</string>
     <string name="settings_elements_summary_single_navbar">Показывать только активную адресную строку</string>
+    <string name="settings_elements_summary_single_panel">Показывать только активную панель</string>
     <string name="settings_elements_summary_buttonbar_size">Задать высоту панели действий</string>
     <string name="settings_elements_summary_pathbar_size">Задать высоту адресной строки</string>
     <string name="settings_elements_summary_bartext_size">Выбрать размер шрифта в панели действий и адресной строке</string>

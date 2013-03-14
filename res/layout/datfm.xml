@@ -15,7 +15,7 @@
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+                android:layout_height="fill_parent" android:baselineAligned="false">
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
@@ -106,7 +106,7 @@
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+                android:layout_height="fill_parent" android:baselineAligned="false">
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
@@ -128,61 +128,67 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-    <LinearLayout
-            android:orientation="horizontal"
+    <com.zlab.datFM.ObservableScrollView
             android:layout_width="match_parent"
-            android:layout_height="0dp" android:baselineAligned="false" android:layout_weight="1">
+            android:layout_height="0dp"
+            android:id="@+id/sideholderscroll" android:layout_weight="1">
         <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" android:layout_weight="0.5">
-            <ListView
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:baselineAligned="false" android:id="@+id/sideholder">
+            <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/listLeft"
-                    android:scrollbarThumbVertical="@drawable/datfm_scroll"
-                    android:layout_weight="1"/>
-            <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="items"
-                      android:id="@+id/textItemsLeft" android:singleLine="false" android:textSize="14dp"
-                      android:layout_gravity="bottom"
-                      android:gravity="center_horizontal"
-                      android:background="@drawable/dialog_full_holo_light"/>
-            <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="selected"
-                      android:id="@+id/textItemsLeftSelected" android:singleLine="false" android:textSize="14dp"
-                      android:visibility="gone"
-                      android:layout_gravity="bottom" android:gravity="center_horizontal"
-                      android:background="@drawable/dialog_full_holo_light"/>
-        </LinearLayout>
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="1px"
-                android:layout_height="match_parent" android:background="#46b2ff">
-        </LinearLayout>
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" android:layout_weight="0.5">
-            <ListView
+                    android:layout_height="match_parent" android:layout_weight="0.5" android:id="@+id/leftside">
+                <ListView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/listLeft"
+                        android:scrollbarThumbVertical="@drawable/datfm_scroll"
+                        android:layout_weight="1"/>
+                <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="items"
+                          android:id="@+id/textItemsLeft" android:singleLine="false" android:textSize="14dp"
+                          android:layout_gravity="bottom"
+                          android:gravity="center_horizontal"
+                          android:background="@drawable/dialog_full_holo_light"/>
+                <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="selected"
+                          android:id="@+id/textItemsLeftSelected" android:singleLine="false" android:textSize="14dp"
+                          android:visibility="gone"
+                          android:layout_gravity="bottom" android:gravity="center_horizontal"
+                          android:background="@drawable/dialog_full_holo_light"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="1px"
+                    android:layout_height="match_parent" android:background="#46b2ff">
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/listRight"
-                    android:scrollbarThumbVertical="@drawable/datfm_scroll"
-                    android:verticalScrollbarPosition="left" android:layout_weight="1"/>
-            <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="items"
-                    android:id="@+id/textItemsRight"
-                    android:singleLine="false"
-                    android:textSize="14dp"
-                    android:layout_gravity="bottom" android:gravity="center_horizontal"
-                    android:background="@drawable/dialog_full_holo_light"/>
-            <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="selected"
-                      android:id="@+id/textItemsRightSelected" android:singleLine="false" android:textSize="14dp"
-                      android:visibility="gone" android:gravity="center_horizontal" android:layout_gravity="bottom"
-                      android:background="@drawable/dialog_full_holo_light"/>
+                    android:layout_height="match_parent" android:layout_weight="0.5" android:id="@+id/rightside">
+                <ListView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/listRight"
+                        android:scrollbarThumbVertical="@drawable/datfm_scroll"
+                        android:verticalScrollbarPosition="left" android:layout_weight="1"/>
+                <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="items"
+                        android:id="@+id/textItemsRight"
+                        android:singleLine="false"
+                        android:textSize="14dp"
+                        android:layout_gravity="bottom" android:gravity="center_horizontal"
+                        android:background="@drawable/dialog_full_holo_light"/>
+                <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="selected"
+                          android:id="@+id/textItemsRightSelected" android:singleLine="false" android:textSize="14dp"
+                          android:visibility="gone" android:gravity="center_horizontal" android:layout_gravity="bottom"
+                          android:background="@drawable/dialog_full_holo_light"/>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </com.zlab.datFM.ObservableScrollView>
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"

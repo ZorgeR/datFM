@@ -69,6 +69,7 @@
     <string name="settings_elements_title_pathbar_size">Address bar height</string>
     <string name="settings_elements_title_bartext_size">Bar text size</string>
     <string name="settings_elements_title_single_navbar">Single address bar</string>
+    <string name="settings_elements_title_single_panel">Single panel mode</string>
     <string name="settings_elements_title_folder_discription">Folder descriptions</string>
     <string name="settings_elements_title_files_discription">Files descriptions</string>
     <string name="settings_elements_title_panel_discription">Panel descriptions</string>
@@ -100,6 +101,7 @@
     <string name="settings_elements_summary_cptext">Show text on buttons in panel</string>
     <string name="settings_elements_summary_navbar">Show address bar on the top</string>
     <string name="settings_elements_summary_single_navbar">Show only active address bar</string>
+    <string name="settings_elements_summary_single_panel">Single only active panel</string>
     <string name="settings_elements_summary_buttonbar_size">Change height of control panel</string>
     <string name="settings_elements_summary_pathbar_size">Change height of address bar</string>
     <string name="settings_elements_summary_bartext_size">Change text size in bar</string>

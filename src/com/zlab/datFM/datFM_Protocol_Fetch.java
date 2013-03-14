@@ -2,7 +2,6 @@ package com.zlab.datFM;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -20,6 +19,8 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -319,15 +320,6 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
         File dir = new File (path);
         File[] dir_listing;
 
-        if (datFM.pref_root){
-            dir_listing = dir.listFiles();
-            if(dir_listing==null){
-                dir_listing = root_get_content(dir);
-            }
-        } else {
-            dir_listing = dir.listFiles();
-        }
-
         if (panel_ID ==0){
             datFM.parent_left=dir.getParent();
             datFM.curentLeftDir=dir.getPath();
@@ -335,41 +327,43 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
             datFM.parent_right=dir.getParent();
             datFM.curentRightDir=dir.getPath();}
 
+        dir_listing = dir.listFiles();
+        if(datFM.pref_root && dir_listing==null){
+            root_get_content(dir);
+        } else {
+            try{
+                for(File ff: dir_listing)
+                {
+                    if(!datFM.pref_show_hide && ff.getName().startsWith(".")){} else {
+                        if(ff.isDirectory()){
+                            String data = datFM.datf_context.getResources().getString(R.string.fileslist_directory);
+                            Long date = ff.lastModified();
 
-        try{
-            for(File ff: dir_listing)
-            {
-                if(!datFM.pref_show_hide && ff.getName().startsWith(".")){} else {
-                    if(ff.isDirectory()){
-                        String data = datFM.datf_context.getResources().getString(R.string.fileslist_directory);
-                        Long date = ff.lastModified();
+                            dir_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),0,"smb","dir",data, ff.getParent(), date));
+                        } else {
 
-                        dir_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),0,"smb","dir",data, ff.getParent(), date));
-                    } else {
+                            //BigDecimal size = new BigDecimal(ff.length()/1024.00/1024.00);
+                            //size = size.setScale(2, BigDecimal.ROUND_HALF_UP);
 
-                        //BigDecimal size = new BigDecimal(ff.length()/1024.00/1024.00);
-                        //size = size.setScale(2, BigDecimal.ROUND_HALF_UP);
+                            String data = formatSize(ff.length());
+                            Long date = ff.lastModified();
 
-                        String data = formatSize(ff.length());
-                        Long date = ff.lastModified();
+                            if(datFM.pref_show_date){
+                                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm',' d MMM'.'");
+                                data = data+" / "+sdf.format(date);
+                            }
 
-                        if(datFM.pref_show_date){
-                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm',' d MMM'.'");
-                            data = data+" / "+sdf.format(date);
+                            fls_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),ff.length(),"smb","file",data,ff.getParent(), date));
                         }
-
-                        fls_info.add(new datFM_FileInformation(ff.getName(),ff.getPath(),ff.length(),"smb","file",data,ff.getParent(), date));
                     }
                 }
-            }
-        }catch(Exception e){}
-
-        //Collections.sort(dir_info);
-
+            }catch(Exception e){}
+        }
         Collections.sort(dir_info);
         Collections.sort(fls_info);
 
         dir_info.addAll(fls_info);
+        //Collections.sort(dir_info);
     }
 
     private void logonScreenSMB(){
@@ -444,48 +438,93 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
         AboutDialog.show();
     }
 
-    private datFM_RootFile[] root_get_content(File d){
-        datFM_RootFile[] dirs;
-        String out = new String();
-        String command = "ls \""+d.getPath()+"\"\n";
+    private void root_get_content(File d){
+        String command = "ls -al \""+path+"\"\n";
+        String output=RunAsRoot(command);
+        //int length=output.split("\n").length;
 
-        Process p;
-        try {
-            p = Runtime.getRuntime().exec(new String[]{"su", "-c", "/system/bin/sh"});
-            DataOutputStream stdin = new DataOutputStream(p.getOutputStream());
-            byte[] buf = command.getBytes("UTF-8");
-            stdin.write(buf,0,buf.length);
+        for(String str : output.split("\n")){
+            String[] arr = str.split("\\s+");
+            //length = str.split("\\s+").length;
 
-            stdin.writeBytes("echo \n");
-            DataInputStream stdout = new DataInputStream(p.getInputStream());
-            byte[] buffer = new byte[4096];
-            int read;
-            while(true){
-                read = stdout.read(buffer);
-                out += new String(buffer, 0, read);
-                if(read<4096){
-                    break;
+            String permission = arr[0];
+            String file_type=permission.substring(0,1);
+            String user = arr[1];
+            String group = arr[2];
+
+            boolean is_dir=file_type.equals("d");
+            boolean is_file=file_type.equals("-");
+            boolean is_unix_socket=file_type.equals("s");
+            boolean is_link=file_type.equals("l");
+            boolean is_pipe=file_type.equals("p");
+            boolean is_ch_device=file_type.equals("c");
+            boolean is_bl_device=file_type.equals("b");
+
+            String name;
+            String date;
+            String time;
+            long size=0;
+
+            if(is_file){
+                size = Long.parseLong(arr[3]);
+                date = arr[4];
+                time = arr[5];
+                name = arr[6];
+            } else {
+                date = arr[3];
+                time = arr[4];
+                name = arr[5];}
+            String path;
+
+            if(is_link){
+                path = arr[7];
+                if(path.startsWith("..")){
+                    path=d.getPath()+"/"+path;
                 }
-                // here is where you catch the error value
-                //int len = out.length();
-                //char suExitValue = out.charAt(len-2);
-                //Toast.makeText(getApplicationContext(), String.valueOf(suExitValue), Toast.LENGTH_SHORT).show();
-                //return0or1(Integer.valueOf(suExitValue), command); // 0 or 1 Method
-                // end catching exit value
+                String command2 = "ls -ld \""+path+"\"\n";
+                String output2=RunAsRoot(command2);
+                if(output2.startsWith("d")){
+                    is_dir=true;
+                } else {
+                    is_file=true;
+                }
+            } else {
+                path=d.getPath()+"/"+name;
             }
-            stdin.writeBytes("exit\n");
-            stdin.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        String[] dirs_array = out.split("\n");
-        dirs=new datFM_RootFile[dirs_array.length];
-        for (int i=0;i<dirs_array.length;i++){
-            dirs[i] = new datFM_RootFile (d.getPath(),dirs_array[i]);
-        }
+            if(!datFM.pref_show_hide && name.startsWith(".")){} else {
+                if(is_dir){
+                    String data = datFM.datf_context.getResources().getString(R.string.fileslist_directory);
+                    String compiled_date = date+" "+time;
+                    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                    Date date_format = null;
+                    long date_long=0;
+                    try {
+                        date_format = formatter.parse(compiled_date);
+                        date_long = date_format.getTime();
+                    } catch (ParseException e) {e.printStackTrace();}
 
-        return dirs;
+                    dir_info.add(new datFM_FileInformation(name,path,size,"smb","dir",data, d.getPath(), date_long));
+                } else {
+                    String compiled_date = date+" "+time;
+                    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                    Date date_format = null;
+                    long date_long =0;
+                    try {
+                        date_format = formatter.parse(compiled_date);
+                        date_long = date_format.getTime();
+                    } catch (ParseException e) {e.printStackTrace();}
+
+                    String data = formatSize(size);
+                    if(datFM.pref_show_date){
+                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm',' d MMM'.'");
+                        data = data+" / "+sdf.format(date);
+                    }
+
+                    fls_info.add(new datFM_FileInformation(name,path,size,"smb","file",data,d.getPath(), date_long));
+                }
+            }
+        }
     }
 
     public static boolean externalMemoryAvailable() {
@@ -563,4 +602,34 @@ public class datFM_Protocol_Fetch extends AsyncTask<String, Void, List<datFM_Fil
         return resultBuffer.toString();
     }
 
+
+    private String RunAsRoot(String command){
+        String out = new String();
+        try {
+            Process p = Runtime.getRuntime().exec(new String[]{"su", "-c", "/system/bin/sh"});
+            DataOutputStream stdin = new DataOutputStream(p.getOutputStream());
+            byte[] buf = command.getBytes("UTF-8");
+            stdin.write(buf,0,buf.length);
+
+            stdin.writeBytes("echo \n");
+            DataInputStream stdout = new DataInputStream(p.getInputStream());
+            byte[] buffer = new byte[4096];
+            int read;
+            while(true){
+                read = stdout.read(buffer);
+                out += new String(buffer, 0, read);
+                if(read<4096){
+                    break;
+                }
+            }
+            stdin.writeBytes("exit\n");
+            stdin.flush();
+            try {
+                p.waitFor();
+                if (p.exitValue() != 255) {//("root");
+                } else {/*("not root");*/}
+            } catch (InterruptedException e) {/*("not root");*/}
+        } catch (IOException e) {/*("not root");*/}
+        return out;
+    }
 }

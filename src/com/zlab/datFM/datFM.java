@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.*;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -35,6 +36,8 @@ public class datFM extends Activity {
     /** VAR GLOBAL **/
     LinearLayout layoutPathPanelLeft, layoutPathPanelRight,layoutButtonPanel,layoutActiveLeft,layoutActiveRight,
             layoutParentPathPanelLeft,layoutParentPathPanelRight,pathBarSpacer;
+    LinearLayout leftside,rightside,sideholder;
+    ObservableScrollView sideholderscroll;
     static ListView listLeft,listRight;
     TextView textPanelRight,textPanelLeft,textItemsRightSelected,textItemsLeftSelected;
     EditText textCurrentPathLeft, textCurrentPathRight;
@@ -44,6 +47,7 @@ public class datFM extends Activity {
     TextView btnShareText,btnAddFolderText,btnAddToArchiveText,btnCopyText,btnCutText,btnSelectAllText,btnDeselectAllText,btnDeleteText,btnRenameText;
     boolean[] selectedRight,selectedLeft;
     static int curPanel,competPanel;
+    int scrollwidth;
     int selLeft=0;
     int selRight=0;
     int posLeft,posRight,pathPanelBgr,pathPanelBgrOther;
@@ -76,7 +80,7 @@ public class datFM extends Activity {
     boolean pref_show_panel,pref_open_dir,pref_open_arcdir,
             pref_open_arcdir_window,pref_save_path,pref_dir_focus,
             pref_kamikaze,pref_show_text_on_panel,pref_show_navbar,
-            pref_show_panel_discr,/*pref_small_panel,*/pref_clear_filecache,pref_show_single_navbar;
+            pref_show_panel_discr,/*pref_small_panel,*/pref_clear_filecache,pref_show_single_navbar,pref_show_single_panel;
     static boolean pref_show_apk,pref_show_video,pref_show_photo,
             pref_show_folder_discr,pref_show_files_discr,pref_root,pref_sambalogin,pref_font_bold_folder,pref_show_hide,
             pref_show_date;
@@ -92,6 +96,7 @@ public class datFM extends Activity {
     static int cache_size;
     static int cache_counter=0;
     static boolean scroll=false;
+    static boolean scrollhorizontal=false;
     public static Drawable[] cache_icons;
     public static String[] cache_paths;
 
@@ -193,7 +198,6 @@ public class datFM extends Activity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         /* TODO ui_change_on_action(); Сделать проброс newConfig */
-
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             final float scale = getResources().getDisplayMetrics().density;
             int size_in_px = (int) (pref_bartext_size * scale + 0.5f);
@@ -691,14 +695,35 @@ public class datFM extends Activity {
         }
     }
     protected void update_panel_focus(){
+        scrollwidth = sideholderscroll.getWidth();
+        if(pref_show_single_panel){
+            //sideholderscroll.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0f));
 
-        if (curPanel ==0){
+            leftside.setMinimumWidth(scrollwidth);
+            rightside.setMinimumWidth(scrollwidth);
+
+            leftside.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0f));
+            rightside.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0f));
+        } else {
+            leftside.setMinimumWidth(scrollwidth/2);
+            rightside.setMinimumWidth((scrollwidth/2)-1);
+        }
+        if (curPanel == 0){
+            if(pref_show_single_panel&&!scrollhorizontal){sideholderscroll.fullScroll(HorizontalScrollView.FOCUS_LEFT);
+            /*scrollhorizontal=true;*/}
+            //leftside.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0f));
+            //rightside.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
+
             //noinspection deprecation
             layoutActiveLeft.setBackgroundColor(pathPanelBgr);
             layoutActiveRight.setBackgroundColor(pathPanelBgrOther);
             if(pref_show_single_navbar){layoutParentPathPanelRight.setVisibility(View.GONE);layoutParentPathPanelLeft.setVisibility(View.VISIBLE);}
         } else {
+            if(pref_show_single_panel&&!scrollhorizontal){sideholderscroll.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
+                /*scrollhorizontal=true;*/}
             /** only API 16 -> layoutPathPanelRight.setBackground(getResources().getDrawable(android.R.drawable.dialog_holo_light_frame)); **/
+            //rightside.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0f));
+            //leftside.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
             //noinspection deprecation
             layoutActiveRight.setBackgroundColor(pathPanelBgr);
             layoutActiveLeft.setBackgroundColor(pathPanelBgrOther);
@@ -1567,6 +1592,15 @@ public class datFM extends Activity {
         layoutActiveLeft = (LinearLayout) findViewById(R.id.layoutActiveLeft);
         layoutActiveRight = (LinearLayout) findViewById(R.id.layoutActiveRight);
 
+        /** SCROLL **/
+        //if(pref_show_single_panel){
+            leftside = (LinearLayout) findViewById(R.id.leftside);
+            rightside = (LinearLayout) findViewById(R.id.rightside);
+            sideholder = (LinearLayout) findViewById(R.id.sideholder);
+            sideholderscroll = (ObservableScrollView) findViewById(R.id.sideholderscroll);
+            sideholderscroll.setHorizontalFadingEdgeEnabled(false);
+        //}
+
         //btnShare = (Button) findViewById(R.id.btnShare);
         btnShare = (LinearLayout) findViewById(R.id.btnShare);
         btnAddFolder = (LinearLayout) findViewById(R.id.btnAddFolder);
@@ -1605,7 +1639,7 @@ public class datFM extends Activity {
                 break;}
             case R.id.btnUPright:{
                 if (selRight==0){
-                    curPanel=1; competPanel=2;
+                    curPanel=1; competPanel=0;
                     prevName = new datFM_IO(curentRightDir,curPanel).getName();
                     if(curentRightDir!=null){
                         fill_new(parent_right, 1);}
@@ -1638,9 +1672,9 @@ public class datFM extends Activity {
                 break;}
             case R.id.btnGOright:{
                 if (selRight==0){
-                curPanel=1; competPanel=0;
-                String path = textCurrentPathRight.getText().toString();
-                fill_new(path, 1);
+                    curPanel=1; competPanel=0;
+                    String path = textCurrentPathRight.getText().toString();
+                    fill_new(path, 1);
                 } else {
                     notify_toast(getResources().getString(R.string.notify_deselect_before_change_dir),true);
                 }
@@ -1710,18 +1744,32 @@ public class datFM extends Activity {
         listLeft.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                curPanel =0;
-                competPanel = 1;
-                update_panel_focus();
+                switch (motionEvent.getAction())
+                {
+                    case MotionEvent.ACTION_DOWN:
+                    {
+                        curPanel = 0;
+                        competPanel = 1;
+                        update_panel_focus();
+                        break;
+                    }
+                }
                 return false;
             }
         });
         listRight.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                curPanel = 1;
-                competPanel = 0;
-                update_panel_focus();
+                switch (motionEvent.getAction())
+                {
+                    case MotionEvent.ACTION_DOWN:
+                    {
+                        curPanel = 1;
+                        competPanel = 0;
+                        update_panel_focus();
+                        break;
+                    }
+                }
                 return false;
             }
         });
@@ -1811,6 +1859,68 @@ public class datFM extends Activity {
                 return true;
             }
         });
+
+        if(pref_show_single_panel){
+            sideholderscroll.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction())
+                    {
+                        case MotionEvent.ACTION_DOWN:
+                        {
+                            scrollhorizontal=true;
+                            break;
+                        }
+                        case MotionEvent.ACTION_MOVE:
+                        {
+                            scrollhorizontal=true;
+                            break;
+                        }
+                        case MotionEvent.ACTION_UP:
+                        {
+                            scrollhorizontal=false;
+                            sideholderscroll.setScrollX(sideholderscroll.getScrollX()+1);
+                            break;
+                        }
+                    }
+                    return false;
+                }
+            });
+
+            sideholderscroll.setScrollViewListener(new datFM_ScrollViewListenear() {
+                @Override
+                public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
+
+                    Display display = getWindowManager().getDefaultDisplay();
+                    Point size = new Point();
+                    display.getSize(size);
+                    int width = size.x;
+                    //int height = size.y;
+
+                    int percent = x*100/width;
+
+                    Log.e("POS:", "percent=" + percent);
+                    //Log.e("POS:", "co=" + percent);
+
+                    if (percent < 50) {
+                        if(!scrollhorizontal){
+                            curPanel=0;
+                            scrollView.fullScroll(HorizontalScrollView.FOCUS_LEFT);
+                            //update_operation_vars();
+                            update_panel_focus();
+                        }
+                    } else {
+                        if(!scrollhorizontal){
+                            curPanel=1;
+                            scrollView.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
+                            //scrollhorizontal=true;
+                            //update_operation_vars();
+                            update_panel_focus();
+                        }
+                    }
+                }
+            });
+        }
     }
 
     private void path_unfocused(){
@@ -1862,6 +1972,7 @@ public class datFM extends Activity {
         pref_clear_filecache = prefs.getBoolean("pref_clear_filecache",true);
         pref_theme = prefs.getString("pref_theme","Dark Fullscreen");
         pref_show_single_navbar = prefs.getBoolean("pref_show_single_navbar",false);
+        pref_show_single_panel = prefs.getBoolean("pref_show_single_panel",false);
         pref_show_date = prefs.getBoolean("pref_show_date",false);
     }
     private void pref_setter(){
