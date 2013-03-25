@@ -16,6 +16,7 @@ import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.*;
 import android.view.inputmethod.InputMethodManager;
@@ -104,7 +105,8 @@ public class datFM extends Activity {
     datFM_ZA_Interface ZA;
 
     /** UI **/
-    //static int x_pos,y_pos;
+    int horizontalscrollpercent;
+    DisplayMetrics displaymetrics;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -148,6 +150,9 @@ public class datFM extends Activity {
 
         /** Интерфейс для ZArchiver **/
         ZA = new datFM_ZA_Interface(datf_context);
+
+        /** Размер экрана **/
+        displaymetrics = new DisplayMetrics();
     }
     protected void setTheme(){
         pathPanelBgr=Color.parseColor("#ff46b2ff");
@@ -209,6 +214,7 @@ public class datFM extends Activity {
             //
             pref_btn_text_size(size_in_px);
         }
+        update_panel_focus();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -695,12 +701,13 @@ public class datFM extends Activity {
         }
     }
     protected void update_panel_focus(){
-        scrollwidth = sideholderscroll.getWidth();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        scrollwidth = displaymetrics.widthPixels;
+
         if(pref_show_single_panel){
             //sideholderscroll.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0f));
-
-            leftside.setMinimumWidth(scrollwidth);
-            rightside.setMinimumWidth(scrollwidth);
+            leftside.setMinimumWidth(scrollwidth-1);
+            rightside.setMinimumWidth(scrollwidth-1);
 
             leftside.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0f));
             rightside.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0f));
@@ -709,8 +716,14 @@ public class datFM extends Activity {
             rightside.setMinimumWidth((scrollwidth/2)-1);
         }
         if (curPanel == 0){
-            if(pref_show_single_panel&&!scrollhorizontal){sideholderscroll.fullScroll(HorizontalScrollView.FOCUS_LEFT);
-            /*scrollhorizontal=true;*/}
+            if(pref_show_single_panel){
+                sideholderscroll.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        sideholderscroll.fullScroll(HorizontalScrollView.FOCUS_LEFT);
+                    }
+                });
+            }
             //leftside.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0f));
             //rightside.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
 
@@ -719,8 +732,14 @@ public class datFM extends Activity {
             layoutActiveRight.setBackgroundColor(pathPanelBgrOther);
             if(pref_show_single_navbar){layoutParentPathPanelRight.setVisibility(View.GONE);layoutParentPathPanelLeft.setVisibility(View.VISIBLE);}
         } else {
-            if(pref_show_single_panel&&!scrollhorizontal){sideholderscroll.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
-                /*scrollhorizontal=true;*/}
+            if(pref_show_single_panel/* && (date.getTime()-lasttouch>touchdelay)*/){
+                sideholderscroll.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        sideholderscroll.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
+                    }
+                });
+            }
             /** only API 16 -> layoutPathPanelRight.setBackground(getResources().getDrawable(android.R.drawable.dialog_holo_light_frame)); **/
             //rightside.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0f));
             //leftside.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
@@ -1864,13 +1883,11 @@ public class datFM extends Activity {
             sideholderscroll.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
+
+                    //Log.e("POS:", "act=" + event.getAction());
+
                     switch (event.getAction())
                     {
-                        case MotionEvent.ACTION_DOWN:
-                        {
-                            scrollhorizontal=true;
-                            break;
-                        }
                         case MotionEvent.ACTION_MOVE:
                         {
                             scrollhorizontal=true;
@@ -1879,7 +1896,7 @@ public class datFM extends Activity {
                         case MotionEvent.ACTION_UP:
                         {
                             scrollhorizontal=false;
-                            sideholderscroll.setScrollX(sideholderscroll.getScrollX()+1);
+                            scroll_closer();
                             break;
                         }
                     }
@@ -1890,37 +1907,25 @@ public class datFM extends Activity {
             sideholderscroll.setScrollViewListener(new datFM_ScrollViewListenear() {
                 @Override
                 public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
-
                     Display display = getWindowManager().getDefaultDisplay();
                     Point size = new Point();
                     display.getSize(size);
                     int width = size.x;
                     //int height = size.y;
 
-                    int percent = x*100/width;
-
-                    Log.e("POS:", "percent=" + percent);
+                    horizontalscrollpercent = x*100/width;
                     //Log.e("POS:", "co=" + percent);
-
-                    if (percent < 50) {
-                        if(!scrollhorizontal){
-                            curPanel=0;
-                            scrollView.fullScroll(HorizontalScrollView.FOCUS_LEFT);
-                            //update_operation_vars();
-                            update_panel_focus();
-                        }
-                    } else {
-                        if(!scrollhorizontal){
-                            curPanel=1;
-                            scrollView.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
-                            //scrollhorizontal=true;
-                            //update_operation_vars();
-                            update_panel_focus();
-                        }
-                    }
                 }
             });
         }
+    }
+    private void scroll_closer(){
+        if (horizontalscrollpercent < 50) {
+                curPanel=0;
+        } else {
+                curPanel=1;
+        }
+        update_panel_focus();
     }
 
     private void path_unfocused(){
