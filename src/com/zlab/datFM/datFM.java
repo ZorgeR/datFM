@@ -214,7 +214,20 @@ public class datFM extends Activity {
             //
             pref_btn_text_size(size_in_px);
         }
-        update_panel_focus();
+
+        new Thread() { /** запуск с задержкой **/
+            public void run() {
+                try {Thread.sleep(150);
+                } catch (InterruptedException e) {e.printStackTrace();}
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        update_panel_focus();
+                    }
+                });
+            }
+        }.start();
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -1892,18 +1905,18 @@ public class datFM extends Activity {
     private void scroll_init(){
         //sideholderscroll.post();
         if(pref_show_single_panel && !(pref_force_dual_panel_in_landscape && getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)){
-            sideholderscroll.postDelayed(new Runnable() {
+            sideholderscroll.post(new Runnable() {
                 @Override
                 public void run() {
                     if(curPanel==0){
                         if(!horizontal_scroll_blocked)
-                        sideholderscroll.fullScroll(HorizontalScrollView.FOCUS_LEFT);
+                            sideholderscroll.fullScroll(HorizontalScrollView.FOCUS_LEFT);
                     } else {
                         if(!horizontal_scroll_blocked)
-                        sideholderscroll.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
+                            sideholderscroll.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
                     }
                 }
-            },150);
+            });
         }
     }
     private void scroll_finisher(){
