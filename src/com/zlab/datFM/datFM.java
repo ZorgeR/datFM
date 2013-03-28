@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.*;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -48,7 +47,7 @@ public class datFM extends Activity {
     TextView btnShareText,btnAddFolderText,btnAddToArchiveText,btnCopyText,btnCutText,btnSelectAllText,btnDeselectAllText,btnDeleteText,btnRenameText;
     boolean[] selectedRight,selectedLeft;
     static int curPanel,competPanel;
-    int scrollwidth;
+    int screen_width;
     int selLeft=0;
     int selRight=0;
     int posLeft,posRight,pathPanelBgr,pathPanelBgrOther;
@@ -81,7 +80,8 @@ public class datFM extends Activity {
     boolean pref_show_panel,pref_open_dir,pref_open_arcdir,
             pref_open_arcdir_window,pref_save_path,pref_dir_focus,
             pref_kamikaze,pref_show_text_on_panel,pref_show_navbar,
-            pref_show_panel_discr,/*pref_small_panel,*/pref_clear_filecache,pref_show_single_navbar,pref_show_single_panel;
+            pref_show_panel_discr,pref_clear_filecache,pref_show_single_navbar,pref_show_single_panel,
+            pref_force_dual_panel_in_landscape;
     static boolean pref_show_apk,pref_show_video,pref_show_photo,
             pref_show_folder_discr,pref_show_files_discr,pref_root,pref_sambalogin,pref_font_bold_folder,pref_show_hide,
             pref_show_date;
@@ -97,7 +97,6 @@ public class datFM extends Activity {
     static int cache_size;
     static int cache_counter=0;
     static boolean scroll=false;
-    static boolean scrollhorizontal=false;
     public static Drawable[] cache_icons;
     public static String[] cache_paths;
 
@@ -105,7 +104,8 @@ public class datFM extends Activity {
     datFM_ZA_Interface ZA;
 
     /** UI **/
-    int horizontalscrollpercent;
+    int horizontal_scroll_percentage;
+    boolean horizontal_scroll_blocked=false;
     DisplayMetrics displaymetrics;
 
     @Override
@@ -125,7 +125,7 @@ public class datFM extends Activity {
 
         /** Инициализация UI **/
         init_UI();
-        init_Listener();
+        init_Listener_Static();
 
         /** Применение настроек **/
         pref_setter();
@@ -701,48 +701,32 @@ public class datFM extends Activity {
         }
     }
     protected void update_panel_focus(){
+
+        /** Обновление параметров дисплея **/
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        scrollwidth = displaymetrics.widthPixels;
+        screen_width = displaymetrics.widthPixels;
 
-        if(pref_show_single_panel){
+        if(pref_show_single_panel && !(pref_force_dual_panel_in_landscape && getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)){
             //sideholderscroll.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0f));
-            leftside.setMinimumWidth(scrollwidth-1);
-            rightside.setMinimumWidth(scrollwidth-1);
 
-            leftside.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0f));
-            rightside.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0f));
-        } else {
-            leftside.setMinimumWidth(scrollwidth/2);
-            rightside.setMinimumWidth((scrollwidth/2)-1);
-        }
-        if (curPanel == 0){
-            if(pref_show_single_panel){
-                sideholderscroll.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        sideholderscroll.fullScroll(HorizontalScrollView.FOCUS_LEFT);
-                    }
-                });
-            }
+            leftside.setMinimumWidth(screen_width - 1);
+            rightside.setMinimumWidth(screen_width - 1);
+
             //leftside.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0f));
-            //rightside.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
+            //rightside.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0f));
+        } else {
+            leftside.setMinimumWidth(screen_width / 2);
+            rightside.setMinimumWidth((screen_width / 2) - 1);
+        }
 
+
+        if (curPanel == 0){
             //noinspection deprecation
             layoutActiveLeft.setBackgroundColor(pathPanelBgr);
             layoutActiveRight.setBackgroundColor(pathPanelBgrOther);
             if(pref_show_single_navbar){layoutParentPathPanelRight.setVisibility(View.GONE);layoutParentPathPanelLeft.setVisibility(View.VISIBLE);}
         } else {
-            if(pref_show_single_panel/* && (date.getTime()-lasttouch>touchdelay)*/){
-                sideholderscroll.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        sideholderscroll.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
-                    }
-                });
-            }
             /** only API 16 -> layoutPathPanelRight.setBackground(getResources().getDrawable(android.R.drawable.dialog_holo_light_frame)); **/
-            //rightside.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0f));
-            //leftside.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
             //noinspection deprecation
             layoutActiveRight.setBackgroundColor(pathPanelBgr);
             layoutActiveLeft.setBackgroundColor(pathPanelBgrOther);
@@ -751,6 +735,7 @@ public class datFM extends Activity {
 
         if(pathPanelBgrFill!=0){layoutPathPanelRight.setBackgroundColor(pathPanelBgrFill);layoutPathPanelLeft.setBackgroundColor(pathPanelBgrFill);}
         update_operation_vars();
+        scroll_init();
         setTitle(curDir);
     }
 
@@ -1612,15 +1597,12 @@ public class datFM extends Activity {
         layoutActiveRight = (LinearLayout) findViewById(R.id.layoutActiveRight);
 
         /** SCROLL **/
-        //if(pref_show_single_panel){
             leftside = (LinearLayout) findViewById(R.id.leftside);
             rightside = (LinearLayout) findViewById(R.id.rightside);
             sideholder = (LinearLayout) findViewById(R.id.sideholder);
             sideholderscroll = (ObservableScrollView) findViewById(R.id.sideholderscroll);
             sideholderscroll.setHorizontalFadingEdgeEnabled(false);
-        //}
 
-        //btnShare = (Button) findViewById(R.id.btnShare);
         btnShare = (LinearLayout) findViewById(R.id.btnShare);
         btnAddFolder = (LinearLayout) findViewById(R.id.btnAddFolder);
         btnAddToArchive = (LinearLayout) findViewById(R.id.btnAddToArchive);
@@ -1735,7 +1717,7 @@ public class datFM extends Activity {
                 break;}
         }
     }
-    private void init_Listener(){
+    private void init_Listener_Static(){
 
         btnUPleft.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -1878,25 +1860,21 @@ public class datFM extends Activity {
                 return true;
             }
         });
-
-        if(pref_show_single_panel){
+    }
+    private void init_Listener_Scroll(){
             sideholderscroll.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-
-                    //Log.e("POS:", "act=" + event.getAction());
-
                     switch (event.getAction())
                     {
-                        case MotionEvent.ACTION_MOVE:
-                        {
-                            scrollhorizontal=true;
+                        case MotionEvent.ACTION_MOVE:{
+                            horizontal_scroll_blocked=true;
                             break;
                         }
                         case MotionEvent.ACTION_UP:
                         {
-                            scrollhorizontal=false;
-                            scroll_closer();
+                            horizontal_scroll_blocked=false;
+                            scroll_finisher();
                             break;
                         }
                     }
@@ -1907,25 +1885,36 @@ public class datFM extends Activity {
             sideholderscroll.setScrollViewListener(new datFM_ScrollViewListenear() {
                 @Override
                 public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
-                    Display display = getWindowManager().getDefaultDisplay();
-                    Point size = new Point();
-                    display.getSize(size);
-                    int width = size.x;
-                    //int height = size.y;
-
-                    horizontalscrollpercent = x*100/width;
-                    //Log.e("POS:", "co=" + percent);
+                    horizontal_scroll_percentage = x*100/screen_width;
                 }
             });
+    }
+    private void scroll_init(){
+        //sideholderscroll.post();
+        if(pref_show_single_panel && !(pref_force_dual_panel_in_landscape && getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)){
+            sideholderscroll.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(curPanel==0){
+                        if(!horizontal_scroll_blocked)
+                        sideholderscroll.fullScroll(HorizontalScrollView.FOCUS_LEFT);
+                    } else {
+                        if(!horizontal_scroll_blocked)
+                        sideholderscroll.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
+                    }
+                }
+            },150);
         }
     }
-    private void scroll_closer(){
-        if (horizontalscrollpercent < 50) {
-                curPanel=0;
-        } else {
-                curPanel=1;
+    private void scroll_finisher(){
+        if(!(pref_force_dual_panel_in_landscape && getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)){
+            if (horizontal_scroll_percentage < 50) {
+                    curPanel=0;
+            } else {
+                    curPanel=1;
+            }
+            update_panel_focus();
         }
-        update_panel_focus();
     }
 
     private void path_unfocused(){
@@ -1978,6 +1967,7 @@ public class datFM extends Activity {
         pref_theme = prefs.getString("pref_theme","Dark Fullscreen");
         pref_show_single_navbar = prefs.getBoolean("pref_show_single_navbar",false);
         pref_show_single_panel = prefs.getBoolean("pref_show_single_panel",false);
+        pref_force_dual_panel_in_landscape = prefs.getBoolean("pref_force_dual_panel_in_landscape",false);
         pref_show_date = prefs.getBoolean("pref_show_date",false);
     }
     private void pref_setter(){
@@ -2050,18 +2040,6 @@ public class datFM extends Activity {
             btnRenameText.setVisibility(View.GONE);
         }
 
-        /** TextColor Theme **
-        btnShareText.setTextColor(Color.WHITE);
-        btnAddFolderText.setTextColor(Color.WHITE);
-        btnAddToArchiveText.setTextColor(Color.WHITE);
-        btnCopyText.setTextColor(Color.WHITE);
-        btnCutText.setTextColor(Color.WHITE);
-        btnSelectAllText.setTextColor(Color.WHITE);
-        btnDeselectAllText.setTextColor(Color.WHITE);
-        btnDeleteText.setTextColor(Color.WHITE);
-        btnRenameText.setTextColor(Color.WHITE);
-        /** **/
-
         /** Nav Bar Show **/
         if(pref_show_single_navbar){
             pathBarSpacer.setVisibility(View.GONE);
@@ -2078,22 +2056,6 @@ public class datFM extends Activity {
             layoutPathPanelRight.setVisibility(View.VISIBLE);
         }
 
-        /** Small panel **//*
-        if(pref_small_panel){
-            int in_dp = 32;
-            final float scale_px = getResources().getDisplayMetrics().density;
-            int in_px = (int) (in_dp * scale_px + 0.5f);
-            layoutPathPanelLeft.getLayoutParams().height = in_px;
-            layoutPathPanelRight.getLayoutParams().height = in_px;
-            layoutButtonPanel.getLayoutParams().height = in_px;
-        } else {
-            int in_dp = 42;
-            final float scale_px = getResources().getDisplayMetrics().density;
-            int in_px = (int) (in_dp * scale_px + 0.5f);
-            layoutPathPanelLeft.getLayoutParams().height = in_px;
-            layoutPathPanelRight.getLayoutParams().height = in_px;
-            layoutButtonPanel.getLayoutParams().height = in_px;
-        }*/
         int in_dp = pref_actionbar_size;
         final float scale_px = getResources().getDisplayMetrics().density;
         int in_px = (int) (in_dp * scale_px + 0.5f);
@@ -2122,6 +2084,11 @@ public class datFM extends Activity {
             }
         } else {
             layoutButtonPanel.setVisibility(View.VISIBLE);
+        }
+
+        /** Однопанельный режим **/
+        if(pref_show_single_panel){
+            init_Listener_Scroll();
         }
 
         /** Смена элементов интерфейса **/
