@@ -349,7 +349,6 @@ public class datFM extends Activity {
             if (posLeft<listLeft.getCount()&&posLeft!=0){listLeft.setSelection(posLeft);posLeft=0;}
             if (prevName!=null&&pref_dir_focus){for (int i=0;i<listLeft.getCount();i++){
                 if (prevName.equals(adapterLeft.getItem(i).getName())){listLeft.setSelection(i);prevName="";}}}
-            update_panel_focus();
         } else {
             selectedRight = new boolean[dir.size()];
             adapterRight = new datFM_Adaptor(datFM.this,R.layout.datfm_list,dir,selectedRight,curPanel);
@@ -361,8 +360,9 @@ public class datFM extends Activity {
             if (posRight<listRight.getCount()&&posRight!=0){listRight.setSelection(posRight);posRight=0;}
             if (prevName!=null&&pref_dir_focus){for (int i=0;i<listRight.getCount();i++){
                 if (prevName.equals(adapterRight.getItem(i).getName())){listRight.setSelection(i);prevName="";}}}
-            update_panel_focus();
         }
+
+        update_panel_focus();
     }
 
     protected void openContextMenu(final int pos, int id){
@@ -720,18 +720,12 @@ public class datFM extends Activity {
         screen_width = displaymetrics.widthPixels;
 
         if(pref_show_single_panel && !(pref_force_dual_panel_in_landscape && getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)){
-            //sideholderscroll.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0f));
-
-            leftside.setMinimumWidth(screen_width - 1);
-            rightside.setMinimumWidth(screen_width - 1);
-
-            //leftside.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0f));
-            //rightside.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0f));
+            leftside.setLayoutParams(new LinearLayout.LayoutParams(screen_width - 1, ViewGroup.LayoutParams.MATCH_PARENT));
+            rightside.setLayoutParams(new LinearLayout.LayoutParams(screen_width - 1, ViewGroup.LayoutParams.MATCH_PARENT));
         } else {
-            leftside.setMinimumWidth(screen_width / 2);
-            rightside.setMinimumWidth((screen_width / 2) - 1);
+            leftside.setLayoutParams(new LinearLayout.LayoutParams(screen_width / 2, ViewGroup.LayoutParams.MATCH_PARENT));
+            rightside.setLayoutParams(new LinearLayout.LayoutParams((screen_width / 2) - 1, ViewGroup.LayoutParams.MATCH_PARENT));
         }
-
 
         if (curPanel == 0){
             //noinspection deprecation
