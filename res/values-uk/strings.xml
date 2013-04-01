@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">datFM</string>
     <string name="app_properties">Властивості</string>
@@ -22,6 +23,7 @@
     <string name="mainmenu_refresh">Оновити</string>
     <string name="mainmenu_favorite">Вибране</string>
     <string name="mainmenu_udev">udev</string>
+    <string name="mainmenu_home">Домашня сторінка</string>
     <string name="mainmenu_settings">Налаштування</string>
     <string name="mainmenu_about">Про додаток</string>
     <string name="mainmenu_exit">Вихід</string>
@@ -38,6 +40,7 @@
     <string name="contextmenu_delete">Видалити</string>
     <string name="contextmenu_share">Відправити</string>
     <string name="contextmenu_properties">Властивості</string>
+    <string name="contextmenu_edit">Редагувати</string>
 
     <!-- Settings -->
     <!-- Settings Groups -->
@@ -47,6 +50,7 @@
     <string name="settings_group_network">Мережа</string>
     <string name="settings_group_dangerous">Небезпечно</string>
     <!-- Settings Elements Title -->
+    <string name="settings_elements_title_theme">Теми</string>
     <string name="settings_elements_title_cp">Панель дій</string>
     <string name="settings_elements_title_appicons">Іконки додатків</string>
     <string name="settings_elements_title_photoicons">Мініатюри для фото</string>
@@ -61,19 +65,28 @@
     <string name="settings_elements_title_small_panel">Маленькі панелі</string>
     <string name="settings_elements_title_cptext">Текст у панелі</string>
     <string name="settings_elements_title_navbar">Адресний рядок</string>
+    <string name="settings_elements_title_single_navbar">Один адресний рядок</string>
+    <string name="settings_elements_title_single_panel">Одна панель</string>
+    <string name="settings_elements_title_force_dual_panel_in_landscape">Примусово дві панелі</string>
+    <string name="settings_elements_title_buttonbar_size">Висота панелі дії</string>
+    <string name="settings_elements_title_pathbar_size">Висота адресного рядка</string>
+    <string name="settings_elements_title_bartext_size">Розмір шрифта панелей</string>
     <string name="settings_elements_title_folder_discription">Опис каталогів</string>
     <string name="settings_elements_title_files_discription">Опис файлів</string>
     <string name="settings_elements_title_panel_discription">Зведення про панель</string>
+    <string name="settings_elements_title_show_date">Показувати дату</string>
     <string name="settings_elements_title_opendir">Відкрити новий каталог</string>
     <string name="settings_elements_title_openarcdir">Відкрити архівні папки</string>
     <string name="settings_elements_title_openarcdir_window">Панель для архівної папки</string>
     <string name="settings_elements_title_savepath">Зберігати шляхи</string>
     <string name="settings_elements_title_focusondir">Фокус на папці</string>
     <string name="settings_elements_title_sambalogin">Авторизація в Samba</string>
+    <string name="settings_elements_title_clear_filecache">Очищення файлового кеша</string>
     <string name="settings_elements_title_kamikaze">Режим Камікадзе</string>
     <string name="settings_elements_title_root">root</string>
     <string name="settings_elements_title_show_hide">Показувати приховані елементи</string>
     <!-- Settings Elements Summary -->
+    <string name="settings_elements_summary_theme">Застосовується після перезапуску програми</string>
     <string name="settings_elements_summary_cp">Показувати завжди</string>
     <string name="settings_elements_summary_appicons">Показувати іконку додатка для APK</string>
     <string name="settings_elements_summary_photoicons">Відображати мініатюри для фото</string>
@@ -88,15 +101,23 @@
     <string name="settings_elements_summary_small_panel">Використовувати маленькі панелі, для телефонів</string>
     <string name="settings_elements_summary_cptext">Показувати написи на кнопках панелі</string>
     <string name="settings_elements_summary_navbar">Показувати адресний рядок нагорі</string>
+    <string name="settings_elements_summary_single_navbar">Показувати тільки активний адресний рядок</string>
+    <string name="settings_elements_summary_single_panel">Показувати тільки активну панель</string>
+    <string name="settings_elements_summary_force_dual_panel_in_landscape">Ігнорувати однопанельний режим в ландшафтній орієнтації</string>
+    <string name="settings_elements_summary_buttonbar_size">Задати висоту панелі дій</string>
+    <string name="settings_elements_summary_pathbar_size">Задати висоту адресного рядка</string>
+    <string name="settings_elements_summary_bartext_size">Вибрати розмір шрифту в панелі дій та адресному рядку</string>
     <string name="settings_elements_summary_folder_discription">Показувати опис для каталогів</string>
     <string name="settings_elements_summary_files_discription">Показувати опис для файлів</string>
     <string name="settings_elements_summary_panel_discription">Показувати інформацію у нижні частині панелі</string>
+    <string name="settings_elements_summary_show_date">Відображати дату в описах</string>
     <string name="settings_elements_summary_opendir">Відкривати нову папку при створенні</string>
     <string name="settings_elements_summary_openarcdir">Відкривати каталог після розпакування архіву</string>
     <string name="settings_elements_summary_openarcdir_window">Відкривати в поточні панелі</string>
     <string name="settings_elements_summary_savepath">Відновити шляхи панелів при старті</string>
     <string name="settings_elements_summary_focusondir">Встановити фокус на поточні папці при натисканні Вгроу</string>
     <string name="settings_elements_summary_sambalogin">Підтримка авторизації для Samba</string>
+    <string name="settings_elements_summary_clear_filecache">Очищати кеш при виході</string>
     <string name="settings_elements_summary_kamikaze">Нічого не питати, просто робити свою роботу</string>
     <string name="settings_elements_summary_root">Використовувати root привілеї</string>
     <string name="settings_elements_summary_show_hide">Показувати приховані елементи в локальних та віддалених каталогах</string>
@@ -106,6 +127,15 @@
     <string name="fileslist_directory">&lt;dir&gt;</string>
     <string name="fileslist_folders_count">Папок:</string>
     <string name="fileslist_files_count">Файлів:</string>
+    <string name="fileslist_file_selected">Виділено:</string>
+    <string name="fileslist_network">Мережа</string>
+    <string name="fileslist_favorites">Вибране</string>
+    <string name="fileslist_memory_card">Карта Пам\'яті</string>
+    <string name="fileslist_root">Root</string>
+    <string name="fileslist_samba">Samba</string>
+    <string name="fileslist_add_favorite">Додати в Обране</string>
+    <string name="fileslist_add_samba">Додати Samba сервер</string>
+    <string name="fileslist_browse_samba">Оглядач smb://</string>
 
     <!-- UI Elements -->
     <!-- Pop-up Dialogs -->
@@ -125,30 +155,47 @@
     <string name="ui_dialog_header_move">файлів і папок буде переміщено</string>
     <string name="ui_dialog_header_delete">файлів і папок буде видалено</string>
     <string name="ui_dialog_header_please_wait">Будь ласка зачекайте...</string>
+    <string name="ui_dialog_operation_current">Поточний:</string>
+    <string name="ui_dialog_operation_overall">Загальний:</string>
     <!-- Pop-up Dialogs other content -->
     <string name="ui_dialog_from">з каталогу:</string>
     <string name="ui_dialog_to">в каталог:</string>
     <string name="ui_dialog_in">в каталозі:</string>
-    <string name="ui_dialog_hint_newfolder">Ім`я нової папки</string>
-    <string name="ui_dialog_hint_archive">Ім`я нового архіву</string>
-    <string name="ui_dialog_hint_rename">Нове ім`я</string>
-    <string name="ui_dialog_archive_archive">Ім`я архіву:</string>
+    <string name="ui_dialog_hint_newfolder">Ім\'я нової папки</string>
+    <string name="ui_dialog_hint_archive">Ім\'я нового архіву</string>
+    <string name="ui_dialog_hint_rename">Нове ім\'я</string>
+    <string name="ui_dialog_archive_archive">Ім\'я архіву:</string>
     <string name="ui_dialog_archive_type">Тип архіву:</string>
     <string name="ui_dialog_archive_level">Ступінь стиснення:</string>
     <string name="ui_dialog_archive_del_after_compress">Видалити файли після упаковки.</string>
-    <string name="ui_dialog_archive_unpack_to_name">Розпакувати в ./Ім`я_архіву/</string>
+    <string name="ui_dialog_archive_unpack_to_name">Розпакувати в ./Ім\'я_архіву/</string>
     <string name="ui_dialog_archive_unpack_to_dir">Розпакувати в поточну дерикторію</string>
     <string name="ui_dialog_archive_unpack_to_user">Вибрати шлях розпакування</string>
+    <string name="ui_dialog_smd_addserver_bookmark_name">Ім\'я закладки</string>
+    <string name="ui_dialog_smd_addserver_ip_hostname">IP/hostname</string>
+    <string name="ui_dialog_smd_addserver_start_dir">Початковий каталог</string>
+    <string name="ui_dialog_smd_addserver_username">Ім\'я користувача</string>
+    <string name="ui_dialog_smd_addserver_password">Пароль</string>
+    <string name="ui_dialog_smd_addserver_domain">Домен</string>
+    <string name="ui_dialog_smd_addserver_secret_key">Ключ шифрування (keychain password)</string>
     <!-- Notification -->
     <string name="notify_copy">об\'єктів скопійовано в:</string>
     <string name="notify_move">об\'єктів переміщено в:</string>
     <string name="notify_newfolder">Нова папка:</string>
     <string name="notify_delete">об\'єктів видалено!</string>
+    <string name="notify_rename">об\'єктів перейменовано!</string>
     <string name="notify_refresh_tab">Вміст панелей оновлено!</string>
     <string name="notify_file_unknown">Невідомий тип файлу!</string>
     <string name="notify_operation_same_folder">Поточний каталог і каталог призначення співпадають!</string>
+    <string name="notify_deselect_before_change_dir">Зніміть виділення, перш ніж змінити каталог!</string>
+    <string name="notify_cant_find_ZA">Для цього потрібно ZArchiver версії 0.6.0 або вище!</string>
+    <string name="notify_unknown_protocol">Невідомий протокол!</string>
+    <string name="notify_logon_error">Помилка авторизації!</string>
+    <string name="notify_access_denied">Доступ заборонено!</string>
+    <string name="notify_connection_error">Помилка з\'єднання!</string>
+    <string name="notify_fav_add_instruction">Використовуйте контекстне меню файлів та каталогів, для додавання в обране</string>
 
     <!-- About -->
-    <string name="about_message">Іконки:\nQuartz Icon Set - Andy Gongea\n\nПерекладачі:\nUK - stigr (Motofan.ru)\nPL - galonpzw (XDA)\nFR - nikwist (XDA)\nDE - Milestone:enotseliM (XDA)\nSK - pvdeejay (XDA), pyler(XDA)\n\nОкрема подяка:\nAnt-ON - за його допомогу\nRamallah - за його допомогу\nИнаре - просто так!</string>
+    <string name="about_message">Іконки:\nІконка додатку - http://iconfactory.com\nІконки файлів - Quartz Icon Set by Andy Gongea\n\nПерекладачі:\nUK - stigr (Motofan.ru)\nPL - galonpzw (XDA)\nFR - nikwist (XDA)\nDE - Milestone:enotseliM (XDA)\nSK - pvdeejay (XDA), pyler(XDA)\nNL - jogai(XDA)\n\nОкрема подяка:\nAnt-ON - за його допомогу\nRamallah - за його допомогу\nИнаре - просто так!</string>
 
 </resources>
