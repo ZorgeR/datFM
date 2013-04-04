@@ -7,17 +7,17 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
-public class datFM_PreferencesCustomCategory extends PreferenceCategory {
-        public datFM_PreferencesCustomCategory(Context context) {
+public class Hook_PrefCustomCategory extends PreferenceCategory {
+        public Hook_PrefCustomCategory(Context context) {
             super(context);
         }
 
-        public datFM_PreferencesCustomCategory(Context context, AttributeSet attrs) {
+        public Hook_PrefCustomCategory(Context context, AttributeSet attrs) {
             super(context, attrs);
         }
 
-        public datFM_PreferencesCustomCategory(Context context, AttributeSet attrs,
-                                               int defStyle) {
+        public Hook_PrefCustomCategory(Context context, AttributeSet attrs,
+                                       int defStyle) {
             super(context, attrs, defStyle);
         }
 

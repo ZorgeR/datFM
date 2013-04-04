@@ -29,7 +29,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.zlab.datFM.datFM_ZA_Interface.*;
+import static com.zlab.datFM.datFM_ZArchiver_IO.*;
 
 public class datFM extends Activity {
 
@@ -37,7 +37,7 @@ public class datFM extends Activity {
     LinearLayout layoutPathPanelLeft, layoutPathPanelRight,layoutButtonPanel,layoutActiveLeft,layoutActiveRight,
             layoutParentPathPanelLeft,layoutParentPathPanelRight,pathBarSpacer;
     LinearLayout leftside,rightside,sideholder;
-    ObservableScrollView sideholderscroll;
+    Hook_ScrollView sideholderscroll;
     static ListView listLeft,listRight;
     TextView textPanelRight,textPanelLeft,textItemsRightSelected,textItemsLeftSelected;
     EditText textCurrentPathLeft, textCurrentPathRight;
@@ -101,7 +101,7 @@ public class datFM extends Activity {
     public static String[] cache_paths;
 
     /** ZArchiver **/
-    datFM_ZA_Interface ZA;
+    datFM_ZArchiver_IO ZA;
 
     /** UI **/
     int horizontal_scroll_percentage;
@@ -149,7 +149,7 @@ public class datFM extends Activity {
         }
 
         /** Интерфейс для ZArchiver **/
-        ZA = new datFM_ZA_Interface(datf_context);
+        ZA = new datFM_ZArchiver_IO(datf_context);
 
         /** Размер экрана **/
         displaymetrics = new DisplayMetrics();
@@ -315,7 +315,7 @@ public class datFM extends Activity {
         }
 
         if(protocol_accepted){
-            new datFM_Protocol_Fetch(this).execute(path, protocols[Panel_ID], String.valueOf(Panel_ID));
+            new datFM_IO_Fetch(this).execute(path, protocols[Panel_ID], String.valueOf(Panel_ID));
         }
     }
     protected void fill_panel(List<datFM_FileInfo> dir, List<datFM_FileInfo> fls,int panel_ID){
@@ -955,9 +955,6 @@ public class datFM extends Activity {
                             AprooveDialog.show();
                         }
                     } else {
-                        /*user=null;
-                        pass=null;
-                        domain=null;*/
                         auth[curPanel]= new NtlmPasswordAuthentication(null,null,null);
                         fill_new(o.getPath(), curPanel);
                     }
@@ -1334,257 +1331,6 @@ public class datFM extends Activity {
     } catch (IOException e) {e.printStackTrace();}
     }
 
-    private void ZA_pack(){
-        AlertDialog.Builder NewArchiveDialog = new AlertDialog.Builder(this);
-        NewArchiveDialog.setTitle(getResources().getString(R.string.ui_dialog_title_archive));
-        LayoutInflater inflater = getLayoutInflater();
-        View layer = inflater.inflate(R.layout.datfm_newarchive,null);
-        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
-
-        final EditText textNewArchiveName = (EditText) layer.findViewById(R.id.textNewArchiveName);
-        final Spinner spinArchType = (Spinner) layer.findViewById(R.id.archiveType);
-        final Spinner spinArchLevel = (Spinner) layer.findViewById(R.id.archiveLevel);
-        final CheckBox checkArchFileToDelete = (CheckBox) layer.findViewById(R.id.archiveCheckDeleteAfterDone);
-        NewArchiveDialog.setView(layer);
-
-        textNewArchiveName.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable arg0) {
-                String name = arg0.toString();
-                String type = spinArchType.getSelectedItem().toString();
-
-                if (name.lastIndexOf(".")!=-1){
-                    if (!name.substring(name.lastIndexOf(".") + 1).equals(type)) {
-                        textNewArchiveName.setText(name.substring(0,name.lastIndexOf(".")) + "." + type);
-                    }
-                } else {
-                    String real_name = "";
-                    String fake_ext;
-
-                    fake_ext = name.substring(name.length()-3);
-                    if(fake_ext.equals("zip") ||
-                            fake_ext.equals("tar")){
-                        real_name = name.substring(0,name.length()-3);}
-
-                    fake_ext=name.substring(name.length()-2);
-                    if(fake_ext.equals("7z")){
-                        real_name = name.substring(0,name.length()-2);}
-
-                    textNewArchiveName.setText(real_name + "." + type);
-                }
-            }
-
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
-            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
-        });
-        spinArchType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> a, View view, int i, long l) {
-                String name = textNewArchiveName.getText().toString();
-                String type = a.getItemAtPosition(i).toString();
-
-                int position = textNewArchiveName.getSelectionStart();
-
-                if(name.lastIndexOf(".")!=0){
-                    if(name.substring(name.lastIndexOf(".") + 1).equals("7z") ||
-                            name.substring(name.lastIndexOf(".") + 1).equals("zip")||
-                            name.substring(name.lastIndexOf(".") + 1).equals("tar")){
-                        textNewArchiveName.setText(name.substring(0,name.lastIndexOf(".")) + "." + type);
-                    } else {
-                        textNewArchiveName.setText(name + "." + type);
-                    }
-                    textNewArchiveName.setSelection(position);
-                } else {
-                    textNewArchiveName.setText("." + type);
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {}
-        });
-
-        NewArchiveDialog.setPositiveButton(getResources().getString(R.string.ui_dialog_btn_ok),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        String newArcName = textNewArchiveName.getText().toString();
-                        if (!newArcName.equals("")){
-                            String newArcType="";
-                            int newArcLevel=0;
-                            String[] FileList=new String[sel];
-
-                            if (spinArchType.getSelectedItem().toString().equals("7z")){
-                                newArcType= datFM_ZA_Interface.ARCHIVE_TYPE_7Z;
-                            } else if (spinArchType.getSelectedItem().toString().equals("zip")){
-                                newArcType= datFM_ZA_Interface.ARCHIVE_TYPE_ZIP;
-                            } else if (spinArchType.getSelectedItem().toString().equals("tar")){
-                                newArcType= datFM_ZA_Interface.ARCHIVE_TYPE_TAR;
-                            }
-
-                            if(spinArchLevel.getSelectedItem().toString().equals("min")){
-                                newArcLevel= datFM_ZA_Interface.COMPRESSION_LAVEL_FAST;
-                            } else if (spinArchLevel.getSelectedItem().toString().equals("mid")){
-                                newArcLevel= datFM_ZA_Interface.COMPRESSION_LAVEL_NORMAL;
-                            } else if (spinArchLevel.getSelectedItem().toString().equals("max")){
-                                newArcLevel= datFM_ZA_Interface.COMPRESSION_LAVEL_MAX;
-                            }
-
-                            int count=0;
-                            for (int i=0;i<selected.length;i++){
-                                if(selected[i]){
-                                    FileList[count]=adapter.getItem(i).getName();
-                                    count++;
-                                }
-                            }
-
-                            if ( !ZA.isSupport() )
-                            {
-                                Toast.makeText(getApplicationContext(),getResources().getString(R.string.notify_cant_find_ZA),Toast.LENGTH_SHORT).show();
-                                //return;
-                            } else {
-                                if(checkArchFileToDelete.isChecked()){
-                                    ZA.setOnActionComplete(new OnActionComplete() {
-                                        @Override
-                                        public void onActionComplete(int iTaskID, int iAction, boolean bSucessful) {
-                                            if(bSucessful){
-                                                action_delete();
-                                            } else {
-                                                Toast.makeText(datf_context,"Pack error!",Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    });
-                                } else {
-                                    ZA.setOnActionComplete(new OnActionComplete() {
-                                        @Override
-                                        public void onActionComplete(int iTaskID, int iAction, boolean bSucessful) {
-                                            if(bSucessful){
-                                                update_tab(0,"","",3);
-                                            } else {
-                                                Toast.makeText(datf_context,"Pack error!",Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    });
-                                }
-                                ZA.CreateArchive(curDir+"/"+newArcName,curDir,FileList, newArcType, newArcLevel);
-                            }
-                        }
-                    }
-                });
-        NewArchiveDialog.setNegativeButton(getResources().getString(R.string.ui_dialog_btn_cancel),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-        AlertDialog NewFolderNameDialog = NewArchiveDialog.create();
-        NewFolderNameDialog.show();
-    }
-    private void ZA_unpack(final String path, final String name){
-
-        AlertDialog.Builder NewArchiveDialog = new AlertDialog.Builder(this);
-        NewArchiveDialog.setTitle(getResources().getString(R.string.ui_dialog_title_archive_extract));
-        LayoutInflater inflater = getLayoutInflater();
-        View layer = inflater.inflate(R.layout.datfm_newfolder,null);
-        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
-
-        final EditText arcExtractPath = (EditText) layer.findViewById(R.id.textNewFolderName);
-
-        ViewGroup v = (ViewGroup) layer.findViewById(R.id.textNewFolderName).getParent();
-        final CheckBox check_in_arcname = new CheckBox(this);
-        final CheckBox check_in_current = new CheckBox(this);
-        final CheckBox check_in_userpath = new CheckBox(this);
-
-        check_in_arcname.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        check_in_current.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        check_in_userpath.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
-        check_in_arcname.setChecked(true);
-        check_in_current.setChecked(false);
-        check_in_userpath.setChecked(false);
-
-        check_in_arcname.setText(getResources().getString(R.string.ui_dialog_archive_unpack_to_name));
-        check_in_current.setText(getResources().getString(R.string.ui_dialog_archive_unpack_to_dir));
-        check_in_userpath.setText(getResources().getString(R.string.ui_dialog_archive_unpack_to_user));
-
-        check_in_arcname.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){check_in_current.setChecked(false);check_in_userpath.setChecked(false);
-                    arcExtractPath.setText(curDir+"/"+name+"/");
-                    arcExtractPath.setEnabled(false);}
-            }
-        });
-        check_in_current.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    check_in_arcname.setChecked(false);
-                    check_in_userpath.setChecked(false);
-                    arcExtractPath.setText(curDir + "/");
-                    arcExtractPath.setEnabled(false);
-                }
-            }
-        });
-        check_in_userpath.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    check_in_arcname.setChecked(false);
-                    check_in_current.setChecked(false);
-                    arcExtractPath.setEnabled(true);
-                }
-            }
-        });
-
-        arcExtractPath.setEnabled(false);
-        v.addView(check_in_arcname);
-        v.addView(check_in_current);
-        v.addView(check_in_userpath);
-
-        arcExtractPath.setText(curDir+"/"+name+"/");
-        NewArchiveDialog.setView(layer);
-
-        NewArchiveDialog.setPositiveButton(getResources().getString(R.string.ui_dialog_btn_ok),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        final String newArcPath = arcExtractPath.getText().toString();
-                        if (!newArcPath.equals("")){
-
-                            if ( !ZA.isSupport() )
-                            {
-                                Toast.makeText(datf_context,getResources().getString(R.string.notify_cant_find_ZA),Toast.LENGTH_SHORT).show();
-                                //return;
-                            } else {
-                                ZA.setOnActionComplete(new OnActionComplete() {
-                                    @Override
-                                    public void onActionComplete(int iTaskID, int iAction, boolean bSucessful) {
-                                        if(bSucessful){
-                                            if(pref_open_arcdir){
-                                                if (pref_open_arcdir_window){
-                                                    fill_new(newArcPath, curPanel);
-                                                } else {
-                                                    fill_new(newArcPath, competPanel);
-                                                }
-                                            } else {
-                                            }
-                                        } else {
-                                            Toast.makeText(datf_context,"Unpack error!",Toast.LENGTH_SHORT).show();
-                                        }
-                                        update_tab(0,"","",3);
-                                    }
-                                });
-
-                                ZA.ExtractArchive(path, newArcPath);
-                            }
-                        }
-                    }
-                });
-        NewArchiveDialog.setNegativeButton(getResources().getString(R.string.ui_dialog_btn_cancel),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-        AlertDialog NewFolderNameDialog = NewArchiveDialog.create();
-        NewFolderNameDialog.show();
-    }
-
     private void init_UI() {
         listLeft = (ListView) findViewById(R.id.listLeft);
         listRight = (ListView) findViewById(R.id.listRight);
@@ -1607,7 +1353,7 @@ public class datFM extends Activity {
             leftside = (LinearLayout) findViewById(R.id.leftside);
             rightside = (LinearLayout) findViewById(R.id.rightside);
             sideholder = (LinearLayout) findViewById(R.id.sideholder);
-            sideholderscroll = (ObservableScrollView) findViewById(R.id.sideholderscroll);
+            sideholderscroll = (Hook_ScrollView) findViewById(R.id.sideholderscroll);
             sideholderscroll.setHorizontalFadingEdgeEnabled(false);
 
         btnShare = (LinearLayout) findViewById(R.id.btnShare);
@@ -1889,9 +1635,9 @@ public class datFM extends Activity {
                 }
             });
 
-            sideholderscroll.setScrollViewListener(new datFM_ScrollViewListenear() {
+            sideholderscroll.setScrollViewListener(new Hook_ScrollViewListener() {
                 @Override
-                public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
+                public void onScrollChanged(Hook_ScrollView scrollView, int x, int y, int oldx, int oldy) {
                     horizontal_scroll_percentage = x*100/screen_width;
                 }
             });
@@ -1922,22 +1668,6 @@ public class datFM extends Activity {
             }
             update_panel_focus();
         }
-    }
-
-    private void path_unfocused(){
-        if (textCurrentPathRight.isFocused()){
-            textCurrentPathRight.clearFocus();
-            path_kb_close(textCurrentPathRight);
-        }
-        if (textCurrentPathLeft.isFocused()){
-            textCurrentPathLeft.clearFocus();
-            path_kb_close(textCurrentPathLeft);
-        }
-    }
-    private void path_kb_close(EditText et){
-        InputMethodManager imm = (InputMethodManager)getSystemService(
-                Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
     }
 
     private void pref_getter(){
@@ -2120,6 +1850,62 @@ public class datFM extends Activity {
 
     }
 
+    public static void notify_toast(String msg,boolean err){
+        Toast toast = Toast.makeText(datFM_state, msg, Toast.LENGTH_LONG);
+        View view2 = toast.getView();
+
+        if(err){
+        view2.setBackgroundResource(R.drawable.toast_err);
+        } else {
+        view2.setBackgroundResource(R.drawable.toast_sec);
+        }
+
+        TextView text = (TextView) view2.findViewById(android.R.id.message);
+        text.setTextColor(Color.BLACK);
+        text.setShadowLayer(0,0,0,0);
+        toast.show();
+    }
+    private void firstAlertShow(){
+        AlertDialog.Builder action_dialog = new AlertDialog.Builder(this);
+        action_dialog.setTitle("Alert");
+        LayoutInflater inflater = getLayoutInflater();
+        View layer = inflater.inflate(R.layout.datfm_firstalert,null);
+
+        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+
+        action_dialog.setView(layer);
+        action_dialog.setPositiveButton(getResources().getString(R.string.ui_dialog_btn_ok),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        prefs.edit().putBoolean("firstAlert", false).commit();
+                    }
+                });
+        action_dialog.setNegativeButton(getResources().getString(R.string.ui_dialog_btn_cancel),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+
+        AlertDialog AprooveDialog = action_dialog.create();
+        AprooveDialog.show();
+    }
+
+    private void path_unfocused(){
+        if (textCurrentPathRight.isFocused()){
+            textCurrentPathRight.clearFocus();
+            path_kb_close(textCurrentPathRight);
+        }
+        if (textCurrentPathLeft.isFocused()){
+            textCurrentPathLeft.clearFocus();
+            path_kb_close(textCurrentPathLeft);
+        }
+    }
+    private void path_kb_close(EditText et){
+        InputMethodManager imm = (InputMethodManager)getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
+    }
     private void ui_change_on_action(){
         if (getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
             //int size_in_dp = 8;
@@ -2169,45 +1955,255 @@ public class datFM extends Activity {
         textCurrentPathRight.setTextSize(size+2);
     }
 
-    private void firstAlertShow(){
-        AlertDialog.Builder action_dialog = new AlertDialog.Builder(this);
-        action_dialog.setTitle("Alert");
+    private void ZA_pack(){
+        AlertDialog.Builder NewArchiveDialog = new AlertDialog.Builder(this);
+        NewArchiveDialog.setTitle(getResources().getString(R.string.ui_dialog_title_archive));
         LayoutInflater inflater = getLayoutInflater();
-        View layer = inflater.inflate(R.layout.datfm_firstalert,null);
-
+        View layer = inflater.inflate(R.layout.datfm_newarchive,null);
         if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
 
-        action_dialog.setView(layer);
-        action_dialog.setPositiveButton(getResources().getString(R.string.ui_dialog_btn_ok),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        prefs.edit().putBoolean("firstAlert", false).commit();
-                    }
-                });
-        action_dialog.setNegativeButton(getResources().getString(R.string.ui_dialog_btn_cancel),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                });
+        final EditText textNewArchiveName = (EditText) layer.findViewById(R.id.textNewArchiveName);
+        final Spinner spinArchType = (Spinner) layer.findViewById(R.id.archiveType);
+        final Spinner spinArchLevel = (Spinner) layer.findViewById(R.id.archiveLevel);
+        final CheckBox checkArchFileToDelete = (CheckBox) layer.findViewById(R.id.archiveCheckDeleteAfterDone);
+        NewArchiveDialog.setView(layer);
 
-        AlertDialog AprooveDialog = action_dialog.create();
-        AprooveDialog.show();
+        textNewArchiveName.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable arg0) {
+                String name = arg0.toString();
+                String type = spinArchType.getSelectedItem().toString();
+
+                if (name.lastIndexOf(".")!=-1){
+                    if (!name.substring(name.lastIndexOf(".") + 1).equals(type)) {
+                        textNewArchiveName.setText(name.substring(0,name.lastIndexOf(".")) + "." + type);
+                    }
+                } else {
+                    String real_name = "";
+                    String fake_ext;
+
+                    fake_ext = name.substring(name.length()-3);
+                    if(fake_ext.equals("zip") ||
+                            fake_ext.equals("tar")){
+                        real_name = name.substring(0,name.length()-3);}
+
+                    fake_ext=name.substring(name.length()-2);
+                    if(fake_ext.equals("7z")){
+                        real_name = name.substring(0,name.length()-2);}
+
+                    textNewArchiveName.setText(real_name + "." + type);
+                }
+            }
+
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
+        });
+        spinArchType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> a, View view, int i, long l) {
+                String name = textNewArchiveName.getText().toString();
+                String type = a.getItemAtPosition(i).toString();
+
+                int position = textNewArchiveName.getSelectionStart();
+
+                if(name.lastIndexOf(".")!=0){
+                    if(name.substring(name.lastIndexOf(".") + 1).equals("7z") ||
+                            name.substring(name.lastIndexOf(".") + 1).equals("zip")||
+                            name.substring(name.lastIndexOf(".") + 1).equals("tar")){
+                        textNewArchiveName.setText(name.substring(0,name.lastIndexOf(".")) + "." + type);
+                    } else {
+                        textNewArchiveName.setText(name + "." + type);
+                    }
+                    textNewArchiveName.setSelection(position);
+                } else {
+                    textNewArchiveName.setText("." + type);
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {}
+        });
+
+        NewArchiveDialog.setPositiveButton(getResources().getString(R.string.ui_dialog_btn_ok),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        String newArcName = textNewArchiveName.getText().toString();
+                        if (!newArcName.equals("")){
+                            String newArcType="";
+                            int newArcLevel=0;
+                            String[] FileList=new String[sel];
+
+                            if (spinArchType.getSelectedItem().toString().equals("7z")){
+                                newArcType= datFM_ZArchiver_IO.ARCHIVE_TYPE_7Z;
+                            } else if (spinArchType.getSelectedItem().toString().equals("zip")){
+                                newArcType= datFM_ZArchiver_IO.ARCHIVE_TYPE_ZIP;
+                            } else if (spinArchType.getSelectedItem().toString().equals("tar")){
+                                newArcType= datFM_ZArchiver_IO.ARCHIVE_TYPE_TAR;
+                            }
+
+                            if(spinArchLevel.getSelectedItem().toString().equals("min")){
+                                newArcLevel= datFM_ZArchiver_IO.COMPRESSION_LAVEL_FAST;
+                            } else if (spinArchLevel.getSelectedItem().toString().equals("mid")){
+                                newArcLevel= datFM_ZArchiver_IO.COMPRESSION_LAVEL_NORMAL;
+                            } else if (spinArchLevel.getSelectedItem().toString().equals("max")){
+                                newArcLevel= datFM_ZArchiver_IO.COMPRESSION_LAVEL_MAX;
+                            }
+
+                            int count=0;
+                            for (int i=0;i<selected.length;i++){
+                                if(selected[i]){
+                                    FileList[count]=adapter.getItem(i).getName();
+                                    count++;
+                                }
+                            }
+
+                            if ( !ZA.isSupport() )
+                            {
+                                Toast.makeText(getApplicationContext(),getResources().getString(R.string.notify_cant_find_ZA),Toast.LENGTH_SHORT).show();
+                                //return;
+                            } else {
+                                if(checkArchFileToDelete.isChecked()){
+                                    ZA.setOnActionComplete(new OnActionComplete() {
+                                        @Override
+                                        public void onActionComplete(int iTaskID, int iAction, boolean bSucessful) {
+                                            if(bSucessful){
+                                                action_delete();
+                                            } else {
+                                                Toast.makeText(datf_context,"Pack error!",Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    ZA.setOnActionComplete(new OnActionComplete() {
+                                        @Override
+                                        public void onActionComplete(int iTaskID, int iAction, boolean bSucessful) {
+                                            if(bSucessful){
+                                                update_tab(0,"","",3);
+                                            } else {
+                                                Toast.makeText(datf_context,"Pack error!",Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                                }
+                                ZA.CreateArchive(curDir+"/"+newArcName,curDir,FileList, newArcType, newArcLevel);
+                            }
+                        }
+                    }
+                });
+        NewArchiveDialog.setNegativeButton(getResources().getString(R.string.ui_dialog_btn_cancel),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+        AlertDialog NewFolderNameDialog = NewArchiveDialog.create();
+        NewFolderNameDialog.show();
     }
-    public static void notify_toast(String msg,boolean err){
-        Toast toast = Toast.makeText(datFM_state, msg, Toast.LENGTH_LONG);
-        View view2 = toast.getView();
+    private void ZA_unpack(final String path, final String name){
 
-        if(err){
-        view2.setBackgroundResource(R.drawable.toast_err);
-        } else {
-        view2.setBackgroundResource(R.drawable.toast_sec);
-        }
+        AlertDialog.Builder NewArchiveDialog = new AlertDialog.Builder(this);
+        NewArchiveDialog.setTitle(getResources().getString(R.string.ui_dialog_title_archive_extract));
+        LayoutInflater inflater = getLayoutInflater();
+        View layer = inflater.inflate(R.layout.datfm_newfolder,null);
+        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
 
-        TextView text = (TextView) view2.findViewById(android.R.id.message);
-        text.setTextColor(Color.BLACK);
-        text.setShadowLayer(0,0,0,0);
-        toast.show();
+        final EditText arcExtractPath = (EditText) layer.findViewById(R.id.textNewFolderName);
+
+        ViewGroup v = (ViewGroup) layer.findViewById(R.id.textNewFolderName).getParent();
+        final CheckBox check_in_arcname = new CheckBox(this);
+        final CheckBox check_in_current = new CheckBox(this);
+        final CheckBox check_in_userpath = new CheckBox(this);
+
+        check_in_arcname.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        check_in_current.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        check_in_userpath.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        check_in_arcname.setChecked(true);
+        check_in_current.setChecked(false);
+        check_in_userpath.setChecked(false);
+
+        check_in_arcname.setText(getResources().getString(R.string.ui_dialog_archive_unpack_to_name));
+        check_in_current.setText(getResources().getString(R.string.ui_dialog_archive_unpack_to_dir));
+        check_in_userpath.setText(getResources().getString(R.string.ui_dialog_archive_unpack_to_user));
+
+        check_in_arcname.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){check_in_current.setChecked(false);check_in_userpath.setChecked(false);
+                    arcExtractPath.setText(curDir+"/"+name+"/");
+                    arcExtractPath.setEnabled(false);}
+            }
+        });
+        check_in_current.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    check_in_arcname.setChecked(false);
+                    check_in_userpath.setChecked(false);
+                    arcExtractPath.setText(curDir + "/");
+                    arcExtractPath.setEnabled(false);
+                }
+            }
+        });
+        check_in_userpath.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    check_in_arcname.setChecked(false);
+                    check_in_current.setChecked(false);
+                    arcExtractPath.setEnabled(true);
+                }
+            }
+        });
+
+        arcExtractPath.setEnabled(false);
+        v.addView(check_in_arcname);
+        v.addView(check_in_current);
+        v.addView(check_in_userpath);
+
+        arcExtractPath.setText(curDir+"/"+name+"/");
+        NewArchiveDialog.setView(layer);
+
+        NewArchiveDialog.setPositiveButton(getResources().getString(R.string.ui_dialog_btn_ok),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        final String newArcPath = arcExtractPath.getText().toString();
+                        if (!newArcPath.equals("")){
+
+                            if ( !ZA.isSupport() )
+                            {
+                                Toast.makeText(datf_context,getResources().getString(R.string.notify_cant_find_ZA),Toast.LENGTH_SHORT).show();
+                                //return;
+                            } else {
+                                ZA.setOnActionComplete(new OnActionComplete() {
+                                    @Override
+                                    public void onActionComplete(int iTaskID, int iAction, boolean bSucessful) {
+                                        if(bSucessful){
+                                            if(pref_open_arcdir){
+                                                if (pref_open_arcdir_window){
+                                                    fill_new(newArcPath, curPanel);
+                                                } else {
+                                                    fill_new(newArcPath, competPanel);
+                                                }
+                                            } else {
+                                            }
+                                        } else {
+                                            Toast.makeText(datf_context,"Unpack error!",Toast.LENGTH_SHORT).show();
+                                        }
+                                        update_tab(0,"","",3);
+                                    }
+                                });
+
+                                ZA.ExtractArchive(path, newArcPath);
+                            }
+                        }
+                    }
+                });
+        NewArchiveDialog.setNegativeButton(getResources().getString(R.string.ui_dialog_btn_cancel),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+        AlertDialog NewFolderNameDialog = NewArchiveDialog.create();
+        NewFolderNameDialog.show();
     }
     private void RunAsRoot(String[] cmds){
         try {

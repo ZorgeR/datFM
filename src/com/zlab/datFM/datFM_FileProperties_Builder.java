@@ -15,10 +15,6 @@ public class datFM_FileProperties_Builder extends AsyncTask<ArrayList<datFM_File
         datFM_FileProperties.prop_size_progress.setVisibility(View.VISIBLE);
         super.onPreExecute();
     }
-    /*
-    protected void onProgressUpdate(Long values) {
-        //datFM_FileProperties.datFM_Properties_state.recall_size(values);
-    }        */
 
     @Override
     protected String doInBackground(ArrayList<datFM_FileInfo>... list) {

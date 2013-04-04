@@ -128,7 +128,7 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-    <com.zlab.datFM.ObservableScrollView
+    <com.zlab.datFM.Hook_ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:id="@+id/sideholderscroll" android:layout_weight="1">
@@ -188,7 +188,7 @@
                           android:background="@drawable/dialog_full_holo_light"/>
             </LinearLayout>
         </LinearLayout>
-    </com.zlab.datFM.ObservableScrollView>
+    </com.zlab.datFM.Hook_ScrollView>
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"

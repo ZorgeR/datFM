@@ -4,23 +4,23 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.HorizontalScrollView;
 
-public class ObservableScrollView extends HorizontalScrollView {
+public class Hook_ScrollView extends HorizontalScrollView {
 
-    private datFM_ScrollViewListenear scrollViewListener = null;
+    private Hook_ScrollViewListener scrollViewListener = null;
 
-    public ObservableScrollView(Context context) {
+    public Hook_ScrollView(Context context) {
         super(context);
     }
 
-    public ObservableScrollView(Context context, AttributeSet attrs, int defStyle) {
+    public Hook_ScrollView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
-    public ObservableScrollView(Context context, AttributeSet attrs) {
+    public Hook_ScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public void setScrollViewListener(datFM_ScrollViewListenear scrollViewListener) {
+    public void setScrollViewListener(Hook_ScrollViewListener scrollViewListener) {
         this.scrollViewListener = scrollViewListener;
     }
 

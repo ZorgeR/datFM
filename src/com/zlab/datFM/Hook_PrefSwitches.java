@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Switch;
 
-public class datFM_SwitchPreference extends SwitchPreference {
+public class Hook_PrefSwitches extends SwitchPreference {
 
         /**
          * Construct a new SwitchPreference with the given style options.
@@ -16,7 +16,7 @@ public class datFM_SwitchPreference extends SwitchPreference {
          * @param attrs Style attributes that differ from the default
          * @param defStyle Theme attribute defining the default style options
          */
-        public datFM_SwitchPreference(Context context, AttributeSet attrs, int defStyle) {
+        public Hook_PrefSwitches(Context context, AttributeSet attrs, int defStyle) {
             super(context, attrs, defStyle);
         }
 
@@ -26,7 +26,7 @@ public class datFM_SwitchPreference extends SwitchPreference {
          * @param context The Context that will style this preference
          * @param attrs Style attributes that differ from the default
          */
-        public datFM_SwitchPreference(Context context, AttributeSet attrs) {
+        public Hook_PrefSwitches(Context context, AttributeSet attrs) {
             super(context, attrs);
         }
 
@@ -35,7 +35,7 @@ public class datFM_SwitchPreference extends SwitchPreference {
          *
          * @param context The Context that will style this preference
          */
-        public datFM_SwitchPreference(Context context) {
+        public Hook_PrefSwitches(Context context) {
             super(context, null);
         }
 

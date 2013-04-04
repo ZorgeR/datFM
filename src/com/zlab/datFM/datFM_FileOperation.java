@@ -195,7 +195,6 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
 
             return true;
         }
-
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
 
@@ -274,11 +273,6 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
         boolean success=false;
         try {success=new datFM_IO(src,srcPannelID).rename(new_name);
         } catch (IOException e) {e.printStackTrace();}
-        /*
-        if(!success){
-            success=protocol_move(src,new_name);
-        }
-        */
         return success;
     }
     private boolean protocol_newfolder(String newfolder){
@@ -365,7 +359,6 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
                 }
             }
         }
-
         return success;
     }
     private void    root_newfolder(String path){
