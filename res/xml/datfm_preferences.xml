@@ -48,10 +48,10 @@
         </PreferenceCategory>
     </PreferenceScreen>
     <PreferenceScreen android:title="@string/settings_group_dangerous">
-        <com.zlab.datFM.datFM_Preferences_Category android:title="@string/settings_group_dangerous" android:key="dangerous_title">
+        <com.zlab.datFM.datFM_PreferencesCustomCategory android:title="@string/settings_group_dangerous" android:key="dangerous_title">
             <CheckBoxPreference android:title="@string/settings_elements_title_kamikaze" android:summary="@string/settings_elements_summary_kamikaze" android:key="pref_kamikaze" android:defaultValue="false" />
             <CheckBoxPreference android:title="@string/settings_elements_title_root" android:summary="@string/settings_elements_summary_root" android:key="pref_root" android:defaultValue="false" />
             <CheckBoxPreference android:title="@string/settings_elements_title_show_hide" android:summary="@string/settings_elements_summary_show_hide" android:key="pref_show_hide" android:defaultValue="false" />
-        </com.zlab.datFM.datFM_Preferences_Category>
+        </com.zlab.datFM.datFM_PreferencesCustomCategory>
     </PreferenceScreen>
 </PreferenceScreen>

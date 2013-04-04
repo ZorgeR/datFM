@@ -9,8 +9,8 @@ import android.provider.MediaStore;
 
 public class datFM_IconGenerator_VIDEO extends AsyncTask<String, Void, Drawable> {
     Bitmap videoBitmap;
-    public datFM_Adaptor activity;
-    public datFM_IconGenerator_VIDEO(datFM_Adaptor a)
+    public datFM_FileListAdaptor activity;
+    public datFM_IconGenerator_VIDEO(datFM_FileListAdaptor a)
     {
         activity = a;
     }

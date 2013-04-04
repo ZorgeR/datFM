@@ -6,19 +6,17 @@ import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.util.List;
 
-public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
+public class datFM_FileListAdaptor extends ArrayAdapter<datFM_FileInfo> {
 
     private Context c;
     private int id;
-    private List<datFM_FileInformation> items;
+    private List<datFM_FileInfo> items;
     private boolean[] sel;
 
     TextView text_FileName;
@@ -28,7 +26,7 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
     int resID;
     int PanelID;
 
-    public datFM_Adaptor(Context context, int LayoutID, List<datFM_FileInformation> objects, boolean[] selected,int panelID) {
+    public datFM_FileListAdaptor(Context context, int LayoutID, List<datFM_FileInfo> objects, boolean[] selected, int panelID) {
         super(context, LayoutID, objects);
         c = context;
         id = LayoutID;
@@ -37,7 +35,7 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
         PanelID = panelID;
     }
 
-    public datFM_FileInformation getItem(int i)
+    public datFM_FileInfo getItem(int i)
     {
         return items.get(i);
     }
@@ -56,7 +54,7 @@ public class datFM_Adaptor extends ArrayAdapter<datFM_FileInformation> {
             v = vi.inflate(id, null);
         }
 
-        final datFM_FileInformation o = items.get(position);
+        final datFM_FileInfo o = items.get(position);
 
         if (o != null) {
             text_FileName = (TextView) v.findViewById(R.id.textFileName);

@@ -2,7 +2,6 @@ package com.zlab.datFM;
 
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.ClipboardManager;
@@ -16,11 +15,10 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class datFM_Properties extends Activity {
+public class datFM_FileProperties extends Activity {
 
     /** UI **/
     EditText prop_name,prop_type,prop_path,prop_date;
@@ -37,7 +35,7 @@ public class datFM_Properties extends Activity {
     /** FLAG */
 
     /** Data **/
-    ArrayList<datFM_FileInformation> paths;
+    ArrayList<datFM_FileInfo> paths;
     int count;
     String file;
     String ext,name,real_name,parent_dir,date,mimeType;
@@ -186,7 +184,7 @@ public class datFM_Properties extends Activity {
         parent_dir = paths.get(0).getParent();
 
         /** Size **/
-        new datFM_Properties_Operation().execute(paths);
+        new datFM_FileProperties_Builder().execute(paths);
 
         /** Date **/
         SimpleDateFormat sdf = new SimpleDateFormat("d MMMM yyyy',' H:mm");
@@ -390,7 +388,7 @@ public class datFM_Properties extends Activity {
                 }
                 break;}
             case R.id.prop_btn_calc_md5: {
-                new datFM_Properties_md5sum().execute(file);
+                new datFM_FileProperties_md5sum().execute(file);
                 break;}
         }
     }

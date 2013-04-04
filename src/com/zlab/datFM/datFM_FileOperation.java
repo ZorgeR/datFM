@@ -101,7 +101,7 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
             } else {
 
                 boolean[] selectionHolder = activity.selected.clone();
-                List<datFM_FileInformation> adaptorHolder = activity.adapter.getAllItems();
+                List<datFM_FileInfo> adaptorHolder = activity.adapter.getAllItems();
 
                 if(operation.equals("copy")){
                     mHandler.post(new Runnable() {
@@ -113,7 +113,7 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
                     dialog_operation.setTitle(datFM.datf_context.getResources().getString(R.string.ui_dialog_title_copy));
                     for (int i=1;i<selectionHolder.length;i++){
                         if (selectionHolder[i]){
-                            datFM_FileInformation from = adaptorHolder.get(i);
+                            datFM_FileInfo from = adaptorHolder.get(i);
                             boolean success = protocol_copy(from.getPath(), destDir + "/" + from.getName());
                             if (success) {count++;onProgressUpdate(count);}
                         }
@@ -122,7 +122,7 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
                     dialog_operation.setTitle(datFM.datf_context.getResources().getString(R.string.ui_dialog_title_delete));
                     for (int i=1;i<selectionHolder.length;i++){
                         if (selectionHolder[i]){
-                            datFM_FileInformation from = adaptorHolder.get(i);
+                            datFM_FileInfo from = adaptorHolder.get(i);
                             boolean success=false;
 
                             if (from.getType().equals("dir") || from.getType().equals("file") ){
@@ -147,7 +147,7 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
                     dialog_operation.setTitle(datFM.datf_context.getResources().getString(R.string.ui_dialog_title_move));
                     for (int i=1;i<selectionHolder.length;i++){
                         if (selectionHolder[i]){
-                            datFM_FileInformation from = adaptorHolder.get(i);
+                            datFM_FileInfo from = adaptorHolder.get(i);
                             boolean success = protocol_move(from.getPath(), destDir + "/" + from.getName());
                             if (success) {count++;onProgressUpdate(count);}
                         }
@@ -161,7 +161,7 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
                     if (!mask.equals("true")){
                         for (int i=1;i<selectionHolder.length;i++){
                             if (selectionHolder[i]){
-                                datFM_FileInformation from = adaptorHolder.get(i);
+                                datFM_FileInfo from = adaptorHolder.get(i);
                                 boolean success = protocol_rename(from.getPath(), srcDir+"/"+new_name);
                                 if (success) {count++;onProgressUpdate(count);}
                             }
@@ -169,7 +169,7 @@ public class datFM_FileOperation extends AsyncTask<String, Void, Boolean> {
                     } else {
                         for (int i=1;i<selectionHolder.length;i++){
                             if (selectionHolder[i]){
-                                datFM_FileInformation from = adaptorHolder.get(i);
+                                datFM_FileInfo from = adaptorHolder.get(i);
                                 boolean success;
                                 if (from.getType().equals("file")){
                                     int dotPos = from.getName().lastIndexOf(".")+1;

@@ -5,7 +5,7 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 
-public class datFM_RootFile extends File  {
+public class z_datFM_RootFile extends File  {
 
     private String path;
     private String name;
@@ -13,7 +13,7 @@ public class datFM_RootFile extends File  {
     private String permission;
     private Long lenght;
 
-    public datFM_RootFile(String dirPath, String name) {
+    public z_datFM_RootFile(String dirPath, String name) {
         super(dirPath, name);
         path=dirPath+"/"+name;
 

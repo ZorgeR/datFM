@@ -59,12 +59,12 @@ public class datFM extends Activity {
     static int color_item_selected;
     LinearLayout btnUPleft, btnUPright;
     static NtlmPasswordAuthentication[] auth = new NtlmPasswordAuthentication[2];
-    static ArrayList<datFM_FileInformation> properties_array;
+    static ArrayList<datFM_FileInfo> properties_array;
 
     /** VARS FOR OPERATION**/
     static int sel;
     boolean[] selected;
-    static datFM_Adaptor adapter;
+    static datFM_FileListAdaptor adapter;
     static String destDir,curDir;
     TextView itemsSelected,textPanel;
 
@@ -73,7 +73,7 @@ public class datFM extends Activity {
     public static Context datf_context;
 
     /** VARS HOLDER FOR TAB **/
-    protected datFM_Adaptor adapterLeft, adapterRight;
+    protected datFM_FileListAdaptor adapterLeft, adapterRight;
 
     /** VARS PREFS **/
     public SharedPreferences prefs;
@@ -318,7 +318,7 @@ public class datFM extends Activity {
             new datFM_Protocol_Fetch(this).execute(path, protocols[Panel_ID], String.valueOf(Panel_ID));
         }
     }
-    protected void fill_panel(List<datFM_FileInformation> dir, List<datFM_FileInformation> fls,int panel_ID){
+    protected void fill_panel(List<datFM_FileInfo> dir, List<datFM_FileInfo> fls,int panel_ID){
         curPanel = panel_ID;
         if(panel_ID==0){competPanel=1;}else{competPanel=0;}
 
@@ -327,20 +327,20 @@ public class datFM extends Activity {
                 String[] parent_data=new datFM_IO(curentLeftDir,curPanel).getParent();
                 parent_left = parent_data[0];
                 String data = parent_data[2];
-                    dir.add(0,new datFM_FileInformation("..",parent_left,0,protocols[0],parent_data[1], data, parent_left, 0));
+                    dir.add(0,new datFM_FileInfo("..",parent_left,0,protocols[0],parent_data[1], data, parent_left, 0));
                 }
         } else {
             if(!curentRightDir.equals("datFM://")){
                 String[] parent_data=new datFM_IO(curentRightDir,curPanel).getParent();
                 parent_right = parent_data[0];
                 String data = parent_data[2];
-                dir.add(0,new datFM_FileInformation("..",parent_right,0,protocols[1],parent_data[1], data, parent_right, 0));
+                dir.add(0,new datFM_FileInfo("..",parent_right,0,protocols[1],parent_data[1], data, parent_right, 0));
             }
         }
 
         if (panel_ID==0){
             selectedLeft = new boolean[dir.size()];
-            adapterLeft = new datFM_Adaptor(datFM.this,R.layout.datfm_list,dir,selectedLeft,curPanel);
+            adapterLeft = new datFM_FileListAdaptor(datFM.this,R.layout.datfm_list,dir,selectedLeft,curPanel);
             listLeft.setAdapter(adapterLeft);
             textPanelLeft.setText(
                     getResources().getString(R.string.fileslist_folders_count)+(dir.size()-fls.size()-1)+", "+
@@ -351,7 +351,7 @@ public class datFM extends Activity {
                 if (prevName.equals(adapterLeft.getItem(i).getName())){listLeft.setSelection(i);prevName="";}}}
         } else {
             selectedRight = new boolean[dir.size()];
-            adapterRight = new datFM_Adaptor(datFM.this,R.layout.datfm_list,dir,selectedRight,curPanel);
+            adapterRight = new datFM_FileListAdaptor(datFM.this,R.layout.datfm_list,dir,selectedRight,curPanel);
             listRight.setAdapter(adapterRight);
             textPanelRight.setText(
                     getResources().getString(R.string.fileslist_folders_count)+(dir.size()-fls.size()-1)+", "+
@@ -538,7 +538,7 @@ public class datFM extends Activity {
             }
         }
     }
-    protected void onFileClick(datFM_FileInformation o){
+    protected void onFileClick(datFM_FileInfo o){
         if(o.getType().equals("file")){
             openFile(o.getPath(), o.getName(), o.getExt());
         } else if (o.getType().equals("parent_dir")){
@@ -563,7 +563,7 @@ public class datFM extends Activity {
             }
         }
     }
-    protected void onFileClickLong(datFM_FileInformation o, int position){
+    protected void onFileClickLong(datFM_FileInfo o, int position){
         update_operation_vars();
         if(     o.getType().equals("file") ||
                 o.getType().equals("dir")  ||
@@ -770,7 +770,7 @@ public class datFM extends Activity {
         AlertDialog AprooveDialog = action_dialog.create();
         AprooveDialog.show();
     }
-    private void action_fav_new(final datFM_FileInformation o){
+    private void action_fav_new(final datFM_FileInfo o){
         AlertDialog.Builder action_dialog = new AlertDialog.Builder(this);
         action_dialog.setTitle(getResources().getString(R.string.fileslist_favorites));
         LayoutInflater inflater = getLayoutInflater();
@@ -888,7 +888,7 @@ public class datFM extends Activity {
         AlertDialog AprooveDialog = action_dialog.create();
         AprooveDialog.show();
     }
-    private void action_smb_openserver(final datFM_FileInformation o){
+    private void action_smb_openserver(final datFM_FileInfo o){
         File dirs = getFilesDir();
         for(File ff : dirs.listFiles()){
             String name = ff.getName().replace("smb_data_","");
@@ -1186,7 +1186,7 @@ public class datFM extends Activity {
         if (sel==1){
             for (int i=1;i<selected.length;i++){
                 if (selected[i]){
-                    datFM_FileInformation from = adapter.getItem(i);
+                    datFM_FileInfo from = adapter.getItem(i);
                     File sending_file = new File(from.getPath());
 
                     if (sending_file.isFile()){
@@ -1218,7 +1218,7 @@ public class datFM extends Activity {
 
             for (int i=1;i<selected.length;i++){
                 if (selected[i]){
-                    datFM_FileInformation from = adapter.getItem(i);
+                    datFM_FileInfo from = adapter.getItem(i);
                     File sending_file = new File (from.getPath());
 
                     if (sending_file.isFile()){
@@ -1311,19 +1311,19 @@ public class datFM extends Activity {
         update_operation_vars();
     }  /** Использовать Current Panel, вместо panelID **/
     private void action_properties(int pos){
-        Intent properties = new Intent(datFM.datf_context, com.zlab.datFM.datFM_Properties.class);
-        properties_array = new ArrayList<datFM_FileInformation>();
+        Intent properties = new Intent(datFM.datf_context, datFM_FileProperties.class);
+        properties_array = new ArrayList<datFM_FileInfo>();
 
         boolean sec = false;
         for (int i=1;i<selected.length;i++){
             if (selected[i]){
-                datFM_FileInformation from = adapter.getItem(i);
+                datFM_FileInfo from = adapter.getItem(i);
                 properties_array.add(from);
                 sec = true;
             }
         }
         if(!sec){
-            datFM_FileInformation from = adapter.getItem(pos);
+            datFM_FileInfo from = adapter.getItem(pos);
             properties_array.add(from);
         }
 
@@ -1815,7 +1815,7 @@ public class datFM extends Activity {
         listLeft.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
-                datFM_FileInformation o = adapterLeft.getItem(position);
+                datFM_FileInfo o = adapterLeft.getItem(position);
                 curPanel=0;
                 if (selLeft!=0){
                     onFileClickLong(o, position); // folder */
@@ -1828,7 +1828,7 @@ public class datFM extends Activity {
         listRight.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
-                datFM_FileInformation o = adapterRight.getItem(position);
+                datFM_FileInfo o = adapterRight.getItem(position);
                 curPanel = 1;
                 if (selRight!=0){
                     onFileClickLong(o, position); // folder */
@@ -1841,7 +1841,7 @@ public class datFM extends Activity {
         listLeft.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
-                datFM_FileInformation o = adapterLeft.getItem(position);
+                datFM_FileInfo o = adapterLeft.getItem(position);
                 curPanel = 0;
                 if(o.getData().equalsIgnoreCase(getResources().getString(R.string.fileslist_directory))||o.getData().equalsIgnoreCase(getResources().getString(R.string.fileslist_parent_directory))){
                     onFileClickLong(o, position); // folder
@@ -1856,7 +1856,7 @@ public class datFM extends Activity {
         listRight.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
-                datFM_FileInformation o = adapterRight.getItem(position);
+                datFM_FileInfo o = adapterRight.getItem(position);
                 curPanel =1;
                 if(o.getData().equalsIgnoreCase(getResources().getString(R.string.fileslist_directory))||o.getData().equalsIgnoreCase(getResources().getString(R.string.fileslist_parent_directory))){
                     onFileClickLong(o, position); // folder

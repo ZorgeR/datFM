@@ -1,6 +1,6 @@
 package com.zlab.datFM;
 
-public class datFM_FileInformation implements Comparable<datFM_FileInformation> {
+public class datFM_FileInfo implements Comparable<datFM_FileInfo> {
 
         private String name;
         private String data;
@@ -12,7 +12,7 @@ public class datFM_FileInformation implements Comparable<datFM_FileInformation> 
         private String type;
         private long date;
 
-        public datFM_FileInformation(String Name, String Path, long Size, String Prot, String Type, String Data, String Parent, long Date)
+        public datFM_FileInfo(String Name, String Path, long Size, String Prot, String Type, String Data, String Parent, long Date)
         {
             name = Name;
             path = Path;
@@ -73,21 +73,21 @@ public class datFM_FileInformation implements Comparable<datFM_FileInformation> 
             return date;
         }
 
-        public int compareByName(datFM_FileInformation o) {
+        public int compareByName(datFM_FileInfo o) {
             if(this.name != null)
                 return this.name.toLowerCase().compareTo(o.getName().toLowerCase());
             else
                 throw new IllegalArgumentException();
         }
 
-        public int compareByExt(datFM_FileInformation o) {
+        public int compareByExt(datFM_FileInfo o) {
             if(this.getExt() != null)
                 return this.getExt().toLowerCase().compareTo(o.getExt().toLowerCase());
             else
                 throw new IllegalArgumentException();
         }
 
-        public int compareTo(datFM_FileInformation o) {
+        public int compareTo(datFM_FileInfo o) {
             if(this.name != null)
                 return this.name.toLowerCase().compareTo(o.getName().toLowerCase());
             else

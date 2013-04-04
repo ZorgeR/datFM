@@ -28,7 +28,7 @@
                 android:theme="@style/PrefTheme">
         </activity>
         <activity
-                android:name=".datFM_Properties"
+                android:name=".datFM_FileProperties"
                 android:label="@string/app_properties"
                 android:theme="@style/PropTheme"
                 >

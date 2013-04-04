@@ -6,14 +6,13 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
-import android.provider.MediaStore;
 
 import java.io.InputStream;
 
 public class datFM_IconGenerator_PHOTO extends AsyncTask<String, Void, Drawable> {
 Bitmap imageBitmap;
-public datFM_Adaptor activity;
-public datFM_IconGenerator_PHOTO(datFM_Adaptor a)
+public datFM_FileListAdaptor activity;
+public datFM_IconGenerator_PHOTO(datFM_FileListAdaptor a)
         {
         activity = a;
 }
