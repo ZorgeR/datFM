@@ -1,4 +1,4 @@
-package com.zlab.datFM;
+package com.zlab.datFM.hooks;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -7,17 +7,17 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
-public class Hook_PrefCustomCategory extends PreferenceCategory {
-        public Hook_PrefCustomCategory(Context context) {
+public class Pref_CustomCategory extends PreferenceCategory {
+        public Pref_CustomCategory(Context context) {
             super(context);
         }
 
-        public Hook_PrefCustomCategory(Context context, AttributeSet attrs) {
+        public Pref_CustomCategory(Context context, AttributeSet attrs) {
             super(context, attrs);
         }
 
-        public Hook_PrefCustomCategory(Context context, AttributeSet attrs,
-                                       int defStyle) {
+        public Pref_CustomCategory(Context context, AttributeSet attrs,
+                                   int defStyle) {
             super(context, attrs, defStyle);
         }
 

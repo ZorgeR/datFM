@@ -9,10 +9,10 @@ import android.os.AsyncTask;
 
 import java.io.InputStream;
 
-public class datFM_IconGenerator_PHOTO extends AsyncTask<String, Void, Drawable> {
+public class datFM_IcoGen_Photo extends AsyncTask<String, Void, Drawable> {
 Bitmap imageBitmap;
-public datFM_FileListAdaptor activity;
-public datFM_IconGenerator_PHOTO(datFM_FileListAdaptor a)
+public datFM_File_ListAdaptor activity;
+public datFM_IcoGen_Photo(datFM_File_ListAdaptor a)
         {
         activity = a;
 }

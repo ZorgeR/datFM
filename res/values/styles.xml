@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="AppTheme" parent="android:Theme.Light.NoTitleBar" />
+    <style name="AppTheme" parent="android:Theme.NoTitleBar" />
     <style name="PropTheme" parent="android:Theme.NoTitleBar" />
     <style name="PrefTheme" parent="android:Theme" />
     <style name="Progress" parent="android:Widget.ProgressBar.Horizontal" />

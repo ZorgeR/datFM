@@ -12,11 +12,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.util.List;
 
-public class datFM_FileListAdaptor extends ArrayAdapter<datFM_FileInfo> {
+public class datFM_File_ListAdaptor extends ArrayAdapter<datFM_File> {
 
     private Context c;
     private int id;
-    private List<datFM_FileInfo> items;
+    private List<datFM_File> items;
     private boolean[] sel;
 
     TextView text_FileName;
@@ -26,7 +26,7 @@ public class datFM_FileListAdaptor extends ArrayAdapter<datFM_FileInfo> {
     int resID;
     int PanelID;
 
-    public datFM_FileListAdaptor(Context context, int LayoutID, List<datFM_FileInfo> objects, boolean[] selected, int panelID) {
+    public datFM_File_ListAdaptor(Context context, int LayoutID, List<datFM_File> objects, boolean[] selected, int panelID) {
         super(context, LayoutID, objects);
         c = context;
         id = LayoutID;
@@ -35,7 +35,7 @@ public class datFM_FileListAdaptor extends ArrayAdapter<datFM_FileInfo> {
         PanelID = panelID;
     }
 
-    public datFM_FileInfo getItem(int i)
+    public datFM_File getItem(int i)
     {
         return items.get(i);
     }
@@ -54,7 +54,7 @@ public class datFM_FileListAdaptor extends ArrayAdapter<datFM_FileInfo> {
             v = vi.inflate(id, null);
         }
 
-        final datFM_FileInfo o = items.get(position);
+        final datFM_File o = items.get(position);
 
         if (o != null) {
             text_FileName = (TextView) v.findViewById(R.id.textFileName);
@@ -251,7 +251,7 @@ public class datFM_FileListAdaptor extends ArrayAdapter<datFM_FileInfo> {
         if (datFM.cache_counter<datFM.cache_size){
             datFM.cache_icons[datFM.cache_counter]=null;
             datFM.cache_paths[datFM.cache_counter]=path;
-            new datFM_IconGenerator_VIDEO(this).execute(path,String.valueOf(datFM.cache_counter));
+            new datFM_IcoGen_Video(this).execute(path,String.valueOf(datFM.cache_counter));
             datFM.cache_counter++;
         } else {
             datFM.cache_counter=0;icon_getter_video(path);
@@ -261,7 +261,7 @@ public class datFM_FileListAdaptor extends ArrayAdapter<datFM_FileInfo> {
         if (datFM.cache_counter<datFM.cache_size){
             datFM.cache_icons[datFM.cache_counter]=null;
             datFM.cache_paths[datFM.cache_counter]=path;
-            new datFM_IconGenerator_PHOTO(this).execute(path,String.valueOf(datFM.cache_counter));
+            new datFM_IcoGen_Photo(this).execute(path,String.valueOf(datFM.cache_counter));
             datFM.cache_counter++;
         } else {
             datFM.cache_counter=0;icon_getter_photo(path);
@@ -271,7 +271,7 @@ public class datFM_FileListAdaptor extends ArrayAdapter<datFM_FileInfo> {
         if (datFM.cache_counter<datFM.cache_size){
             datFM.cache_icons[datFM.cache_counter]=null;
             datFM.cache_paths[datFM.cache_counter]=path;
-            new datFM_IconGenerator_APK(this).execute(path,String.valueOf(datFM.cache_counter));
+            new datFM_IcoGen_APK(this).execute(path,String.valueOf(datFM.cache_counter));
             datFM.cache_counter++;
         } else {
             datFM.cache_counter=0;icon_getter_apk(path);

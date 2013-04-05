@@ -1,4 +1,4 @@
-package com.zlab.datFM;
+package com.zlab.datFM.crypt;
 
 import java.security.SecureRandom;
 
@@ -10,13 +10,13 @@ import javax.crypto.spec.SecretKeySpec;
 /**
  * Usage:
  * <pre>
- * String crypto = SimpleCrypto.encrypt(masterpassword, cleartext)
+ * String crypto = AES_128.encrypt(masterpassword, cleartext)
  * ...
- * String cleartext = SimpleCrypto.decrypt(masterpassword, crypto)
+ * String cleartext = AES_128.decrypt(masterpassword, crypto)
  * </pre>
  * @author ferenc.hechler
  */
-public class SimpleCrypto {
+public class AES_128 {
 
     public static String encrypt(String seed, String cleartext) throws Exception {
         byte[] rawKey = getRawKey(seed.getBytes());

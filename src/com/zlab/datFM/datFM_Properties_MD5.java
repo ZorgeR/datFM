@@ -8,11 +8,11 @@ import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 
-public class datFM_FileProperties_md5sum extends AsyncTask<String, Void, String> {
+public class datFM_Properties_MD5 extends AsyncTask<String, Void, String> {
 
     protected void onPreExecute() {
-        datFM_FileProperties.prop_md5_progress.setVisibility(View.VISIBLE);
-        datFM_FileProperties.prop_btn_calc_md5.setEnabled(false);
+        datFM_Properties.prop_md5_progress.setVisibility(View.VISIBLE);
+        datFM_Properties.prop_btn_calc_md5.setEnabled(false);
         super.onPreExecute();
     }
 
@@ -51,17 +51,17 @@ public class datFM_FileProperties_md5sum extends AsyncTask<String, Void, String>
     }
 
     protected void onPostExecute(String result) {
-        datFM_FileProperties.prop_md5sum.setText(result);
-        if(!datFM_FileProperties.prop_md5sum_check.getText().toString().equals("")){
-            datFM_FileProperties.prop_icon_md5_check.setVisibility(View.VISIBLE);
-            if(datFM_FileProperties.prop_md5sum.getText().toString().equals(result)){
-                datFM_FileProperties.prop_icon_md5_check.setImageResource(android.R.drawable.checkbox_on_background);
+        datFM_Properties.prop_md5sum.setText(result);
+        if(!datFM_Properties.prop_md5sum_check.getText().toString().equals("")){
+            datFM_Properties.prop_icon_md5_check.setVisibility(View.VISIBLE);
+            if(datFM_Properties.prop_md5sum.getText().toString().equals(result)){
+                datFM_Properties.prop_icon_md5_check.setImageResource(android.R.drawable.checkbox_on_background);
             } else {
-                datFM_FileProperties.prop_icon_md5_check.setImageResource(android.R.drawable.presence_busy);
+                datFM_Properties.prop_icon_md5_check.setImageResource(android.R.drawable.presence_busy);
             }
         }
-        datFM_FileProperties.prop_md5_progress.setVisibility(View.GONE);
-        datFM_FileProperties.prop_icon_md5_check.setVisibility(View.VISIBLE);
+        datFM_Properties.prop_md5_progress.setVisibility(View.GONE);
+        datFM_Properties.prop_icon_md5_check.setVisibility(View.VISIBLE);
         super.onPostExecute(result);
     }
 

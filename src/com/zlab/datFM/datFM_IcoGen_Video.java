@@ -7,10 +7,10 @@ import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
 
-public class datFM_IconGenerator_VIDEO extends AsyncTask<String, Void, Drawable> {
+public class datFM_IcoGen_Video extends AsyncTask<String, Void, Drawable> {
     Bitmap videoBitmap;
-    public datFM_FileListAdaptor activity;
-    public datFM_IconGenerator_VIDEO(datFM_FileListAdaptor a)
+    public datFM_File_ListAdaptor activity;
+    public datFM_IcoGen_Video(datFM_File_ListAdaptor a)
     {
         activity = a;
     }

@@ -7,9 +7,9 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 
-public class datFM_IconGenerator_APK extends AsyncTask<String, Void, Drawable> {
-    public datFM_FileListAdaptor activity;
-    public datFM_IconGenerator_APK(datFM_FileListAdaptor a)
+public class datFM_IcoGen_APK extends AsyncTask<String, Void, Drawable> {
+    public datFM_File_ListAdaptor activity;
+    public datFM_IcoGen_APK(datFM_File_ListAdaptor a)
     {
         activity = a;
     }

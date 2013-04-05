@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class datFM_FileProperties extends Activity {
+public class datFM_Properties extends Activity {
 
     /** UI **/
     EditText prop_name,prop_type,prop_path,prop_date;
@@ -35,7 +35,7 @@ public class datFM_FileProperties extends Activity {
     /** FLAG */
 
     /** Data **/
-    ArrayList<datFM_FileInfo> paths;
+    ArrayList<datFM_File> paths;
     int count;
     String file;
     String ext,name,real_name,parent_dir,date,mimeType;
@@ -184,7 +184,7 @@ public class datFM_FileProperties extends Activity {
         parent_dir = paths.get(0).getParent();
 
         /** Size **/
-        new datFM_FileProperties_Builder().execute(paths);
+        new datFM_Properties_SizeCalc().execute(paths);
 
         /** Date **/
         SimpleDateFormat sdf = new SimpleDateFormat("d MMMM yyyy',' H:mm");
@@ -214,7 +214,7 @@ public class datFM_FileProperties extends Activity {
         prop_date.setText(date);
 
         if(datFM.pref_root && file.startsWith("/")){
-            String out = new String();
+            String out = "";
             String command;
             if(isDir){
                 command = "ls -ld \""+file+"\"\n";
@@ -388,7 +388,7 @@ public class datFM_FileProperties extends Activity {
                 }
                 break;}
             case R.id.prop_btn_calc_md5: {
-                new datFM_FileProperties_md5sum().execute(file);
+                new datFM_Properties_MD5().execute(file);
                 break;}
         }
     }

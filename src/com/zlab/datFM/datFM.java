@@ -21,6 +21,11 @@ import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.*;
+import com.zlab.datFM.ZA.ZArchiver_IO;
+import com.zlab.datFM.crypt.AES_128;
+import com.zlab.datFM.hooks.HR_ScrollView;
+import com.zlab.datFM.hooks.HR_ScrollViewListener;
+import com.zlab.datFM.stream.Streamer;
 import jcifs.smb.NtlmPasswordAuthentication;
 import jcifs.smb.SmbFile;
 
@@ -29,7 +34,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.zlab.datFM.datFM_ZArchiver_IO.*;
+import static com.zlab.datFM.ZA.ZArchiver_IO.*;
 
 public class datFM extends Activity {
 
@@ -37,7 +42,7 @@ public class datFM extends Activity {
     LinearLayout layoutPathPanelLeft, layoutPathPanelRight,layoutButtonPanel,layoutActiveLeft,layoutActiveRight,
             layoutParentPathPanelLeft,layoutParentPathPanelRight,pathBarSpacer;
     LinearLayout leftside,rightside,sideholder;
-    Hook_ScrollView sideholderscroll;
+    HR_ScrollView sideholderscroll;
     static ListView listLeft,listRight;
     TextView textPanelRight,textPanelLeft,textItemsRightSelected,textItemsLeftSelected;
     EditText textCurrentPathLeft, textCurrentPathRight;
@@ -52,19 +57,19 @@ public class datFM extends Activity {
     int selRight=0;
     int posLeft,posRight,pathPanelBgr,pathPanelBgrOther;
     int pathPanelBgrFill=0;
-    static String /*user, pass, */url/*, domain*/;
+    static String url;
     String prevName;
     static String[] protocols=new String[2];
     static int currentApiVersion;
     static int color_item_selected;
     LinearLayout btnUPleft, btnUPright;
     static NtlmPasswordAuthentication[] auth = new NtlmPasswordAuthentication[2];
-    static ArrayList<datFM_FileInfo> properties_array;
+    static ArrayList<datFM_File> properties_array;
 
     /** VARS FOR OPERATION**/
     static int sel;
     boolean[] selected;
-    static datFM_FileListAdaptor adapter;
+    static datFM_File_ListAdaptor adapter;
     static String destDir,curDir;
     TextView itemsSelected,textPanel;
 
@@ -73,7 +78,7 @@ public class datFM extends Activity {
     public static Context datf_context;
 
     /** VARS HOLDER FOR TAB **/
-    protected datFM_FileListAdaptor adapterLeft, adapterRight;
+    protected datFM_File_ListAdaptor adapterLeft, adapterRight;
 
     /** VARS PREFS **/
     public SharedPreferences prefs;
@@ -101,7 +106,7 @@ public class datFM extends Activity {
     public static String[] cache_paths;
 
     /** ZArchiver **/
-    datFM_ZArchiver_IO ZA;
+    ZArchiver_IO ZA;
 
     /** UI **/
     int horizontal_scroll_percentage;
@@ -149,7 +154,7 @@ public class datFM extends Activity {
         }
 
         /** Интерфейс для ZArchiver **/
-        ZA = new datFM_ZArchiver_IO(datf_context);
+        ZA = new ZArchiver_IO(datf_context);
 
         /** Размер экрана **/
         displaymetrics = new DisplayMetrics();
@@ -159,16 +164,14 @@ public class datFM extends Activity {
         pathPanelBgrOther=Color.parseColor("#5046b2ff");
 
         if (pref_theme.equals("Dark Fullscreen")){
-            if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){
-                setTheme(android.R.style.Theme_Black_NoTitleBar);
-            } else {
-                setTheme(android.R.style.Theme_Holo_NoActionBar);
-            }
-            //color_item_selected=Color.parseColor("#88980000");
             color_item_selected=Color.parseColor("#88650000");
-            //color_item_selected=Color.parseColor("#40999999");
             pathPanelBgrFill=Color.parseColor("#ff131514");
         } else {
+            if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){
+                setTheme(android.R.style.Theme_Light_NoTitleBar);
+            } else {
+                setTheme(android.R.style.Theme_Holo_Light_NoActionBar);
+            }
             color_item_selected=Color.parseColor("#ff46b2ff");
         }
     }
@@ -276,23 +279,6 @@ public class datFM extends Activity {
         }
     }
 
-    private ArrayList<Uri> root_build_content(File dir){
-        ArrayList<Uri> uri_list = new ArrayList<Uri>();
-        try{
-        if (dir.isDirectory()) {
-            for (File child : dir.listFiles()) {
-                uri_list.addAll(root_build_content(child));
-            }
-        } else {
-            uri_list.add(Uri.fromFile(dir));
-        }
-        } catch (Exception e){
-            Log.e("ERR:","Listing Error");
-        }
-
-        return uri_list;
-    }
-
     protected void fill_new(String path, int Panel_ID){
         /* TODO убрать костыль */
         boolean smb = path.startsWith("smb://");
@@ -318,7 +304,7 @@ public class datFM extends Activity {
             new datFM_IO_Fetch(this).execute(path, protocols[Panel_ID], String.valueOf(Panel_ID));
         }
     }
-    protected void fill_panel(List<datFM_FileInfo> dir, List<datFM_FileInfo> fls,int panel_ID){
+    protected void fill_panel(List<datFM_File> dir, List<datFM_File> fls,int panel_ID){
         curPanel = panel_ID;
         if(panel_ID==0){competPanel=1;}else{competPanel=0;}
 
@@ -327,20 +313,20 @@ public class datFM extends Activity {
                 String[] parent_data=new datFM_IO(curentLeftDir,curPanel).getParent();
                 parent_left = parent_data[0];
                 String data = parent_data[2];
-                    dir.add(0,new datFM_FileInfo("..",parent_left,0,protocols[0],parent_data[1], data, parent_left, 0));
+                    dir.add(0,new datFM_File("..",parent_left,0,protocols[0],parent_data[1], data, parent_left, 0));
                 }
         } else {
             if(!curentRightDir.equals("datFM://")){
                 String[] parent_data=new datFM_IO(curentRightDir,curPanel).getParent();
                 parent_right = parent_data[0];
                 String data = parent_data[2];
-                dir.add(0,new datFM_FileInfo("..",parent_right,0,protocols[1],parent_data[1], data, parent_right, 0));
+                dir.add(0,new datFM_File("..",parent_right,0,protocols[1],parent_data[1], data, parent_right, 0));
             }
         }
 
         if (panel_ID==0){
             selectedLeft = new boolean[dir.size()];
-            adapterLeft = new datFM_FileListAdaptor(datFM.this,R.layout.datfm_list,dir,selectedLeft,curPanel);
+            adapterLeft = new datFM_File_ListAdaptor(datFM.this,R.layout.datfm_list,dir,selectedLeft,curPanel);
             listLeft.setAdapter(adapterLeft);
             textPanelLeft.setText(
                     getResources().getString(R.string.fileslist_folders_count)+(dir.size()-fls.size()-1)+", "+
@@ -351,7 +337,7 @@ public class datFM extends Activity {
                 if (prevName.equals(adapterLeft.getItem(i).getName())){listLeft.setSelection(i);prevName="";}}}
         } else {
             selectedRight = new boolean[dir.size()];
-            adapterRight = new datFM_FileListAdaptor(datFM.this,R.layout.datfm_list,dir,selectedRight,curPanel);
+            adapterRight = new datFM_File_ListAdaptor(datFM.this,R.layout.datfm_list,dir,selectedRight,curPanel);
             listRight.setAdapter(adapterRight);
             textPanelRight.setText(
                     getResources().getString(R.string.fileslist_folders_count)+(dir.size()-fls.size()-1)+", "+
@@ -460,14 +446,14 @@ public class datFM extends Activity {
         if(!tmp_dir.exists()){
             tmp_dir.mkdir();
         }
-        new datFM_FileOperation(this).execute("open_remote", path, tmp_dir.getPath()+"/"+name,ext,"",String.valueOf(curPanel),String.valueOf(competPanel));
+        new datFM_File_Operations(this).execute("open_remote", path, tmp_dir.getPath()+"/"+name,ext,"",String.valueOf(curPanel),String.valueOf(competPanel));
     }
     protected void openRemoteFileAs(String path,String name, String ext){
         File tmp_dir = new File(Environment.getExternalStorageDirectory().getPath()+"/Android/data/datFM");
         if(!tmp_dir.exists()){
             tmp_dir.mkdir();
         }
-        new datFM_FileOperation(this).execute("open_as_remote", path, tmp_dir.getPath()+"/"+name,ext,"",String.valueOf(curPanel),String.valueOf(competPanel));
+        new datFM_File_Operations(this).execute("open_as_remote", path, tmp_dir.getPath()+"/"+name,ext,"",String.valueOf(curPanel),String.valueOf(competPanel));
     }
     protected void openFile(final String path,final String name, String ext){
         boolean local = path.startsWith("/");
@@ -538,7 +524,7 @@ public class datFM extends Activity {
             }
         }
     }
-    protected void onFileClick(datFM_FileInfo o){
+    protected void onFileClick(datFM_File o){
         if(o.getType().equals("file")){
             openFile(o.getPath(), o.getName(), o.getExt());
         } else if (o.getType().equals("parent_dir")){
@@ -563,7 +549,7 @@ public class datFM extends Activity {
             }
         }
     }
-    protected void onFileClickLong(datFM_FileInfo o, int position){
+    protected void onFileClickLong(datFM_File o, int position){
         update_operation_vars();
         if(     o.getType().equals("file") ||
                 o.getType().equals("dir")  ||
@@ -770,7 +756,7 @@ public class datFM extends Activity {
         AlertDialog AprooveDialog = action_dialog.create();
         AprooveDialog.show();
     }
-    private void action_fav_new(final datFM_FileInfo o){
+    private void action_fav_new(final datFM_File o){
         AlertDialog.Builder action_dialog = new AlertDialog.Builder(this);
         action_dialog.setTitle(getResources().getString(R.string.fileslist_favorites));
         LayoutInflater inflater = getLayoutInflater();
@@ -860,7 +846,7 @@ public class datFM extends Activity {
                             String iscrypted="0";
 
                             if(!server_pass.equals("") && !server_encrypt_pass.equals("")){
-                                    server_pass = SimpleCrypto.encrypt(server_encrypt_pass,server_pass);
+                                    server_pass = AES_128.encrypt(server_encrypt_pass, server_pass);
                                     iscrypted="1";
                             }
 
@@ -888,7 +874,7 @@ public class datFM extends Activity {
         AlertDialog AprooveDialog = action_dialog.create();
         AprooveDialog.show();
     }
-    private void action_smb_openserver(final datFM_FileInfo o){
+    private void action_smb_openserver(final datFM_File o){
         File dirs = getFilesDir();
         for(File ff : dirs.listFiles()){
             String name = ff.getName().replace("smb_data_","");
@@ -935,7 +921,7 @@ public class datFM extends Activity {
                                         public void onClick(DialogInterface dialog, int which) {
                                             String smb_keychainpass = smb_keychain.getText().toString();
                                             try {
-                                                String pass = SimpleCrypto.decrypt(smb_keychainpass,server_pass_encrypted);
+                                                String pass = AES_128.decrypt(smb_keychainpass, server_pass_encrypted);
                                                 auth[curPanel] = new NtlmPasswordAuthentication(auth[curPanel].getDomain(),auth[curPanel].getUsername(),pass);
                                                 fill_new(o.getPath(), curPanel);
                                             } catch (Exception e) {
@@ -1006,7 +992,7 @@ public class datFM extends Activity {
                                         public void onClick(DialogInterface dialog, int which) {
                                             String smb_keychainpass = smb_keychain.getText().toString();
                                             try {
-                                                formdata[4]=SimpleCrypto.decrypt(smb_keychainpass,server_pass_encrypted);
+                                                formdata[4]= AES_128.decrypt(smb_keychainpass, server_pass_encrypted);
                                                 formdata[7]=smb_keychainpass;
                                                 action_smb_newserver(formdata);
                                             } catch (Exception e) {
@@ -1091,53 +1077,55 @@ public class datFM extends Activity {
         }
     }
     private void action_new_folder(){
-        AlertDialog.Builder newFolderDialog = new AlertDialog.Builder(this);
-        newFolderDialog.setTitle(getResources().getString(R.string.ui_dialog_title_newfolder));
-        LayoutInflater inflater = getLayoutInflater();
-        View layer = inflater.inflate(R.layout.datfm_newfolder,null);
-        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+        if(protocols[curPanel].equals("local")  ||
+           protocols[curPanel].equals("smb")    ){
+            AlertDialog.Builder newFolderDialog = new AlertDialog.Builder(this);
+            newFolderDialog.setTitle(getResources().getString(R.string.ui_dialog_title_newfolder));
+            LayoutInflater inflater = getLayoutInflater();
+            View layer = inflater.inflate(R.layout.datfm_newfolder,null);
+            if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
 
-        final EditText textNewFolderName = (EditText) layer.findViewById(R.id.textNewFolderName);
-        textNewFolderName.setHint(getResources().getString(R.string.ui_dialog_hint_newfolder));
-        newFolderDialog.setView(layer);
+            final EditText textNewFolderName = (EditText) layer.findViewById(R.id.textNewFolderName);
+            textNewFolderName.setHint(getResources().getString(R.string.ui_dialog_hint_newfolder));
+            newFolderDialog.setView(layer);
 
-        newFolderDialog.setPositiveButton(getResources().getString(R.string.ui_dialog_btn_ok),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        String newdir_name = textNewFolderName.getText().toString();
-                        if (!newdir_name.equals("")){
-                            String dir = curDir+"/"+textNewFolderName.getText().toString();
-                            new datFM_FileOperation(datFM_state).execute("new_folder", dir, "","","",String.valueOf(curPanel),String.valueOf(competPanel));
-                        } else {
-                            String dir = curDir+"/"+getResources().getString(R.string.ui_dialog_title_newfolder);
-                            new datFM_FileOperation(datFM_state).execute("new_folder", dir, "","","",String.valueOf(curPanel),String.valueOf(competPanel));
+            newFolderDialog.setPositiveButton(getResources().getString(R.string.ui_dialog_btn_ok),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            String newdir_name = textNewFolderName.getText().toString();
+                            if (!newdir_name.equals("")){
+                                String dir = curDir+"/"+textNewFolderName.getText().toString();
+                                new datFM_File_Operations(datFM_state).execute("new_folder", dir, "","","",String.valueOf(curPanel),String.valueOf(competPanel));
+                            } else {
+                                String dir = curDir+"/"+getResources().getString(R.string.ui_dialog_title_newfolder);
+                                new datFM_File_Operations(datFM_state).execute("new_folder", dir, "","","",String.valueOf(curPanel),String.valueOf(competPanel));
+                            }
                         }
-                    }
-                });
-        newFolderDialog.setNegativeButton(getResources().getString(R.string.ui_dialog_btn_cancel),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-        AlertDialog NewFolderNameDialog = newFolderDialog.create();
-        NewFolderNameDialog.show();
+                    });
+            newFolderDialog.setNegativeButton(getResources().getString(R.string.ui_dialog_btn_cancel),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+            AlertDialog NewFolderNameDialog = newFolderDialog.create();
+            NewFolderNameDialog.show();
+        }
     }
     private void action_copy() {
         if (!curDir.equals(destDir)){
-            new datFM_FileOperation(this).execute("copy", "unknown", destDir,"","",String.valueOf(curPanel),String.valueOf(competPanel));
+            new datFM_File_Operations(this).execute("copy", "unknown", destDir,"","",String.valueOf(curPanel),String.valueOf(competPanel));
         } else {
             notify_toast(getResources().getString(R.string.notify_operation_same_folder),true);
         }
     }
     private void action_move() {
         if (!curDir.equals(destDir)){
-            new datFM_FileOperation(this).execute("move", "unknown", destDir,"","",String.valueOf(curPanel),String.valueOf(competPanel));
+            new datFM_File_Operations(this).execute("move", "unknown", destDir,"","",String.valueOf(curPanel),String.valueOf(competPanel));
         } else {
             notify_toast(getResources().getString(R.string.notify_operation_same_folder),true);
         }
     }
     private void action_rename(){
-
         AlertDialog.Builder newFolderDialog = new AlertDialog.Builder(this);
         newFolderDialog.setTitle(getResources().getString(R.string.ui_dialog_title_rename));
         LayoutInflater inflater = getLayoutInflater();
@@ -1163,7 +1151,7 @@ public class datFM extends Activity {
                             mask="true";
                         }
                         if (!new_name.equals("")){
-                            new datFM_FileOperation(datFM.this).execute("rename", curDir, "unknown", new_name, mask,String.valueOf(curPanel),String.valueOf(curPanel));
+                            new datFM_File_Operations(datFM.this).execute("rename", curDir, "unknown", new_name, mask,String.valueOf(curPanel),String.valueOf(curPanel));
                         }
                     }
                 });
@@ -1176,91 +1164,45 @@ public class datFM extends Activity {
         BankSelectDialog.show();
     }
     private void action_delete() {
-        new datFM_FileOperation(this).execute("delete", "unknown", curDir,"","",String.valueOf(curPanel),String.valueOf(competPanel));
-    }
-    private void action_send(){
-        update_operation_vars();
-        if (sel==1){
-            for (int i=1;i<selected.length;i++){
-                if (selected[i]){
-                    datFM_FileInfo from = adapter.getItem(i);
-                    File sending_file = new File(from.getPath());
-
-                    if (sending_file.isFile()){
-                        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-                        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-                        Uri uri = Uri.fromFile(sending_file);
-                        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-                        shareIntent.putExtra(Intent.EXTRA_TEXT, uri.toString());
-                        shareIntent.setType("*/*");
-                        startActivity(Intent.createChooser(shareIntent,"Send file"));
-                    } else {
-                        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND_MULTIPLE);
-                        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-                        ArrayList<Uri> uri_list = new ArrayList<Uri>();
-                        uri_list.addAll(root_build_content(sending_file));
-                        shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uri_list);
-                        shareIntent.putParcelableArrayListExtra(Intent.EXTRA_TEXT, uri_list);
-                        shareIntent.setType("*/*");
-                        startActivity(Intent.createChooser(shareIntent,"Send file"));
-                    }
-                    //String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(uri.toString()));
-                    //shareIntent.setType(mimeType);
-                }
-            }
-        } else {
-            Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND_MULTIPLE);
-            shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-            ArrayList<Uri> uri_list = new ArrayList<Uri>();
-
-            for (int i=1;i<selected.length;i++){
-                if (selected[i]){
-                    datFM_FileInfo from = adapter.getItem(i);
-                    File sending_file = new File (from.getPath());
-
-                    if (sending_file.isFile()){
-                        uri_list.add(Uri.fromFile(sending_file));
-                    } else {
-                        uri_list.addAll(root_build_content(sending_file));
-                    }
-                }
-            }
-
-            shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uri_list);
-            shareIntent.putParcelableArrayListExtra(Intent.EXTRA_TEXT, uri_list);
-            shareIntent.setType("*/*");
-            startActivity(Intent.createChooser(shareIntent,"Send file"));
-
-            /**
-             Toast toast = Toast.makeText(this, "Select only one element!", Toast.LENGTH_LONG);
-             View view2 = toast.getView();
-             view2.setBackgroundResource(R.drawable.toast_err);
-             TextView text = (TextView) view2.findViewById(android.R.id.message);
-             text.setTextColor(Color.BLACK);
-             text.setShadowLayer(0,0,0,0);
-             toast.show();
-             **/
-        }
+        new datFM_File_Operations(this).execute("delete", "unknown", curDir,"","",String.valueOf(curPanel),String.valueOf(competPanel));
     }
     private void action_select_all() {
         if (curPanel ==0){
             for (int i=1;i<selectedLeft.length;i++){
-                selectedLeft[i]=true;
+                if(!selectedLeft[i]){
+                    if(adapterLeft.getItem(i).getType().equals("file")              ||
+                       adapterLeft.getItem(i).getType().equals("dir")               ||
+                       adapterLeft.getItem(i).getType().equals("smb_store_network") ||
+                       adapterLeft.getItem(i).getType().startsWith("fav_bookmark")  ){
+                        selLeft++;
+                        selectedLeft[i]=true;
+                    }
+                }
             }
-            selLeft=selectedLeft.length-1;
-            textItemsLeftSelected.setText(getResources().getString(R.string.fileslist_file_selected)+selLeft);
-            textItemsLeftSelected.setVisibility(View.VISIBLE);
-            textPanelLeft.setVisibility(View.GONE);
-            adapterLeft.notifyDataSetChanged();
+            if(selLeft>0){
+                textItemsLeftSelected.setText(getResources().getString(R.string.fileslist_file_selected)+selLeft);
+                textItemsLeftSelected.setVisibility(View.VISIBLE);
+                textPanelLeft.setVisibility(View.GONE);
+                adapterLeft.notifyDataSetChanged();
+            }
         } else {
             for (int i=1;i<selectedRight.length;i++){
-                selectedRight[i]=true;
+                if(!selectedRight[i]){
+                    if(adapterRight.getItem(i).getType().equals("file")              ||
+                       adapterRight.getItem(i).getType().equals("dir")               ||
+                       adapterRight.getItem(i).getType().equals("smb_store_network") ||
+                       adapterRight.getItem(i).getType().startsWith("fav_bookmark")  ){
+                        selRight++;
+                        selectedRight[i]=true;
+                    }
+                }
             }
-            selRight=selectedRight.length-1;
-            textItemsRightSelected.setText(getResources().getString(R.string.fileslist_file_selected)+selRight);
-            textItemsRightSelected.setVisibility(View.VISIBLE);
-            textPanelRight.setVisibility(View.GONE);
-            adapterRight.notifyDataSetChanged();
+            if(selRight>0){
+                textItemsRightSelected.setText(getResources().getString(R.string.fileslist_file_selected)+selRight);
+                textItemsRightSelected.setVisibility(View.VISIBLE);
+                textPanelRight.setVisibility(View.GONE);
+                adapterRight.notifyDataSetChanged();
+            }
         }
         update_operation_vars();
     }
@@ -1308,19 +1250,19 @@ public class datFM extends Activity {
         update_operation_vars();
     }  /** Использовать Current Panel, вместо panelID **/
     private void action_properties(int pos){
-        Intent properties = new Intent(datFM.datf_context, datFM_FileProperties.class);
-        properties_array = new ArrayList<datFM_FileInfo>();
+        Intent properties = new Intent(datFM.datf_context, datFM_Properties.class);
+        properties_array = new ArrayList<datFM_File>();
 
         boolean sec = false;
         for (int i=1;i<selected.length;i++){
             if (selected[i]){
-                datFM_FileInfo from = adapter.getItem(i);
+                datFM_File from = adapter.getItem(i);
                 properties_array.add(from);
                 sec = true;
             }
         }
         if(!sec){
-            datFM_FileInfo from = adapter.getItem(pos);
+            datFM_File from = adapter.getItem(pos);
             properties_array.add(from);
         }
 
@@ -1329,6 +1271,76 @@ public class datFM extends Activity {
     private void action_clear_file_cache(){try {
         new datFM_IO(Environment.getExternalStorageDirectory().getPath()+"/Android/data/datFM",curPanel).delete();
     } catch (IOException e) {e.printStackTrace();}
+    }
+    private void action_send(){
+        update_operation_vars();
+        if (sel==1){
+            for (int i=1;i<selected.length;i++){
+                if (selected[i]){
+                    datFM_File from = adapter.getItem(i);
+                    File sending_file = new File(from.getPath());
+
+                    if (sending_file.isFile()){
+                        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+                        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+                        Uri uri = Uri.fromFile(sending_file);
+                        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, uri.toString());
+                        shareIntent.setType("*/*");
+                        startActivity(Intent.createChooser(shareIntent,"Send file"));
+                    } else {
+                        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND_MULTIPLE);
+                        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+                        ArrayList<Uri> uri_list = new ArrayList<Uri>();
+                        uri_list.addAll(action_send_list_builder(sending_file));
+                        shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uri_list);
+                        shareIntent.putParcelableArrayListExtra(Intent.EXTRA_TEXT, uri_list);
+                        shareIntent.setType("*/*");
+                        startActivity(Intent.createChooser(shareIntent,"Send file"));
+                    }
+                    //String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(uri.toString()));
+                    //shareIntent.setType(mimeType);
+                }
+            }
+        } else {
+            Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND_MULTIPLE);
+            shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+            ArrayList<Uri> uri_list = new ArrayList<Uri>();
+
+            for (int i=1;i<selected.length;i++){
+                if (selected[i]){
+                    datFM_File from = adapter.getItem(i);
+                    File sending_file = new File (from.getPath());
+
+                    if (sending_file.isFile()){
+                        uri_list.add(Uri.fromFile(sending_file));
+                    } else {
+                        uri_list.addAll(action_send_list_builder(sending_file));
+                    }
+                }
+            }
+
+            shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uri_list);
+            shareIntent.putParcelableArrayListExtra(Intent.EXTRA_TEXT, uri_list);
+            shareIntent.setType("*/*");
+            startActivity(Intent.createChooser(shareIntent,"Send file"));
+        }
+    }
+    private ArrayList<Uri> action_send_list_builder(File dir){
+        ArrayList<Uri> uri_list = new ArrayList<Uri>();
+        try{
+            if (dir.isDirectory()) {
+                for (File child : dir.listFiles()) {
+                    uri_list.addAll(action_send_list_builder(child));
+                }
+            } else {
+                uri_list.add(Uri.fromFile(dir));
+            }
+        } catch (Exception e){
+            Log.e("ERR:","Listing Error");
+        }
+
+        return uri_list;
     }
 
     private void init_UI() {
@@ -1353,7 +1365,7 @@ public class datFM extends Activity {
             leftside = (LinearLayout) findViewById(R.id.leftside);
             rightside = (LinearLayout) findViewById(R.id.rightside);
             sideholder = (LinearLayout) findViewById(R.id.sideholder);
-            sideholderscroll = (Hook_ScrollView) findViewById(R.id.sideholderscroll);
+            sideholderscroll = (HR_ScrollView) findViewById(R.id.sideholderscroll);
             sideholderscroll.setHorizontalFadingEdgeEnabled(false);
 
         btnShare = (LinearLayout) findViewById(R.id.btnShare);
@@ -1561,7 +1573,7 @@ public class datFM extends Activity {
         listLeft.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
-                datFM_FileInfo o = adapterLeft.getItem(position);
+                datFM_File o = adapterLeft.getItem(position);
                 curPanel=0;
                 if (selLeft!=0){
                     onFileClickLong(o, position); // folder */
@@ -1574,7 +1586,7 @@ public class datFM extends Activity {
         listRight.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
-                datFM_FileInfo o = adapterRight.getItem(position);
+                datFM_File o = adapterRight.getItem(position);
                 curPanel = 1;
                 if (selRight!=0){
                     onFileClickLong(o, position); // folder */
@@ -1587,7 +1599,7 @@ public class datFM extends Activity {
         listLeft.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
-                datFM_FileInfo o = adapterLeft.getItem(position);
+                datFM_File o = adapterLeft.getItem(position);
                 curPanel = 0;
                 if(o.getData().equalsIgnoreCase(getResources().getString(R.string.fileslist_directory))||o.getData().equalsIgnoreCase(getResources().getString(R.string.fileslist_parent_directory))){
                     onFileClickLong(o, position); // folder
@@ -1602,7 +1614,7 @@ public class datFM extends Activity {
         listRight.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
-                datFM_FileInfo o = adapterRight.getItem(position);
+                datFM_File o = adapterRight.getItem(position);
                 curPanel =1;
                 if(o.getData().equalsIgnoreCase(getResources().getString(R.string.fileslist_directory))||o.getData().equalsIgnoreCase(getResources().getString(R.string.fileslist_parent_directory))){
                     onFileClickLong(o, position); // folder
@@ -1635,9 +1647,9 @@ public class datFM extends Activity {
                 }
             });
 
-            sideholderscroll.setScrollViewListener(new Hook_ScrollViewListener() {
+            sideholderscroll.setScrollViewListener(new HR_ScrollViewListener() {
                 @Override
-                public void onScrollChanged(Hook_ScrollView scrollView, int x, int y, int oldx, int oldy) {
+                public void onScrollChanged(HR_ScrollView scrollView, int x, int y, int oldx, int oldy) {
                     horizontal_scroll_percentage = x*100/screen_width;
                 }
             });
@@ -2033,19 +2045,19 @@ public class datFM extends Activity {
                             String[] FileList=new String[sel];
 
                             if (spinArchType.getSelectedItem().toString().equals("7z")){
-                                newArcType= datFM_ZArchiver_IO.ARCHIVE_TYPE_7Z;
+                                newArcType= ZArchiver_IO.ARCHIVE_TYPE_7Z;
                             } else if (spinArchType.getSelectedItem().toString().equals("zip")){
-                                newArcType= datFM_ZArchiver_IO.ARCHIVE_TYPE_ZIP;
+                                newArcType= ZArchiver_IO.ARCHIVE_TYPE_ZIP;
                             } else if (spinArchType.getSelectedItem().toString().equals("tar")){
-                                newArcType= datFM_ZArchiver_IO.ARCHIVE_TYPE_TAR;
+                                newArcType= ZArchiver_IO.ARCHIVE_TYPE_TAR;
                             }
 
                             if(spinArchLevel.getSelectedItem().toString().equals("min")){
-                                newArcLevel= datFM_ZArchiver_IO.COMPRESSION_LAVEL_FAST;
+                                newArcLevel= ZArchiver_IO.COMPRESSION_LAVEL_FAST;
                             } else if (spinArchLevel.getSelectedItem().toString().equals("mid")){
-                                newArcLevel= datFM_ZArchiver_IO.COMPRESSION_LAVEL_NORMAL;
+                                newArcLevel= ZArchiver_IO.COMPRESSION_LAVEL_NORMAL;
                             } else if (spinArchLevel.getSelectedItem().toString().equals("max")){
-                                newArcLevel= datFM_ZArchiver_IO.COMPRESSION_LAVEL_MAX;
+                                newArcLevel= ZArchiver_IO.COMPRESSION_LAVEL_MAX;
                             }
 
                             int count=0;

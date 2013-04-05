@@ -1,4 +1,4 @@
-package com.zlab.datFM;
+package com.zlab.datFM.ZA;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
-public class datFM_ZArchiver_IO extends BroadcastReceiver
+public class ZArchiver_IO extends BroadcastReceiver
 {
     private static final String ZARCHIVER_PRO_IEXT_ACTION = "ru.zdevs.zarchiver.pro.action.EXTERNAL";
 
@@ -57,7 +57,7 @@ public class datFM_ZArchiver_IO extends BroadcastReceiver
     private OnActionComplete mCallback = null;
     private Context mContext = null;
 
-    public datFM_ZArchiver_IO(Context context)
+    public ZArchiver_IO(Context context)
     {
         mContext = context;
 

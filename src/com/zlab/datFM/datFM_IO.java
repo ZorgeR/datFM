@@ -28,8 +28,8 @@ public class datFM_IO {
 
     /** FILE **/
     public File getFileLocal(){
-        File file = new File(path);
-        return file;
+        //File file = new File(path);
+        return new File(path);
     }
     public SmbFile getFileSmb() throws MalformedURLException {
         //---------START SMB WORKS-------------------------
@@ -40,9 +40,9 @@ public class datFM_IO {
             auth = new NtlmPasswordAuthentication(null, null, null);
         }
 
-        SmbFile f = new SmbFile(path,auth);
+        //SmbFile f = new SmbFile(path,auth);
         //---------END SMB WORKS-------------------------
-        return f;
+        return new SmbFile(path,auth);
     }
     public Long getFileSize(){
         long size=1;
@@ -140,18 +140,18 @@ public class datFM_IO {
         if (file.isDirectory()) {
             new datFM_IO(dest,CompetPanel).mkdir();
 
-            updateOverallBar(datFM_FileOperation.progr_overal.getProgress() + 1,file.getPath(),dest);
+            updateOverallBar(datFM_File_Operations.progr_overal.getProgress() + 1,file.getPath(),dest);
 
             SmbFile[] children = file.listFiles();
-            datFM_FileOperation.overalMax=datFM_FileOperation.progr_overal.getMax()+children.length;
-            datFM_FileOperation.progr_overal.setMax(datFM_FileOperation.overalMax);
+            datFM_File_Operations.overalMax= datFM_File_Operations.progr_overal.getMax()+children.length;
+            datFM_File_Operations.progr_overal.setMax(datFM_File_Operations.overalMax);
             for (SmbFile ff : children) {
                 copy_recursively_smb(ff, dest+"/"+ff.getName());}
         } else {
             try {
-                updateOverallBar(datFM_FileOperation.progr_overal.getProgress(), file.getPath(), dest);
+                updateOverallBar(datFM_File_Operations.progr_overal.getProgress(), file.getPath(), dest);
                 IO_Stream_Worker(file.getPath(), dest);
-                updateOverallBar(datFM_FileOperation.progr_overal.getProgress() + 1, file.getPath(), dest);
+                updateOverallBar(datFM_File_Operations.progr_overal.getProgress() + 1, file.getPath(), dest);
             } catch (Exception e){}
         }
         //return is_exist_custom(dest,CompetPanel);
@@ -160,18 +160,18 @@ public class datFM_IO {
         if (file.isDirectory()) {
             new datFM_IO(dest,CompetPanel).mkdir();
 
-            updateOverallBar(datFM_FileOperation.progr_overal.getProgress() + 1, file.getPath(), dest);
+            updateOverallBar(datFM_File_Operations.progr_overal.getProgress() + 1, file.getPath(), dest);
 
             File[] children = file.listFiles();
-            datFM_FileOperation.overalMax=datFM_FileOperation.progr_overal.getMax()+children.length;
-            datFM_FileOperation.progr_overal.setMax(datFM_FileOperation.overalMax);
+            datFM_File_Operations.overalMax= datFM_File_Operations.progr_overal.getMax()+children.length;
+            datFM_File_Operations.progr_overal.setMax(datFM_File_Operations.overalMax);
             for (File ff : children) {
                 copy_recursively_local(ff, dest+"/"+ff.getName());}
         } else {
             try {
-                updateOverallBar(datFM_FileOperation.progr_overal.getProgress(), file.getPath(), dest);
+                updateOverallBar(datFM_File_Operations.progr_overal.getProgress(), file.getPath(), dest);
                 IO_Stream_Worker(file.getPath(), dest);
-                updateOverallBar(datFM_FileOperation.progr_overal.getProgress() + 1, file.getPath(), dest);
+                updateOverallBar(datFM_File_Operations.progr_overal.getProgress() + 1, file.getPath(), dest);
             } catch (Exception e){}
         }
         //return is_exist_custom(dest,CompetPanel);
@@ -306,7 +306,7 @@ public class datFM_IO {
     }
     private File[] root_get_content(File d){
         File[] dirs;
-        String out = new String();
+        String out = "";
         String command = "ls \""+d.getPath()+"\"\n";
 
         Process p;
@@ -365,7 +365,7 @@ public class datFM_IO {
             cnt=cnt+1024;
             if(cnt>one_percent){
                 cur_file_progress=cur_file_progress+1;
-                datFM_FileOperation.progr_current.setProgress(cur_file_progress);
+                datFM_File_Operations.progr_current.setProgress(cur_file_progress);
                 updateCurrentBar(cur_file_progress,fullsize,cur_file_progress*one_percent);
                 cnt=0;
             }
@@ -378,19 +378,19 @@ public class datFM_IO {
         final BigDecimal sizeinMB = new BigDecimal(fullsize/1024.00/1024.00).setScale(3, BigDecimal.ROUND_HALF_UP);
         final BigDecimal CurrentSizeinMB = new BigDecimal(currentsize/1024.00/1024.00).setScale(3, BigDecimal.ROUND_HALF_UP);
 
-        datFM_FileOperation.mHandler.post(new Runnable() {
+        datFM_File_Operations.mHandler.post(new Runnable() {
             public void run() {
-                datFM_FileOperation.textCurrent.setText(String.valueOf(CurrentSizeinMB)+"MiB / "+String.valueOf(sizeinMB)+"MiB"+" ("+CurrentProgress+"/100%)");
+                datFM_File_Operations.textCurrent.setText(String.valueOf(CurrentSizeinMB)+"MiB / "+String.valueOf(sizeinMB)+"MiB"+" ("+CurrentProgress+"/100%)");
             }
         });
     }
     private void updateOverallBar(final int OverallProgress,final String pathtofile,final String dest){
-        datFM_FileOperation.progr_overal.setProgress(OverallProgress);
-        datFM_FileOperation.mHandler.post(new Runnable() {
+        datFM_File_Operations.progr_overal.setProgress(OverallProgress);
+        datFM_File_Operations.mHandler.post(new Runnable() {
             public void run() {
-                datFM_FileOperation.textOverall.setText("("+OverallProgress+"/"+datFM_FileOperation.overalMax+")");
-                datFM_FileOperation.textFile.setText(pathtofile);
-                datFM_FileOperation.textTo.setText(dest);
+                datFM_File_Operations.textOverall.setText("("+OverallProgress+"/"+ datFM_File_Operations.overalMax+")");
+                datFM_File_Operations.textFile.setText(pathtofile);
+                datFM_File_Operations.textTo.setText(dest);
             }
         });
     }

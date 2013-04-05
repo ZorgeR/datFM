@@ -1,4 +1,4 @@
-package com.zlab.datFM;
+package com.zlab.datFM.stuff;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -58,7 +58,7 @@ public class z_datFM_RootFile extends File  {
 
     @Override
     public String getParent() {
-        String parent = new datFM_IO("r:/"+path,datFM.curPanel).getParent()[0];
+        //String parent = new datFM_IO("r:/"+path,datFM.curPanel).getParent()[0];
         return parent.replace("r:/","");
     }
 

@@ -3,22 +3,22 @@
     <PreferenceScreen android:title="@string/settings_group_view">
     <PreferenceCategory android:title="@string/settings_group_view">
         <ListPreference android:title="@string/settings_elements_title_theme" android:summary="@string/settings_elements_summary_theme" android:key="pref_theme" android:defaultValue="Dark Fullscreen" android:entries="@array/text_themes" android:entryValues="@array/text_themes" />
-        <com.zlab.datFM.Hook_PrefSwitches android:title="@string/settings_elements_title_cp" android:summary="@string/settings_elements_summary_cp" android:key="pref_show_panel" android:defaultValue="true" />
-        <com.zlab.datFM.Hook_PrefSwitches android:title="@string/settings_elements_title_cptext" android:summary="@string/settings_elements_summary_cptext" android:key="pref_show_text_on_panel" android:defaultValue="true" />
-        <com.zlab.datFM.Hook_PrefSwitches android:title="@string/settings_elements_title_navbar" android:summary="@string/settings_elements_summary_navbar" android:key="pref_show_navbar" android:defaultValue="true" />
-        <com.zlab.datFM.Hook_PrefSwitches android:title="@string/settings_elements_title_single_navbar" android:summary="@string/settings_elements_summary_single_navbar" android:key="pref_show_single_navbar" android:defaultValue="false" />
-        <com.zlab.datFM.Hook_PrefSwitches android:title="@string/settings_elements_title_single_panel" android:summary="@string/settings_elements_summary_single_panel" android:key="pref_show_single_panel" android:defaultValue="false" />
-        <com.zlab.datFM.Hook_PrefSwitches android:title="@string/settings_elements_title_force_dual_panel_in_landscape" android:summary="@string/settings_elements_summary_force_dual_panel_in_landscape" android:key="pref_force_dual_panel_in_landscape" android:defaultValue="false" />
-        <com.zlab.datFM.Hook_PrefSwitches android:title="@string/settings_elements_title_folder_discription" android:summary="@string/settings_elements_summary_folder_discription" android:key="pref_show_folder_discr" android:defaultValue="true" />
-        <com.zlab.datFM.Hook_PrefSwitches android:title="@string/settings_elements_title_files_discription" android:summary="@string/settings_elements_summary_files_discription" android:key="pref_show_files_discr" android:defaultValue="true" />
-        <com.zlab.datFM.Hook_PrefSwitches android:title="@string/settings_elements_title_panel_discription" android:summary="@string/settings_elements_summary_panel_discription" android:key="pref_show_panel_discr" android:defaultValue="true" />
-        <com.zlab.datFM.Hook_PrefSwitches android:title="@string/settings_elements_title_show_date" android:summary="@string/settings_elements_summary_show_date" android:key="pref_show_date" android:defaultValue="false" />
+        <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_cp" android:summary="@string/settings_elements_summary_cp" android:key="pref_show_panel" android:defaultValue="true" />
+        <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_cptext" android:summary="@string/settings_elements_summary_cptext" android:key="pref_show_text_on_panel" android:defaultValue="true" />
+        <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_navbar" android:summary="@string/settings_elements_summary_navbar" android:key="pref_show_navbar" android:defaultValue="true" />
+        <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_single_navbar" android:summary="@string/settings_elements_summary_single_navbar" android:key="pref_show_single_navbar" android:defaultValue="false" />
+        <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_single_panel" android:summary="@string/settings_elements_summary_single_panel" android:key="pref_show_single_panel" android:defaultValue="false" />
+        <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_force_dual_panel_in_landscape" android:summary="@string/settings_elements_summary_force_dual_panel_in_landscape" android:key="pref_force_dual_panel_in_landscape" android:defaultValue="false" />
+        <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_folder_discription" android:summary="@string/settings_elements_summary_folder_discription" android:key="pref_show_folder_discr" android:defaultValue="true" />
+        <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_files_discription" android:summary="@string/settings_elements_summary_files_discription" android:key="pref_show_files_discr" android:defaultValue="true" />
+        <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_panel_discription" android:summary="@string/settings_elements_summary_panel_discription" android:key="pref_show_panel_discr" android:defaultValue="true" />
+        <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_show_date" android:summary="@string/settings_elements_summary_show_date" android:key="pref_show_date" android:defaultValue="false" />
         <ListPreference android:title="@string/settings_elements_title_icons_size" android:summary="@string/settings_elements_summary_icons_size" android:key="pref_icons_size" android:defaultValue="64" android:entries="@array/icon_size" android:entryValues="@array/icon_size" />
         <ListPreference android:title="@string/settings_elements_title_text_name_size" android:summary="@string/settings_elements_summary_text_name_size" android:key="pref_text_name_size" android:defaultValue="14" android:entries="@array/text_size" android:entryValues="@array/text_size" />
         <ListPreference android:title="@string/settings_elements_title_text_discr_size" android:summary="@string/settings_elements_summary_text_discr_size" android:key="pref_text_discr_size" android:defaultValue="12" android:entries="@array/text_discr_size" android:entryValues="@array/text_discr_size" />
         <ListPreference android:title="@string/settings_elements_title_text_font_style" android:summary="@string/settings_elements_summary_text_font_style" android:key="pref_font_style" android:defaultValue="Normal" android:entries="@array/text_style" android:entryValues="@array/text_style" />
         <ListPreference android:title="@string/settings_elements_title_text_font_typeface" android:summary="@string/settings_elements_summary_text_font_typeface" android:key="pref_font_typeface" android:defaultValue="Normal" android:entries="@array/text_family" android:entryValues="@array/text_family" />
-        <com.zlab.datFM.Hook_PrefSwitches android:title="@string/settings_elements_title_text_bold_folder" android:summary="@string/settings_elements_summary_text_bold_folder" android:key="pref_font_bold_folder" android:defaultValue="false" />
+        <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_text_bold_folder" android:summary="@string/settings_elements_summary_text_bold_folder" android:key="pref_font_bold_folder" android:defaultValue="false" />
         <ListPreference android:title="@string/settings_elements_title_buttonbar_size" android:summary="@string/settings_elements_summary_buttonbar_size" android:key="pref_actionbar_size" android:defaultValue="36" android:entries="@array/panel_size" android:entryValues="@array/panel_size" />
         <ListPreference android:title="@string/settings_elements_title_pathbar_size" android:summary="@string/settings_elements_summary_pathbar_size" android:key="pref_path_bar_size" android:defaultValue="30" android:entries="@array/panel_size" android:entryValues="@array/panel_size" />
         <ListPreference android:title="@string/settings_elements_title_bartext_size" android:summary="@string/settings_elements_summary_bartext_size" android:key="pref_bartext_size" android:defaultValue="10" android:entries="@array/text_bar_size" android:entryValues="@array/text_bar_size" />
@@ -26,32 +26,32 @@
     </PreferenceScreen>
     <PreferenceScreen android:title="@string/settings_group_performance">
         <PreferenceCategory android:title="@string/settings_group_view">
-            <com.zlab.datFM.Hook_PrefSwitches android:title="@string/settings_elements_title_appicons" android:summary="@string/settings_elements_summary_appicons" android:key="pref_show_apk" android:defaultValue="true" />
-            <com.zlab.datFM.Hook_PrefSwitches android:title="@string/settings_elements_title_photoicons" android:summary="@string/settings_elements_summary_photoicons" android:key="pref_show_photo" android:defaultValue="true" />
-            <com.zlab.datFM.Hook_PrefSwitches android:title="@string/settings_elements_title_videoicons" android:summary="@string/settings_elements_summary_videoicons" android:key="pref_show_video" android:defaultValue="true" />
+            <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_appicons" android:summary="@string/settings_elements_summary_appicons" android:key="pref_show_apk" android:defaultValue="true" />
+            <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_photoicons" android:summary="@string/settings_elements_summary_photoicons" android:key="pref_show_photo" android:defaultValue="true" />
+            <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_videoicons" android:summary="@string/settings_elements_summary_videoicons" android:key="pref_show_video" android:defaultValue="true" />
             <ListPreference android:title="@string/settings_elements_title_icons_cache" android:summary="@string/settings_elements_summary_icons_cache" android:key="pref_icons_cache" android:defaultValue="100" android:entries="@array/cache_size" android:entryValues="@array/cache_size" />
         </PreferenceCategory>
     </PreferenceScreen>
     <PreferenceScreen android:title="@string/settings_group_other">
     <PreferenceCategory android:title="@string/settings_group_other">
-        <com.zlab.datFM.Hook_PrefSwitches android:title="@string/settings_elements_title_opendir" android:summary="@string/settings_elements_summary_opendir" android:key="pref_open_dir" android:defaultValue="true" />
-        <com.zlab.datFM.Hook_PrefSwitches android:title="@string/settings_elements_title_openarcdir" android:summary="@string/settings_elements_summary_openarcdir" android:key="pref_open_arcdir" android:defaultValue="false" />
-        <com.zlab.datFM.Hook_PrefSwitches android:title="@string/settings_elements_title_openarcdir_window" android:summary="@string/settings_elements_summary_openarcdir_window" android:key="pref_open_arcdir_window" android:defaultValue="true" />
-        <com.zlab.datFM.Hook_PrefSwitches android:title="@string/settings_elements_title_savepath" android:summary="@string/settings_elements_summary_savepath" android:key="pref_save_path" android:defaultValue="true" />
-        <com.zlab.datFM.Hook_PrefSwitches android:title="@string/settings_elements_title_focusondir" android:summary="@string/settings_elements_summary_focusondir" android:key="pref_dir_focus" android:defaultValue="true" />
+        <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_opendir" android:summary="@string/settings_elements_summary_opendir" android:key="pref_open_dir" android:defaultValue="true" />
+        <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_openarcdir" android:summary="@string/settings_elements_summary_openarcdir" android:key="pref_open_arcdir" android:defaultValue="false" />
+        <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_openarcdir_window" android:summary="@string/settings_elements_summary_openarcdir_window" android:key="pref_open_arcdir_window" android:defaultValue="true" />
+        <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_savepath" android:summary="@string/settings_elements_summary_savepath" android:key="pref_save_path" android:defaultValue="true" />
+        <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_focusondir" android:summary="@string/settings_elements_summary_focusondir" android:key="pref_dir_focus" android:defaultValue="true" />
     </PreferenceCategory>
     </PreferenceScreen>
     <PreferenceScreen android:title="@string/settings_group_network">
         <PreferenceCategory android:title="@string/settings_group_network">
-            <com.zlab.datFM.Hook_PrefSwitches android:title="@string/settings_elements_title_sambalogin" android:summary="@string/settings_elements_summary_sambalogin" android:key="pref_sambalogin" android:defaultValue="true" />
-            <com.zlab.datFM.Hook_PrefSwitches android:title="@string/settings_elements_title_clear_filecache" android:summary="@string/settings_elements_summary_clear_filecache" android:key="pref_clear_filecache" android:defaultValue="true" />
+            <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_sambalogin" android:summary="@string/settings_elements_summary_sambalogin" android:key="pref_sambalogin" android:defaultValue="true" />
+            <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_clear_filecache" android:summary="@string/settings_elements_summary_clear_filecache" android:key="pref_clear_filecache" android:defaultValue="true" />
         </PreferenceCategory>
     </PreferenceScreen>
     <PreferenceScreen android:title="@string/settings_group_dangerous">
-    <com.zlab.datFM.Hook_PrefCustomCategory android:title="@string/settings_group_dangerous" android:key="dangerous_title">
-        <com.zlab.datFM.Hook_PrefSwitches android:title="@string/settings_elements_title_kamikaze" android:summary="@string/settings_elements_summary_kamikaze" android:key="pref_kamikaze" android:defaultValue="false" />
-        <com.zlab.datFM.Hook_PrefSwitches android:title="@string/settings_elements_title_root" android:summary="@string/settings_elements_summary_root" android:key="pref_root" android:defaultValue="false" />
-        <com.zlab.datFM.Hook_PrefSwitches android:title="@string/settings_elements_title_show_hide" android:summary="@string/settings_elements_summary_show_hide" android:key="pref_show_hide" android:defaultValue="false" />
-    </com.zlab.datFM.Hook_PrefCustomCategory>
+    <com.zlab.datFM.hooks.Pref_CustomCategory android:title="@string/settings_group_dangerous" android:key="dangerous_title">
+        <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_kamikaze" android:summary="@string/settings_elements_summary_kamikaze" android:key="pref_kamikaze" android:defaultValue="false" />
+        <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_root" android:summary="@string/settings_elements_summary_root" android:key="pref_root" android:defaultValue="false" />
+        <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_show_hide" android:summary="@string/settings_elements_summary_show_hide" android:key="pref_show_hide" android:defaultValue="false" />
+    </com.zlab.datFM.hooks.Pref_CustomCategory>
     </PreferenceScreen>
 </PreferenceScreen>

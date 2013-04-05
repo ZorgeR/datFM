@@ -6,38 +6,38 @@ import android.view.View;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-public class datFM_FileProperties_Builder extends AsyncTask<ArrayList<datFM_FileInfo>, Void, String> {
+public class datFM_Properties_SizeCalc extends AsyncTask<ArrayList<datFM_File>, Void, String> {
 
     Long holder;
-    ArrayList<datFM_FileInfo> paths;
+    ArrayList<datFM_File> paths;
 
     protected void onPreExecute() {
-        datFM_FileProperties.prop_size_progress.setVisibility(View.VISIBLE);
+        datFM_Properties.prop_size_progress.setVisibility(View.VISIBLE);
         super.onPreExecute();
     }
 
     @Override
-    protected String doInBackground(ArrayList<datFM_FileInfo>... list) {
+    protected String doInBackground(ArrayList<datFM_File>... list) {
         paths = list[0];
 
-        for (int i=0;i<paths.size();i++){
-            if(paths.get(i).getType().equals("dir")){
-                get_directory(paths.get(i).getPath());
+        for (datFM_File path : paths) {
+            if (path.getType().equals("dir")) {
+                get_directory(path.getPath());
             } else {
-                get_file(paths.get(i).getPath());
+                get_file(path.getPath());
             }
         }
         return null;
     }
 
     protected void onPostExecute(String result) {
-        datFM_FileProperties.prop_size_progress.setVisibility(View.GONE);
+        datFM_Properties.prop_size_progress.setVisibility(View.GONE);
         if(holder!=null){
         BigDecimal size_d = new BigDecimal(holder/1024.00/1024.00);
         BigDecimal file_size_d = size_d.setScale(3, BigDecimal.ROUND_HALF_UP);
-        datFM_FileProperties.prop_size.setText(String.valueOf(file_size_d));
+        datFM_Properties.prop_size.setText(String.valueOf(file_size_d));
         } else {
-        datFM_FileProperties.prop_size.setText("0.00");
+        datFM_Properties.prop_size.setText("0.00");
         }
         super.onPostExecute(result);
     }
