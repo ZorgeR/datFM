@@ -303,6 +303,8 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
         return success;
     }
     /** Operation **/
+    /* TODO - При операциях с root файлами использовать тип HOOK_ROOT_FILES, за место File */
+    /* TODO - Исравить проверку выполнения для root операций и для создания нового каталога. */
     private boolean root_delete(String file) throws IOException {
         boolean success = new datFM_IO(file,srcPannelID).delete();
         if (!success && datFM.pref_root){
