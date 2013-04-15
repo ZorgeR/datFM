@@ -206,17 +206,6 @@ public class datFM extends Activity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         /* TODO ui_change_on_action(); Сделать проброс newConfig */
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            final float scale = getResources().getDisplayMetrics().density;
-            int size_in_px = (int) (pref_bartext_size * scale + 0.5f);
-            //
-            pref_btn_text_size(size_in_px);
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
-            final float scale = getResources().getDisplayMetrics().density;
-            int size_in_px = (int) (pref_bartext_size  * scale + 0.5f);
-            //
-            pref_btn_text_size(size_in_px);
-        }
 
         new Thread() { /** запуск с задержкой **/
             public void run() {
@@ -230,7 +219,6 @@ public class datFM extends Activity {
                 });
             }
         }.start();
-
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -1805,6 +1793,7 @@ public class datFM extends Activity {
             layoutPathPanelRight.setVisibility(View.VISIBLE);
         }
 
+        /** Высота панелей **/
         int in_dp = pref_actionbar_size;
         final float scale_px = getResources().getDisplayMetrics().density;
         int in_px = (int) (in_dp * scale_px + 0.5f);
@@ -1824,7 +1813,7 @@ public class datFM extends Activity {
             textPanelRight.setVisibility(View.VISIBLE);
         }
 
-        /** Button panel **/
+        /** Скрытие панели действий **/
         if (!pref_show_panel){
             if (selLeft==0 && selRight==0){
                 layoutButtonPanel.setVisibility(View.GONE);
@@ -1840,25 +1829,14 @@ public class datFM extends Activity {
             init_Listener_Scroll();
         }
 
-        /** Смена элементов интерфейса **/
-        ui_change_on_action();
+        /** Выставить размер текста адресной строки и панели действия **/
+        pref_btn_text_size(pref_bartext_size);
 
         /** Root **/
         if (pref_root){
             String[] commands = {"mount -o rw,remount /system\n"};
             RunAsRoot(commands);
         }
-
-        /** Animation **/
-
-        /** Panel Text on Rotate **/
-        /**if (getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-         int size_in_dp = 14;
-         final float scale = getResources().getDisplayMetrics().density;
-         int size_in_px = (int) (size_in_dp * scale + 0.5f);
-         //
-         pref_btn_text_size(size_in_px);
-         } else*/
 
     }
 
@@ -1918,29 +1896,10 @@ public class datFM extends Activity {
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
     }
-    private void ui_change_on_action(){
-        if (getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            //int size_in_dp = 8;
-            final float scale = getResources().getDisplayMetrics().density;
-            int size_in_px = (int) (pref_bartext_size * scale + 0.5f);
-            //
-            pref_btn_text_size(size_in_px);
-        } else {
-            //int size_in_dp=pref_bartext_size;
-            //if(pref_small_panel){size_in_dp = 9;}
-            final float scale = getResources().getDisplayMetrics().density;
-            int size_in_px = (int) (pref_bartext_size * scale + 0.5f);
-            //
-            pref_btn_text_size(size_in_px);
-        }
-    }
+
     private void old_api_fixes(){
         /** FIX OLD API LEVEL UI **/
         if (currentApiVersion < Build.VERSION_CODES.HONEYCOMB){
-            //layoutButtonPanel.setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_full_holo_dark));
-            //listRight.setCacheColorHint(Color.parseColor("00000000"));
-            //listLeft.setCacheColorHint(Color.TRANSPARENT);
-
             btnShareText.setTextColor(Color.BLACK);
             btnAddFolderText.setTextColor(Color.BLACK);
             btnAddToArchiveText.setTextColor(Color.BLACK);
@@ -1950,8 +1909,7 @@ public class datFM extends Activity {
             btnDeselectAllText.setTextColor(Color.BLACK);
             btnDeleteText.setTextColor(Color.BLACK);
             btnRenameText.setTextColor(Color.BLACK);
-        }// else{}
-        // android:background="@android:drawable/dialog_holo_dark_frame"
+        }
     }
     private void pref_btn_text_size(int size){
         btnShareText.setTextSize(size);

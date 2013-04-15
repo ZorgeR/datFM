@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="jcifs-1.3.17">
+  <library name="jcifs-1.3.171">
     <CLASSES>
-      <root url="jar://F:/BUILD.BOT/jcifs-1.3.17.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../jcifs-1.3.17.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
