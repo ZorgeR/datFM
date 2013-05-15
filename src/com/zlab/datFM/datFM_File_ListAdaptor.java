@@ -91,7 +91,9 @@ public class datFM_File_ListAdaptor extends ArrayAdapter<datFM_File> {
                 text_FileDescription.setText(o.getData());}
 
             if (o.getType().equals("parent_dir")){
-                imgFileIcon.setImageResource(R.drawable.ext_folder_up);
+                //imgFileIcon.setImageResource(R.drawable.ext_folder_up);
+                imgFileIcon.setImageResource(getContext().getResources().getIdentifier("ext_folder_up"+"_"+datFM.pref_theme_icons, "drawable", "com.zlab.datFM"));
+
                 if(datFM.pref_font_bold_folder){text_FileName.setTypeface(datFM.font_typeface, Typeface.BOLD);}
                 if (datFM.pref_show_folder_discr){
                     text_FileDescription.setVisibility(View.VISIBLE);
@@ -99,7 +101,8 @@ public class datFM_File_ListAdaptor extends ArrayAdapter<datFM_File> {
                     text_FileDescription.setVisibility(View.GONE);
                 }
             } else if (o.getType().equals("dir")){
-                imgFileIcon.setImageResource(R.drawable.ext_folder);
+                //imgFileIcon.setImageResource(R.drawable.ext_folder);
+                imgFileIcon.setImageResource(getContext().getResources().getIdentifier("ext_folder"+"_"+datFM.pref_theme_icons, "drawable", "com.zlab.datFM"));
                 if(datFM.pref_font_bold_folder){text_FileName.setTypeface(datFM.font_typeface, Typeface.BOLD);}
                 if (datFM.pref_show_folder_discr){
                     text_FileDescription.setVisibility(View.VISIBLE);
@@ -115,7 +118,7 @@ public class datFM_File_ListAdaptor extends ArrayAdapter<datFM_File> {
                     /* Get ext */
                 String ext = o.getExt();
 
-                resID = getContext().getResources().getIdentifier("ext_" + ext.toLowerCase(), "drawable", "com.zlab.datFM");
+                resID = getContext().getResources().getIdentifier("ext_" + ext.toLowerCase() + datFM.pref_theme_icons, "drawable", "com.zlab.datFM");
 
                 if (resID==0){
                     String[] audio = {"mp3", "m4a", "aac", "ogg"};
@@ -150,25 +153,31 @@ public class datFM_File_ListAdaptor extends ArrayAdapter<datFM_File> {
                     resID = ext_check(pptx,"pptx",ext);
                 }
                 if (resID==0){
-                    resID = R.drawable.ext_unknown;
+                    resID = getContext().getResources().getIdentifier("ext_unknown"+"_"+datFM.pref_theme_icons, "drawable", "com.zlab.datFM");
                 }
 
                 imgFileIcon.setImageResource(resID);
                 icon_setter(o.getPath(), ext);
 
             } else if (o.getType().equals("favorite") || o.getType().startsWith("fav_bookmark") ){
-                    imgFileIcon.setImageResource(R.drawable.ext_favorite);
+                    //imgFileIcon.setImageResource(R.drawable.ext_favorite);
+                    imgFileIcon.setImageResource(getContext().getResources().getIdentifier("ext_favorite"+"_"+datFM.pref_theme_icons, "drawable", "com.zlab.datFM"));
             } else if (o.getType().equals("network") || o.getType().equals("smb_store_network")){
-                    imgFileIcon.setImageResource(R.drawable.ext_network);
+                    //imgFileIcon.setImageResource(R.drawable.ext_network);
+                    imgFileIcon.setImageResource(getContext().getResources().getIdentifier("ext_network"+"_"+datFM.pref_theme_icons, "drawable", "com.zlab.datFM"));
             } else if(o.getType().equals("sdcard")){
-                    imgFileIcon.setImageResource(R.drawable.ext_drive);
+                    //imgFileIcon.setImageResource(R.drawable.ext_drive);
+                    imgFileIcon.setImageResource(getContext().getResources().getIdentifier("ext_drive"+"_"+datFM.pref_theme_icons, "drawable", "com.zlab.datFM"));
             } else if(o.getType().equals("root")){
-                    imgFileIcon.setImageResource(R.drawable.ext_folder_root);
+                    //imgFileIcon.setImageResource(R.drawable.ext_folder_root);
+                    imgFileIcon.setImageResource(getContext().getResources().getIdentifier("ext_folder_root"+"_"+datFM.pref_theme_icons, "drawable", "com.zlab.datFM"));
             } else if(o.getType().equals("home")){
-                imgFileIcon.setImageResource(R.drawable.ext_folder_home);
+                    //imgFileIcon.setImageResource(R.drawable.ext_folder_home);
+                    imgFileIcon.setImageResource(getContext().getResources().getIdentifier("ext_folder_home"+"_"+datFM.pref_theme_icons, "drawable", "com.zlab.datFM"));
             } else if(o.getType().equals("add")){
                 //resID = getContext().getResources().getIdentifier("ext_" + ext.toLowerCase(), "drawable", "com.zlab.datFM");
-                imgFileIcon.setImageResource(R.drawable.ext_folder_add);
+                //imgFileIcon.setImageResource(R.drawable.ext_folder_add);
+                imgFileIcon.setImageResource(getContext().getResources().getIdentifier("ext_folder_add"+"_"+datFM.pref_theme_icons, "drawable", "com.zlab.datFM"));
             }
 
             imgFileIcon.setOnClickListener(new View.OnClickListener() {

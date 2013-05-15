@@ -38,6 +38,7 @@
         <item>32</item>
     </string-array>
     <string-array name="text_discr_size">
+        <item>8</item>
         <item>10</item>
         <item>12</item>
         <item>14</item>
@@ -61,6 +62,14 @@
     <string-array name="text_themes">
         <item>datFM Classic</item>
         <item>Dark Fullscreen</item>
+    </string-array>
+    <string-array name="text_icon_themes">
+        <item>Human O2</item>
+        <item>Quartz</item>
+    </string-array>
+    <string-array name="text_icon_themes_values">
+        <item>human_o2</item>
+        <item>quartz</item>
     </string-array>
     <string-array name="panel_size">
         <item>28</item>

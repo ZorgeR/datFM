@@ -94,7 +94,7 @@ public class datFM extends Activity {
     boolean settings_opened = false;
     String pref_icons_cache,pref_icons_size,pref_text_name_size,pref_text_discr_size,pref_font_style,pref_font_typeface;
     int pref_actionbar_size,pref_path_bar_size,pref_bartext_size;
-    static String pref_theme;
+    static String pref_theme,pref_theme_icons;
     static int icons_size,text_name_size,text_discr_size,font_style;
     static Typeface font_typeface;
 
@@ -1702,6 +1702,7 @@ public class datFM extends Activity {
         pref_show_hide = prefs.getBoolean("pref_show_hide",false);
         pref_clear_filecache = prefs.getBoolean("pref_clear_filecache",true);
         pref_theme = prefs.getString("pref_theme","Dark Fullscreen");
+        pref_theme_icons = prefs.getString("pref_theme_icons","human_o2");
         pref_show_single_navbar = prefs.getBoolean("pref_show_single_navbar",false);
         pref_show_single_panel = prefs.getBoolean("pref_show_single_panel",false);
         pref_force_dual_panel_in_landscape = prefs.getBoolean("pref_force_dual_panel_in_landscape",false);

@@ -51,6 +51,7 @@
     <string name="settings_group_dangerous">Dangerous</string>
     <!-- Settings Elements Title -->
     <string name="settings_elements_title_theme">Themes</string>
+    <string name="settings_elements_title_theme_icons">Icon pack</string>
     <string name="settings_elements_title_cp">Control Panel</string>
     <string name="settings_elements_title_appicons">App icons</string>
     <string name="settings_elements_title_photoicons">Photo icons</string>
@@ -87,6 +88,7 @@
     <string name="settings_elements_title_show_hide">Show hidden files and folders</string>
     <!-- Settings Elements Summary -->
     <string name="settings_elements_summary_theme">Change apply after application restart</string>
+    <string name="settings_elements_summary_theme_icons">Amazing icons</string>
     <string name="settings_elements_summary_cp">Show always</string>
     <string name="settings_elements_summary_appicons">Get application icons from APK</string>
     <string name="settings_elements_summary_photoicons">Show photo thumbnail</string>

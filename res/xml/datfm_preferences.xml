@@ -3,6 +3,7 @@
     <PreferenceScreen android:title="@string/settings_group_view">
         <PreferenceCategory android:title="@string/settings_group_view">
             <ListPreference android:title="@string/settings_elements_title_theme" android:summary="@string/settings_elements_summary_theme" android:key="pref_theme" android:defaultValue="Dark Fullscreen" android:entries="@array/text_themes" android:entryValues="@array/text_themes" />
+            <ListPreference android:title="@string/settings_elements_title_theme_icons" android:summary="@string/settings_elements_summary_theme_icons" android:key="pref_theme_icons" android:defaultValue="human_o2" android:entries="@array/text_icon_themes" android:entryValues="@array/text_icon_themes_values" />
             <CheckBoxPreference android:title="@string/settings_elements_title_cp" android:summary="@string/settings_elements_summary_cp" android:key="pref_show_panel" android:defaultValue="true" />
             <CheckBoxPreference android:title="@string/settings_elements_title_cptext" android:summary="@string/settings_elements_summary_cptext" android:key="pref_show_text_on_panel" android:defaultValue="true" />
             <CheckBoxPreference android:title="@string/settings_elements_title_navbar" android:summary="@string/settings_elements_summary_navbar" android:key="pref_show_navbar" android:defaultValue="true" />

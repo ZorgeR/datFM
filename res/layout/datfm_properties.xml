@@ -15,7 +15,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/prop_icon_file" android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true" android:src="@drawable/ext_unknown"
+                    android:layout_alignParentTop="true" android:src="@drawable/ext_unknown_human_o2"
                     android:layout_margin="5dp" android:paddingTop="10dp"/>
         </LinearLayout>
     <ScrollView

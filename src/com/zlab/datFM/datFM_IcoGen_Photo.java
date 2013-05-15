@@ -49,7 +49,10 @@ protected void onPreExecute() {
                 } catch(Exception ex) {
                 }
 
-                if (icon==null){icon=activity.getContext().getResources().getDrawable(R.drawable.ext_unknown);}
+                if (icon==null){icon=activity.getContext().getResources().getDrawable(
+                                     activity.getContext().getResources().getIdentifier("ext_photo"+"_"+datFM.pref_theme_icons, "drawable", "com.zlab.datFM"));
+                                //icon=activity.getContext().getResources().getDrawable(R.drawable.ext_unknown_human_o2);
+                }
                 datFM.cache_icons[id]=icon;
                 return icon;
             }

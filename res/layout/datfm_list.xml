@@ -6,7 +6,7 @@
     <ImageView
             android:layout_width="64px"
             android:layout_height="64px"
-            android:id="@+id/imgFileIcon" android:src="@drawable/ext_unknown"
+            android:id="@+id/imgFileIcon" android:src="@drawable/ext_unknown_human_o2"
             android:layout_marginRight="3dp" android:layout_marginLeft="1dp"
             />
     <RelativeLayout

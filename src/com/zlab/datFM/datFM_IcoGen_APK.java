@@ -31,7 +31,11 @@ public class datFM_IcoGen_APK extends AsyncTask<String, Void, Drawable> {
             }
             icon = appInfo.loadIcon(activity.getContext().getPackageManager());
         }
-        if (icon==null){icon=activity.getContext().getResources().getDrawable(R.drawable.ext_apk);}
+        if (icon==null){
+            icon=activity.getContext().getResources().getDrawable(
+                    activity.getContext().getResources().getIdentifier("ext_apk"+"_"+datFM.pref_theme_icons, "drawable", "com.zlab.datFM"));
+        }
+            //icon=activity.getContext().getResources().getDrawable(R.drawable.ext_apk);}
 
         datFM.cache_icons[id]=icon;
         return icon;

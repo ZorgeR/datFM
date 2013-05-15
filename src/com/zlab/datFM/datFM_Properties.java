@@ -2,6 +2,7 @@ package com.zlab.datFM;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.ClipboardManager;
@@ -31,6 +32,7 @@ public class datFM_Properties extends Activity {
     ImageView prop_icon_file;
     public static ImageView prop_icon_md5_check;
     static ProgressBar prop_size_progress,prop_md5_progress;
+    Context prop_context;
 
     /** FLAG */
 
@@ -56,7 +58,7 @@ public class datFM_Properties extends Activity {
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.datfm_properties);
-        //datFM_Properties_state = this;
+        prop_context = this;
 
         /** EditText **/
         prop_name = (EditText) findViewById(R.id.prop_name);
@@ -192,7 +194,7 @@ public class datFM_Properties extends Activity {
 
         /** Icon **/
         if(isDir){
-            prop_icon_file.setImageResource(R.drawable.ext_folder);
+            prop_icon_file.setImageResource(R.drawable.ext_folder_human_o2);
         } else {
             get_icon();
         }
@@ -350,7 +352,8 @@ public class datFM_Properties extends Activity {
             resID = ext_check(pptx,"pptx",ext);
         }
         if (resID==0){
-            resID = R.drawable.ext_unknown;
+            //resID = R.drawable.ext_unknown_human_o2;
+            resID = getResources().getIdentifier("ext_unknown"+"_"+datFM.pref_theme_icons, "drawable", "com.zlab.datFM");
         }
         prop_icon_file.setImageResource(resID);
     }
