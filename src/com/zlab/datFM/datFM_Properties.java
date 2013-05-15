@@ -317,7 +317,7 @@ public class datFM_Properties extends Activity {
     }
 
     public void get_icon(){
-        int resID = datFM.datf_context.getResources().getIdentifier("ext_" + ext.toLowerCase(), "drawable", "com.zlab.datFM");
+        int resID = datFM.datf_context.getResources().getIdentifier("ext_" + ext.toLowerCase()+"_"+datFM.pref_theme_icons, "drawable", "com.zlab.datFM");
 
         if (resID==0){
             String[] audio = {"mp3", "m4a", "aac", "ogg"};
