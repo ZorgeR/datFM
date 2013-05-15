@@ -291,7 +291,7 @@ public class datFM_File_ListAdaptor extends ArrayAdapter<datFM_File> {
         int resID=0;
         for (String find_ext : ext_list) {
             if (find_ext.equals(ext)) {
-                resID = getContext().getResources().getIdentifier("ext_" + name.toLowerCase(), "drawable", "com.zlab.datFM");
+                resID = getContext().getResources().getIdentifier("ext_" + name.toLowerCase()+"_"+datFM.pref_theme_icons, "drawable", "com.zlab.datFM");
                 break;
             }
         }
