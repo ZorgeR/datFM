@@ -50,9 +50,10 @@
     <string name="settings_group_network">Сеть</string>
     <string name="settings_group_dangerous">Опасно</string>
     <!-- Settings Elements Title -->
-    <string name="settings_elements_title_theme">Темы</string>
-    <string name="settings_elements_title_cp">Панель действий</string>
-    <string name="settings_elements_title_appicons">Иконки приложений</string>
+    <string name="settings_elements_title_theme">Темы оформления</string>
+    <string name="settings_elements_title_theme_icons">Наборы иконок</string>
+    <string name="settings_elements_title_cp">Панель инструментов</string>
+    <string name="settings_elements_title_appicons">Иконки для APK</string>
     <string name="settings_elements_title_photoicons">Миниатюры для фото</string>
     <string name="settings_elements_title_videoicons">Миниатюры для видео</string>
     <string name="settings_elements_title_icons_cache">Кеш миниатюр</string>
@@ -63,7 +64,7 @@
     <string name="settings_elements_title_text_font_typeface">Начертание шрифтов</string>
     <string name="settings_elements_title_text_bold_folder">Жирный шрифт для папок</string>
     <string name="settings_elements_title_small_panel">Маленькие панели</string>
-    <string name="settings_elements_title_cptext">Текст в панели</string>
+    <string name="settings_elements_title_cptext">Текст на кнопках</string>
     <string name="settings_elements_title_navbar">Адресная строка</string>
     <string name="settings_elements_title_single_navbar">Одна адресная строка</string>
     <string name="settings_elements_title_single_panel">Одна панель</string>
@@ -87,19 +88,20 @@
     <string name="settings_elements_title_show_hide">Показывать скрытые элементы</string>
     <!-- Settings Elements Summary -->
     <string name="settings_elements_summary_theme">Применяется после перезапуска приложения</string>
+    <string name="settings_elements_summary_theme_icons">Не скучные иконки</string>
     <string name="settings_elements_summary_cp">Показывать всегда</string>
     <string name="settings_elements_summary_appicons">Показывать иконку приложения для APK</string>
     <string name="settings_elements_summary_photoicons">Отображать миниатюры для фото</string>
     <string name="settings_elements_summary_videoicons">Отображать миниатюры для видео</string>
-    <string name="settings_elements_summary_icons_cache">Выбрать количество миниатюр в кеше</string>
-    <string name="settings_elements_summary_icons_size">Выставить высоту строки и размер иконки</string>
-    <string name="settings_elements_summary_text_name_size">Выставить размер шрифта для имен</string>
-    <string name="settings_elements_summary_text_discr_size">Выставить размер шрифта для описания</string>
-    <string name="settings_elements_summary_text_font_style">Выбрать стиль для шрифтов</string>
-    <string name="settings_elements_summary_text_font_typeface">Выбрать начертание для шрифтов</string>
+    <string name="settings_elements_summary_icons_cache">Количество миниатюр в кеше</string>
+    <string name="settings_elements_summary_icons_size">Высота строк и размер иконок</string>
+    <string name="settings_elements_summary_text_name_size">Размер шрифта для имен файлов и папок</string>
+    <string name="settings_elements_summary_text_discr_size">Размер шрифта для описания файлов и папок</string>
+    <string name="settings_elements_summary_text_font_style">Тонкий, полужирный, курсив</string>
+    <string name="settings_elements_summary_text_font_typeface">С засечками, без, моноширный</string>
     <string name="settings_elements_summary_text_bold_folder">Всегда жирный шрифт для имен папок</string>
     <string name="settings_elements_summary_small_panel">Использовать маленькие панели, для телефонов</string>
-    <string name="settings_elements_summary_cptext">Показывать надписи на кнопках панели</string>
+    <string name="settings_elements_summary_cptext">Подписи на кнопках панели</string>
     <string name="settings_elements_summary_navbar">Показывать адресную строку наверху</string>
     <string name="settings_elements_summary_single_navbar">Показывать только активную адресную строку</string>
     <string name="settings_elements_summary_single_panel">Показывать только активную панель</string>

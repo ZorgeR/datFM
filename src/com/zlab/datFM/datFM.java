@@ -1687,7 +1687,7 @@ public class datFM extends Activity {
         pref_show_navbar = prefs.getBoolean("pref_show_navbar",true);
         pref_show_folder_discr = prefs.getBoolean("pref_show_folder_discr",true);
         pref_show_files_discr = prefs.getBoolean("pref_show_files_discr",true);
-        pref_show_panel_discr = prefs.getBoolean("pref_show_panel_discr",true);
+        pref_show_panel_discr = prefs.getBoolean("pref_show_panel_discr",false);
         pref_sambalogin = prefs.getBoolean("pref_sambalogin",true);
         pref_icons_size = prefs.getString("pref_icons_size","64");
         pref_text_name_size = prefs.getString("pref_text_name_size","14");
