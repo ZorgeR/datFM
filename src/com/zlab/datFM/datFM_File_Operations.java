@@ -95,7 +95,7 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
                     if (success) {count++;onProgressUpdate(count);}
 
             } else if(operation.equals("new_folder")){
-                dialog_operation.setTitle(datFM.datf_context.getResources().getString(R.string.ui_dialog_title_copy));
+                dialog_operation.setTitle(datFM.datFM_context.getResources().getString(R.string.ui_dialog_title_copy));
                 if (protocol_newfolder(srcDir)) {count++;onProgressUpdate(count);}
 
             } else {
@@ -110,7 +110,7 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
                         }
                     });
 
-                    dialog_operation.setTitle(datFM.datf_context.getResources().getString(R.string.ui_dialog_title_copy));
+                    dialog_operation.setTitle(datFM.datFM_context.getResources().getString(R.string.ui_dialog_title_copy));
                     for (int i=1;i<selectionHolder.length;i++){
                         if (selectionHolder[i]){
                             datFM_File from = adaptorHolder.get(i);
@@ -119,7 +119,7 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
                         }
                     }
                 } else if (operation.equals("delete")){
-                    dialog_operation.setTitle(datFM.datf_context.getResources().getString(R.string.ui_dialog_title_delete));
+                    dialog_operation.setTitle(datFM.datFM_context.getResources().getString(R.string.ui_dialog_title_delete));
                     for (int i=1;i<selectionHolder.length;i++){
                         if (selectionHolder[i]){
                             datFM_File from = adaptorHolder.get(i);
@@ -144,7 +144,7 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
                         }
                     });
 
-                    dialog_operation.setTitle(datFM.datf_context.getResources().getString(R.string.ui_dialog_title_move));
+                    dialog_operation.setTitle(datFM.datFM_context.getResources().getString(R.string.ui_dialog_title_move));
                     for (int i=1;i<selectionHolder.length;i++){
                         if (selectionHolder[i]){
                             datFM_File from = adaptorHolder.get(i);
@@ -153,7 +153,7 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
                         }
                     }
                 } else if (operation.equals("rename")){
-                    dialog_operation.setTitle(datFM.datf_context.getResources().getString(R.string.ui_dialog_title_rename));
+                    dialog_operation.setTitle(datFM.datFM_context.getResources().getString(R.string.ui_dialog_title_rename));
 
                     new_name = params[3];
                     mask = params[4];

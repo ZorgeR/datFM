@@ -57,7 +57,7 @@
     <string name="settings_elements_title_photoicons">Миниатюры для фото</string>
     <string name="settings_elements_title_videoicons">Миниатюры для видео</string>
     <string name="settings_elements_title_icons_cache">Кеш миниатюр</string>
-    <string name="settings_elements_title_icons_size">Высота строки</string>
+    <string name="settings_elements_title_icons_size">Высота строк</string>
     <string name="settings_elements_title_text_name_size">Размер шрифта для имени файла</string>
     <string name="settings_elements_title_text_discr_size">Размер шрифта для описания</string>
     <string name="settings_elements_title_text_font_style">Стиль шрифтов</string>

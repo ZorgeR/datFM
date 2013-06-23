@@ -75,7 +75,7 @@ public class datFM extends Activity {
 
     /** ASYNC **/
     public static datFM datFM_state;
-    public static Context datf_context;
+    public static Context datFM_context;
 
     /** VARS HOLDER FOR TAB **/
     protected datFM_File_ListAdaptor adapterLeft, adapterRight;
@@ -125,14 +125,15 @@ public class datFM extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.datfm);
-        datf_context = this;
-        datFM_state = ((datFM) datFM.datf_context);
+        datFM_context = this;
+        datFM_state = ((datFM) datFM.datFM_context);
 
         /** Инициализация UI **/
         init_UI();
         init_Listener_Static();
 
         /** Применение настроек **/
+        if(firstAlert){pref_device_prefered();}
         pref_setter();
 
         /** OLD API **/
@@ -154,7 +155,7 @@ public class datFM extends Activity {
         }
 
         /** Интерфейс для ZArchiver **/
-        ZA = new ZArchiver_IO(datf_context);
+        ZA = new ZArchiver_IO(datFM_context);
 
         /** Размер экрана **/
         displaymetrics = new DisplayMetrics();
@@ -284,7 +285,7 @@ public class datFM extends Activity {
         } else if (home){
             protocols[Panel_ID]="datfm";
         } else {
-            Toast.makeText(datf_context,getResources().getString(R.string.notify_unknown_protocol),Toast.LENGTH_SHORT).show();
+            Toast.makeText(datFM_context,getResources().getString(R.string.notify_unknown_protocol),Toast.LENGTH_SHORT).show();
             protocol_accepted=false;
         }
 
@@ -1238,7 +1239,7 @@ public class datFM extends Activity {
         update_operation_vars();
     }  /** Использовать Current Panel, вместо panelID **/
     private void action_properties(int pos){
-        Intent properties = new Intent(datFM.datf_context, datFM_Properties.class);
+        Intent properties = new Intent(datFM.datFM_context, datFM_Properties.class);
         properties_array = new ArrayList<datFM_File>();
 
         boolean sec = false;
@@ -1692,10 +1693,9 @@ public class datFM extends Activity {
         pref_icons_size = prefs.getString("pref_icons_size","64");
         pref_text_name_size = prefs.getString("pref_text_name_size","14");
         pref_text_discr_size = prefs.getString("pref_text_discr_size","12");
-        pref_font_style = prefs.getString("pref_font_style","normal");
+        pref_font_style = prefs.getString("pref_font_style","bold");
         pref_font_typeface = prefs.getString("pref_font_typeface","normal");
         pref_font_bold_folder = prefs.getBoolean("pref_font_bold_folder",false);
-        //pref_small_panel = prefs.getBoolean("pref_small_panel",false);
         pref_actionbar_size = Integer.parseInt(prefs.getString("pref_actionbar_size","36"));
         pref_path_bar_size = Integer.parseInt(prefs.getString("pref_path_bar_size","30"));
         pref_bartext_size = Integer.parseInt(prefs.getString("pref_bartext_size","10"));
@@ -1707,6 +1707,7 @@ public class datFM extends Activity {
         pref_show_single_panel = prefs.getBoolean("pref_show_single_panel",false);
         pref_force_dual_panel_in_landscape = prefs.getBoolean("pref_force_dual_panel_in_landscape",false);
         pref_show_date = prefs.getBoolean("pref_show_date",false);
+        firstAlert = prefs.getBoolean("firstAlert",true);
     }
     private void pref_setter(){
 
@@ -1750,7 +1751,6 @@ public class datFM extends Activity {
         }
 
         /** First Time ALERT **/
-        firstAlert = prefs.getBoolean("firstAlert",true);
         if (firstAlert){
             firstAlertShow();
         }
@@ -1837,6 +1837,25 @@ public class datFM extends Activity {
         if (pref_root){
             String[] commands = {"mount -o rw,remount /system\n"};
             RunAsRoot(commands);
+        }
+
+    }
+    private void pref_device_prefered(){
+        if(isTablet(datFM_context)){
+            /** настройки для планшетов */
+        } else {
+            /** настройки для телефонов */
+            //pref_show_panel=false;
+
+            pref_show_single_navbar=true;
+            pref_show_single_panel=true;
+            pref_force_dual_panel_in_landscape=true;
+            pref_show_text_on_panel=false;
+
+            prefs.edit().putBoolean("pref_show_single_navbar", true).commit();
+            prefs.edit().putBoolean("pref_show_single_panel", true).commit();
+            prefs.edit().putBoolean("pref_force_dual_panel_in_landscape", true).commit();
+            prefs.edit().putBoolean("pref_show_text_on_panel", false).commit();
         }
 
     }
@@ -2039,7 +2058,7 @@ public class datFM extends Activity {
                                             if(bSucessful){
                                                 action_delete();
                                             } else {
-                                                Toast.makeText(datf_context,"Pack error!",Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(datFM_context,"Pack error!",Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                     });
@@ -2050,7 +2069,7 @@ public class datFM extends Activity {
                                             if(bSucessful){
                                                 update_tab(0,"","",3);
                                             } else {
-                                                Toast.makeText(datf_context,"Pack error!",Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(datFM_context,"Pack error!",Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                     });
@@ -2141,7 +2160,7 @@ public class datFM extends Activity {
 
                             if ( !ZA.isSupport() )
                             {
-                                Toast.makeText(datf_context,getResources().getString(R.string.notify_cant_find_ZA),Toast.LENGTH_SHORT).show();
+                                Toast.makeText(datFM_context,getResources().getString(R.string.notify_cant_find_ZA),Toast.LENGTH_SHORT).show();
                                 //return;
                             } else {
                                 ZA.setOnActionComplete(new OnActionComplete() {
@@ -2157,7 +2176,7 @@ public class datFM extends Activity {
                                             } else {
                                             }
                                         } else {
-                                            Toast.makeText(datf_context,"Unpack error!",Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(datFM_context,"Unpack error!",Toast.LENGTH_SHORT).show();
                                         }
                                         update_tab(0,"","",3);
                                     }
@@ -2194,5 +2213,10 @@ public class datFM extends Activity {
                 } else {/*("not root");*/}
             } catch (InterruptedException e) {/*("not root");*/}
         } catch (IOException e) {/*("not root");*/}
+    }
+    public static boolean isTablet(Context context) {
+        return (context.getResources().getConfiguration().screenLayout
+                & Configuration.SCREENLAYOUT_SIZE_MASK)
+                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 }

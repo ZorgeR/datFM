@@ -160,7 +160,7 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                         for(SmbFile ff: dir.listFiles()){
                             if(!datFM.pref_show_hide && ff.getName().endsWith("$/")){} else {
                                 if(ff.isDirectory()){
-                                    String data = datFM.datf_context.getResources().getString(R.string.fileslist_directory);
+                                    String data = datFM.datFM_context.getResources().getString(R.string.fileslist_directory);
                                     String name = ff.getName().substring(0,ff.getName().length()-1);
                                     Long date = ff.getLastModified();
                                     dir_info.add(new datFM_File(name,ff.getPath(),0,"smb","dir",data, ff.getParent(), date));
@@ -317,7 +317,7 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                 {
                     if(!datFM.pref_show_hide && ff.getName().startsWith(".")){} else {
                         if(ff.isDirectory()){
-                            String data = datFM.datf_context.getResources().getString(R.string.fileslist_directory);
+                            String data = datFM.datFM_context.getResources().getString(R.string.fileslist_directory);
                             Long date = ff.lastModified();
 
                             dir_info.add(new datFM_File(ff.getName(),ff.getPath(),0,"smb","dir",data, ff.getParent(), date));
@@ -402,7 +402,7 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
 
             if(!datFM.pref_show_hide && name.startsWith(".")){} else {
                 if(is_dir){
-                    String data = datFM.datf_context.getResources().getString(R.string.fileslist_directory);
+                    String data = datFM.datFM_context.getResources().getString(R.string.fileslist_directory);
                     String compiled_date = date+" "+time;
                     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                     Date date_format = null;

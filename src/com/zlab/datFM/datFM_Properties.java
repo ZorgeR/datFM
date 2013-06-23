@@ -57,7 +57,13 @@ public class datFM_Properties extends Activity {
             }
         }
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.datfm_properties);
+
+        if(datFM.isTablet(datFM.datFM_context)){
+            setContentView(R.layout.datfm_properties_tablet);
+        } else {
+            setContentView(R.layout.datfm_properties_phones);
+        }
+
         prop_context = this;
 
         /** EditText **/
@@ -309,7 +315,7 @@ public class datFM_Properties extends Activity {
         int resID=0;
         for (String find_ext : ext_list) {
             if (find_ext.equals(ext)) {
-                resID = datFM.datf_context.getResources().getIdentifier("ext_" + name.toLowerCase(), "drawable", "com.zlab.datFM");
+                resID = datFM.datFM_context.getResources().getIdentifier("ext_" + name.toLowerCase()+"_"+datFM.pref_theme_icons, "drawable", "com.zlab.datFM");
                 break;
             }
         }
@@ -317,7 +323,7 @@ public class datFM_Properties extends Activity {
     }
 
     public void get_icon(){
-        int resID = datFM.datf_context.getResources().getIdentifier("ext_" + ext.toLowerCase()+"_"+datFM.pref_theme_icons, "drawable", "com.zlab.datFM");
+        int resID = datFM.datFM_context.getResources().getIdentifier("ext_" + ext.toLowerCase()+"_"+datFM.pref_theme_icons, "drawable", "com.zlab.datFM");
 
         if (resID==0){
             String[] audio = {"mp3", "m4a", "aac", "ogg"};
@@ -385,7 +391,7 @@ public class datFM_Properties extends Activity {
 
                     String[] commands = {"chmod "+perm_owner+perm_group+perm_other+" \""+file+"\"\n"};
                     RunAsRoot(commands);
-                    Toast.makeText(datFM.datf_context,"Done!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(datFM.datFM_context,"Done!",Toast.LENGTH_SHORT).show();
                 } else {
                     datFM.notify_toast("Need root permission",true);
                 }
