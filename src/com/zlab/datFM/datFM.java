@@ -133,7 +133,8 @@ public class datFM extends Activity {
         init_Listener_Static();
 
         /** Применение настроек **/
-        if(firstAlert){pref_device_prefered();}
+        if(firstAlert){
+            pref_device_preferred();}
         pref_setter();
 
         /** OLD API **/
@@ -1840,7 +1841,7 @@ public class datFM extends Activity {
         }
 
     }
-    private void pref_device_prefered(){
+    private void pref_device_preferred(){
         if(isTablet(datFM_context)){
             /** настройки для планшетов */
             DisplayMetrics metrics = getResources().getDisplayMetrics();
