@@ -1843,6 +1843,33 @@ public class datFM extends Activity {
     private void pref_device_prefered(){
         if(isTablet(datFM_context)){
             /** настройки для планшетов */
+            DisplayMetrics metrics = getResources().getDisplayMetrics();
+
+            if(metrics.densityDpi>400){
+                pref_icons_size = "128";
+                prefs.edit().putString("pref_icons_size", "128").commit();
+            } else if (metrics.densityDpi>300){
+                pref_icons_size = "96";
+                prefs.edit().putString("pref_icons_size", "96").commit();
+            } else if (metrics.densityDpi>250){
+                pref_icons_size = "72";
+                prefs.edit().putString("pref_icons_size", "72").commit();
+            }
+
+            DisplayMetrics dm = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(dm);
+            double x = Math.pow(dm.widthPixels/dm.xdpi,2);
+            double y = Math.pow(dm.heightPixels/dm.ydpi,2);
+            double screenInches = Math.sqrt(x+y);
+
+            if(screenInches<7.5){
+                pref_show_single_navbar=true;
+                pref_show_text_on_panel=false;
+
+                prefs.edit().putBoolean("pref_show_single_navbar", true).commit();
+                prefs.edit().putBoolean("pref_show_text_on_panel", false).commit();
+            }
+
         } else {
             /** настройки для телефонов */
             //pref_show_panel=false;
@@ -1851,6 +1878,21 @@ public class datFM extends Activity {
             pref_show_single_panel=true;
             pref_force_dual_panel_in_landscape=true;
             pref_show_text_on_panel=false;
+
+            DisplayMetrics metrics = getResources().getDisplayMetrics();
+
+            if(metrics.densityDpi>400){
+                pref_icons_size = "128";
+                prefs.edit().putString("pref_icons_size", "128").commit();
+            } else if (metrics.densityDpi>300){
+                pref_icons_size = "96";
+                prefs.edit().putString("pref_icons_size", "96").commit();
+            } else if (metrics.densityDpi>250){
+                pref_icons_size = "72";
+                prefs.edit().putString("pref_icons_size", "72").commit();
+            }
+
+            //pref_icons_size
 
             prefs.edit().putBoolean("pref_show_single_navbar", true).commit();
             prefs.edit().putBoolean("pref_show_single_panel", true).commit();
@@ -2214,9 +2256,11 @@ public class datFM extends Activity {
             } catch (InterruptedException e) {/*("not root");*/}
         } catch (IOException e) {/*("not root");*/}
     }
+
     public static boolean isTablet(Context context) {
         return (context.getResources().getConfiguration().screenLayout
                 & Configuration.SCREENLAYOUT_SIZE_MASK)
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
+
 }
