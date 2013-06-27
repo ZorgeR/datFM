@@ -51,6 +51,8 @@ public class datFM extends Activity {
     LinearLayout btnShare,btnAddFolder,btnAddToArchive,btnCopy,btnCut,btnSelectAll,btnDeselectAll,btnDelete,btnRename;
     TextView btnShareText,btnAddFolderText,btnAddToArchiveText,btnCopyText,btnCutText,btnSelectAllText,btnDeselectAllText,btnDeleteText,btnRenameText;
     boolean[] selectedRight,selectedLeft;
+    boolean FLAG_back_pressed_short = false;
+    boolean FLAG_back_pressed_long = false;
     static int curPanel,competPanel;
     int screen_width;
     int selLeft=0;
@@ -86,7 +88,7 @@ public class datFM extends Activity {
             pref_open_arcdir_window,pref_save_path,pref_dir_focus,
             pref_kamikaze,pref_show_text_on_panel,pref_show_navbar,
             pref_show_panel_discr,pref_clear_filecache,pref_show_single_navbar,pref_show_single_panel,
-            pref_force_dual_panel_in_landscape;
+            pref_force_dual_panel_in_landscape,pref_backbtn_override;
     static boolean pref_show_apk,pref_show_video,pref_show_photo,
             pref_show_folder_discr,pref_show_files_discr,pref_root,pref_sambalogin,pref_font_bold_folder,pref_show_hide,
             pref_show_date;
@@ -267,6 +269,71 @@ public class datFM extends Activity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        /** Для перехода наверх по кнопке назад **/
+        if(pref_backbtn_override){
+            if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+                event.startTracking();
+                if (FLAG_back_pressed_long == true) {
+                    FLAG_back_pressed_short = false;
+                } else {
+                    FLAG_back_pressed_short = true;
+                    FLAG_back_pressed_long = false;
+                }
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        /** Для перехода наверх по кнопке назад **/
+        if(pref_backbtn_override){
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+            event.startTracking();
+            if (FLAG_back_pressed_short) {
+                //Log.d("Test", "Short");
+                if(curPanel==0){
+                    if(selLeft==0){
+                        prevName = new datFM_IO(curentLeftDir,curPanel).getName();
+                        if(curentLeftDir!=null){
+                            fill_new(parent_left, 0);}
+                    } else {
+                        notify_toast(getResources().getString(R.string.notify_deselect_before_change_dir),true);
+                    }
+                } else {
+                    if (selRight==0){
+                        prevName = new datFM_IO(curentRightDir,curPanel).getName();
+                        if(curentRightDir!=null){
+                            fill_new(parent_right, 1);}
+                    } else {
+                        notify_toast(getResources().getString(R.string.notify_deselect_before_change_dir),true);
+                    }
+                }
+            }
+            FLAG_back_pressed_short = true;
+            FLAG_back_pressed_long = false;
+            return true;
+            }
+        }
+
+        return super.onKeyUp(keyCode, event);
+    }
+    @Override
+    public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+        /** Для выхода по удержанию кнопки назад **/
+        if(pref_backbtn_override){
+            if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+                //Log.d("Test", "Long press!");
+                FLAG_back_pressed_short = false;
+                FLAG_back_pressed_long = true;
+                finish();
+                return true;
+            }
+        }
+        return super.onKeyLongPress(keyCode, event);
     }
 
     protected void fill_new(String path, int Panel_ID){
@@ -1708,6 +1775,7 @@ public class datFM extends Activity {
         pref_show_single_panel = prefs.getBoolean("pref_show_single_panel",false);
         pref_force_dual_panel_in_landscape = prefs.getBoolean("pref_force_dual_panel_in_landscape",false);
         pref_show_date = prefs.getBoolean("pref_show_date",false);
+        pref_backbtn_override = prefs.getBoolean("pref_backbtn_override",false);
         firstAlert = prefs.getBoolean("firstAlert",true);
     }
     private void pref_setter(){

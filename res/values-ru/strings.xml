@@ -81,6 +81,7 @@
     <string name="settings_elements_title_openarcdir_window">Панель для архивной папки</string>
     <string name="settings_elements_title_savepath">Сохранять пути</string>
     <string name="settings_elements_title_focusondir">Фокус на папке</string>
+    <string name="settings_elements_title_backbtn_override">Кнопка Назад</string>
     <string name="settings_elements_title_sambalogin">Авторизация в Samba</string>
     <string name="settings_elements_title_clear_filecache">Очистка файлового кеша</string>
     <string name="settings_elements_title_kamikaze">Режим Камикадзе</string>
@@ -88,7 +89,7 @@
     <string name="settings_elements_title_show_hide">Показывать скрытые элементы</string>
     <!-- Settings Elements Summary -->
     <string name="settings_elements_summary_theme">Применяется после перезапуска приложения</string>
-    <string name="settings_elements_summary_theme_icons">Не скучные иконки</string>
+    <string name="settings_elements_summary_theme_icons">Нескучные иконки</string>
     <string name="settings_elements_summary_cp">Показывать всегда</string>
     <string name="settings_elements_summary_appicons">Показывать иконку приложения для APK</string>
     <string name="settings_elements_summary_photoicons">Отображать миниатюры для фото</string>
@@ -101,7 +102,7 @@
     <string name="settings_elements_summary_text_font_typeface">С засечками, без, моноширный</string>
     <string name="settings_elements_summary_text_bold_folder">Всегда жирный шрифт для имен папок</string>
     <string name="settings_elements_summary_small_panel">Использовать маленькие панели, для телефонов</string>
-    <string name="settings_elements_summary_cptext">Подписи на кнопках панели</string>
+    <string name="settings_elements_summary_cptext">Надписи на кнопках панели</string>
     <string name="settings_elements_summary_navbar">Показывать адресную строку наверху</string>
     <string name="settings_elements_summary_single_navbar">Показывать только активную адресную строку</string>
     <string name="settings_elements_summary_single_panel">Показывать только активную панель</string>
@@ -118,6 +119,7 @@
     <string name="settings_elements_summary_openarcdir_window">Открывать в текущей панели</string>
     <string name="settings_elements_summary_savepath">Восстановить пути панелей при запуске</string>
     <string name="settings_elements_summary_focusondir">Установить фокус на текущей папке при нажатии Вверх</string>
+    <string name="settings_elements_summary_backbtn_override">Вверх при нажатии, выход при долгом нажатии, если включено</string>
     <string name="settings_elements_summary_sambalogin">Поддержка авторизации для Samba</string>
     <string name="settings_elements_summary_clear_filecache">Очищать кеш при выходе</string>
     <string name="settings_elements_summary_kamikaze">Ничего не спрашивать, просто делать свою работу</string>

@@ -40,6 +40,7 @@
         <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_openarcdir_window" android:summary="@string/settings_elements_summary_openarcdir_window" android:key="pref_open_arcdir_window" android:defaultValue="true" />
         <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_savepath" android:summary="@string/settings_elements_summary_savepath" android:key="pref_save_path" android:defaultValue="true" />
         <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_focusondir" android:summary="@string/settings_elements_summary_focusondir" android:key="pref_dir_focus" android:defaultValue="true" />
+        <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_backbtn_override" android:summary="@string/settings_elements_summary_backbtn_override" android:key="pref_backbtn_override" android:defaultValue="false" />
     </PreferenceCategory>
     </PreferenceScreen>
     <PreferenceScreen android:title="@string/settings_group_network">
