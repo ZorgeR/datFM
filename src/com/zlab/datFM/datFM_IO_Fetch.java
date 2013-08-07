@@ -89,7 +89,8 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                 if(datFM.pref_sambalogin){
                     logonScreenSMB();}
             } else {
-                datFM.datFM_state.fill_panel(dir_info, fls_info, panel_ID);
+               // if(!datFM.datFM_Destroyed){        }
+                    datFM.datFM_state.fill_panel(dir_info, fls_info, panel_ID);
             }
     }
 
@@ -356,7 +357,7 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
             //length = str.split("\\s+").length;
 
             String permission = arr[0];
-            String file_type=permission.substring(0,1);
+            String file_type="";if(permission.length()>0){file_type=permission.substring(0,1);}
             String user = arr[1];
             String group = arr[2];
 

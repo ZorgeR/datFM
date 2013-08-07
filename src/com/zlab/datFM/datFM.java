@@ -78,6 +78,7 @@ public class datFM extends Activity {
     /** ASYNC **/
     public static datFM datFM_state;
     public static Context datFM_context;
+    //public static boolean datFM_Destroyed = false;
 
     /** VARS HOLDER FOR TAB **/
     protected datFM_File_ListAdaptor adapterLeft, adapterRight;
@@ -115,6 +116,7 @@ public class datFM extends Activity {
     boolean horizontal_scroll_blocked=false;
     DisplayMetrics displaymetrics;
 
+    @SuppressWarnings("deprecation")  //setBackgroundDrawable
     @Override
     public void onCreate(Bundle savedInstanceState) {
         /** Определение версии API **/
@@ -203,6 +205,7 @@ public class datFM extends Activity {
         if(pref_clear_filecache){
             action_clear_file_cache();
         }
+        //datFM_Destroyed=true;
         super.onDestroy();
     }
 
@@ -761,6 +764,9 @@ public class datFM extends Activity {
         /** Обновление параметров дисплея **/
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         screen_width = displaymetrics.widthPixels;
+
+        /** Исправляет ошибку при использовании GMD Auto Hide Soft Keys **/
+        if (sideholderscroll.getWidth() > screen_width){screen_width=sideholderscroll.getWidth();}
 
         if(pref_show_single_panel && !(pref_force_dual_panel_in_landscape && getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)){
             leftside.setLayoutParams(new LinearLayout.LayoutParams(screen_width - 1, ViewGroup.LayoutParams.MATCH_PARENT));
