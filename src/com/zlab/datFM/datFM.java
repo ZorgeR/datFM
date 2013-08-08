@@ -23,6 +23,8 @@ import android.webkit.MimeTypeMap;
 import android.widget.*;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
 import com.zlab.datFM.ZA.ZArchiver_IO;
 import com.zlab.datFM.crypt.AES_128;
 import com.zlab.datFM.hooks.HR_ScrollView;
@@ -1343,7 +1345,13 @@ public class datFM extends Activity {
         startActivity(properties);
     }
     private void action_clear_file_cache(){try {
-        new datFM_IO(Environment.getExternalStorageDirectory().getPath()+"/Android/data/datFM",curPanel).delete();
+        try {
+            new datFM_IO(Environment.getExternalStorageDirectory().getPath()+"/Android/data/datFM",curPanel).delete();
+        } catch (JSchException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (SftpException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
     } catch (IOException e) {e.printStackTrace();}
     }
     private void action_send(){
