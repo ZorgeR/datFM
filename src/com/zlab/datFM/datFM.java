@@ -21,6 +21,8 @@ import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.*;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSch;
 import com.zlab.datFM.ZA.ZArchiver_IO;
 import com.zlab.datFM.crypt.AES_128;
 import com.zlab.datFM.hooks.HR_ScrollView;
@@ -65,8 +67,10 @@ public class datFM extends Activity {
     static int currentApiVersion;
     static int color_item_selected;
     LinearLayout btnUPleft, btnUPright;
-    static NtlmPasswordAuthentication[] auth = new NtlmPasswordAuthentication[2];
+    static NtlmPasswordAuthentication[] smb_auth_session = new NtlmPasswordAuthentication[2];
     static ArrayList<datFM_File> properties_array;
+    //static JSch sftp_auth_session[] = new JSch[2];
+    static ChannelSftp sftp_auth_channel[] = new ChannelSftp[2];
 
     /** VARS FOR OPERATION**/
     static int sel;
@@ -198,6 +202,10 @@ public class datFM extends Activity {
         super.onStop();
     }
     protected void onDestroy(){
+
+        if(datFM.sftp_auth_channel[0]!=null){datFM.sftp_auth_channel[0].exit();datFM.sftp_auth_channel[0].disconnect();}
+        if(datFM.sftp_auth_channel[1]!=null){datFM.sftp_auth_channel[1].exit();datFM.sftp_auth_channel[1].disconnect();}
+
         if (pref_root){
             String[] commands = {"mount -o ro,remount /system\n"};
             RunAsRoot(commands);
@@ -342,6 +350,7 @@ public class datFM extends Activity {
     protected void fill_new(String path, int Panel_ID){
         /* TODO убрать костыль */
         boolean smb = path.startsWith("smb://");
+        boolean sftp = path.startsWith("sftp://");
         boolean local = path.startsWith("/");
         boolean home = path.startsWith("datFM://");
         boolean protocol_accepted=true;
@@ -353,6 +362,8 @@ public class datFM extends Activity {
             protocols[Panel_ID]="local";
         } else if (smb){
             protocols[Panel_ID]="smb";
+        } else if (sftp){
+            protocols[Panel_ID]="sftp";
         } else if (home){
             protocols[Panel_ID]="datfm";
         } else {
@@ -962,11 +973,11 @@ public class datFM extends Activity {
                     if(!server_user.equals("")){
                         //user=server_user;
                         //domain=server_domain;
-                        auth[curPanel]= new NtlmPasswordAuthentication(server_domain,server_user,null);
+                        smb_auth_session[curPanel]= new NtlmPasswordAuthentication(server_domain,server_user,null);
 
                         if(iscrypted.equals("0")){
                             //pass=server_pass;
-                            auth[curPanel]= new NtlmPasswordAuthentication(server_domain,server_user,server_pass);
+                            smb_auth_session[curPanel]= new NtlmPasswordAuthentication(server_domain,server_user,server_pass);
                             fill_new(o.getPath(), curPanel);
                         } else {
                             AlertDialog.Builder action_dialog = new AlertDialog.Builder(this);
@@ -985,7 +996,7 @@ public class datFM extends Activity {
                                             String smb_keychainpass = smb_keychain.getText().toString();
                                             try {
                                                 String pass = AES_128.decrypt(smb_keychainpass, server_pass_encrypted);
-                                                auth[curPanel] = new NtlmPasswordAuthentication(auth[curPanel].getDomain(),auth[curPanel].getUsername(),pass);
+                                                smb_auth_session[curPanel] = new NtlmPasswordAuthentication(smb_auth_session[curPanel].getDomain(), smb_auth_session[curPanel].getUsername(),pass);
                                                 fill_new(o.getPath(), curPanel);
                                             } catch (Exception e) {
                                                 e.printStackTrace();
@@ -1004,7 +1015,7 @@ public class datFM extends Activity {
                             AprooveDialog.show();
                         }
                     } else {
-                        auth[curPanel]= new NtlmPasswordAuthentication(null,null,null);
+                        smb_auth_session[curPanel]= new NtlmPasswordAuthentication(null,null,null);
                         fill_new(o.getPath(), curPanel);
                     }
                     fis.close();

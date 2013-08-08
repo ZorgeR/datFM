@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
 
 import java.io.*;
 import java.util.List;
@@ -320,7 +322,7 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
         }
         return success;
     }
-    private boolean root_copy(String srcf, String destr) throws IOException{
+    private boolean root_copy(String srcf, String destr) throws IOException, JSchException, SftpException {
         boolean success = new datFM_IO(srcf,srcPannelID).copy(destr);
         if (!success && datFM.pref_root){
             File src = new File(srcf);

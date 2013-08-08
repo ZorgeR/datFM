@@ -1,23 +1,28 @@
 package com.zlab.datFM;
 
 import android.util.Log;
+import com.jcraft.jsch.*;
 import jcifs.smb.*;
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
+import java.util.Vector;
 
 public class datFM_IO {
 
     /** Protocols **/
     boolean smb;
+    boolean sftp;
     boolean local;
     boolean acceptable;
 
     /** Globals **/
     String path;
+    String realpath;
     int PanelID;
     int CompetPanel;
+    //ChannelSftp.LsEntry SFTP_entry;
 
     public datFM_IO(String file,int panelID){
         path=file;
@@ -34,16 +39,59 @@ public class datFM_IO {
     public SmbFile getFileSmb() throws MalformedURLException {
         //---------START SMB WORKS-------------------------
         NtlmPasswordAuthentication auth;
-        if(datFM.auth[PanelID]!=null){
-            auth = datFM.auth[PanelID];
+        if(datFM.smb_auth_session[PanelID]!=null){
+            auth = datFM.smb_auth_session[PanelID];
         } else {
             auth = new NtlmPasswordAuthentication(null, null, null);
         }
 
-        //SmbFile f = new SmbFile(path,auth);
+        //SmbFile f = new SmbFile(path,smb_auth_session);
         //---------END SMB WORKS-------------------------
         return new SmbFile(path,auth);
     }
+    public ChannelSftp getSFTPChannel() throws JSchException, SftpException {
+        JSch sftp_auth_session;
+
+        String hostname = path.replace("sftp://","");
+        if(hostname.contains("/")){hostname = hostname.substring(0, hostname.indexOf("/"));}
+        realpath=path.replace("sftp://"+hostname,"");
+
+        if(datFM.sftp_auth_channel[PanelID]!=null){
+            //sftp_auth_session = datFM.sftp_auth_session[PanelID];
+        } else {
+            sftp_auth_session = new JSch();
+
+        String knownHostsFilename = "/sdcard/.ssh_known_hosts";
+        sftp_auth_session.setKnownHosts( knownHostsFilename );
+        Session session = sftp_auth_session.getSession( "root", hostname );
+        {
+            // "interactive" version
+            // can selectively update specified known_hosts file
+            // need to implement UserInfo interface
+            // MyUserInfo is a swing implementation provided in
+            //  examples/Sftp.java in the JSch dist
+            //UserInfo ui = new MyUserInfo();
+            //session.setUserInfo(ui);
+
+            // OR non-interactive version. Relies in host key being in known-hosts file
+            session.setPassword( "bnm3BNM" );
+        }
+        java.util.Properties config = new java.util.Properties();
+        config.put("StrictHostKeyChecking", "no");
+        session.setConfig(config);
+        session.connect();
+        Channel channel = session.openChannel( "sftp" );
+        channel.connect();
+        ChannelSftp sftpChannel = (ChannelSftp) channel;
+            datFM.sftp_auth_channel[PanelID]=sftpChannel;
+        }
+
+        return datFM.sftp_auth_channel[PanelID];
+    }
+    public ChannelSftp.LsEntry getSFTP_entry() throws SftpException, JSchException {
+        return (ChannelSftp.LsEntry) getSFTPChannel().ls(realpath).elementAt(0);
+    }
+
     public Long getFileSize(){
         long size=1;
         checkProtocol();
@@ -52,6 +100,9 @@ public class datFM_IO {
         } else if (smb){try {
             size = getFileSmb().length();
             } catch (SmbException e) {e.printStackTrace();} catch (MalformedURLException e) {e.printStackTrace();}
+        } else if (sftp){try {
+                size = getSFTP_entry().getAttrs().getSize();
+            } catch (Exception e) { Log.e("SFTP ERR:", e.getMessage()); }
         }
 
         return size;
@@ -64,6 +115,9 @@ public class datFM_IO {
         } else if (smb){try {
             size = new datFM_IO(path,Panel).getFileSmb().length();
         } catch (SmbException e) {e.printStackTrace();} catch (MalformedURLException e) {e.printStackTrace();}
+        } else if (sftp){try {
+            size = getSFTP_entry().getAttrs().getSize();
+        } catch (Exception e) { Log.e("SFTP ERR:",e.getMessage()); }
         }
 
         return size;
@@ -77,6 +131,12 @@ public class datFM_IO {
             in = new BufferedInputStream(new FileInputStream(path));
         } else if (smb){
             in = new BufferedInputStream(new SmbFileInputStream(getFileSmb()));
+        } else if (sftp){
+            try {
+                in = new BufferedInputStream(getSFTPChannel().get(getSFTP_RealPath(path)));
+            } catch (Exception e) {
+                Log.e("SFTP ERR:",e.getMessage());
+            }
         }
 
         return in;
@@ -88,6 +148,12 @@ public class datFM_IO {
             out = new BufferedOutputStream(new FileOutputStream(path));
         } else if (smb){
             out = new BufferedOutputStream(new SmbFileOutputStream(getFileSmb()));
+        } else if (sftp){
+        try {
+            out = new BufferedOutputStream(getSFTPChannel().put(getSFTP_RealPath(path)));
+        } catch (Exception e) {
+            Log.e("SFTP ERR:",e.getMessage());
+        }
         }
         return out;
     }
@@ -123,13 +189,15 @@ public class datFM_IO {
     }
 
     /** COPY **/
-    public boolean copy(String dest) throws IOException {
+    public boolean copy(String dest) throws IOException, SftpException, JSchException {
         checkProtocol();
 
         if(local){
             copy_recursively_local(getFileLocal(),dest);
         } else if (smb){
             copy_recursively_smb(getFileSmb(),dest);
+        } else if (sftp){
+            copy_recursively_sftp(path,getSFTPChannel(), dest);
         } else {
             return false;
         }
@@ -155,6 +223,30 @@ public class datFM_IO {
             } catch (Exception e){}
         }
         //return is_exist_custom(dest,CompetPanel);
+    }
+    private void copy_recursively_sftp(String fpath, ChannelSftp Channel,String dest) throws JSchException, SftpException {
+        if (Channel.lstat(getSFTP_RealPath(fpath)).isDir()) {
+            new datFM_IO(dest,CompetPanel).mkdir();
+
+            updateOverallBar(datFM_File_Operations.progr_overal.getProgress() + 1,path,dest);
+
+            Vector<ChannelSftp.LsEntry> children = Channel.ls(realpath);
+            datFM_File_Operations.overalMax= datFM_File_Operations.progr_overal.getMax()+children.size();
+            datFM_File_Operations.progr_overal.setMax(datFM_File_Operations.overalMax);
+
+            for(ChannelSftp.LsEntry ff : children){
+                if(!ff.getFilename().equals(".") && !ff.getFilename().equals("..")){
+                    copy_recursively_sftp(fpath+"/"+ff.getFilename(),new datFM_IO(fpath+"/"+ff.getFilename(),PanelID).getSFTPChannel(),dest+"/"+ff.getFilename()
+                    );
+                }
+            }
+        } else {
+            try {
+                updateOverallBar(datFM_File_Operations.progr_overal.getProgress(), path, dest);
+                IO_Stream_Worker(fpath, dest);
+                updateOverallBar(datFM_File_Operations.progr_overal.getProgress() + 1, path, dest);
+            } catch (Exception e){}
+        }
     }
     private void copy_recursively_local(File file,String dest) throws IOException {
         if (file.isDirectory()) {
@@ -251,7 +343,7 @@ public class datFM_IO {
         return success;
     }
     /** IS DIR **/
-    public boolean is_dir(){
+    public boolean is_dir() throws SftpException, JSchException {
         boolean success;
         checkProtocol();
 
@@ -260,6 +352,8 @@ public class datFM_IO {
         } else if (smb){
             try {success=getFileSmb().isDirectory();
             } catch (Exception e) {success=false;}
+        } else if (sftp){
+            success = getSFTPChannel().lstat(realpath).isDir();
         } else {
             success=false;
         }
@@ -407,6 +501,10 @@ public class datFM_IO {
             {path=path.substring(0,path.lastIndexOf("/"));}
 
             name = path.substring(path.lastIndexOf("/")+1);
+        } else if(sftp){
+            if (path.lastIndexOf("/")+1==path.length())
+            {path=path.substring(0,path.lastIndexOf("/"));}
+            name = path.substring(path.lastIndexOf("/")+1);
         } else {
            name="";
         }
@@ -459,6 +557,19 @@ public class datFM_IO {
                 parent[1]="parent_dir";
                 parent[2]=datFM.datFM_state.getResources().getString(R.string.fileslist_parent_directory);
             }
+        } else if(sftp){
+                if(path.equals("sftp://")){
+                    parent[0]="datFM://sftp";
+                    parent[1]="parent_dir";
+                    parent[2]=datFM.datFM_state.getResources().getString(R.string.fileslist_parent_directory);
+                } else {
+                    if (path.lastIndexOf("/")+1==path.length())
+                    {path=path.substring(0,path.lastIndexOf("/"));}
+
+                    parent[0]=path.substring(0,path.lastIndexOf("/")+1);
+                    parent[1]="parent_dir";
+                    parent[2]=datFM.datFM_state.getResources().getString(R.string.fileslist_parent_directory);
+                }
         } else {
             parent[0]=path.substring(0,path.lastIndexOf("/")+1);
             parent[1]="home";
@@ -486,13 +597,20 @@ public class datFM_IO {
         return parent;
     }
 
+    public String getSFTP_RealPath(String spath){
+        String hostname = spath.replace("sftp://","");
+        if(hostname.contains("/")){hostname = hostname.substring(0, hostname.indexOf("/"));}
+        String rpath=spath.replace("sftp://"+hostname,"");
+        return rpath;
+    }
+
     /** Protocol identifier **/
     public boolean checkProtocol(){
+        sftp = path.startsWith("sftp://");
         smb = path.startsWith("smb://");
         local = path.startsWith("/");
 
-        if(!local &&
-           !smb   ){
+        if(!local && !smb && !sftp ){
             acceptable=false;
         } else {
             acceptable=true;

@@ -2,6 +2,7 @@ package com.zlab.datFM;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -12,6 +13,8 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Toast;
+import com.jcraft.jsch.*;
 import jcifs.UniAddress;
 import jcifs.smb.*;
 
@@ -32,9 +35,11 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
     int panel_ID;
     String url, hostname;
     boolean fetch_err=false;
-    boolean success_auth=true;
+    boolean smb_success_auth =true;
+    boolean sftp_success_auth =true;
     boolean valid_url=true;
-    NtlmPasswordAuthentication auth;
+    NtlmPasswordAuthentication smb_auth_session;
+    JSch sftp_auth_session;
 
     public datFM activity;
     public datFM_IO_Fetch(datFM a){activity = a;}
@@ -70,6 +75,12 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
             fetch_local();
         } else if (protocol.equals("smb")){
             fetch_smb();
+        } else if (protocol.equals("sftp")){
+            try {
+                fetch_sftp();
+            } catch (Exception e) {
+                Log.e("SFTP ERROR:", e.getMessage());
+            }
         } else if (protocol.equals("datfm")){
             fetch_datFM();
         } else {
@@ -83,8 +94,8 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
         if(!datFM.protocols[panel_ID].equals("local") && dialog_operation_remote !=null){
             dialog_operation_remote.dismiss();
         }
-            if(protocol.equals("smb") && (!success_auth || fetch_err)){
-                if(!success_auth){datFM.notify_toast(datFM.datFM_state.getResources().getString(R.string.notify_logon_error),true);}
+            if(protocol.equals("smb") && (!smb_success_auth || fetch_err)){
+                if(!smb_success_auth){datFM.notify_toast(datFM.datFM_state.getResources().getString(R.string.notify_logon_error),true);}
                 if(fetch_err){datFM.notify_toast(datFM.datFM_state.getResources().getString(R.string.notify_connection_error),true);}
                 if(datFM.pref_sambalogin){
                     logonScreenSMB();}
@@ -99,10 +110,10 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
         url = path;
         datFM.url=url;
 
-        if(datFM.auth[panel_ID]!=null){
-            auth = datFM.auth[panel_ID];
+        if(datFM.smb_auth_session[panel_ID]!=null){
+            smb_auth_session = datFM.smb_auth_session[panel_ID];
         } else {
-            auth = new NtlmPasswordAuthentication(null, null, null);
+            smb_auth_session = new NtlmPasswordAuthentication(null, null, null);
         }
 
         // ------ CHECK SMB AUTH ------------ //
@@ -122,23 +133,23 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                 }
                 if(valid_url){
                     try {
-                        SmbSession.logon(uniaddress, auth);
+                        SmbSession.logon(uniaddress, smb_auth_session);
                     } catch (SmbAuthException e ) {
-                        success_auth=false;
+                        smb_success_auth =false;
                     } catch(SmbException e ) {
                         fetch_err=true;
                     }
                 } else {
-                    success_auth=false;
+                    smb_success_auth =false;
                 }
             } else {
                 valid_url=false;
-                success_auth=false;
+                smb_success_auth =false;
             }
         }
         //---------START SMB WORKS-------------------------
             try {
-                SmbFile dir = new SmbFile(url, auth);
+                SmbFile dir = new SmbFile(url, smb_auth_session);
 
                 if (panel_ID ==0){
                     datFM.parent_left=dir.getParent();
@@ -188,13 +199,127 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
 
                 dir_info.addAll(fls_info);
                 if(dir_info.size()>0){
-                    success_auth=true;
+                    smb_success_auth =true;
                     fetch_err=false;
                 }
 
             } catch (MalformedURLException e) {
                 fetch_err=true;
             }
+        //-------END SMB WORKS---------------------
+    }
+    private void fetch_sftp() throws JSchException, SftpException {
+        if(path.lastIndexOf("/")!=path.length()-1){path=path+"/";}
+
+        url = path;
+        datFM.url=url;
+
+        hostname = url;
+        if(!hostname.equals("sftp://")){
+            hostname = hostname.replace("sftp://","");
+            if(hostname.contains("/")){hostname = hostname.substring(0, hostname.indexOf("/"));}
+        }
+
+        if(datFM.sftp_auth_channel[panel_ID]!=null){
+            //sftp_auth_session = datFM.sftp_auth_session[panel_ID];
+        } else {
+            sftp_auth_session = new JSch();
+
+        // ------ CHECK SFTP KNOWN HOST AUTH ------------ //
+
+        //FileOutputStream fos = openFileOutput("sftp_known_hosts", Context.MODE_PRIVATE);
+
+        String knownHostsFilename = "/sdcard/.ssh_known_hosts";
+        sftp_auth_session.setKnownHosts( knownHostsFilename );
+
+        Session session = sftp_auth_session.getSession( "root", hostname );
+        {
+            // "interactive" version
+            // can selectively update specified known_hosts file
+            // need to implement UserInfo interface
+            // MyUserInfo is a swing implementation provided in
+            //  examples/Sftp.java in the JSch dist
+            //UserInfo ui = new MyUserInfo();
+            //session.setUserInfo(ui);
+
+            // OR non-interactive version. Relies in host key being in known-hosts file
+            session.setPassword( "bnm3BNM" );
+        }
+        java.util.Properties config = new java.util.Properties();
+        config.put("StrictHostKeyChecking", "no");
+        session.setConfig(config);
+
+        session.connect();
+        Channel channel = session.openChannel( "sftp" );
+        channel.connect();
+        ChannelSftp sftpChannel = (ChannelSftp) channel;
+            datFM.sftp_auth_channel[panel_ID]=sftpChannel;
+        }
+
+        if(datFM.sftp_auth_channel[panel_ID].isConnected()){
+            Log.e("SFTP WORK:", "SFTP connected!");
+        } else {
+            sftp_success_auth=false;
+            Log.e("SFTP ERROR:", "SFTP connection error!");
+        }
+
+        /** getSFTPfile.get("remote-file", "local-file" ); **/
+// OR
+        /** InputStream in = getSFTPfile.get( "remote-file" );**/
+
+        String realpath=url.replace("sftp://"+hostname,"");
+        // process inputstream as needed
+        //---------START SMB WORKS-------------------------
+        if(sftp_success_auth){
+            if (panel_ID ==0){
+                datFM.parent_left=new datFM_IO(url,panel_ID).getParent()[0];
+                datFM.curentLeftDir=url;
+            } else {
+                datFM.parent_right=new datFM_IO(url,panel_ID).getParent()[0];
+                datFM.curentRightDir=url;
+            }
+
+            datFM.sftp_auth_channel[panel_ID].cd(realpath);
+
+            Vector<ChannelSftp.LsEntry> list = datFM.sftp_auth_channel[panel_ID].ls(realpath);
+            /*
+            for(ChannelSftp.LsEntry entry : list) {
+                getSFTPfile.get(entry.getFilename(), realpath + entry.getFilename());
+                jsch.addIdentity(privateKey);
+        logger.info("rsa private key loaded: " + privateKey);
+            }
+            */
+
+            for(ChannelSftp.LsEntry ff : list){
+                if((!datFM.pref_show_hide && ff.getFilename().startsWith(".")) ||
+                        (ff.getFilename().equals(".") || ff.getFilename().equals(".."))){} else {
+
+                    if(ff.getAttrs().isDir()){
+                        String data = datFM.datFM_context.getResources().getString(R.string.fileslist_directory);
+                        String name = ff.getFilename();
+                        Long date = Date.parse(ff.getAttrs().getMtimeString());
+                        dir_info.add(new datFM_File(name,url+ff.getFilename(),0,"sftp","dir",data, url, date));
+                    } else {
+                        String data = formatSize(ff.getAttrs().getSize());
+                        Long date = Date.parse(ff.getAttrs().getMtimeString());
+
+                        if(datFM.pref_show_date){
+                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm',' d MMM'.'");
+                            data = data+" / "+sdf.format(date);
+                        }
+
+                        fls_info.add(new datFM_File(ff.getFilename(),url+ff.getFilename(),ff.getAttrs().getSize(),"sftp","file",data,url,date));
+                    }
+                }
+            }
+        }
+            Collections.sort(dir_info);
+            Collections.sort(fls_info);
+
+            dir_info.addAll(fls_info);
+
+        /***datFM.sftp_auth_channel[panel_ID].exit();
+        //datFM.sftp_auth_channel[panel_ID].disconnect(); **/
         //-------END SMB WORKS---------------------
     }
     private void fetch_datFM(){
@@ -446,10 +571,10 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
         final EditText names   = (EditText) layer.findViewById(R.id.logon_name);
         final EditText passs   = (EditText) layer.findViewById(R.id.logon_pass);
 
-        if(datFM.auth[panel_ID]!=null){
-            domains.setText(datFM.auth[panel_ID].getDomain());
-            names.setText(datFM.auth[panel_ID].getUsername());
-            passs.setText(datFM.auth[panel_ID].getPassword());
+        if(datFM.smb_auth_session[panel_ID]!=null){
+            domains.setText(datFM.smb_auth_session[panel_ID].getDomain());
+            names.setText(datFM.smb_auth_session[panel_ID].getUsername());
+            passs.setText(datFM.smb_auth_session[panel_ID].getPassword());
         }
         final CheckBox logon_guest = (CheckBox) layer.findViewById(R.id.logon_guest);
         logon_guest.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -460,9 +585,9 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                     names.setText("");names.setEnabled(false);
                     passs.setText("");passs.setEnabled(false);
                 } else {
-                    domains.setText(datFM.auth[panel_ID].getDomain());domains.setEnabled(true);
-                    names.setText(datFM.auth[panel_ID].getUsername());names.setEnabled(true);
-                    passs.setText(datFM.auth[panel_ID].getPassword());passs.setEnabled(true);
+                    domains.setText(datFM.smb_auth_session[panel_ID].getDomain());domains.setEnabled(true);
+                    names.setText(datFM.smb_auth_session[panel_ID].getUsername());names.setEnabled(true);
+                    passs.setText(datFM.smb_auth_session[panel_ID].getPassword());passs.setEnabled(true);
                 }
             }
         });
@@ -493,7 +618,7 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                             pass_n = null;
                         }
 
-                        datFM.auth[panel_ID] = new NtlmPasswordAuthentication(domain_n,user_n,pass_n);
+                        datFM.smb_auth_session[panel_ID] = new NtlmPasswordAuthentication(domain_n,user_n,pass_n);
 
                         new datFM_IO_Fetch(datFM.datFM_state).execute(path, protocol, String.valueOf(panel_ID));
                         //fetch_smb();

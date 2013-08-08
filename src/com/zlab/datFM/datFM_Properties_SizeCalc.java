@@ -1,7 +1,10 @@
 package com.zlab.datFM;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -22,7 +25,11 @@ public class datFM_Properties_SizeCalc extends AsyncTask<ArrayList<datFM_File>, 
 
         for (datFM_File path : paths) {
             if (path.getType().equals("dir")) {
-                get_directory(path.getPath());
+                try {
+                    get_directory(path.getPath());
+                } catch (Exception e) {
+                    Log.e("ERR:", e.getMessage());
+                }
             } else {
                 get_file(path.getPath());
             }
@@ -42,7 +49,7 @@ public class datFM_Properties_SizeCalc extends AsyncTask<ArrayList<datFM_File>, 
         super.onPostExecute(result);
     }
 
-    void get_directory(String dir){
+    void get_directory(String dir) throws JSchException, SftpException {
         if (new datFM_IO(dir, datFM.curPanel).is_dir()){
             String [] dir_list = new datFM_IO(dir, datFM.curPanel).get_dir_list();
             if(dir_list!=null)
