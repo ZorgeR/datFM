@@ -22,7 +22,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.*;
 import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import com.zlab.datFM.ZA.ZArchiver_IO;
@@ -119,7 +118,7 @@ public class datFM extends Activity {
 
     /** UI **/
     int horizontal_scroll_percentage;
-    boolean horizontal_scroll_blocked=false;
+    boolean horizontal_scroll_finished =true;
     DisplayMetrics displaymetrics;
 
     @SuppressWarnings("deprecation")  //setBackgroundDrawable
@@ -804,7 +803,7 @@ public class datFM extends Activity {
 
         if(pathPanelBgrFill!=0){layoutPathPanelRight.setBackgroundColor(pathPanelBgrFill);layoutPathPanelLeft.setBackgroundColor(pathPanelBgrFill);}
         update_operation_vars();
-        scroll_init();
+        //scroll_init(); ///*************************************************/
         setTitle(curDir);
     }
 
@@ -1715,12 +1714,11 @@ public class datFM extends Activity {
                     switch (event.getAction())
                     {
                         case MotionEvent.ACTION_MOVE:{
-                            horizontal_scroll_blocked=true;
                             break;
                         }
                         case MotionEvent.ACTION_UP:
                         {
-                            horizontal_scroll_blocked=false;
+                            horizontal_scroll_finished = true;
                             scroll_finisher();
                             break;
                         }
@@ -1733,34 +1731,41 @@ public class datFM extends Activity {
                 @Override
                 public void onScrollChanged(HR_ScrollView scrollView, int x, int y, int oldx, int oldy) {
                     horizontal_scroll_percentage = x*100/screen_width;
+
+                    if(horizontal_scroll_finished){
+                        if(horizontal_scroll_percentage > 50 && horizontal_scroll_percentage < 85){
+                            horizontal_scroll_finished = false;scroll_init(0);}
+                        if(horizontal_scroll_percentage > 15 && horizontal_scroll_percentage < 50){
+                            horizontal_scroll_finished = false;scroll_init(1);}
+                    }
                 }
             });
     }
-    private void scroll_init(){
-        //sideholderscroll.post();
+    private void scroll_init(final int pan_id){
         if(pref_show_single_panel && !(pref_force_dual_panel_in_landscape && getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)){
             sideholderscroll.post(new Runnable() {
                 @Override
                 public void run() {
-                    if(curPanel==0){
-                        if(!horizontal_scroll_blocked)
+                    if(pan_id==0){
                             sideholderscroll.fullScroll(HorizontalScrollView.FOCUS_LEFT);
                     } else {
-                        if(!horizontal_scroll_blocked)
                             sideholderscroll.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
                     }
+                    curPanel=pan_id;
+                    update_panel_focus();
                 }
             });
         }
     }
+
     private void scroll_finisher(){
         if(!(pref_force_dual_panel_in_landscape && getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)){
+
             if (horizontal_scroll_percentage < 50) {
-                    curPanel=0;
+                scroll_init(0);
             } else {
-                    curPanel=1;
+                scroll_init(1);
             }
-            update_panel_focus();
         }
     }
 
