@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.InputType;
@@ -118,7 +119,7 @@ public class datFM extends Activity {
 
     /** UI **/
     int horizontal_scroll_percentage;
-    boolean horizontal_scroll_finished =true;
+    //boolean horizontal_scroll_finished =true;
     DisplayMetrics displaymetrics;
 
     @SuppressWarnings("deprecation")  //setBackgroundDrawable
@@ -1718,7 +1719,7 @@ public class datFM extends Activity {
                         }
                         case MotionEvent.ACTION_UP:
                         {
-                            horizontal_scroll_finished = true;
+                            //horizontal_scroll_finished = true;
                             scroll_finisher();
                             break;
                         }
@@ -1732,17 +1733,30 @@ public class datFM extends Activity {
                 public void onScrollChanged(HR_ScrollView scrollView, int x, int y, int oldx, int oldy) {
                     horizontal_scroll_percentage = x*100/screen_width;
 
-                    if(horizontal_scroll_finished){
-                        if(horizontal_scroll_percentage > 50 && horizontal_scroll_percentage < 85){
-                            horizontal_scroll_finished = false;scroll_init(0);}
-                        if(horizontal_scroll_percentage > 15 && horizontal_scroll_percentage < 50){
-                            horizontal_scroll_finished = false;scroll_init(1);}
+                    if(sideholderscroll.isScrollable()){
+                        if(horizontal_scroll_percentage > 50 && horizontal_scroll_percentage < 75){
+                            sideholderscroll.setIsScrollable(false);
+                            //horizontal_scroll_finished = false;
+                            scroll_init(0);
+                        }
+                        else if(horizontal_scroll_percentage > 25 && horizontal_scroll_percentage < 50){
+                            sideholderscroll.setIsScrollable(false);
+                            //horizontal_scroll_finished = false;
+                            scroll_init(1);
+                        }
+                    } else if(horizontal_scroll_percentage<5 || horizontal_scroll_percentage>95){
+                        sideholderscroll.setIsScrollable(true);
+                        //scroll_finisher();
                     }
+
+                    //Log.e("POS:", String.valueOf(horizontal_scroll_percentage));
                 }
             });
     }
     private void scroll_init(final int pan_id){
         if(pref_show_single_panel && !(pref_force_dual_panel_in_landscape && getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)){
+
+            /*
             sideholderscroll.post(new Runnable() {
                 @Override
                 public void run() {
@@ -1754,13 +1768,32 @@ public class datFM extends Activity {
                     curPanel=pan_id;
                     update_panel_focus();
                 }
-            });
+            });      */
+
+            final Handler handler = new Handler();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    //try {Thread.sleep(1000);} catch (InterruptedException e) {}
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(pan_id==0){
+                                sideholderscroll.fullScroll(HorizontalScrollView.FOCUS_LEFT);
+                            } else {
+                                sideholderscroll.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
+                            }
+                            curPanel=pan_id;
+                            update_panel_focus();
+                        }
+                    });
+                }
+            }).start();
         }
     }
 
     private void scroll_finisher(){
         if(!(pref_force_dual_panel_in_landscape && getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)){
-
             if (horizontal_scroll_percentage < 50) {
                 scroll_init(0);
             } else {
