@@ -421,6 +421,10 @@ public class datFM extends Activity {
                 if (prevName.equals(adapterRight.getItem(i).getName())){listRight.setSelection(i);prevName="";}}}
         }
 
+        /* TODO - fast scroll settings */
+        listRight.setFastScrollEnabled(true);
+        listLeft.setFastScrollEnabled(true);
+
         update_panel_focus();
     }
 
