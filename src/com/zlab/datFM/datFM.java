@@ -119,7 +119,7 @@ public class datFM extends Activity {
 
     /** UI **/
     int horizontal_scroll_percentage;
-    //boolean horizontal_scroll_finished =true;
+    //boolean horizontal_scroll_finished=true;
     DisplayMetrics displaymetrics;
 
     @SuppressWarnings("deprecation")  //setBackgroundDrawable
@@ -808,7 +808,7 @@ public class datFM extends Activity {
 
         if(pathPanelBgrFill!=0){layoutPathPanelRight.setBackgroundColor(pathPanelBgrFill);layoutPathPanelLeft.setBackgroundColor(pathPanelBgrFill);}
         update_operation_vars();
-        //scroll_init(); ///*************************************************/
+        //scroll_init_delay(); ///*************************************************/
         setTitle(curDir);
     }
 
@@ -1718,13 +1718,9 @@ public class datFM extends Activity {
                 public boolean onTouch(View v, MotionEvent event) {
                     switch (event.getAction())
                     {
-                        case MotionEvent.ACTION_MOVE:{
-                            break;
-                        }
                         case MotionEvent.ACTION_UP:
                         {
-                            //horizontal_scroll_finished = true;
-                            scroll_finisher();
+                            scroll_init_nodelay(curPanel);
                             break;
                         }
                     }
@@ -1736,49 +1732,43 @@ public class datFM extends Activity {
                 @Override
                 public void onScrollChanged(HR_ScrollView scrollView, int x, int y, int oldx, int oldy) {
                     horizontal_scroll_percentage = x*100/screen_width;
-
-                    if(sideholderscroll.isScrollable()){
-                        if(horizontal_scroll_percentage > 50 && horizontal_scroll_percentage < 75){
-                            sideholderscroll.setIsScrollable(false);
-                            //horizontal_scroll_finished = false;
-                            scroll_init(0);
+                    if(curPanel==0){
+                        if(sideholderscroll.isScrolled() && horizontal_scroll_percentage > 25 && horizontal_scroll_percentage < 50){
+                            sideholderscroll.setIsScrolled(false);
+                            scroll_init_delay(1);
                         }
-                        else if(horizontal_scroll_percentage > 25 && horizontal_scroll_percentage < 50){
-                            sideholderscroll.setIsScrollable(false);
-                            //horizontal_scroll_finished = false;
-                            scroll_init(1);
+                    } else {
+                        if(sideholderscroll.isScrolled() && horizontal_scroll_percentage < 75 && horizontal_scroll_percentage > 50){
+                            sideholderscroll.setIsScrolled(false);
+                            scroll_init_delay(0);
                         }
-                    } else if(horizontal_scroll_percentage<5 || horizontal_scroll_percentage>95){
-                        sideholderscroll.setIsScrollable(true);
-                        //scroll_finisher();
                     }
 
-                    //Log.e("POS:", String.valueOf(horizontal_scroll_percentage));
+                    if(!sideholderscroll.isScrolled() && (horizontal_scroll_percentage<2 || horizontal_scroll_percentage>98)){
+                        final Handler handler = new Handler();
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {Thread.sleep(200);} catch (InterruptedException e) {}
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        sideholderscroll.setIsScrolled(true);
+                                    }
+                                });
+                            }
+                        }).start();
+                    }
                 }
             });
     }
-    private void scroll_init(final int pan_id){
+    private void scroll_init_delay(final int pan_id){
         if(pref_show_single_panel && !(pref_force_dual_panel_in_landscape && getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)){
-
-            /*
-            sideholderscroll.post(new Runnable() {
-                @Override
-                public void run() {
-                    if(pan_id==0){
-                            sideholderscroll.fullScroll(HorizontalScrollView.FOCUS_LEFT);
-                    } else {
-                            sideholderscroll.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
-                    }
-                    curPanel=pan_id;
-                    update_panel_focus();
-                }
-            });      */
-
             final Handler handler = new Handler();
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    //try {Thread.sleep(1000);} catch (InterruptedException e) {}
+                    try {Thread.sleep(100);} catch (InterruptedException e) {}
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -1795,14 +1785,18 @@ public class datFM extends Activity {
             }).start();
         }
     }
-
-    private void scroll_finisher(){
-        if(!(pref_force_dual_panel_in_landscape && getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)){
-            if (horizontal_scroll_percentage < 50) {
-                scroll_init(0);
-            } else {
-                scroll_init(1);
-            }
+    private void scroll_init_nodelay(final int pan_id){
+        if(pref_show_single_panel && !(pref_force_dual_panel_in_landscape && getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)){
+            sideholderscroll.post(new Runnable() {
+                @Override
+                public void run() {
+                    if(pan_id==0){
+                        sideholderscroll.fullScroll(HorizontalScrollView.FOCUS_LEFT);
+                    } else {
+                        sideholderscroll.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
+                    }
+                }
+            });
         }
     }
 
@@ -1862,6 +1856,8 @@ public class datFM extends Activity {
             font_typeface=Typeface.MONOSPACE;
         } else if(pref_font_typeface.equalsIgnoreCase("sans serif")){
             font_typeface=Typeface.SANS_SERIF;
+        } else if(pref_font_typeface.equalsIgnoreCase("condensed")){
+            font_typeface=Typeface.create("sans-serif-condensed", font_style);
         } else {
             font_typeface=Typeface.SERIF;
         }

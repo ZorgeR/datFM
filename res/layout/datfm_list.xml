@@ -13,6 +13,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
         <TextView android:text="@+id/textFileName" android:id="@+id/textFileName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:textStyle="bold"
+                  android:paddingLeft="1dp"
                   android:layout_alignParentLeft="true" android:layout_centerVertical="true"></TextView>
         <TextView android:text="@+id/textFileDiscription" android:id="@+id/textFileDiscription" android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:layout_alignParentRight="true" android:layout_alignParentBottom="true"

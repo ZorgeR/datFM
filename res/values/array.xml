@@ -59,6 +59,7 @@
         <item>Sans Serif</item>
         <item>Serif</item>
         <item>Monospace</item>
+        <item>Condensed</item>
     </string-array>
     <string-array name="text_themes">
         <item>datFM Classic</item>
@@ -67,10 +68,12 @@
     <string-array name="text_icon_themes">
         <item>Human O2</item>
         <item>Quartz</item>
+        <item>Plump</item>
     </string-array>
     <string-array name="text_icon_themes_values">
         <item>human_o2</item>
         <item>quartz</item>
+        <item>plump</item>
     </string-array>
     <string-array name="panel_size">
         <item>28</item>

@@ -153,6 +153,10 @@ public class datFM_File_ListAdaptor extends ArrayAdapter<datFM_File> {
                     resID = ext_check(pptx,"pptx",ext);
                 }
                 if (resID==0){
+                    String[] photo = {"jpg", "png", "jpeg", "gif"};
+                    resID = ext_check(photo,"photo",ext);
+                }
+                if (resID==0){
                     resID = getContext().getResources().getIdentifier("ext_unknown"+"_"+datFM.pref_theme_icons, "drawable", "com.zlab.datFM");
                 }
 
@@ -178,6 +182,8 @@ public class datFM_File_ListAdaptor extends ArrayAdapter<datFM_File> {
                 //resID = getContext().getResources().getIdentifier("ext_" + ext.toLowerCase(), "drawable", "com.zlab.datFM");
                 //imgFileIcon.setImageResource(R.drawable.ext_folder_add);
                 imgFileIcon.setImageResource(getContext().getResources().getIdentifier("ext_folder_add"+"_"+datFM.pref_theme_icons, "drawable", "com.zlab.datFM"));
+            } else if(o.getType().equals("action_exit")){
+                imgFileIcon.setImageResource(getContext().getResources().getIdentifier("ext_action_exit"+"_"+datFM.pref_theme_icons, "drawable", "com.zlab.datFM"));
             }
 
             imgFileIcon.setOnClickListener(new View.OnClickListener() {

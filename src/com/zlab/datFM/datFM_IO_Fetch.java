@@ -351,6 +351,11 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
             dir_info.add(new datFM_File(activity.getResources().getString(R.string.fileslist_samba),"datFM://samba",0,"smb","network",
                     activity.getResources().getString(R.string.fileslist_network), "datFM://", 0));
 
+            dir_info.add(new datFM_File(activity.getResources().getString(R.string.fileslist_sftp),"datFM://sftp",0,"sftp","network",
+                    activity.getResources().getString(R.string.fileslist_network), "datFM://", 0));
+
+            dir_info.add(new datFM_File(activity.getResources().getString(R.string.fileslist_exit),"datFM://exit",0,"smb","action_exit",
+                    activity.getResources().getString(R.string.fileslist_action), "datFM://", 0));
         } else if(section.equals("favorite")){
             dir_info.add(new datFM_File(activity.getResources().getString(R.string.fileslist_add_favorite),"datFM://favorite/add",0,"local","add",
                     activity.getResources().getString(R.string.fileslist_favorites), "datFM://", 0));
@@ -419,6 +424,11 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                     } catch (Exception e) {e.printStackTrace();}
                 }
             }
+        } else if (section.equals("exit")){
+            if (panel_ID ==0){datFM.parent_left="datFM://";datFM.curentLeftDir="datFM://";
+            } else {
+                datFM.parent_right="datFM://";datFM.curentRightDir="datFM://";}
+            datFM.datFM_state.finish();
         }
 
         //dir_info.add(new datFM_File(ff.getName(),ff.getPath(),0,"smb","dir",data, ff.getParent()));

@@ -137,6 +137,9 @@
     <string name="fileslist_memory_card">External Storage</string>
     <string name="fileslist_root">Root</string>
     <string name="fileslist_samba">Samba</string>
+    <string name="fileslist_sftp">SFTP</string>
+    <string name="fileslist_exit">Exit</string>
+    <string name="fileslist_action">Action</string>
     <string name="fileslist_add_favorite">Add to favorites</string>
     <string name="fileslist_add_samba">Add Samba server</string>
     <string name="fileslist_browse_samba">Browse smb://</string>
