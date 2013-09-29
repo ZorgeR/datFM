@@ -1857,7 +1857,8 @@ public class datFM extends Activity {
         } else if(pref_font_typeface.equalsIgnoreCase("sans serif")){
             font_typeface=Typeface.SANS_SERIF;
         } else if(pref_font_typeface.equalsIgnoreCase("condensed")){
-            font_typeface=Typeface.create("sans-serif-condensed", font_style);
+            if(currentApiVersion>15){ /** Condensed for 4.1 and UP **/
+            font_typeface=Typeface.create("sans-serif-condensed", font_style);}
         } else {
             font_typeface=Typeface.SERIF;
         }
