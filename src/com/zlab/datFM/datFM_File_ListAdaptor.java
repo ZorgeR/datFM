@@ -54,7 +54,7 @@ public class datFM_File_ListAdaptor extends ArrayAdapter<datFM_File> {
             v = vi.inflate(id, null);
         }
 
-        final datFM_File o = items.get(position);
+        datFM_File o = items.get(position);
 
         if (o != null) {
             text_FileName = (TextView) v.findViewById(R.id.textFileName);
