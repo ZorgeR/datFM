@@ -22,9 +22,7 @@ import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.*;
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.SftpException;
+import com.jcraft.jsch.*;
 import com.zlab.datFM.ZA.ZArchiver_IO;
 import com.zlab.datFM.crypt.AES_128;
 import com.zlab.datFM.hooks.HR_ScrollView;
@@ -70,9 +68,11 @@ public class datFM extends Activity {
     static int color_item_selected;
     LinearLayout btnUPleft, btnUPright;
     static NtlmPasswordAuthentication[] smb_auth_session = new NtlmPasswordAuthentication[2];
+    static JSch sftp_auth_session[] = new JSch[2];
     static ArrayList<datFM_File> properties_array;
     //static JSch sftp_auth_session[] = new JSch[2];
     static ChannelSftp sftp_auth_channel[] = new ChannelSftp[2];
+    static Session sftp_session[] = new Session[2];
 
     /** VARS FOR OPERATION**/
     static int sel;

@@ -27,19 +27,23 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+
 public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
 
     List<datFM_File> dir_info,fls_info;
     ProgressDialog dialog_operation_remote;
     String path,protocol;
     int panel_ID;
-    String url, hostname;
+    String url, hostname,user;
     boolean fetch_err=false;
     boolean smb_success_auth =true;
     boolean sftp_success_auth =true;
+    boolean sftp_session_auth =true;
     boolean valid_url=true;
+    //Session sftpSession;
+    //ChannelSftp sftpChannel;
     NtlmPasswordAuthentication smb_auth_session;
-    JSch sftp_auth_session;
+    //JSch sftp_auth_session;
 
     public datFM activity;
     public datFM_IO_Fetch(datFM a){activity = a;}
@@ -78,8 +82,7 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
         } else if (protocol.equals("sftp")){
             try {
                 fetch_sftp();
-            } catch (Exception e) {
-                Log.e("SFTP ERROR:", e.getMessage());
+            } catch (Exception e) {if(e.getMessage()!=null)Log.e("SFTP ERROR:", e.getMessage());
             }
         } else if (protocol.equals("datfm")){
             fetch_datFM();
@@ -99,6 +102,13 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                 if(fetch_err){datFM.notify_toast(datFM.datFM_state.getResources().getString(R.string.notify_connection_error),true);}
                 if(datFM.pref_sambalogin){
                     logonScreenSMB();}
+            } else if(protocol.equals("sftp")&& (!sftp_success_auth||!sftp_session_auth)){
+                if(!sftp_session_auth){
+                    Toast.makeText(datFM.datFM_context,"SFTP host error.", Toast.LENGTH_SHORT).show();
+                } else if (!sftp_success_auth){
+                    Toast.makeText(datFM.datFM_context,"SFTP logon error.", Toast.LENGTH_SHORT).show();
+                }
+                try {logonScreenSFTP();} catch (JSchException e) {e.printStackTrace();}
             } else {
                // if(!datFM.datFM_Destroyed){        }
                     datFM.datFM_state.fill_panel(dir_info, fls_info, panel_ID);
@@ -208,11 +218,13 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
             }
         //-------END SMB WORKS---------------------
     }
-    private void fetch_sftp() throws JSchException, SftpException {
+    private void fetch_sftp() {
         if(path.lastIndexOf("/")!=path.length()-1){path=path+"/";}
 
         url = path;
         datFM.url=url;
+
+
 
         hostname = url;
         if(!hostname.equals("sftp://")){
@@ -220,45 +232,30 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
             if(hostname.contains("/")){hostname = hostname.substring(0, hostname.indexOf("/"));}
         }
 
-        if(datFM.sftp_auth_channel[panel_ID]!=null){
-            //sftp_auth_session = datFM.sftp_auth_session[panel_ID];
-        } else {
-            sftp_auth_session = new JSch();
+        if(datFM.sftp_auth_channel[panel_ID]==null){
+            datFM.sftp_auth_channel[panel_ID]=new ChannelSftp();
 
-        // ------ CHECK SFTP KNOWN HOST AUTH ------------ //
-
-        //FileOutputStream fos = openFileOutput("sftp_known_hosts", Context.MODE_PRIVATE);
-
-        String knownHostsFilename = "/sdcard/.ssh_known_hosts";
-        sftp_auth_session.setKnownHosts( knownHostsFilename );
-
-        Session session = sftp_auth_session.getSession( "root", hostname );
-        {
-            // "interactive" version
-            // can selectively update specified known_hosts file
-            // need to implement UserInfo interface
-            // MyUserInfo is a swing implementation provided in
-            //  examples/Sftp.java in the JSch dist
-            //UserInfo ui = new MyUserInfo();
-            //session.setUserInfo(ui);
-
-            // OR non-interactive version. Relies in host key being in known-hosts file
-            session.setPassword( "bnm3BNM" );
-        }
-        java.util.Properties config = new java.util.Properties();
-        config.put("StrictHostKeyChecking", "no");
-        session.setConfig(config);
-
-        session.connect();
-        Channel channel = session.openChannel( "sftp" );
-        channel.connect();
-        ChannelSftp sftpChannel = (ChannelSftp) channel;
-            datFM.sftp_auth_channel[panel_ID]=sftpChannel;
+            if(datFM.sftp_auth_session[panel_ID]==null){
+                sftp_session_auth=false;
+                //sftp_success_auth=false;
+                Log.e("SFTP:","Null session.");
+            } else {
+                try {
+                    //session = datFM.sftp_auth_session[panel_ID].getSession("root",hostname);
+                    datFM.sftp_session[panel_ID].connect();
+                    Channel channel = datFM.sftp_session[panel_ID].openChannel( "sftp" );
+                    channel.connect();
+                    datFM.sftp_auth_channel[panel_ID] = (ChannelSftp) channel;
+                } catch (JSchException e) {Log.e("SFTP:", e.getMessage());}
+            }
+            //if(sftpChannel!=null){
+            //datFM.sftp_auth_channel[panel_ID]=datFM.sftp_auth_channel[panel_ID];//}
         }
 
         if(datFM.sftp_auth_channel[panel_ID].isConnected()){
             Log.e("SFTP WORK:", "SFTP connected!");
         } else {
+            datFM.sftp_auth_channel[panel_ID]=null;
             sftp_success_auth=false;
             Log.e("SFTP ERROR:", "SFTP connection error!");
         }
@@ -279,9 +276,9 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                 datFM.curentRightDir=url;
             }
 
-            datFM.sftp_auth_channel[panel_ID].cd(realpath);
-
-            Vector<ChannelSftp.LsEntry> list = datFM.sftp_auth_channel[panel_ID].ls(realpath);
+            try {
+                datFM.sftp_auth_channel[panel_ID].cd(realpath);
+                Vector<ChannelSftp.LsEntry> list = datFM.sftp_auth_channel[panel_ID].ls(realpath);
             /*
             for(ChannelSftp.LsEntry entry : list) {
                 getSFTPfile.get(entry.getFilename(), realpath + entry.getFilename());
@@ -290,28 +287,31 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
             }
             */
 
-            for(ChannelSftp.LsEntry ff : list){
-                if((!datFM.pref_show_hide && ff.getFilename().startsWith(".")) ||
-                        (ff.getFilename().equals(".") || ff.getFilename().equals(".."))){} else {
+                for(ChannelSftp.LsEntry ff : list){
+                    if((!datFM.pref_show_hide && ff.getFilename().startsWith(".")) ||
+                            (ff.getFilename().equals(".") || ff.getFilename().equals(".."))){} else {
 
-                    if(ff.getAttrs().isDir()){
-                        String data = datFM.datFM_context.getResources().getString(R.string.fileslist_directory);
-                        String name = ff.getFilename();
-                        Long date = Date.parse(ff.getAttrs().getMtimeString());
-                        dir_info.add(new datFM_File(name,url+ff.getFilename(),0,"sftp","dir",data, url, date));
-                    } else {
-                        String data = formatSize(ff.getAttrs().getSize());
-                        Long date = Date.parse(ff.getAttrs().getMtimeString());
+                        if(ff.getAttrs().isDir()){
+                            String data = datFM.datFM_context.getResources().getString(R.string.fileslist_directory);
+                            String name = ff.getFilename();
+                            Long date = Date.parse(ff.getAttrs().getMtimeString());
+                            dir_info.add(new datFM_File(name,url+ff.getFilename(),0,"sftp","dir",data, url, date));
+                        } else {
+                            String data = formatSize(ff.getAttrs().getSize());
+                            Long date = Date.parse(ff.getAttrs().getMtimeString());
 
-                        if(datFM.pref_show_date){
-                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm',' d MMM'.'");
-                            data = data+" / "+sdf.format(date);
+                            if(datFM.pref_show_date){
+                                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm',' d MMM'.'");
+                                data = data+" / "+sdf.format(date);
+                            }
+
+                            fls_info.add(new datFM_File(ff.getFilename(),url+ff.getFilename(),ff.getAttrs().getSize(),"sftp","file",data,url,date));
                         }
-
-                        fls_info.add(new datFM_File(ff.getFilename(),url+ff.getFilename(),ff.getAttrs().getSize(),"sftp","file",data,url,date));
                     }
                 }
-            }
+            } catch (SftpException e) {Log.e("SFTP:",e.getMessage());}
+
+
         }
             Collections.sort(dir_info);
             Collections.sort(fls_info);
@@ -642,7 +642,135 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
         AlertDialog AboutDialog = action_dialog.create();
         AboutDialog.show();
     }
+    private void logonScreenSFTP() throws JSchException {
+        AlertDialog.Builder action_dialog = new AlertDialog.Builder(datFM.datFM_state);
+        action_dialog.setTitle("SFTP logon");
+        LayoutInflater inflater = datFM.datFM_state.getLayoutInflater();
+        View layer = inflater.inflate(R.layout.datfm_sftp_logon,null);
 
+        final EditText hostname_locale = (EditText) layer.findViewById(R.id.logon_domain);
+        final EditText names   = (EditText) layer.findViewById(R.id.logon_name);
+        final EditText passs   = (EditText) layer.findViewById(R.id.logon_pass);
+        final EditText portt   = (EditText) layer.findViewById(R.id.logon_port);
+
+        if(hostname!=null){
+            hostname_locale.setText(hostname.substring(hostname.indexOf('@')+1)); /***  CHECK OUT OF ARRAY    **/
+            names.setText(hostname.substring(0, hostname.indexOf('@')));              /***  CHECK OUT OF ARRAY    **/}
+        //int port=22;
+        portt.setText("22");                                                                    /***  GRAB PORT FROM HOSTNAME ***/
+
+        if(datFM.sftp_auth_channel[panel_ID]!=null){
+           // hostname_locale.setText(datFM.sftp_auth_channel[panel_ID].getSession().getHost());
+           // names.setText(datFM.sftp_auth_channel[panel_ID].getSession().getUserName());
+            //passs.setText(datFM.sftp_auth_channel[panel_ID].getSession().get);
+        }
+
+        final CheckBox logon_guest = (CheckBox) layer.findViewById(R.id.logon_guest);
+        logon_guest.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    hostname_locale.setText("");hostname_locale.setEnabled(false);
+                    names.setText("");names.setEnabled(false);
+                    passs.setText("");//passs.setEnabled(false);
+                } else {
+                    try {
+                        hostname_locale.setText(datFM.sftp_auth_channel[panel_ID].getSession().getHost());
+                        hostname_locale.setEnabled(true);
+                        names.setText(datFM.sftp_auth_channel[panel_ID].getSession().getUserName());names.setEnabled(true);
+                        //passs.setText(datFM.smb_auth_session[panel_ID].getPassword());passs.setEnabled(true);
+                    } catch (JSchException e) {e.printStackTrace();}
+                }
+            }
+        });
+
+        action_dialog.setView(layer);
+        action_dialog.setPositiveButton(datFM.datFM_state.getResources().getString(R.string.ui_dialog_btn_ok),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String hostname_n,user_n,pass_n,port_n;
+                        hostname_n = hostname_locale.getText().toString();
+                        user_n = names.getText().toString();
+                        pass_n = passs.getText().toString();
+                        port_n = portt.getText().toString();
+                        //datFM.curPanel = Integer.parseInt(datFM.id);
+                        datFM.curPanel=panel_ID;
+                        if(panel_ID==0){
+                            datFM.competPanel=1;
+                        }else{
+                            datFM.competPanel=0;
+                        }
+                              /*
+                        if(domain_n.equals("")){
+                            domain_n = null;
+                        }   */
+                        if(user_n.equals("")){
+                            user_n = null;
+                        }
+                        if(pass_n.equals("")){
+                            pass_n = null;
+                        }
+
+                        datFM.sftp_auth_session[panel_ID] = new JSch();
+                        /*
+                        if(datFM.sftp_auth_session[panel_ID]==null){
+                            datFM.sftp_auth_session[panel_ID] = new JSch();
+                        }
+                          */
+                        String knownHostsFilename = "/sdcard/.ssh_known_hosts";
+                        try {
+                            datFM.sftp_auth_session[panel_ID].setKnownHosts( knownHostsFilename );
+                        } catch (JSchException e) {e.printStackTrace();}
+
+                        //Session session = null;
+                        try {
+                            datFM.sftp_session[panel_ID] = datFM.sftp_auth_session[panel_ID].getSession( user_n, hostname_n, Integer.parseInt(port_n)); /** CHECK IF NOT INTEGER **/
+                        } catch (JSchException e) {
+                            Log.e("SFTP:",e.getMessage());}
+
+                        //final Session session_fi = session;
+                        datFM.sftp_session[panel_ID].setPassword( pass_n );
+
+                        java.util.Properties config = new java.util.Properties();
+                        config.put("StrictHostKeyChecking", "no");
+                        datFM.sftp_session[panel_ID].setConfig(config);
+
+                                                           /*
+                            new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            session_fi.connect();
+                                        } catch (JSchException e) {
+                                            sftp_session_auth=false;
+                                            Log.e("SFTP:",e.getMessage());
+                                        }
+
+                                        try {
+                                            Channel channel = session_fi.openChannel( "sftp" );
+                                            channel.connect();
+                                            ChannelSftp sftpChannel = (ChannelSftp) channel;
+                                            datFM.sftp_auth_channel[panel_ID]=sftpChannel;
+
+                                        } catch (JSchException e) {e.printStackTrace();}
+                                        new datFM_IO_Fetch(datFM.datFM_state).execute(path, protocol, String.valueOf(panel_ID));
+                                    }
+                                };
+                                         */
+                        datFM.sftp_auth_channel[panel_ID]=null;
+                        new datFM_IO_Fetch(datFM.datFM_state).execute(path, protocol, String.valueOf(panel_ID));
+                        //new datFM_IO_Fetch(datFM.datFM_state).execute(path, protocol, String.valueOf(panel_ID));
+                        //fetch_smb();
+                    }
+                });
+        action_dialog.setNegativeButton(datFM.datFM_state.getResources().getString(R.string.ui_dialog_btn_cancel),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+        AlertDialog AboutDialog = action_dialog.create();
+        AboutDialog.show();
+    }
     public static boolean externalMemoryAvailable() {
         return android.os.Environment.getExternalStorageState().equals(
                 android.os.Environment.MEDIA_MOUNTED);
