@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.util.Log;
 
 public class datFM_IcoGen_APK extends AsyncTask<String, Void, Drawable> {
     public datFM_File_ListAdaptor activity;
@@ -32,8 +33,12 @@ public class datFM_IcoGen_APK extends AsyncTask<String, Void, Drawable> {
             icon = appInfo.loadIcon(activity.getContext().getPackageManager());
         }
         if (icon==null){
+            try{
             icon=activity.getContext().getResources().getDrawable(
                     activity.getContext().getResources().getIdentifier("ext_apk"+"_"+datFM.pref_theme_icons, "drawable", "com.zlab.datFM"));
+            } catch (Exception e){
+                Log.e("APK PARSE ERROR: ", e.getMessage());
+            }
         }
             //icon=activity.getContext().getResources().getDrawable(R.drawable.ext_apk);}
 

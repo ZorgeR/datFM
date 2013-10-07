@@ -83,6 +83,7 @@
     <string name="settings_elements_title_savepath">Save path</string>
     <string name="settings_elements_title_focusondir">Focus on directory</string>
     <string name="settings_elements_title_backbtn_override">Back button</string>
+    <string name="settings_elements_title_fastscroll">Fast scroll</string>
     <string name="settings_elements_title_sambalogin">Samba logging</string>
     <string name="settings_elements_title_clear_filecache">Clear file cache</string>
     <string name="settings_elements_title_do_backup">Save settings</string>
@@ -123,6 +124,7 @@
     <string name="settings_elements_summary_savepath">Restore path on start</string>
     <string name="settings_elements_summary_focusondir">Set focus on current directory when go UP</string>
     <string name="settings_elements_summary_backbtn_override">Go up when pressed, quit when long pressed, if checked</string>
+    <string name="settings_elements_summary_fastscroll">In loooong lists</string>
     <string name="settings_elements_summary_sambalogin">Support logging for Samba</string>
     <string name="settings_elements_summary_clear_filecache">Clear file cache when exit</string>
     <string name="settings_elements_summary_do_backup">/sdcard/Android/data/datFM/backup</string>
@@ -206,6 +208,10 @@
     <string name="notify_access_denied">Access denied!</string>
     <string name="notify_connection_error">Connection error!</string>
     <string name="notify_fav_add_instruction">Use context menu of file and folder, for add it in favorites</string>
+    <string name="notify_backup_done">Backup done!</string>
+    <string name="notify_backup_error">Backup error!</string>
+    <string name="notify_backup_notfound">Backup not found!</string>
+    <string name="notify_backup_restore_done">Restart datFM to apply!</string>
 
     <!-- About -->
     <string name="about_message">Icons:\nApp icons - http://iconfactory.com\nFiles icon - Quartz Icon Set by Andy Gongea\n\nLocalization:\nUK - stigr (Motofan.ru)\nPL - galonpzw (XDA)\nFR - nikwist (XDA)\nDE - Milestone:enotseliM (XDA)\nSK - pvdeejay (XDA), pyler(XDA)\nNL - jogai(XDA)\n\nSpecial thanks to:\nAnt-ON - for his help\nRamallah - for something that did not help\nInara - just like that!</string>

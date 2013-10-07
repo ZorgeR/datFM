@@ -83,6 +83,7 @@
     <string name="settings_elements_title_savepath">Сохранять пути</string>
     <string name="settings_elements_title_focusondir">Фокус на папке</string>
     <string name="settings_elements_title_backbtn_override">Кнопка Назад</string>
+    <string name="settings_elements_title_fastscroll">Быстрая прокрутка</string>
     <string name="settings_elements_title_sambalogin">Авторизация в Samba</string>
     <string name="settings_elements_title_clear_filecache">Очистка файлового кеша</string>
     <string name="settings_elements_title_do_backup">Сохранить настройки</string>
@@ -123,6 +124,7 @@
     <string name="settings_elements_summary_savepath">Восстановить пути панелей при запуске</string>
     <string name="settings_elements_summary_focusondir">Установить фокус на текущей папке при нажатии Вверх</string>
     <string name="settings_elements_summary_backbtn_override">Вверх при нажатии, выход при долгом нажатии, если включено</string>
+    <string name="settings_elements_summary_fastscroll">В длиииинных списках</string>
     <string name="settings_elements_summary_sambalogin">Поддержка авторизации для Samba</string>
     <string name="settings_elements_summary_clear_filecache">Очищать кеш при выходе</string>
     <string name="settings_elements_summary_do_backup">/sdcard/Android/data/datFM/backup</string>
@@ -206,6 +208,10 @@
     <string name="notify_access_denied">Доступ запрещен!</string>
     <string name="notify_connection_error">Ошибка соединения!</string>
     <string name="notify_fav_add_instruction">Используйте контекстное меню файлов и каталогов, для добавления в избранное</string>
+    <string name="notify_backup_done">Настройки сохранены!</string>
+    <string name="notify_backup_error">Ошибка при сохранении настроек!</string>
+    <string name="notify_backup_notfound">Резервные копии не найдены!</string>
+    <string name="notify_backup_restore_done">Перезапустите datFM!</string>
 
     <!-- About -->
     <string name="about_message">Иконки:\nИконка приложения - http://iconfactory.com\nИконки файлов - Quartz Icon Set by Andy Gongea\n\nПереводчики:\nUK - stigr (Motofan.ru)\nPL - galonpzw (XDA)\nFR - nikwist (XDA)\nDE - Milestone:enotseliM (XDA)\nSK - pvdeejay (XDA), pyler(XDA)\nNL - jogai(XDA)\n\nОтдельная благодарность:\nAnt-ON - за его помощь\nRamallah - за его не помощь\nИнаре - просто так!</string>

@@ -89,9 +89,9 @@ public class datFM_Preferences extends PreferenceActivity {
                                 }
 
                                 if(backup_file.exists()){
-                                    Toast.makeText(datFM.datFM_context,"Backup done.",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(datFM.datFM_context,getResources().getString(R.string.notify_backup_done),Toast.LENGTH_SHORT).show();
                                 }else{
-                                    Toast.makeText(datFM.datFM_context,"Error.",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(datFM.datFM_context,getResources().getString(R.string.notify_backup_error),Toast.LENGTH_SHORT).show();
                                 }
                                 return true;
                             }
@@ -106,7 +106,7 @@ public class datFM_Preferences extends PreferenceActivity {
                                 File backup_file = new File(Environment.getExternalStorageDirectory().getPath()+"/Android/data/datFM/com.zlab.datFM_preferences.xml");
 
                                 if(!backup_file.exists()){
-                                    Toast.makeText(datFM.datFM_context,"No backup found.",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(datFM.datFM_context,getResources().getString(R.string.notify_backup_notfound),Toast.LENGTH_SHORT).show();
                                 } else {
                                     try {
                                         new datFM_IO(backup_file.getPath(),0).copy(settings_file.getPath());
@@ -114,7 +114,7 @@ public class datFM_Preferences extends PreferenceActivity {
                                     } catch (Exception e) {
                                         Log.e("ERROR:",e.getMessage());
                                     }
-                                    Toast.makeText(datFM.datFM_context,"Restore done. Restart datFM for apply.",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(datFM.datFM_context,getResources().getString(R.string.notify_backup_restore_done),Toast.LENGTH_LONG).show();
                                 }
                                 return true;
                             }

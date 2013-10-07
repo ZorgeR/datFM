@@ -95,7 +95,7 @@ public class datFM extends Activity {
             pref_open_arcdir_window,pref_save_path,pref_dir_focus,
             pref_kamikaze,pref_show_text_on_panel,pref_show_navbar,
             pref_show_panel_discr,pref_clear_filecache,pref_show_single_navbar,pref_show_single_panel,
-            pref_force_dual_panel_in_landscape,pref_backbtn_override;
+            pref_force_dual_panel_in_landscape,pref_backbtn_override,pref_fastscroll;
     static boolean pref_show_apk,pref_show_video,pref_show_photo,
             pref_show_folder_discr,pref_show_files_discr,pref_root,pref_sambalogin,pref_font_bold_folder,pref_show_hide,
             pref_show_date;
@@ -198,6 +198,7 @@ public class datFM extends Activity {
         }
     }
     protected void onStop(){
+        try{unregisterReceiver(ZA);} catch (Exception e){Log.e("ZArchiver : ","No active reciever.");}
         prefs.edit().putString("lastLeftDir", curentLeftDir).commit();
         prefs.edit().putString("lastRightDir", curentRightDir).commit();
         super.onStop();
@@ -418,10 +419,6 @@ public class datFM extends Activity {
             if (prevName!=null&&pref_dir_focus){for (int i=0;i<listRight.getCount();i++){
                 if (prevName.equals(adapterRight.getItem(i).getName())){listRight.setSelection(i);prevName="";}}}
         }
-
-        /* TODO - fast scroll settings */
-        listRight.setFastScrollEnabled(true);
-        listLeft.setFastScrollEnabled(true);
 
         update_panel_focus();
     }
@@ -1835,6 +1832,7 @@ public class datFM extends Activity {
         pref_force_dual_panel_in_landscape = prefs.getBoolean("pref_force_dual_panel_in_landscape",false);
         pref_show_date = prefs.getBoolean("pref_show_date",false);
         pref_backbtn_override = prefs.getBoolean("pref_backbtn_override",false);
+        pref_fastscroll = prefs.getBoolean("pref_fastscroll",false);
         firstAlert = prefs.getBoolean("firstAlert",true);
     }
     private void pref_setter(){
@@ -1963,6 +1961,12 @@ public class datFM extends Activity {
 
         /** Выставить размер текста адресной строки и панели действия **/
         pref_btn_text_size(pref_bartext_size);
+
+        /* TODO - fast scroll settings */
+        if(pref_fastscroll){
+            listRight.setFastScrollEnabled(true);
+            listLeft.setFastScrollEnabled(true);
+        }
 
         /** Root **/
         if (pref_root){
