@@ -3,6 +3,7 @@ package com.zlab.datFM;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.ClipboardManager;
@@ -165,6 +166,10 @@ public class datFM_Properties extends Activity {
         set_var();
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
     void get_paths(){
         paths = datFM.properties_array;
     }

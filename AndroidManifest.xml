@@ -26,12 +26,14 @@
         <activity
                 android:name=".datFM_Preferences"
                 android:label="Preferences"
-                android:theme="@style/PrefTheme">
+                android:theme="@style/PrefTheme"
+                android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
         <activity
                 android:name=".datFM_Properties"
                 android:label="@string/app_properties"
                 android:theme="@style/PropTheme"
+                android:configChanges="keyboardHidden|orientation|screenSize"
                 >
         </activity>
     </application>

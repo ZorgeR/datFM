@@ -1,5 +1,6 @@
 package com.zlab.datFM;
 
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -118,5 +119,10 @@ public class datFM_Preferences extends PreferenceActivity {
                                 return true;
                             }
                         });
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 }
