@@ -269,18 +269,20 @@ public class datFM_IO {
         if (file.isDirectory()) {
             new datFM_IO(dest,CompetPanel).mkdir();
 
-            updateOverallBar(datFM_File_Operations.progr_overal.getProgress() + 1, file.getPath(), dest);
+            if(datFM_File_Operations.progr_overal!=null)updateOverallBar(datFM_File_Operations.progr_overal.getProgress() + 1, file.getPath(), dest);
 
             File[] children = file.listFiles();
-            datFM_File_Operations.overalMax= datFM_File_Operations.progr_overal.getMax()+children.length;
-            datFM_File_Operations.progr_overal.setMax(datFM_File_Operations.overalMax);
+            if(datFM_File_Operations.progr_overal!=null)datFM_File_Operations.overalMax= datFM_File_Operations.progr_overal.getMax()+children.length;
+            if(datFM_File_Operations.progr_overal!=null)datFM_File_Operations.progr_overal.setMax(datFM_File_Operations.overalMax);
             for (File ff : children) {
                 copy_recursively_local(ff, dest+"/"+ff.getName());}
         } else {
             try {
-                updateOverallBar(datFM_File_Operations.progr_overal.getProgress(), file.getPath(), dest);
+                if(datFM_File_Operations.progr_overal!=null)updateOverallBar(datFM_File_Operations.progr_overal.getProgress(), file.getPath(), dest);
+
                 IO_Stream_Worker(file.getPath(), dest);
-                updateOverallBar(datFM_File_Operations.progr_overal.getProgress() + 1, file.getPath(), dest);
+
+                if(datFM_File_Operations.progr_overal!=null)updateOverallBar(datFM_File_Operations.progr_overal.getProgress() + 1, file.getPath(), dest);
             } catch (Exception e){}
         }
         //return is_exist_custom(dest,CompetPanel);
@@ -483,7 +485,7 @@ public class datFM_IO {
             cnt=cnt+1024;
             if(cnt>one_percent){
                 cur_file_progress=cur_file_progress+1;
-                datFM_File_Operations.progr_current.setProgress(cur_file_progress);
+                if(datFM_File_Operations.progr_overal!=null)datFM_File_Operations.progr_current.setProgress(cur_file_progress);
                 updateCurrentBar(cur_file_progress,fullsize,cur_file_progress*one_percent);
                 cnt=0;
             }
@@ -498,19 +500,21 @@ public class datFM_IO {
 
         datFM_File_Operations.mHandler.post(new Runnable() {
             public void run() {
-                datFM_File_Operations.textCurrent.setText(String.valueOf(CurrentSizeinMB)+"MiB / "+String.valueOf(sizeinMB)+"MiB"+" ("+CurrentProgress+"/100%)");
+                if(datFM_File_Operations.progr_overal!=null)datFM_File_Operations.textCurrent.setText(String.valueOf(CurrentSizeinMB)+"MiB / "+String.valueOf(sizeinMB)+"MiB"+" ("+CurrentProgress+"/100%)");
             }
         });
     }
     private void updateOverallBar(final int OverallProgress,final String pathtofile,final String dest){
-        datFM_File_Operations.progr_overal.setProgress(OverallProgress);
-        datFM_File_Operations.mHandler.post(new Runnable() {
-            public void run() {
-                datFM_File_Operations.textOverall.setText("("+OverallProgress+"/"+ datFM_File_Operations.overalMax+")");
-                datFM_File_Operations.textFile.setText(pathtofile);
-                datFM_File_Operations.textTo.setText(dest);
-            }
-        });
+        if(datFM_File_Operations.progr_overal!=null){
+            datFM_File_Operations.progr_overal.setProgress(OverallProgress);
+            datFM_File_Operations.mHandler.post(new Runnable() {
+                public void run() {
+                    datFM_File_Operations.textOverall.setText("("+OverallProgress+"/"+ datFM_File_Operations.overalMax+")");
+                    datFM_File_Operations.textFile.setText(pathtofile);
+                    datFM_File_Operations.textTo.setText(dest);
+                }
+            });
+        }
     }
 
     /** GetName in UI thread **/

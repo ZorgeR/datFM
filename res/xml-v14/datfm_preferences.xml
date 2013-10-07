@@ -49,6 +49,12 @@
             <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_clear_filecache" android:summary="@string/settings_elements_summary_clear_filecache" android:key="pref_clear_filecache" android:defaultValue="true" />
         </PreferenceCategory>
     </PreferenceScreen>
+    <PreferenceScreen android:title="@string/settings_group_backup">
+        <PreferenceCategory android:title="@string/settings_group_backup">
+            <PreferenceScreen android:title="@string/settings_elements_title_do_backup" android:summary="@string/settings_elements_summary_do_backup" android:key="pref_do_backup" android:defaultValue="true" />
+            <PreferenceScreen android:title="@string/settings_elements_title_restore_backup" android:summary="@string/settings_elements_summary_restore_backup" android:key="pref_restore_backup" android:defaultValue="true" />
+        </PreferenceCategory>
+    </PreferenceScreen>
     <PreferenceScreen android:title="@string/settings_group_dangerous">
     <com.zlab.datFM.hooks.Pref_CustomCategory android:title="@string/settings_group_dangerous" android:key="dangerous_title">
         <com.zlab.datFM.hooks.Pref_Switches android:title="@string/settings_elements_title_kamikaze" android:summary="@string/settings_elements_summary_kamikaze" android:key="pref_kamikaze" android:defaultValue="false" />

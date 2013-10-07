@@ -48,6 +48,7 @@
     <string name="settings_group_other">Other</string>
     <string name="settings_group_performance">Performance</string>
     <string name="settings_group_network">Network</string>
+    <string name="settings_group_backup">Backup</string>
     <string name="settings_group_dangerous">Dangerous</string>
     <!-- Settings Elements Title -->
     <string name="settings_elements_title_theme">Themes</string>
@@ -84,6 +85,8 @@
     <string name="settings_elements_title_backbtn_override">Back button</string>
     <string name="settings_elements_title_sambalogin">Samba logging</string>
     <string name="settings_elements_title_clear_filecache">Clear file cache</string>
+    <string name="settings_elements_title_do_backup">Save settings</string>
+    <string name="settings_elements_title_restore_backup">Restore settings</string>
     <string name="settings_elements_title_kamikaze">Kamikaze mode</string>
     <string name="settings_elements_title_root">root</string>
     <string name="settings_elements_title_show_hide">Show hidden files and folders</string>
@@ -122,6 +125,8 @@
     <string name="settings_elements_summary_backbtn_override">Go up when pressed, quit when long pressed, if checked</string>
     <string name="settings_elements_summary_sambalogin">Support logging for Samba</string>
     <string name="settings_elements_summary_clear_filecache">Clear file cache when exit</string>
+    <string name="settings_elements_summary_do_backup">/sdcard/Android/data/datFM/backup</string>
+    <string name="settings_elements_summary_restore_backup">/sdcard/Android/data/datFM/backup</string>
     <string name="settings_elements_summary_kamikaze">Not ask anything, just execute</string>
     <string name="settings_elements_summary_root">Use root privilege</string>
     <string name="settings_elements_summary_show_hide">Show hidden elements for local or remote storage</string>

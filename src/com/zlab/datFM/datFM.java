@@ -119,10 +119,9 @@ public class datFM extends Activity {
 
     /** UI **/
     int horizontal_scroll_percentage;
-    //boolean horizontal_scroll_finished=true;
     DisplayMetrics displaymetrics;
 
-    @SuppressWarnings("deprecation")  //setBackgroundDrawable
+    @SuppressWarnings("deprecation")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         /** Определение версии API **/
@@ -339,7 +338,6 @@ public class datFM extends Activity {
         /** Для выхода по удержанию кнопки назад **/
         if(pref_backbtn_override){
             if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-                //Log.d("Test", "Long press!");
                 FLAG_back_pressed_short = false;
                 FLAG_back_pressed_long = true;
                 finish();
@@ -519,14 +517,14 @@ public class datFM extends Activity {
         if(show)dialog.show();
     }
     protected void openRemoteFile(String path,String name, String ext){
-        File tmp_dir = new File(Environment.getExternalStorageDirectory().getPath()+"/Android/data/datFM");
+        File tmp_dir = new File(Environment.getExternalStorageDirectory().getPath()+"/Android/data/datFM/cache");
         if(!tmp_dir.exists()){
             tmp_dir.mkdir();
         }
         new datFM_File_Operations(this).execute("open_remote", path, tmp_dir.getPath()+"/"+name,ext,"",String.valueOf(curPanel),String.valueOf(competPanel));
     }
     protected void openRemoteFileAs(String path,String name, String ext){
-        File tmp_dir = new File(Environment.getExternalStorageDirectory().getPath()+"/Android/data/datFM");
+        File tmp_dir = new File(Environment.getExternalStorageDirectory().getPath()+"/Android/data/datFM/cache");
         if(!tmp_dir.exists()){
             tmp_dir.mkdir();
         }
@@ -1350,7 +1348,7 @@ public class datFM extends Activity {
     }
     private void action_clear_file_cache(){try {
         try {
-            new datFM_IO(Environment.getExternalStorageDirectory().getPath()+"/Android/data/datFM",curPanel).delete();
+            new datFM_IO(Environment.getExternalStorageDirectory().getPath()+"/Android/data/datFM/cache",curPanel).delete();
         } catch (JSchException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (SftpException e) {

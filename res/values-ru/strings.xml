@@ -48,6 +48,7 @@
     <string name="settings_group_other">Прочее</string>
     <string name="settings_group_performance">Производительность</string>
     <string name="settings_group_network">Сеть</string>
+    <string name="settings_group_backup">Бекап</string>
     <string name="settings_group_dangerous">Опасно</string>
     <!-- Settings Elements Title -->
     <string name="settings_elements_title_theme">Темы оформления</string>
@@ -84,6 +85,8 @@
     <string name="settings_elements_title_backbtn_override">Кнопка Назад</string>
     <string name="settings_elements_title_sambalogin">Авторизация в Samba</string>
     <string name="settings_elements_title_clear_filecache">Очистка файлового кеша</string>
+    <string name="settings_elements_title_do_backup">Сохранить настройки</string>
+    <string name="settings_elements_title_restore_backup">Восстановить настройки</string>
     <string name="settings_elements_title_kamikaze">Режим Камикадзе</string>
     <string name="settings_elements_title_root">root</string>
     <string name="settings_elements_title_show_hide">Показывать скрытые элементы</string>
@@ -122,6 +125,8 @@
     <string name="settings_elements_summary_backbtn_override">Вверх при нажатии, выход при долгом нажатии, если включено</string>
     <string name="settings_elements_summary_sambalogin">Поддержка авторизации для Samba</string>
     <string name="settings_elements_summary_clear_filecache">Очищать кеш при выходе</string>
+    <string name="settings_elements_summary_do_backup">/sdcard/Android/data/datFM/backup</string>
+    <string name="settings_elements_summary_restore_backup">/sdcard/Android/data/datFM/backup</string>
     <string name="settings_elements_summary_kamikaze">Ничего не спрашивать, просто делать свою работу</string>
     <string name="settings_elements_summary_root">Использовать root привилегии</string>
     <string name="settings_elements_summary_show_hide">Показывать скрытые элементы в локальных и удаленных каталогах</string>

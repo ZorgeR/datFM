@@ -5,26 +5,13 @@
         android:gravity="center_vertical|center_horizontal">
     <TextView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="fill_parent"
               android:layout_height="wrap_content"
-              android:text="Warning!"
-              android:id="@+id/textView" android:layout_gravity="center" android:gravity="center_vertical|center_horizontal"
-              android:textColor="#ff0016" android:singleLine="false" android:phoneNumber="false"
-              android:typeface="monospace" android:textStyle="bold"/>
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
-              android:text="This is Alpha software!"
-              android:id="@+id/textView1" android:layout_gravity="center"
-              android:gravity="center_vertical|center_horizontal" android:textColor="#ff0016"
-              android:singleLine="false" android:phoneNumber="false" android:typeface="monospace"
-              android:textStyle="bold"/>
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
-              android:text="It may damage you brain and kill you cat!"
+              android:text="Still beta."
               android:id="@+id/textView2" android:layout_gravity="center"
               android:gravity="center_vertical|center_horizontal" android:textColor="#ff0016"
               android:singleLine="false" android:phoneNumber="false" android:typeface="monospace"
               android:textStyle="bold"/>
     <TextView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="fill_parent"
-              android:layout_height="wrap_content" android:text="Don't use it for critical data!"
+              android:layout_height="wrap_content" android:text="Don't use for critical data!"
               android:id="@+id/textView4" android:layout_gravity="center"
               android:gravity="center_vertical|center_horizontal" android:textColor="#ff0016"
               android:singleLine="false" android:phoneNumber="false" android:typeface="monospace"
