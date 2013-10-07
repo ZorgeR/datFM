@@ -214,6 +214,6 @@
     <string name="notify_backup_restore_done">Перезапустите datFM!</string>
 
     <!-- About -->
-    <string name="about_message">Иконки:\nИконка приложения - http://iconfactory.com\nИконки файлов - Quartz Icon Set by Andy Gongea\n\nПереводчики:\nUK - stigr (Motofan.ru)\nPL - galonpzw (XDA)\nFR - nikwist (XDA)\nDE - Milestone:enotseliM (XDA)\nSK - pvdeejay (XDA), pyler(XDA)\nNL - jogai(XDA)\n\nОтдельная благодарность:\nAnt-ON - за его помощь\nRamallah - за его не помощь\nИнаре - просто так!</string>
+    <string name="about_message">Иконки:\n- http://iconfactory.com\n- https://www.iconfinder.com\n- Quartz Icon Set by Andy Gongea\n- Human o2 - by Oliver Scholtz\n- Plump by Zerode\n\nПереводчики:\nUK - stigr (Motofan.ru)\nPL - galonpzw (XDA)\nFR - nikwist (XDA)\nDE - Milestone:enotseliM (XDA)\nSK - pvdeejay (XDA), pyler(XDA)\nNL - jogai(XDA)\n\nОтдельная благодарность:\nAnt-ON - за его помощь\nRamallah - за его не помощь\nИнаре - просто так!</string>
 
 </resources>
