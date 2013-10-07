@@ -2351,6 +2351,7 @@ public class datFM extends Activity {
                                                     fill_new(newArcPath, competPanel);
                                                 }
                                             } else {
+                                                update_tab(0,"null","null",curPanel);
                                             }
                                         } else {
                                             Toast.makeText(datFM_context,"Unpack error!",Toast.LENGTH_SHORT).show();

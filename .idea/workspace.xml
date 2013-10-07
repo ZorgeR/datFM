@@ -27,12 +27,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b68612f9-3348-4342-8d34-ba591f5277dc" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/zlab/datFM/datFM.java" afterPath="$PROJECT_DIR$/src/com/zlab/datFM/datFM.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/zlab/datFM/datFM_IcoGen_APK.java" afterPath="$PROJECT_DIR$/src/com/zlab/datFM/datFM_IcoGen_APK.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/zlab/datFM/datFM_Preferences.java" afterPath="$PROJECT_DIR$/src/com/zlab/datFM/datFM_Preferences.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/xml/datfm_preferences.xml" afterPath="$PROJECT_DIR$/res/xml/datfm_preferences.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/xml-v14/datfm_preferences.xml" afterPath="$PROJECT_DIR$/res/xml-v14/datfm_preferences.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/strings.xml" afterPath="$PROJECT_DIR$/res/values/strings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values-ru/strings.xml" afterPath="$PROJECT_DIR$/res/values-ru/strings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="datFM.iws" />
@@ -41,8 +35,8 @@
     <file path="/main.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1358621330872" ignored="false" />
     <file path="/datFM_Main.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1358625154843" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1360237100156" ignored="false" />
-    <file path="/datFM.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1381173125215" ignored="false" />
-    <file path="/Dummy.txt" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1381170965898" ignored="false" />
+    <file path="/datFM.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1381173763817" ignored="false" />
+    <file path="/Dummy.txt" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1381173253960" ignored="false" />
     <file path="/fragment.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1380225080251" ignored="false" />
     <file path="/datfm.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1363257587093" ignored="false" />
     <file path="/datfm_mainmenu.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1361389623889" ignored="false" />
@@ -419,7 +413,7 @@
       <file leaf-file-name="datFM.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="200" column="101" selection-start="7780" selection-end="7780" vertical-scroll-proportion="0.6028881">
+            <state line="2353" column="83" selection-start="111645" selection-end="111653" vertical-scroll-proportion="0.5377358">
               <folding>
                 <element signature="docComment;field#layoutPathPanelLeft#0;class#datFM#0" expanded="false" />
                 <element signature="docComment;field#sel#0;class#datFM#0" expanded="false" />
@@ -430,14 +424,12 @@
                 <element signature="docComment;field#ZA#0;class#datFM#0" expanded="false" />
                 <element signature="docComment;field#horizontal_scroll_percentage#0;class#datFM#0" expanded="false" />
                 <element signature="e#4773#4805#0" expanded="false" />
-                <element signature="e#4773#4805#0" expanded="false" />
                 <element signature="method#onCreate#0;class#datFM#0" expanded="false" />
                 <element signature="method#setTheme#0;class#datFM#0" expanded="false" />
                 <element signature="method#onResume#0;class#datFM#0" expanded="false" />
+                <element signature="method#onStop#0;class#datFM#0" expanded="false" />
                 <element signature="method#onDestroy#0;class#datFM#0" expanded="false" />
                 <element signature="method#onConfigurationChanged#0;class#datFM#0" expanded="false" />
-                <element signature="class#8725:9135" expanded="false" />
-                <element signature="method#run#0;class#8725:9135" expanded="false" />
                 <element signature="method#onCreateOptionsMenu#0;class#datFM#0" expanded="false" />
                 <element signature="method#onOptionsItemSelected#0;class#datFM#0" expanded="false" />
                 <element signature="method#onKeyDown#0;class#datFM#0" expanded="false" />
@@ -449,13 +441,10 @@
                 <element signature="method#openRemoteFile#0;class#datFM#0" expanded="false" />
                 <element signature="method#openRemoteFileAs#0;class#datFM#0" expanded="false" />
                 <element signature="method#openFile#0;class#datFM#0" expanded="false" />
-                <element signature="class#22853:24166" expanded="false" />
-                <element signature="method#run#0;class#22853:24166" expanded="false" />
                 <element signature="method#openFileAs#0;class#datFM#0" expanded="false" />
                 <element signature="method#onFileClick#0;class#datFM#0" expanded="false" />
                 <element signature="method#onFileClickLong#0;class#datFM#0" expanded="false" />
                 <element signature="method#update_operation_vars#0;class#datFM#0" expanded="false" />
-                <element signature="method#update_tab#0;class#datFM#0" expanded="false" />
                 <element signature="method#update_panel_focus#0;class#datFM#0" expanded="false" />
                 <element signature="method#action_fav_newalert#0;class#datFM#0" expanded="false" />
                 <element signature="class#35965:36117" expanded="false" />
@@ -515,16 +504,16 @@
                 <element signature="method#path_kb_close#0;class#datFM#0" expanded="false" />
                 <element signature="method#old_api_fixes#0;class#datFM#0" expanded="false" />
                 <element signature="method#pref_btn_text_size#0;class#datFM#0" expanded="false" />
-                <element signature="method#ZA_pack#0;class#datFM#0" expanded="false" />
                 <element signature="class#99864:101143" expanded="false" />
                 <element signature="method#afterTextChanged#0;class#99864:101143" expanded="false" />
                 <element signature="class#101197:102363" expanded="false" />
                 <element signature="method#onItemSelected#0;class#101197:102363" expanded="false" />
+                <element signature="e#105506#106126#0" expanded="true" />
+                <element signature="e#106087#106088#0" expanded="true" />
                 <element signature="class#106495:106647" expanded="false" />
                 <element signature="method#onClick#0;class#106495:106647" expanded="false" />
-                <element signature="method#ZA_unpack#0;class#datFM#0" expanded="false" />
-                <element signature="class#112249:112401" expanded="false" />
-                <element signature="method#onClick#0;class#112249:112401" expanded="false" />
+                <element signature="class#112335:112487" expanded="false" />
+                <element signature="method#onClick#0;class#112335:112487" expanded="false" />
                 <element signature="method#RunAsRoot#0;class#datFM#0" expanded="false" />
                 <element signature="method#isTablet#0;class#datFM#0" expanded="false" />
               </folding>
@@ -679,92 +668,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="datFM" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="datFM" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="datFM" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="xml-v14" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="datFM" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="datFM" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="xml" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="datFM" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="datFM" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="datFM" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="datFM" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="values-ru" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="datFM" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="datFM" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="values" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1504,7 +1407,11 @@
       <created>1381170969561</created>
       <updated>1381170969561</updated>
     </task>
-    <option name="localTasksCounter" value="130" />
+    <task id="LOCAL-00130" summary="0.1.85b - fix ZA error, fast scroll in settings, fix APK error name">
+      <created>1381173265884</created>
+      <updated>1381173265885</updated>
+    </task>
+    <option name="localTasksCounter" value="131" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1529,7 +1436,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1055" extended-state="2" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19497864" sideWeight="0.72717273" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26175213" sideWeight="0.72717273" order="2" side_tool="false" content_ui="tabs" />
@@ -1544,13 +1451,13 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32807016" sideWeight="0.49786553" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19823788" sideWeight="0.4914621" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.36123347" sideWeight="0.4850587" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36123347" sideWeight="0.4850587" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32233223" sideWeight="0.49199572" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.72687227" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16399573" sideWeight="0.6387665" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2709251" sideWeight="0.9263607" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16399573" sideWeight="0.7290749" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2709251" sideWeight="0.9263607" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" x="83" y="500" width="1720" height="335" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32967034" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1602,7 +1509,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="0.1.85b - fix setting drop on rotate" />
+    <option name="LAST_COMMIT_MESSAGE" value="0.1.85b - fix ZA error, fast scroll in settings, fix APK error name" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1616,7 +1523,6 @@
     <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="0.1.8b - fix delay" />
     <MESSAGE value="0.1.8b - fix resize" />
     <MESSAGE value="0.1.8b - update UK lang" />
     <MESSAGE value="0.1.8b - Signed play.store BUILD" />
@@ -1641,6 +1547,7 @@
     <MESSAGE value="0.1.85b - remove final in adaptor" />
     <MESSAGE value="0.1.85b - backup settings, fix some null point" />
     <MESSAGE value="0.1.85b - fix setting drop on rotate" />
+    <MESSAGE value="0.1.85b - fix ZA error, fast scroll in settings, fix APK error name" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1787,7 +1694,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="200" column="101" selection-start="7780" selection-end="7780" vertical-scroll-proportion="0.6028881">
+        <state line="2353" column="83" selection-start="111645" selection-end="111653" vertical-scroll-proportion="0.5377358">
           <folding>
             <element signature="docComment;field#layoutPathPanelLeft#0;class#datFM#0" expanded="false" />
             <element signature="docComment;field#sel#0;class#datFM#0" expanded="false" />
@@ -1798,14 +1705,12 @@
             <element signature="docComment;field#ZA#0;class#datFM#0" expanded="false" />
             <element signature="docComment;field#horizontal_scroll_percentage#0;class#datFM#0" expanded="false" />
             <element signature="e#4773#4805#0" expanded="false" />
-            <element signature="e#4773#4805#0" expanded="false" />
             <element signature="method#onCreate#0;class#datFM#0" expanded="false" />
             <element signature="method#setTheme#0;class#datFM#0" expanded="false" />
             <element signature="method#onResume#0;class#datFM#0" expanded="false" />
+            <element signature="method#onStop#0;class#datFM#0" expanded="false" />
             <element signature="method#onDestroy#0;class#datFM#0" expanded="false" />
             <element signature="method#onConfigurationChanged#0;class#datFM#0" expanded="false" />
-            <element signature="class#8725:9135" expanded="false" />
-            <element signature="method#run#0;class#8725:9135" expanded="false" />
             <element signature="method#onCreateOptionsMenu#0;class#datFM#0" expanded="false" />
             <element signature="method#onOptionsItemSelected#0;class#datFM#0" expanded="false" />
             <element signature="method#onKeyDown#0;class#datFM#0" expanded="false" />
@@ -1817,13 +1722,10 @@
             <element signature="method#openRemoteFile#0;class#datFM#0" expanded="false" />
             <element signature="method#openRemoteFileAs#0;class#datFM#0" expanded="false" />
             <element signature="method#openFile#0;class#datFM#0" expanded="false" />
-            <element signature="class#22853:24166" expanded="false" />
-            <element signature="method#run#0;class#22853:24166" expanded="false" />
             <element signature="method#openFileAs#0;class#datFM#0" expanded="false" />
             <element signature="method#onFileClick#0;class#datFM#0" expanded="false" />
             <element signature="method#onFileClickLong#0;class#datFM#0" expanded="false" />
             <element signature="method#update_operation_vars#0;class#datFM#0" expanded="false" />
-            <element signature="method#update_tab#0;class#datFM#0" expanded="false" />
             <element signature="method#update_panel_focus#0;class#datFM#0" expanded="false" />
             <element signature="method#action_fav_newalert#0;class#datFM#0" expanded="false" />
             <element signature="class#35965:36117" expanded="false" />
@@ -1883,16 +1785,16 @@
             <element signature="method#path_kb_close#0;class#datFM#0" expanded="false" />
             <element signature="method#old_api_fixes#0;class#datFM#0" expanded="false" />
             <element signature="method#pref_btn_text_size#0;class#datFM#0" expanded="false" />
-            <element signature="method#ZA_pack#0;class#datFM#0" expanded="false" />
             <element signature="class#99864:101143" expanded="false" />
             <element signature="method#afterTextChanged#0;class#99864:101143" expanded="false" />
             <element signature="class#101197:102363" expanded="false" />
             <element signature="method#onItemSelected#0;class#101197:102363" expanded="false" />
+            <element signature="e#105506#106126#0" expanded="true" />
+            <element signature="e#106087#106088#0" expanded="true" />
             <element signature="class#106495:106647" expanded="false" />
             <element signature="method#onClick#0;class#106495:106647" expanded="false" />
-            <element signature="method#ZA_unpack#0;class#datFM#0" expanded="false" />
-            <element signature="class#112249:112401" expanded="false" />
-            <element signature="method#onClick#0;class#112249:112401" expanded="false" />
+            <element signature="class#112335:112487" expanded="false" />
+            <element signature="method#onClick#0;class#112335:112487" expanded="false" />
             <element signature="method#RunAsRoot#0;class#datFM#0" expanded="false" />
             <element signature="method#isTablet#0;class#datFM#0" expanded="false" />
           </folding>
