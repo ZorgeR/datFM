@@ -1,6 +1,7 @@
 package com.zlab.datFM;
 
 import android.util.Log;
+import android.widget.Toast;
 import com.jcraft.jsch.*;
 import jcifs.smb.*;
 import java.io.*;
@@ -51,34 +52,8 @@ public class datFM_IO {
         if(datFM.sftp_auth_channel[PanelID]!=null){
             //sftp_auth_session = datFM.sftp_auth_session[PanelID];
         } else {
-            JSch sftp_auth_session;
-            sftp_auth_session = new JSch();
-
-        String knownHostsFilename = "/sdcard/.ssh_known_hosts";
-        sftp_auth_session.setKnownHosts( knownHostsFilename );
-        Session session = sftp_auth_session.getSession( "root", SFTPhostname(path) );
-        {
-            // "interactive" version
-            // can selectively update specified known_hosts file
-            // need to implement UserInfo interface
-            // MyUserInfo is a swing implementation provided in
-            //  examples/Sftp.java in the JSch dist
-            //UserInfo ui = new MyUserInfo();
-            //session.setUserInfo(ui);
-
-            // OR non-interactive version. Relies in host key being in known-hosts file
-            session.setPassword( "bnm3BNM" );
+            Toast.makeText(datFM.datFM_context,"SFTP logon error.", Toast.LENGTH_SHORT).show();
         }
-        java.util.Properties config = new java.util.Properties();
-        config.put("StrictHostKeyChecking", "no");
-        session.setConfig(config);
-        session.connect();
-        Channel channel = session.openChannel( "sftp" );
-        channel.connect();
-        ChannelSftp sftpChannel = (ChannelSftp) channel;
-            datFM.sftp_auth_channel[PanelID]=sftpChannel;
-        }
-
         return datFM.sftp_auth_channel[PanelID];
     }
     public Vector lslist(String fpath) throws SftpException, JSchException {
