@@ -150,6 +150,7 @@
     <string name="fileslist_add_favorite">Добавить в Избранное</string>
     <string name="fileslist_add_samba">Добавить Samba сервер</string>
     <string name="fileslist_browse_samba">Обозреватель smb://</string>
+    <string name="fileslist_add_sftp">Добавить SFTP сервер</string>
 
     <!-- UI Elements -->
     <!-- Pop-up Dialogs -->
@@ -192,6 +193,7 @@
     <string name="ui_dialog_smd_addserver_password">Пароль</string>
     <string name="ui_dialog_smd_addserver_domain">Домен</string>
     <string name="ui_dialog_smd_addserver_secret_key">Ключ шифрования (keychain password)</string>
+    <string name="ui_dialog_sftp_addserver_port">Порт</string>
     <!-- Notification -->
     <string name="notify_copy">объектов скопировано в:</string>
     <string name="notify_move">объектов перемещено в:</string>

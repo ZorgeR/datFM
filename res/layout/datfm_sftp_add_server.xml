@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent">
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:layout_weight="1">
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sftp_add_server_name" android:layout_gravity="left|center_vertical"
+                    android:hint="@string/ui_dialog_smd_addserver_bookmark_name" android:singleLine="true"/>
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sftp_add_server_ip" android:layout_gravity="left|center_vertical"
+                    android:hint="@string/ui_dialog_smd_addserver_ip_hostname" android:singleLine="true"/>
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sftp_add_server_startdir" android:layout_gravity="left|center_vertical"
+                    android:hint="@string/ui_dialog_smd_addserver_start_dir" android:singleLine="true"/>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:layout_weight="1">
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sftp_add_server_user" android:layout_gravity="left|center_vertical"
+                    android:hint="@string/ui_dialog_smd_addserver_username" android:singleLine="true"/>
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sftp_add_server_pass" android:layout_gravity="left|center_vertical"
+                    android:hint="@string/ui_dialog_smd_addserver_password" android:singleLine="true" android:password="true"/>
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sftp_add_server_port" android:layout_gravity="left|center_vertical" android:hint="@string/ui_dialog_sftp_addserver_port"
+                    android:singleLine="true"/>
+        </LinearLayout>
+    </LinearLayout>
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sftp_add_server_encrypt_pass" android:layout_gravity="left|center_vertical"
+            android:hint="@string/ui_dialog_smd_addserver_secret_key" android:singleLine="true" android:password="true"/>
+</LinearLayout>

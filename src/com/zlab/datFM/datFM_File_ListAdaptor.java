@@ -166,7 +166,7 @@ public class datFM_File_ListAdaptor extends ArrayAdapter<datFM_File> {
             } else if (o.getType().equals("favorite") || o.getType().startsWith("fav_bookmark") ){
                     //imgFileIcon.setImageResource(R.drawable.ext_favorite);
                     imgFileIcon.setImageResource(getContext().getResources().getIdentifier("ext_favorite"+"_"+datFM.pref_theme_icons, "drawable", "com.zlab.datFM"));
-            } else if (o.getType().equals("network") || o.getType().equals("smb_store_network")){
+            } else if (o.getType().equals("network") || o.getType().equals("smb_store_network") || o.getType().equals("sftp_store_network")){
                     //imgFileIcon.setImageResource(R.drawable.ext_network);
                     imgFileIcon.setImageResource(getContext().getResources().getIdentifier("ext_network"+"_"+datFM.pref_theme_icons, "drawable", "com.zlab.datFM"));
             } else if(o.getType().equals("sdcard")){

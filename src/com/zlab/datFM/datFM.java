@@ -454,6 +454,17 @@ public class datFM extends Activity {
                     }
                 }
             });
+        } else if (adapter.getItem(pos).getType().equals("sftp_store_network")){
+            CharSequence[] items = {edit,delete};
+            builder.setItems(items, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int item) {
+                    if(item == 0) {
+                        /*****action_sftp_editserver(adapter.getItem(pos).getName());***/
+                    } else if(item == 1) {
+                        selected[pos]=true;action_delete();
+                    }
+                }
+            });
         } else if (adapter.getItem(pos).getType().startsWith("fav_bookmarkk")){
             CharSequence[] items = {delete};
             builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -613,9 +624,13 @@ public class datFM extends Activity {
             }
         } else if (o.getType().equals("smb_store_network")){
             action_smb_openserver(o);
+        } else if (o.getType().equals("sftp_store_network")){
+            action_sftp_openserver(o);
         } else {
             if(o.getPath().equals("datFM://samba/add")){
                 action_smb_newserver(null);
+            } else if(o.getPath().equals("datFM://sftp/add")){
+                    action_sftp_newserver(null);
             } else if(o.getPath().equals("datFM://favorite/add")){
                     action_fav_newalert();
             } else if(o.getType().equals("fav_bookmark_file")){
@@ -630,6 +645,7 @@ public class datFM extends Activity {
         if(     o.getType().equals("file") ||
                 o.getType().equals("dir")  ||
                 o.getType().equals("smb_store_network") ||
+                o.getType().equals("sftp_store_network") ||
                 o.getType().startsWith("fav_bookmark")){
             if (!selected[position]){
                 selected[position]=true;
@@ -1096,6 +1112,167 @@ public class datFM extends Activity {
             }
         }
     }
+    private void action_sftp_newserver(String[] formdata){
+        AlertDialog.Builder action_dialog = new AlertDialog.Builder(this);
+        action_dialog.setTitle("SFTP Server");
+        LayoutInflater inflater = getLayoutInflater();
+        View layer = inflater.inflate(R.layout.datfm_sftp_add_server,null);
+        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+
+        final EditText sftp_add_server_name = (EditText) layer.findViewById(R.id.sftp_add_server_name);
+        final EditText sftp_add_server_ip_hostname = (EditText) layer.findViewById(R.id.sftp_add_server_ip);
+        final EditText sftp_add_server_start_dir = (EditText) layer.findViewById(R.id.sftp_add_server_startdir);
+        final EditText sftp_add_server_user = (EditText) layer.findViewById(R.id.sftp_add_server_user);
+        final EditText sftp_add_server_pass = (EditText) layer.findViewById(R.id.sftp_add_server_pass);
+        final EditText sftp_add_server_port = (EditText) layer.findViewById(R.id.sftp_add_server_port);
+        final EditText sftp_add_server_encrypt_pass = (EditText) layer.findViewById(R.id.sftp_add_server_encrypt_pass);
+
+        if(formdata!=null){
+            sftp_add_server_name.setText(formdata[0]);
+            sftp_add_server_ip_hostname.setText(formdata[1]);
+            sftp_add_server_start_dir.setText(formdata[2]);
+            sftp_add_server_user.setText(formdata[3]);
+            sftp_add_server_pass.setText(formdata[4]);
+            sftp_add_server_port.setText(formdata[5]);
+
+            if(formdata[6].equals("1")){
+                sftp_add_server_encrypt_pass.setText(formdata[7]);
+                formdata[7]=null;
+            }
+        }
+
+        action_dialog.setView(layer);
+        action_dialog.setPositiveButton(getResources().getString(R.string.ui_dialog_btn_ok),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String server_name = sftp_add_server_name.getText().toString();
+                        String server_ip_hostname = sftp_add_server_ip_hostname.getText().toString();
+                        String server_start_dir = sftp_add_server_start_dir.getText().toString();
+                        String server_user = sftp_add_server_user.getText().toString();
+                        String server_pass = sftp_add_server_pass.getText().toString();
+                        String server_domain = sftp_add_server_port.getText().toString();
+                        String server_encrypt_pass = sftp_add_server_encrypt_pass.getText().toString();
+
+                        try {
+                            String iscrypted="0";
+
+                            if(!server_pass.equals("") && !server_encrypt_pass.equals("")){
+                                server_pass = AES_128.encrypt(server_encrypt_pass, server_pass);
+                                iscrypted="1";
+                            }
+
+                            String FILENAME = "sftp_data_"+server_name;
+                            String DATA = server_name+"\n"      +server_ip_hostname+"\n"+
+                                    server_start_dir+"\n" +server_user+"\n"+
+                                    server_pass+"\n"      +server_domain+"\n"+
+                                    iscrypted+"\n"+"END";
+
+                            FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+                            fos.write(DATA.getBytes());
+                            fos.close();
+
+                            update_tab(0,"","",3);
+
+                        } catch (Exception e) {e.printStackTrace();}
+                    }
+                });
+        action_dialog.setNegativeButton(getResources().getString(R.string.ui_dialog_btn_cancel),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+
+        AlertDialog AprooveDialog = action_dialog.create();
+        AprooveDialog.show();
+    }
+    private void action_sftp_openserver(final datFM_File o){
+        File dirs = getFilesDir();
+        for(File ff : dirs.listFiles()){
+            String name = ff.getName().replace("sftp_data_","");
+            if(name.equals(o.getName())){
+                try {
+                    FileInputStream fis = openFileInput(ff.getName());
+                    StringBuffer fileContent = new StringBuffer("");
+                    byte[] buffer = new byte[1024];
+                    int length;
+                    while ((length = fis.read(buffer)) != -1) {
+                        fileContent.append(new String(buffer));
+                    }
+
+                    //String server_name = fileContent.toString().split("\n")[0];
+                    String server_ip_hostname = fileContent.toString().split("\n")[1];
+                    //String server_start_dir = fileContent.toString().split("\n")[2];
+                    String server_user = fileContent.toString().split("\n")[3];
+                    String server_pass = fileContent.toString().split("\n")[4];
+                    String server_port = fileContent.toString().split("\n")[5];
+                    String iscrypted = fileContent.toString().split("\n")[6];
+
+                    if(!server_user.equals("")){
+                        //user=server_user;
+                        //domain=server_domain;
+
+                        datFM.sftp_auth_session[curPanel] = new JSch();
+                        String knownHostsFilename = "/sdcard/.ssh_known_hosts";
+                        try {datFM.sftp_auth_session[curPanel].setKnownHosts( knownHostsFilename );
+                        } catch (JSchException e) {e.printStackTrace();}
+                        try {datFM.sftp_session[curPanel] = datFM.sftp_auth_session[curPanel].getSession( server_user, server_ip_hostname, Integer.parseInt(server_port)); /** CHECK IF NOT INTEGER **/
+                        } catch (JSchException e) {Log.e("SFTP:",e.getMessage());}
+
+
+                        if(iscrypted.equals("0")){
+                            datFM.sftp_session[curPanel].setPassword( server_pass );
+                            java.util.Properties config = new java.util.Properties();
+                            config.put("StrictHostKeyChecking", "no");
+                            datFM.sftp_session[curPanel].setConfig(config);
+                            datFM.sftp_auth_channel[curPanel]=null;
+                            //new datFM_IO_Fetch(datFM.datFM_state).execute(path, protocol, String.valueOf(panel_ID));
+                            fill_new(o.getPath(), curPanel);
+                        } else {
+                            AlertDialog.Builder action_dialog = new AlertDialog.Builder(this);
+                            action_dialog.setTitle("Keychain");
+                            LayoutInflater inflater = getLayoutInflater();
+                            View layer = inflater.inflate(R.layout.datfm_smb_keychainpass,null);
+                            if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+
+                            final EditText sftp_keychain = (EditText) layer.findViewById(R.id.smb_auth_keychain);
+                            final String server_pass_encrypted = server_pass;
+
+                            action_dialog.setView(layer);
+                            action_dialog.setPositiveButton(getResources().getString(R.string.ui_dialog_btn_ok),
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            String smb_keychainpass = sftp_keychain.getText().toString();
+                                            try {
+                                                String pass = AES_128.decrypt(smb_keychainpass, server_pass_encrypted);
+                                                datFM.sftp_session[curPanel].setPassword( pass );
+                                                java.util.Properties config = new java.util.Properties();
+                                                config.put("StrictHostKeyChecking", "no");
+                                                datFM.sftp_session[curPanel].setConfig(config);
+                                                datFM.sftp_auth_channel[curPanel]=null;
+                                                //new datFM_IO_Fetch(datFM.datFM_state).execute(path, protocol, String.valueOf(panel_ID));
+                                                fill_new(o.getPath(), curPanel);
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                                action_smb_openserver(o);
+                                                notify_toast(getResources().getString(R.string.notify_access_denied),true);
+                                            }
+                                        }
+                                    });
+                            action_dialog.setNegativeButton(getResources().getString(R.string.ui_dialog_btn_cancel),
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                        }
+                                    });
+
+                            AlertDialog AprooveDialog = action_dialog.create();
+                            AprooveDialog.show();
+                        }
+                    }
+                    fis.close();
+                } catch (Exception e) {e.printStackTrace();}
+            }
+        }
+    }
 
     private void action_dialog(String title, String from, String to, int count, final String operation){
         if (!pref_kamikaze){
@@ -1252,6 +1429,7 @@ public class datFM extends Activity {
                     if(adapterLeft.getItem(i).getType().equals("file")              ||
                        adapterLeft.getItem(i).getType().equals("dir")               ||
                        adapterLeft.getItem(i).getType().equals("smb_store_network") ||
+                       adapterLeft.getItem(i).getType().equals("sftp_store_network") ||
                        adapterLeft.getItem(i).getType().startsWith("fav_bookmark")  ){
                         selLeft++;
                         selectedLeft[i]=true;
@@ -1270,6 +1448,7 @@ public class datFM extends Activity {
                     if(adapterRight.getItem(i).getType().equals("file")              ||
                        adapterRight.getItem(i).getType().equals("dir")               ||
                        adapterRight.getItem(i).getType().equals("smb_store_network") ||
+                       adapterRight.getItem(i).getType().equals("sftp_store_network") ||
                        adapterRight.getItem(i).getType().startsWith("fav_bookmark")  ){
                         selRight++;
                         selectedRight[i]=true;

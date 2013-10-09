@@ -40,10 +40,7 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
     boolean sftp_success_auth =true;
     boolean sftp_session_auth =true;
     boolean valid_url=true;
-    //Session sftpSession;
-    //ChannelSftp sftpChannel;
     NtlmPasswordAuthentication smb_auth_session;
-    //JSch sftp_auth_session;
 
     public datFM activity;
     public datFM_IO_Fetch(datFM a){activity = a;}
@@ -110,7 +107,6 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                 }
                 try {logonScreenSFTP();} catch (JSchException e) {e.printStackTrace();}
             } else {
-               // if(!datFM.datFM_Destroyed){        }
                     datFM.datFM_state.fill_panel(dir_info, fls_info, panel_ID);
             }
     }
@@ -223,8 +219,6 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
 
         url = path;
         datFM.url=url;
-
-
 
         hostname = url;
         if(!hostname.equals("sftp://")){
@@ -418,6 +412,38 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                             dir_info.add(new datFM_File(server_name,"smb://"+server_ip_hostname+"/"+server_start_dir,0,"smb","smb_store_network",server_ip_hostname, "datFM://samba", 0));
                         } else {
                             dir_info.add(new datFM_File(server_name,"smb://"+server_ip_hostname+"/"+server_start_dir,0,"smb","smb_store_network",server_user+"@"+server_ip_hostname, "datFM://samba", 0));
+                        }
+
+                        fis.close();
+                    } catch (Exception e) {e.printStackTrace();}
+                }
+            }
+        } else if(section.equals("sftp")){
+            dir_info.add(new datFM_File(activity.getResources().getString(R.string.fileslist_add_sftp),"datFM://sftp/add",0,"sftp","add",
+                    activity.getResources().getString(R.string.fileslist_network), "datFM://sftp", 0));
+
+            File dir = activity.getFilesDir();
+            for(File ff : dir.listFiles()){
+                if(ff.getName().startsWith("sftp_data_")){
+                    try {
+                        FileInputStream fis = activity.openFileInput(ff.getName());
+                        StringBuffer fileContent = new StringBuffer("");
+                        byte[] buffer = new byte[1024];
+                        int length;
+                        while ((length = fis.read(buffer)) != -1) {
+                            fileContent.append(new String(buffer));
+                        }
+
+                        String server_name = fileContent.toString().split("\n")[0];
+                        String server_ip_hostname = fileContent.toString().split("\n")[1];
+                        String server_start_dir = fileContent.toString().split("\n")[2];
+                        String server_user = fileContent.toString().split("\n")[3];
+                        String server_port = fileContent.toString().split("\n")[5];
+
+                        if(server_user.equals("")){
+                            dir_info.add(new datFM_File(server_name,"sftp://"+server_user+"@"+server_ip_hostname+":"+server_port+"/"+server_start_dir,0,"sftp","sftp_store_network",server_ip_hostname+":"+server_port, "datFM://sftp", 0));
+                        } else {
+                            dir_info.add(new datFM_File(server_name,"sftp://"+server_user+"@"+server_ip_hostname+":"+server_port+"/"+server_start_dir,0,"sftp","sftp_store_network",server_user+"@"+server_ip_hostname+":"+server_port, "datFM://sftp", 0));
                         }
 
                         fis.close();
@@ -631,7 +657,6 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                         datFM.smb_auth_session[panel_ID] = new NtlmPasswordAuthentication(domain_n,user_n,pass_n);
 
                         new datFM_IO_Fetch(datFM.datFM_state).execute(path, protocol, String.valueOf(panel_ID));
-                        //fetch_smb();
                     }
                 });
         action_dialog.setNegativeButton(datFM.datFM_state.getResources().getString(R.string.ui_dialog_btn_cancel),
@@ -654,16 +679,18 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
         final EditText portt   = (EditText) layer.findViewById(R.id.logon_port);
 
         if(hostname!=null){
-            hostname_locale.setText(hostname.substring(hostname.indexOf('@')+1)); /***  CHECK OUT OF ARRAY    **/
-            names.setText(hostname.substring(0, hostname.indexOf('@')));              /***  CHECK OUT OF ARRAY    **/}
-        //int port=22;
-        portt.setText("22");                                                                    /***  GRAB PORT FROM HOSTNAME ***/
+            if(hostname.indexOf('@')<0){hostname="root@"+hostname;}
 
-        if(datFM.sftp_auth_channel[panel_ID]!=null){
-           // hostname_locale.setText(datFM.sftp_auth_channel[panel_ID].getSession().getHost());
-           // names.setText(datFM.sftp_auth_channel[panel_ID].getSession().getUserName());
-            //passs.setText(datFM.sftp_auth_channel[panel_ID].getSession().get);
+            if(hostname.indexOf(':')>0){
+                hostname_locale.setText(hostname.substring(hostname.indexOf('@')+1,hostname.indexOf(':')));
+                portt.setText(hostname.substring(hostname.indexOf(':')+1));
+            } else {
+                hostname_locale.setText(hostname.substring(hostname.indexOf('@')+1));
+                portt.setText("22");
+            }
+            names.setText(hostname.substring(0, hostname.indexOf('@')));
         }
+
 
         final CheckBox logon_guest = (CheckBox) layer.findViewById(R.id.logon_guest);
         logon_guest.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -700,10 +727,6 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                         }else{
                             datFM.competPanel=0;
                         }
-                              /*
-                        if(domain_n.equals("")){
-                            domain_n = null;
-                        }   */
                         if(user_n.equals("")){
                             user_n = null;
                         }
@@ -712,55 +735,23 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                         }
 
                         datFM.sftp_auth_session[panel_ID] = new JSch();
-                        /*
-                        if(datFM.sftp_auth_session[panel_ID]==null){
-                            datFM.sftp_auth_session[panel_ID] = new JSch();
-                        }
-                          */
                         String knownHostsFilename = "/sdcard/.ssh_known_hosts";
                         try {
                             datFM.sftp_auth_session[panel_ID].setKnownHosts( knownHostsFilename );
                         } catch (JSchException e) {e.printStackTrace();}
 
-                        //Session session = null;
                         try {
                             datFM.sftp_session[panel_ID] = datFM.sftp_auth_session[panel_ID].getSession( user_n, hostname_n, Integer.parseInt(port_n)); /** CHECK IF NOT INTEGER **/
                         } catch (JSchException e) {
                             Log.e("SFTP:",e.getMessage());}
 
-                        //final Session session_fi = session;
                         datFM.sftp_session[panel_ID].setPassword( pass_n );
 
                         java.util.Properties config = new java.util.Properties();
                         config.put("StrictHostKeyChecking", "no");
                         datFM.sftp_session[panel_ID].setConfig(config);
-
-                                                           /*
-                            new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            session_fi.connect();
-                                        } catch (JSchException e) {
-                                            sftp_session_auth=false;
-                                            Log.e("SFTP:",e.getMessage());
-                                        }
-
-                                        try {
-                                            Channel channel = session_fi.openChannel( "sftp" );
-                                            channel.connect();
-                                            ChannelSftp sftpChannel = (ChannelSftp) channel;
-                                            datFM.sftp_auth_channel[panel_ID]=sftpChannel;
-
-                                        } catch (JSchException e) {e.printStackTrace();}
-                                        new datFM_IO_Fetch(datFM.datFM_state).execute(path, protocol, String.valueOf(panel_ID));
-                                    }
-                                };
-                                         */
                         datFM.sftp_auth_channel[panel_ID]=null;
                         new datFM_IO_Fetch(datFM.datFM_state).execute(path, protocol, String.valueOf(panel_ID));
-                        //new datFM_IO_Fetch(datFM.datFM_state).execute(path, protocol, String.valueOf(panel_ID));
-                        //fetch_smb();
                     }
                 });
         action_dialog.setNegativeButton(datFM.datFM_state.getResources().getString(R.string.ui_dialog_btn_cancel),

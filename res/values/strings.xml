@@ -150,6 +150,7 @@
     <string name="fileslist_add_favorite">Add to favorites</string>
     <string name="fileslist_add_samba">Add Samba server</string>
     <string name="fileslist_browse_samba">Browse smb://</string>
+    <string name="fileslist_add_sftp">Add SFTP server</string>
 
     <!-- UI Elements -->
     <!-- Pop-up Dialogs -->
@@ -192,6 +193,7 @@
     <string name="ui_dialog_smd_addserver_password">Password</string>
     <string name="ui_dialog_smd_addserver_domain">Domain</string>
     <string name="ui_dialog_smd_addserver_secret_key">Encryption key (keychain password)</string>
+    <string name="ui_dialog_sftp_addserver_port">Port</string>
     <!-- Notification -->
     <string name="notify_copy">object copied to:</string>
     <string name="notify_move">object moved to:</string>

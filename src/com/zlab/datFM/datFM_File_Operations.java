@@ -132,6 +132,8 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
 
                             } else if(from.getType().equals("smb_store_network")){
                                 success = protocol_delete(activity.getFilesDir().getPath()+"/smb_data_"+from.getName());
+                            } else if(from.getType().equals("sftp_store_network")){
+                                success = protocol_delete(activity.getFilesDir().getPath()+"/sftp_data_"+from.getName());
                             } else if(from.getType().startsWith("fav_bookmark")){
                                 success = protocol_delete(activity.getFilesDir().getPath()+"/fav_data_"+from.getName());
                             }
