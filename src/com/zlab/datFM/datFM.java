@@ -947,9 +947,9 @@ public class datFM extends Activity {
 
                             String FILENAME = "smb_data_"+server_name;
                             String DATA = server_name+"\n"      +server_ip_hostname+"\n"+
-                                    server_start_dir+"\n" +server_user+"\n"+
-                                    server_pass+"\n"      +server_domain+"\n"+
-                                    iscrypted+"\n"+"END";
+                                          server_start_dir+"\n" +server_user+"\n"+
+                                          server_pass+"\n"      +server_domain+"\n"+
+                                          iscrypted+"\n"+"END";
 
                             FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
                             fos.write(DATA.getBytes());
@@ -1088,6 +1088,7 @@ public class datFM extends Activity {
                                             String smb_keychainpass = smb_keychain.getText().toString();
                                             try {
                                                 formdata[4]= AES_256.decrypt(smb_keychainpass, server_pass_encrypted);
+                                                formdata[6]="1";
                                                 formdata[7]=smb_keychainpass;
                                                 action_smb_newserver(formdata);
                                             } catch (Exception e) {
@@ -1150,7 +1151,7 @@ public class datFM extends Activity {
                         String server_start_dir = sftp_add_server_start_dir.getText().toString();
                         String server_user = sftp_add_server_user.getText().toString();
                         String server_pass = sftp_add_server_pass.getText().toString();
-                        String server_domain = sftp_add_server_port.getText().toString();
+                        String server_port = sftp_add_server_port.getText().toString();
                         String server_encrypt_pass = sftp_add_server_encrypt_pass.getText().toString();
 
                         try {
@@ -1162,10 +1163,10 @@ public class datFM extends Activity {
                             }
 
                             String FILENAME = "sftp_data_"+server_name;
-                            String DATA = server_name+"\n"      +server_ip_hostname+"\n"+
-                                    server_start_dir+"\n" +server_user+"\n"+
-                                    server_pass+"\n"      +server_domain+"\n"+
-                                    iscrypted+"\n"+"END";
+                            String DATA = server_name+"\n"+server_ip_hostname+"\n"+
+                                          server_start_dir+"\n"+server_user+"\n"+
+                                          server_pass+"\n"+server_port+"\n"+
+                                          iscrypted+"\n"+"END";
 
                             FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
                             fos.write(DATA.getBytes());
@@ -1317,6 +1318,7 @@ public class datFM extends Activity {
                                         String sftp_keychainpass = sftp_keychain.getText().toString();
                                         try {
                                             formdata[4]= AES_256.decrypt(sftp_keychainpass, server_pass_encrypted);
+                                            formdata[6]="1";
                                             formdata[7]=sftp_keychainpass;
                                             action_sftp_newserver(formdata);
                                         } catch (Exception e) {

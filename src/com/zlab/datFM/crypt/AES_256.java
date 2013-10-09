@@ -29,6 +29,7 @@ public class AES_256 {
         byte[] result = encrypt(rawKey, cleartext.getBytes());
         String fromHex = toHex(result);
         String base64 = new String(Base64.encodeToString(fromHex.getBytes(), 0));
+        if(base64.endsWith("\n"))base64=base64.substring(0,base64.indexOf("\n"));
         return base64;
     }
 

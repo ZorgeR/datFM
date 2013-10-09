@@ -29,8 +29,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b68612f9-3348-4342-8d34-ba591f5277dc" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/zlab/datFM/crypt/AES_256.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/zlab/datFM/crypt/AES_128.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/zlab/datFM/crypt/AES_256.java" afterPath="$PROJECT_DIR$/src/com/zlab/datFM/crypt/AES_256.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/zlab/datFM/datFM.java" afterPath="$PROJECT_DIR$/src/com/zlab/datFM/datFM.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -40,8 +39,8 @@
     <file path="/main.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1358621330872" ignored="false" />
     <file path="/datFM_Main.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1358625154843" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1360237100156" ignored="false" />
-    <file path="/datFM.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1381349723245" ignored="false" />
-    <file path="/Dummy.txt" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1381348722626" ignored="false" />
+    <file path="/datFM.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1381352147602" ignored="false" />
+    <file path="/Dummy.txt" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1381350646641" ignored="false" />
     <file path="/fragment.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1380225080251" ignored="false" />
     <file path="/datfm.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1363257587093" ignored="false" />
     <file path="/datfm_mainmenu.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1361389623889" ignored="false" />
@@ -104,6 +103,7 @@
     <file path="/datFM_IcoGen_APK.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1381172728549" ignored="false" />
     <file path="/datfm_about.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1381174724027" ignored="false" />
     <file path="/datfm_sftp_logon.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1381186823640" ignored="false" />
+    <file path="/AES_256.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1381352509129" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -317,36 +317,6 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM_IO.java" line="158" class="com.zlab.datFM.datFM_IO" package="com.zlab.datFM">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM_IO.java" line="159" class="com.zlab.datFM.datFM_IO" package="com.zlab.datFM">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
       <breakpoint url="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM_IO.java" line="321" class="com.zlab.datFM.datFM_IO" package="com.zlab.datFM">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
@@ -497,7 +467,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM.java" line="1228" class="com.zlab.datFM.datFM" package="com.zlab.datFM">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM.java" line="1229" class="com.zlab.datFM.datFM" package="com.zlab.datFM">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -542,66 +512,6 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/zlab/datFM/crypt/AES_256.java" line="15" class="com.zlab.datFM.crypt.AES_256" package="com.zlab.datFM.crypt">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/zlab/datFM/crypt/AES_256.java" line="16" class="com.zlab.datFM.crypt.AES_256" package="com.zlab.datFM.crypt">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/zlab/datFM/crypt/AES_256.java" line="17" class="com.zlab.datFM.crypt.AES_256" package="com.zlab.datFM.crypt">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/zlab/datFM/crypt/AES_256.java" line="18" class="com.zlab.datFM.crypt.AES_256" package="com.zlab.datFM.crypt">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
     </line_breakpoints>
     <breakpoint_rules />
     <ui_properties />
@@ -612,10 +522,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="datFM.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="datFM.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="429" column="57" selection-start="17367" selection-end="17367" vertical-scroll-proportion="0.0">
+            <state line="1115" column="57" selection-start="52888" selection-end="52888" vertical-scroll-proportion="0.57709754">
               <folding>
                 <element signature="docComment;field#layoutPathPanelLeft#0;class#datFM#0" expanded="false" />
                 <element signature="docComment;field#sel#0;class#datFM#0" expanded="false" />
@@ -626,15 +536,12 @@
                 <element signature="docComment;field#ZA#0;class#datFM#0" expanded="false" />
                 <element signature="docComment;field#horizontal_scroll_percentage#0;class#datFM#0" expanded="false" />
                 <element signature="e#4790#4822#0" expanded="false" />
-                <element signature="e#4790#4822#0" expanded="false" />
                 <element signature="method#onCreate#0;class#datFM#0" expanded="false" />
                 <element signature="method#setTheme#0;class#datFM#0" expanded="false" />
                 <element signature="method#onResume#0;class#datFM#0" expanded="false" />
                 <element signature="method#onStop#0;class#datFM#0" expanded="false" />
                 <element signature="method#onDestroy#0;class#datFM#0" expanded="false" />
                 <element signature="method#onConfigurationChanged#0;class#datFM#0" expanded="false" />
-                <element signature="class#8742:9152" expanded="false" />
-                <element signature="method#run#0;class#8742:9152" expanded="false" />
                 <element signature="method#onCreateOptionsMenu#0;class#datFM#0" expanded="false" />
                 <element signature="method#onOptionsItemSelected#0;class#datFM#0" expanded="false" />
                 <element signature="method#onKeyDown#0;class#datFM#0" expanded="false" />
@@ -646,8 +553,6 @@
                 <element signature="method#openRemoteFile#0;class#datFM#0" expanded="false" />
                 <element signature="method#openRemoteFileAs#0;class#datFM#0" expanded="false" />
                 <element signature="method#openFile#0;class#datFM#0" expanded="false" />
-                <element signature="class#23606:24919" expanded="false" />
-                <element signature="method#run#0;class#23606:24919" expanded="false" />
                 <element signature="method#openFileAs#0;class#datFM#0" expanded="false" />
                 <element signature="method#onFileClick#0;class#datFM#0" expanded="false" />
                 <element signature="method#onFileClickLong#0;class#datFM#0" expanded="false" />
@@ -661,37 +566,37 @@
                 <element signature="class#39539:39691" expanded="false" />
                 <element signature="method#onClick#0;class#39539:39691" expanded="false" />
                 <element signature="method#action_smb_newserver#0;class#datFM#0" expanded="false" />
-                <element signature="class#43612:43764" expanded="false" />
-                <element signature="method#onClick#0;class#43612:43764" expanded="false" />
+                <element signature="class#43630:43782" expanded="false" />
+                <element signature="method#onClick#0;class#43630:43782" expanded="false" />
                 <element signature="method#action_smb_openserver#0;class#datFM#0" expanded="false" />
-                <element signature="e#44523#44584#0" expanded="false" />
-                <element signature="e#45155#45174#0" expanded="false" />
-                <element signature="class#47822:48034" expanded="false" />
-                <element signature="method#onClick#0;class#47822:48034" expanded="false" />
+                <element signature="e#44541#44602#0" expanded="false" />
+                <element signature="e#45173#45192#0" expanded="false" />
+                <element signature="class#47840:48052" expanded="false" />
+                <element signature="method#onClick#0;class#47840:48052" expanded="false" />
                 <element signature="method#action_smb_editserver#0;class#datFM#0" expanded="false" />
-                <element signature="class#52251:52463" expanded="false" />
-                <element signature="method#onClick#0;class#52251:52463" expanded="false" />
+                <element signature="class#52334:52546" expanded="false" />
+                <element signature="method#onClick#0;class#52334:52546" expanded="false" />
                 <element signature="method#action_sftp_newserver#0;class#datFM#0" expanded="false" />
-                <element signature="class#56585:56737" expanded="false" />
-                <element signature="method#onClick#0;class#56585:56737" expanded="false" />
+                <element signature="class#56669:56821" expanded="false" />
+                <element signature="method#onClick#0;class#56669:56821" expanded="false" />
                 <element signature="method#action_sftp_openserver#0;class#datFM#0" expanded="false" />
-                <element signature="e#58126#58145#0" expanded="false" />
-                <element signature="class#62041:62253" expanded="false" />
-                <element signature="method#onClick#0;class#62041:62253" expanded="false" />
+                <element signature="e#58210#58229#0" expanded="false" />
+                <element signature="class#62125:62337" expanded="false" />
+                <element signature="method#onClick#0;class#62125:62337" expanded="false" />
                 <element signature="method#action_sftp_editserver#0;class#datFM#0" expanded="false" />
-                <element signature="class#66166:66366" expanded="false" />
-                <element signature="method#onClick#0;class#66166:66366" expanded="false" />
+                <element signature="class#66311:66511" expanded="false" />
+                <element signature="method#onClick#0;class#66311:66511" expanded="false" />
                 <element signature="method#action_dialog#0;class#datFM#0" expanded="false" />
-                <element signature="class#69246:69410" expanded="false" />
-                <element signature="method#onClick#0;class#69246:69410" expanded="false" />
+                <element signature="class#69391:69555" expanded="false" />
+                <element signature="method#onClick#0;class#69391:69555" expanded="false" />
                 <element signature="method#action_new_folder#0;class#datFM#0" expanded="false" />
-                <element signature="class#71777:71941" expanded="false" />
-                <element signature="method#onClick#0;class#71777:71941" expanded="false" />
+                <element signature="class#71922:72086" expanded="false" />
+                <element signature="method#onClick#0;class#71922:72086" expanded="false" />
                 <element signature="method#action_copy#0;class#datFM#0" expanded="false" />
                 <element signature="method#action_move#0;class#datFM#0" expanded="false" />
                 <element signature="method#action_rename#0;class#datFM#0" expanded="false" />
-                <element signature="class#74463:74615" expanded="false" />
-                <element signature="method#onClick#0;class#74463:74615" expanded="false" />
+                <element signature="class#74608:74760" expanded="false" />
+                <element signature="method#onClick#0;class#74608:74760" expanded="false" />
                 <element signature="method#action_delete#0;class#datFM#0" expanded="false" />
                 <element signature="method#action_select_all#0;class#datFM#0" expanded="false" />
                 <element signature="method#action_deselect_all#0;class#datFM#0" expanded="false" />
@@ -699,17 +604,17 @@
                 <element signature="method#action_properties#0;class#datFM#0" expanded="false" />
                 <element signature="method#action_clear_file_cache#0;class#datFM#0" expanded="false" />
                 <element signature="method#action_send#0;class#datFM#0" expanded="false" />
-                <element signature="e#81451#81576#0" expanded="false" />
+                <element signature="e#81596#81721#0" expanded="false" />
                 <element signature="method#action_send_list_builder#0;class#datFM#0" expanded="false" />
                 <element signature="method#init_UI#0;class#datFM#0" expanded="false" />
                 <element signature="method#init_UI_Listener#0;class#datFM#0" expanded="false" />
                 <element signature="method#init_Listener_Static#0;class#datFM#0" expanded="false" />
-                <element signature="class#92212:92728" expanded="false" />
-                <element signature="method#onScrollStateChanged#0;class#92212:92728" expanded="false" />
-                <element signature="method#onScroll#0;class#92212:92728" expanded="false" />
-                <element signature="class#92773:93290" expanded="false" />
-                <element signature="method#onScrollStateChanged#0;class#92773:93290" expanded="false" />
-                <element signature="method#onScroll#0;class#92773:93290" expanded="false" />
+                <element signature="class#92357:92873" expanded="false" />
+                <element signature="method#onScrollStateChanged#0;class#92357:92873" expanded="false" />
+                <element signature="method#onScroll#0;class#92357:92873" expanded="false" />
+                <element signature="class#92918:93435" expanded="false" />
+                <element signature="method#onScrollStateChanged#0;class#92918:93435" expanded="false" />
+                <element signature="method#onScroll#0;class#92918:93435" expanded="false" />
                 <element signature="method#init_Listener_Scroll#0;class#datFM#0" expanded="false" />
                 <element signature="method#scroll_init_delay#0;class#datFM#0" expanded="false" />
                 <element signature="method#scroll_init_nodelay#0;class#datFM#0" expanded="false" />
@@ -723,37 +628,17 @@
                 <element signature="method#old_api_fixes#0;class#datFM#0" expanded="false" />
                 <element signature="method#pref_btn_text_size#0;class#datFM#0" expanded="false" />
                 <element signature="method#ZA_pack#0;class#datFM#0" expanded="false" />
-                <element signature="class#114960:116239" expanded="false" />
-                <element signature="method#afterTextChanged#0;class#114960:116239" expanded="false" />
-                <element signature="class#116293:117459" expanded="false" />
-                <element signature="method#onItemSelected#0;class#116293:117459" expanded="false" />
-                <element signature="class#121591:121743" expanded="false" />
-                <element signature="method#onClick#0;class#121591:121743" expanded="false" />
+                <element signature="class#115105:116384" expanded="false" />
+                <element signature="method#afterTextChanged#0;class#115105:116384" expanded="false" />
+                <element signature="class#116438:117604" expanded="false" />
+                <element signature="method#onItemSelected#0;class#116438:117604" expanded="false" />
+                <element signature="class#121736:121888" expanded="false" />
+                <element signature="method#onClick#0;class#121736:121888" expanded="false" />
                 <element signature="method#ZA_unpack#0;class#datFM#0" expanded="false" />
-                <element signature="class#127431:127583" expanded="false" />
-                <element signature="method#onClick#0;class#127431:127583" expanded="false" />
+                <element signature="class#127576:127728" expanded="false" />
+                <element signature="method#onClick#0;class#127576:127728" expanded="false" />
                 <element signature="method#RunAsRoot#0;class#datFM#0" expanded="false" />
                 <element signature="method#isTablet#0;class#datFM#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="datFM_IO.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM_IO.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="159" column="0" selection-start="5382" selection-end="5382" vertical-scroll-proportion="0.33333334">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AES_256.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/crypt/AES_256.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="0" selection-start="230" selection-end="423" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -798,8 +683,8 @@
         <option value="$PROJECT_DIR$/src/com/zlab/datFM/datFM_IO_Fetch.java" />
         <option value="$PROJECT_DIR$/src/com/zlab/datFM/datFM_IO.java" />
         <option value="$PROJECT_DIR$/src/com/zlab/datFM/crypt/AES_128.java" />
-        <option value="$PROJECT_DIR$/src/com/zlab/datFM/crypt/AES_256.java" />
         <option value="$PROJECT_DIR$/src/com/zlab/datFM/datFM.java" />
+        <option value="$PROJECT_DIR$/src/com/zlab/datFM/crypt/AES_256.java" />
       </list>
     </option>
   </component>
@@ -1653,7 +1538,11 @@
       <created>1381348726632</created>
       <updated>1381348726632</updated>
     </task>
-    <option name="localTasksCounter" value="141" />
+    <task id="LOCAL-00141" summary="0.1.85b - fix keychain on 4.2 and above">
+      <created>1381350658712</created>
+      <updated>1381350658712</updated>
+    </task>
+    <option name="localTasksCounter" value="142" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1751,7 +1640,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="0.1.85b - fix return sftp delete result" />
+    <option name="LAST_COMMIT_MESSAGE" value="0.1.85b - fix keychain on 4.2 and above" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1765,7 +1654,6 @@
     <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="0.1.81b - fix" />
     <MESSAGE value="0.1.81b - PLAY.GOOGLE.COM - release" />
     <MESSAGE value="0.1.82b - Market BUILD&#10;Исправлен внешний вид окна свойств файлов на телефонах, добавлена автонастройка внешнего вида приложения под телефон или планшет при старте.&#10;Исправлена неверная иконка типа файла в свойствах.&#10;&#10;" />
     <MESSAGE value="0.1.83b - fix ui metrics for various screen size" />
@@ -1790,6 +1678,7 @@
     <MESSAGE value="0.1.85b - sftp add interface, fix sftp null port and user" />
     <MESSAGE value="0.1.85b - fix sftp delete status" />
     <MESSAGE value="0.1.85b - fix return sftp delete result" />
+    <MESSAGE value="0.1.85b - fix keychain on 4.2 and above" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1803,13 +1692,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/hooks/HR_ScrollView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="61" selection-start="2325" selection-end="2325" vertical-scroll-proportion="0.8443396">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/stream/StreamSource.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="13" selection-start="269" selection-end="269" vertical-scroll-proportion="0.08503401">
@@ -1924,9 +1806,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../../../Tools/android-sdk-linux/sources/android-18/android/util/Base64.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="492" column="25" selection-start="19390" selection-end="19390" vertical-scroll-proportion="0.33333334">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM_IO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="159" column="0" selection-start="5382" selection-end="5382" vertical-scroll-proportion="0.33333334">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/crypt/AES_256.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="0" selection-start="230" selection-end="423" vertical-scroll-proportion="0.0">
+        <state line="31" column="59" selection-start="1026" selection-end="1026" vertical-scroll-proportion="0.4580499">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1935,7 +1831,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="429" column="57" selection-start="17367" selection-end="17367" vertical-scroll-proportion="0.0">
+        <state line="1115" column="57" selection-start="52888" selection-end="52888" vertical-scroll-proportion="0.57709754">
           <folding>
             <element signature="docComment;field#layoutPathPanelLeft#0;class#datFM#0" expanded="false" />
             <element signature="docComment;field#sel#0;class#datFM#0" expanded="false" />
@@ -1946,15 +1842,12 @@
             <element signature="docComment;field#ZA#0;class#datFM#0" expanded="false" />
             <element signature="docComment;field#horizontal_scroll_percentage#0;class#datFM#0" expanded="false" />
             <element signature="e#4790#4822#0" expanded="false" />
-            <element signature="e#4790#4822#0" expanded="false" />
             <element signature="method#onCreate#0;class#datFM#0" expanded="false" />
             <element signature="method#setTheme#0;class#datFM#0" expanded="false" />
             <element signature="method#onResume#0;class#datFM#0" expanded="false" />
             <element signature="method#onStop#0;class#datFM#0" expanded="false" />
             <element signature="method#onDestroy#0;class#datFM#0" expanded="false" />
             <element signature="method#onConfigurationChanged#0;class#datFM#0" expanded="false" />
-            <element signature="class#8742:9152" expanded="false" />
-            <element signature="method#run#0;class#8742:9152" expanded="false" />
             <element signature="method#onCreateOptionsMenu#0;class#datFM#0" expanded="false" />
             <element signature="method#onOptionsItemSelected#0;class#datFM#0" expanded="false" />
             <element signature="method#onKeyDown#0;class#datFM#0" expanded="false" />
@@ -1966,8 +1859,6 @@
             <element signature="method#openRemoteFile#0;class#datFM#0" expanded="false" />
             <element signature="method#openRemoteFileAs#0;class#datFM#0" expanded="false" />
             <element signature="method#openFile#0;class#datFM#0" expanded="false" />
-            <element signature="class#23606:24919" expanded="false" />
-            <element signature="method#run#0;class#23606:24919" expanded="false" />
             <element signature="method#openFileAs#0;class#datFM#0" expanded="false" />
             <element signature="method#onFileClick#0;class#datFM#0" expanded="false" />
             <element signature="method#onFileClickLong#0;class#datFM#0" expanded="false" />
@@ -1981,37 +1872,37 @@
             <element signature="class#39539:39691" expanded="false" />
             <element signature="method#onClick#0;class#39539:39691" expanded="false" />
             <element signature="method#action_smb_newserver#0;class#datFM#0" expanded="false" />
-            <element signature="class#43612:43764" expanded="false" />
-            <element signature="method#onClick#0;class#43612:43764" expanded="false" />
+            <element signature="class#43630:43782" expanded="false" />
+            <element signature="method#onClick#0;class#43630:43782" expanded="false" />
             <element signature="method#action_smb_openserver#0;class#datFM#0" expanded="false" />
-            <element signature="e#44523#44584#0" expanded="false" />
-            <element signature="e#45155#45174#0" expanded="false" />
-            <element signature="class#47822:48034" expanded="false" />
-            <element signature="method#onClick#0;class#47822:48034" expanded="false" />
+            <element signature="e#44541#44602#0" expanded="false" />
+            <element signature="e#45173#45192#0" expanded="false" />
+            <element signature="class#47840:48052" expanded="false" />
+            <element signature="method#onClick#0;class#47840:48052" expanded="false" />
             <element signature="method#action_smb_editserver#0;class#datFM#0" expanded="false" />
-            <element signature="class#52251:52463" expanded="false" />
-            <element signature="method#onClick#0;class#52251:52463" expanded="false" />
+            <element signature="class#52334:52546" expanded="false" />
+            <element signature="method#onClick#0;class#52334:52546" expanded="false" />
             <element signature="method#action_sftp_newserver#0;class#datFM#0" expanded="false" />
-            <element signature="class#56585:56737" expanded="false" />
-            <element signature="method#onClick#0;class#56585:56737" expanded="false" />
+            <element signature="class#56669:56821" expanded="false" />
+            <element signature="method#onClick#0;class#56669:56821" expanded="false" />
             <element signature="method#action_sftp_openserver#0;class#datFM#0" expanded="false" />
-            <element signature="e#58126#58145#0" expanded="false" />
-            <element signature="class#62041:62253" expanded="false" />
-            <element signature="method#onClick#0;class#62041:62253" expanded="false" />
+            <element signature="e#58210#58229#0" expanded="false" />
+            <element signature="class#62125:62337" expanded="false" />
+            <element signature="method#onClick#0;class#62125:62337" expanded="false" />
             <element signature="method#action_sftp_editserver#0;class#datFM#0" expanded="false" />
-            <element signature="class#66166:66366" expanded="false" />
-            <element signature="method#onClick#0;class#66166:66366" expanded="false" />
+            <element signature="class#66311:66511" expanded="false" />
+            <element signature="method#onClick#0;class#66311:66511" expanded="false" />
             <element signature="method#action_dialog#0;class#datFM#0" expanded="false" />
-            <element signature="class#69246:69410" expanded="false" />
-            <element signature="method#onClick#0;class#69246:69410" expanded="false" />
+            <element signature="class#69391:69555" expanded="false" />
+            <element signature="method#onClick#0;class#69391:69555" expanded="false" />
             <element signature="method#action_new_folder#0;class#datFM#0" expanded="false" />
-            <element signature="class#71777:71941" expanded="false" />
-            <element signature="method#onClick#0;class#71777:71941" expanded="false" />
+            <element signature="class#71922:72086" expanded="false" />
+            <element signature="method#onClick#0;class#71922:72086" expanded="false" />
             <element signature="method#action_copy#0;class#datFM#0" expanded="false" />
             <element signature="method#action_move#0;class#datFM#0" expanded="false" />
             <element signature="method#action_rename#0;class#datFM#0" expanded="false" />
-            <element signature="class#74463:74615" expanded="false" />
-            <element signature="method#onClick#0;class#74463:74615" expanded="false" />
+            <element signature="class#74608:74760" expanded="false" />
+            <element signature="method#onClick#0;class#74608:74760" expanded="false" />
             <element signature="method#action_delete#0;class#datFM#0" expanded="false" />
             <element signature="method#action_select_all#0;class#datFM#0" expanded="false" />
             <element signature="method#action_deselect_all#0;class#datFM#0" expanded="false" />
@@ -2019,17 +1910,17 @@
             <element signature="method#action_properties#0;class#datFM#0" expanded="false" />
             <element signature="method#action_clear_file_cache#0;class#datFM#0" expanded="false" />
             <element signature="method#action_send#0;class#datFM#0" expanded="false" />
-            <element signature="e#81451#81576#0" expanded="false" />
+            <element signature="e#81596#81721#0" expanded="false" />
             <element signature="method#action_send_list_builder#0;class#datFM#0" expanded="false" />
             <element signature="method#init_UI#0;class#datFM#0" expanded="false" />
             <element signature="method#init_UI_Listener#0;class#datFM#0" expanded="false" />
             <element signature="method#init_Listener_Static#0;class#datFM#0" expanded="false" />
-            <element signature="class#92212:92728" expanded="false" />
-            <element signature="method#onScrollStateChanged#0;class#92212:92728" expanded="false" />
-            <element signature="method#onScroll#0;class#92212:92728" expanded="false" />
-            <element signature="class#92773:93290" expanded="false" />
-            <element signature="method#onScrollStateChanged#0;class#92773:93290" expanded="false" />
-            <element signature="method#onScroll#0;class#92773:93290" expanded="false" />
+            <element signature="class#92357:92873" expanded="false" />
+            <element signature="method#onScrollStateChanged#0;class#92357:92873" expanded="false" />
+            <element signature="method#onScroll#0;class#92357:92873" expanded="false" />
+            <element signature="class#92918:93435" expanded="false" />
+            <element signature="method#onScrollStateChanged#0;class#92918:93435" expanded="false" />
+            <element signature="method#onScroll#0;class#92918:93435" expanded="false" />
             <element signature="method#init_Listener_Scroll#0;class#datFM#0" expanded="false" />
             <element signature="method#scroll_init_delay#0;class#datFM#0" expanded="false" />
             <element signature="method#scroll_init_nodelay#0;class#datFM#0" expanded="false" />
@@ -2043,25 +1934,18 @@
             <element signature="method#old_api_fixes#0;class#datFM#0" expanded="false" />
             <element signature="method#pref_btn_text_size#0;class#datFM#0" expanded="false" />
             <element signature="method#ZA_pack#0;class#datFM#0" expanded="false" />
-            <element signature="class#114960:116239" expanded="false" />
-            <element signature="method#afterTextChanged#0;class#114960:116239" expanded="false" />
-            <element signature="class#116293:117459" expanded="false" />
-            <element signature="method#onItemSelected#0;class#116293:117459" expanded="false" />
-            <element signature="class#121591:121743" expanded="false" />
-            <element signature="method#onClick#0;class#121591:121743" expanded="false" />
+            <element signature="class#115105:116384" expanded="false" />
+            <element signature="method#afterTextChanged#0;class#115105:116384" expanded="false" />
+            <element signature="class#116438:117604" expanded="false" />
+            <element signature="method#onItemSelected#0;class#116438:117604" expanded="false" />
+            <element signature="class#121736:121888" expanded="false" />
+            <element signature="method#onClick#0;class#121736:121888" expanded="false" />
             <element signature="method#ZA_unpack#0;class#datFM#0" expanded="false" />
-            <element signature="class#127431:127583" expanded="false" />
-            <element signature="method#onClick#0;class#127431:127583" expanded="false" />
+            <element signature="class#127576:127728" expanded="false" />
+            <element signature="method#onClick#0;class#127576:127728" expanded="false" />
             <element signature="method#RunAsRoot#0;class#datFM#0" expanded="false" />
             <element signature="method#isTablet#0;class#datFM#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/datFM_IO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="159" column="0" selection-start="5382" selection-end="5382" vertical-scroll-proportion="0.33333334">
-          <folding />
         </state>
       </provider>
     </entry>
