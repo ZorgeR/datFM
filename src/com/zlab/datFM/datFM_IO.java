@@ -194,7 +194,7 @@ public class datFM_IO {
             return false;
         }
 
-        return is_exist_custom(dest, CompetPanel);
+        return new datFM_IO(dest,CompetPanel).is_exist_custom(dest, CompetPanel);
     }
     private void copy_recursively_smb(SmbFile file,String dest) throws IOException {
         if (file.isDirectory()) {
@@ -329,15 +329,19 @@ public class datFM_IO {
     }
     public boolean is_exist_custom(String file, int PanID){
         boolean success;
-        boolean smb_ = file.startsWith("smb://");
-        boolean local_ = file.startsWith("/");
+        checkProtocol();
 
-        if(local_){
+        if(local){
             success=new datFM_IO(file,PanID).getFileLocal().exists();
-        } else if (smb_){
+        } else if (smb){
             try {
                 success=new datFM_IO(file,PanID).getFileSmb().exists();
             } catch (Exception e) {success=false;}
+        } else if (sftp){try {
+            SftpATTRS sftpATTRS = null;
+                      sftpATTRS = getSFTPChannel().lstat(SFTPrealpath(file));
+                      success = true;
+            } catch (Exception ex) { success = false; }
         } else {
             success=false;
         }

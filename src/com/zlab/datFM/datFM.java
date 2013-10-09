@@ -350,30 +350,34 @@ public class datFM extends Activity {
 
     protected void fill_new(String path, int Panel_ID){
         /* TODO убрать костыль */
-        boolean smb = path.startsWith("smb://");
-        boolean sftp = path.startsWith("sftp://");
-        boolean local = path.startsWith("/");
-        boolean home = path.startsWith("datFM://");
-        boolean protocol_accepted=true;
+        if(path!=null){
+            boolean smb = path.startsWith("smb://");
+            boolean sftp = path.startsWith("sftp://");
+            boolean local = path.startsWith("/");
+            boolean home = path.startsWith("datFM://");
+            boolean protocol_accepted=true;
 
-        curPanel=Panel_ID;
-        if(Panel_ID==0){competPanel=1;}else{competPanel=0;}
+            curPanel=Panel_ID;
+            if(Panel_ID==0){competPanel=1;}else{competPanel=0;}
 
-        if(local){
-            protocols[Panel_ID]="local";
-        } else if (smb){
-            protocols[Panel_ID]="smb";
-        } else if (sftp){
-            protocols[Panel_ID]="sftp";
-        } else if (home){
-            protocols[Panel_ID]="datfm";
+            if(local){
+                protocols[Panel_ID]="local";
+            } else if (smb){
+                protocols[Panel_ID]="smb";
+            } else if (sftp){
+                protocols[Panel_ID]="sftp";
+            } else if (home){
+                protocols[Panel_ID]="datfm";
+            } else {
+                Toast.makeText(datFM_context,getResources().getString(R.string.notify_unknown_protocol),Toast.LENGTH_SHORT).show();
+                protocol_accepted=false;
+            }
+
+            if(protocol_accepted){
+                new datFM_IO_Fetch(this).execute(path, protocols[Panel_ID], String.valueOf(Panel_ID));
+            }
         } else {
-            Toast.makeText(datFM_context,getResources().getString(R.string.notify_unknown_protocol),Toast.LENGTH_SHORT).show();
-            protocol_accepted=false;
-        }
-
-        if(protocol_accepted){
-            new datFM_IO_Fetch(this).execute(path, protocols[Panel_ID], String.valueOf(Panel_ID));
+            fill_new("datFM://",Panel_ID);
         }
     }
     protected void fill_panel(List<datFM_File> dir, List<datFM_File> fls,int panel_ID){
