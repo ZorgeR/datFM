@@ -29,8 +29,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b68612f9-3348-4342-8d34-ba591f5277dc" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/zlab/datFM/crypt/AES_256.java" afterPath="$PROJECT_DIR$/src/com/zlab/datFM/crypt/AES_256.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/zlab/datFM/datFM.java" afterPath="$PROJECT_DIR$/src/com/zlab/datFM/datFM.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="datFM.iws" />
@@ -40,7 +39,7 @@
     <file path="/datFM_Main.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1358625154843" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1360237100156" ignored="false" />
     <file path="/datFM.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1381352147602" ignored="false" />
-    <file path="/Dummy.txt" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1381350646641" ignored="false" />
+    <file path="/Dummy.txt" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1381352906105" ignored="false" />
     <file path="/fragment.java" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1380225080251" ignored="false" />
     <file path="/datfm.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1363257587093" ignored="false" />
     <file path="/datfm_mainmenu.xml" changelist="b68612f9-3348-4342-8d34-ba591f5277dc" time="1361389623889" ignored="false" />
@@ -669,7 +668,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/zlab/datFM/datFM_IcoGen_APK.java" />
         <option value="$PROJECT_DIR$/res/layout/datfm_about.xml" />
         <option value="$PROJECT_DIR$/res/layout/datfm_sftp_logon.xml" />
         <option value="$PROJECT_DIR$/res/xml-v14/datfm_preferences.xml" />
@@ -685,6 +683,7 @@
         <option value="$PROJECT_DIR$/src/com/zlab/datFM/crypt/AES_128.java" />
         <option value="$PROJECT_DIR$/src/com/zlab/datFM/datFM.java" />
         <option value="$PROJECT_DIR$/src/com/zlab/datFM/crypt/AES_256.java" />
+        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
       </list>
     </option>
   </component>
@@ -1542,7 +1541,11 @@
       <created>1381350658712</created>
       <updated>1381350658712</updated>
     </task>
-    <option name="localTasksCounter" value="142" />
+    <task id="LOCAL-00142" summary="0.1.85b - fix keychain decryption">
+      <created>1381352918326</created>
+      <updated>1381352918326</updated>
+    </task>
+    <option name="localTasksCounter" value="143" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1640,7 +1643,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="0.1.85b - fix keychain on 4.2 and above" />
+    <option name="LAST_COMMIT_MESSAGE" value="0.1.85b - fix keychain decryption" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1654,7 +1657,6 @@
     <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="0.1.81b - PLAY.GOOGLE.COM - release" />
     <MESSAGE value="0.1.82b - Market BUILD&#10;Исправлен внешний вид окна свойств файлов на телефонах, добавлена автонастройка внешнего вида приложения под телефон или планшет при старте.&#10;Исправлена неверная иконка типа файла в свойствах.&#10;&#10;" />
     <MESSAGE value="0.1.83b - fix ui metrics for various screen size" />
     <MESSAGE value="0.1.84b - back button can be ovveride, go UP and exit" />
@@ -1679,6 +1681,7 @@
     <MESSAGE value="0.1.85b - fix sftp delete status" />
     <MESSAGE value="0.1.85b - fix return sftp delete result" />
     <MESSAGE value="0.1.85b - fix keychain on 4.2 and above" />
+    <MESSAGE value="0.1.85b - fix keychain decryption" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1692,13 +1695,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/stream/StreamSource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="13" selection-start="269" selection-end="269" vertical-scroll-proportion="0.08503401">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zlab/datFM/stream/StreamServer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="70" column="22" selection-start="2730" selection-end="2730" vertical-scroll-proportion="0.81632656">
@@ -1826,6 +1822,13 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="38" selection-start="209" selection-end="216" vertical-scroll-proportion="0.06802721">
+          <folding />
         </state>
       </provider>
     </entry>

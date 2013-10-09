@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.zlab.datFM"
-          android:versionCode="28"
-          android:versionName="0.1.85b">
+          android:versionCode="29"
+          android:versionName="0.1.86b">
     <uses-sdk
             android:minSdkVersion="8"
             android:targetSdkVersion="10"/>
