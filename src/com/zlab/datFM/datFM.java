@@ -24,7 +24,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.*;
 import com.jcraft.jsch.*;
 import com.zlab.datFM.ZA.ZArchiver_IO;
-import com.zlab.datFM.crypt.AES_128;
+import com.zlab.datFM.crypt.AES_256;
 import com.zlab.datFM.hooks.HR_ScrollView;
 import com.zlab.datFM.hooks.HR_ScrollViewListener;
 import com.zlab.datFM.stream.Streamer;
@@ -459,7 +459,7 @@ public class datFM extends Activity {
             builder.setItems(items, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int item) {
                     if(item == 0) {
-                        /*****action_sftp_editserver(adapter.getItem(pos).getName());***/
+                        action_sftp_editserver(adapter.getItem(pos).getName());
                     } else if(item == 1) {
                         selected[pos]=true;action_delete();
                     }
@@ -941,7 +941,7 @@ public class datFM extends Activity {
                             String iscrypted="0";
 
                             if(!server_pass.equals("") && !server_encrypt_pass.equals("")){
-                                    server_pass = AES_128.encrypt(server_encrypt_pass, server_pass);
+                                    server_pass = AES_256.encrypt(server_encrypt_pass, server_pass);
                                     iscrypted="1";
                             }
 
@@ -1016,7 +1016,7 @@ public class datFM extends Activity {
                                         public void onClick(DialogInterface dialog, int which) {
                                             String smb_keychainpass = smb_keychain.getText().toString();
                                             try {
-                                                String pass = AES_128.decrypt(smb_keychainpass, server_pass_encrypted);
+                                                String pass = AES_256.decrypt(smb_keychainpass, server_pass_encrypted);
                                                 smb_auth_session[curPanel] = new NtlmPasswordAuthentication(smb_auth_session[curPanel].getDomain(), smb_auth_session[curPanel].getUsername(),pass);
                                                 fill_new(o.getPath(), curPanel);
                                             } catch (Exception e) {
@@ -1087,11 +1087,11 @@ public class datFM extends Activity {
                                         public void onClick(DialogInterface dialog, int which) {
                                             String smb_keychainpass = smb_keychain.getText().toString();
                                             try {
-                                                formdata[4]= AES_128.decrypt(smb_keychainpass, server_pass_encrypted);
+                                                formdata[4]= AES_256.decrypt(smb_keychainpass, server_pass_encrypted);
                                                 formdata[7]=smb_keychainpass;
                                                 action_smb_newserver(formdata);
                                             } catch (Exception e) {
-                                                e.printStackTrace();
+                                                //e.printStackTrace();
                                                 action_smb_editserver(bookmarkname);
                                                 notify_toast(getResources().getString(R.string.notify_access_denied),true);
                                             }
@@ -1157,7 +1157,7 @@ public class datFM extends Activity {
                             String iscrypted="0";
 
                             if(!server_pass.equals("") && !server_encrypt_pass.equals("")){
-                                server_pass = AES_128.encrypt(server_encrypt_pass, server_pass);
+                                server_pass = AES_256.encrypt(server_encrypt_pass, server_pass);
                                 iscrypted="1";
                             }
 
@@ -1243,7 +1243,7 @@ public class datFM extends Activity {
                                         public void onClick(DialogInterface dialog, int which) {
                                             String smb_keychainpass = sftp_keychain.getText().toString();
                                             try {
-                                                String pass = AES_128.decrypt(smb_keychainpass, server_pass_encrypted);
+                                                String pass = AES_256.decrypt(smb_keychainpass, server_pass_encrypted);
                                                 datFM.sftp_session[curPanel].setPassword( pass );
                                                 java.util.Properties config = new java.util.Properties();
                                                 config.put("StrictHostKeyChecking", "no");
@@ -1268,6 +1268,74 @@ public class datFM extends Activity {
                             AprooveDialog.show();
                         }
                     }
+                    fis.close();
+                } catch (Exception e) {e.printStackTrace();}
+            }
+        }
+    }
+    private void action_sftp_editserver(final String bookmarkname){
+        File dirs = getFilesDir();
+        for(File ff : dirs.listFiles()){
+            String name = ff.getName().replace("sftp_data_","");
+            if(name.equals(bookmarkname)){
+                try {
+                    FileInputStream fis = openFileInput(ff.getName());
+                    StringBuffer fileContent = new StringBuffer("");
+                    byte[] buffer = new byte[1024];
+                    int length;
+                    while ((length = fis.read(buffer)) != -1) {
+                        fileContent.append(new String(buffer));
+                    }
+
+                    String server_name = fileContent.toString().split("\n")[0];
+                    String server_ip_hostname = fileContent.toString().split("\n")[1];
+                    String server_start_dir = fileContent.toString().split("\n")[2];
+                    String server_user = fileContent.toString().split("\n")[3];
+                    String server_pass = fileContent.toString().split("\n")[4];
+                    String server_port = fileContent.toString().split("\n")[5];
+                    String iscrypted = fileContent.toString().split("\n")[6];
+
+
+                    if(iscrypted.equals("0")){
+                        String[] formdata = {server_name,server_ip_hostname,server_start_dir,server_user,server_pass,server_port,iscrypted};
+                        action_sftp_newserver(formdata);
+                    } else {
+                        AlertDialog.Builder action_dialog = new AlertDialog.Builder(this);
+                        action_dialog.setTitle("Keychain");
+                        LayoutInflater inflater = getLayoutInflater();
+                        View layer = inflater.inflate(R.layout.datfm_smb_keychainpass,null);
+                        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+
+                        final EditText sftp_keychain = (EditText) layer.findViewById(R.id.smb_auth_keychain);
+                        final String server_pass_encrypted = server_pass;
+                        final String[] formdata = {server_name,server_ip_hostname,server_start_dir,server_user,server_pass,server_port,iscrypted,null};
+
+                        action_dialog.setView(layer);
+                        action_dialog.setPositiveButton(getResources().getString(R.string.ui_dialog_btn_ok),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        String sftp_keychainpass = sftp_keychain.getText().toString();
+                                        try {
+                                            formdata[4]= AES_256.decrypt(sftp_keychainpass, server_pass_encrypted);
+                                            formdata[7]=sftp_keychainpass;
+                                            action_sftp_newserver(formdata);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                            action_sftp_editserver(bookmarkname);
+                                            notify_toast(getResources().getString(R.string.notify_access_denied),true);
+                                        }
+                                    }
+                                });
+                        action_dialog.setNegativeButton(getResources().getString(R.string.ui_dialog_btn_cancel),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                });
+
+                        AlertDialog AprooveDialog = action_dialog.create();
+                        AprooveDialog.show();
+                    }
+
                     fis.close();
                 } catch (Exception e) {e.printStackTrace();}
             }
