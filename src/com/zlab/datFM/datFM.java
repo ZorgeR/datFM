@@ -1820,8 +1820,8 @@ public class datFM extends Activity {
         pref_font_style = prefs.getString("pref_font_style","bold");
         pref_font_typeface = prefs.getString("pref_font_typeface","normal");
         pref_font_bold_folder = prefs.getBoolean("pref_font_bold_folder",false);
-        pref_actionbar_size = Integer.parseInt(prefs.getString("pref_actionbar_size","36"));
-        pref_path_bar_size = Integer.parseInt(prefs.getString("pref_path_bar_size","30"));
+        pref_actionbar_size = Integer.parseInt(prefs.getString("pref_actionbar_size","38"));
+        pref_path_bar_size = Integer.parseInt(prefs.getString("pref_path_bar_size","34"));
         pref_bartext_size = Integer.parseInt(prefs.getString("pref_bartext_size","10"));
         pref_show_hide = prefs.getBoolean("pref_show_hide",false);
         pref_clear_filecache = prefs.getBoolean("pref_clear_filecache",true);
