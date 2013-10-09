@@ -173,9 +173,13 @@ public class datFM_IO {
             getSFTPChannel().rm(SFTPrealpath(fpath));
         }
 
-        SftpATTRS sftpATTRS = null;Boolean deleted = false;
-        try {     sftpATTRS = getSFTPChannel().lstat(fpath);
-        } catch (Exception ex) { deleted = false; }
+        SftpATTRS sftpATTRS;
+        boolean deleted=false;
+        try {
+            sftpATTRS = getSFTPChannel().lstat(fpath);
+        } catch (Exception ex) {
+            deleted = true;
+        }
 
         return deleted;
     }
