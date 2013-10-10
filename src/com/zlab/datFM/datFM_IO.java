@@ -37,16 +37,13 @@ public class datFM_IO {
     }
     public SmbFile getFileSmb() throws MalformedURLException {
         //---------START SMB WORKS-------------------------
-        NtlmPasswordAuthentication auth;
         if(datFM.smb_auth_session[PanelID]!=null){
-            auth = datFM.smb_auth_session[PanelID];
-        } else {
-            auth = new NtlmPasswordAuthentication(null, null, null);
+            datFM.smb_auth_session[PanelID] = new NtlmPasswordAuthentication(null, null, null);
         }
 
         //SmbFile f = new SmbFile(path,smb_auth_session);
         //---------END SMB WORKS-------------------------
-        return new SmbFile(path,auth);
+        return new SmbFile(path,datFM.smb_auth_session[PanelID]);
     }
     public ChannelSftp getSFTPChannel() throws JSchException, SftpException {
         if(datFM.sftp_auth_channel[PanelID]!=null){
