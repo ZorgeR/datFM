@@ -70,7 +70,6 @@ public class datFM extends Activity {
     static NtlmPasswordAuthentication[] smb_auth_session = new NtlmPasswordAuthentication[2];
     static JSch sftp_auth_session[] = new JSch[2];
     static ArrayList<datFM_File> properties_array;
-    //static JSch sftp_auth_session[] = new JSch[2];
     static ChannelSftp sftp_auth_channel[] = new ChannelSftp[2];
     static Session sftp_session[] = new Session[2];
 
