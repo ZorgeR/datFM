@@ -32,24 +32,17 @@ public class datFM_IO {
 
     /** FILE **/
     public File getFileLocal(){
-        //File file = new File(path);
         return new File(path);
     }
     public SmbFile getFileSmb() throws MalformedURLException {
-        //---------START SMB WORKS-------------------------
-        if(datFM.smb_auth_session[PanelID]!=null){
+        if(datFM.smb_auth_session[PanelID]==null){
             datFM.smb_auth_session[PanelID] = new NtlmPasswordAuthentication(null, null, null);
         }
-
-        //SmbFile f = new SmbFile(path,smb_auth_session);
-        //---------END SMB WORKS-------------------------
         return new SmbFile(path,datFM.smb_auth_session[PanelID]);
     }
     public ChannelSftp getSFTPChannel() throws JSchException, SftpException {
-        if(datFM.sftp_auth_channel[PanelID]!=null){
-            //sftp_auth_session = datFM.sftp_auth_session[PanelID];
-        } else {
-            Toast.makeText(datFM.datFM_context,"SFTP logon error.", Toast.LENGTH_SHORT).show();
+        if(datFM.sftp_auth_channel[PanelID]==null){
+            datFM.sftp_auth_channel[PanelID] = new ChannelSftp();
         }
         return datFM.sftp_auth_channel[PanelID];
     }
