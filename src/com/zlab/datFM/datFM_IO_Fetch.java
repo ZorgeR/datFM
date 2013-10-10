@@ -40,7 +40,7 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
     boolean sftp_success_auth =true;
     boolean sftp_session_auth =true;
     boolean valid_url=true;
-    NtlmPasswordAuthentication smb_auth_session;
+    //NtlmPasswordAuthentication smb_auth_session;
 
     public datFM activity;
     public datFM_IO_Fetch(datFM a){activity = a;}
@@ -116,10 +116,8 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
         url = path;
         datFM.url=url;
 
-        if(datFM.smb_auth_session[panel_ID]!=null){
-            smb_auth_session = datFM.smb_auth_session[panel_ID];
-        } else {
-            smb_auth_session = new NtlmPasswordAuthentication(null, null, null);
+        if(datFM.smb_auth_session[panel_ID]==null){
+            datFM.smb_auth_session[panel_ID] = new NtlmPasswordAuthentication(null, null, null);
         }
 
         // ------ CHECK SMB AUTH ------------ //
@@ -139,7 +137,7 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                 }
                 if(valid_url){
                     try {
-                        SmbSession.logon(uniaddress, smb_auth_session);
+                        SmbSession.logon(uniaddress, datFM.smb_auth_session[panel_ID]);
                     } catch (SmbAuthException e ) {
                         smb_success_auth =false;
                     } catch(SmbException e ) {
@@ -155,7 +153,7 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
         }
         //---------START SMB WORKS-------------------------
             try {
-                SmbFile dir = new SmbFile(url, smb_auth_session);
+                SmbFile dir = new SmbFile(url, datFM.smb_auth_session[panel_ID]);
 
                 if (panel_ID ==0){
                     datFM.parent_left=dir.getParent();
