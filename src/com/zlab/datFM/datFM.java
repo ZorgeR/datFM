@@ -1141,6 +1141,8 @@ public class datFM extends Activity {
                 formdata[7]=null;
             }
         }
+        if (sftp_add_server_port.getText().toString().equals("")){sftp_add_server_port.setText("22");}
+        if (sftp_add_server_user.getText().toString().equals("")){sftp_add_server_user.setText("root");}
 
         action_dialog.setView(layer);
         action_dialog.setPositiveButton(getResources().getString(R.string.ui_dialog_btn_ok),
