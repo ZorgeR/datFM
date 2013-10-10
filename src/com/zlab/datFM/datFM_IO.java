@@ -391,6 +391,25 @@ public class datFM_IO {
                     filepathlist[i]=smbfilelist[i].getPath();
                 }
             } catch (Exception e) {filepathlist=new String[] {""};}
+        } else if (sftp){
+            try {
+                int count=0;
+                //filepathlist = new String[lslist(path).size()-2];
+                for(int i=0;i<lslist(path).size();i++){
+                    if(!getSFTP_element(lslist(path),i).getFilename().equals(".") && !getSFTP_element(lslist(path),i).getFilename().equals(".."))
+                    {
+                        count++;
+                    }
+                }
+                filepathlist = new String[count];
+                count=0;
+                for(int i=0;i<lslist(path).size();i++){
+                    if(!getSFTP_element(lslist(path),i).getFilename().equals(".") && !getSFTP_element(lslist(path),i).getFilename().equals(".."))
+                    {
+                        filepathlist[count]=path+"/"+getSFTP_element(lslist(path),i).getFilename();count++;
+                    }
+                }
+            } catch (Exception e) {filepathlist=new String[] {""};}
         } else {
             filepathlist=new String[] {""};
         }

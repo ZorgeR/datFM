@@ -40,7 +40,6 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
     boolean sftp_success_auth =true;
     boolean sftp_session_auth =true;
     boolean valid_url=true;
-    //NtlmPasswordAuthentication smb_auth_session;
 
     public datFM activity;
     public datFM_IO_Fetch(datFM a){activity = a;}
