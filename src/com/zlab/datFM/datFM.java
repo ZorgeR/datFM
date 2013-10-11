@@ -83,7 +83,6 @@ public class datFM extends Activity {
     /** ASYNC **/
     public static datFM datFM_state;
     public static Context datFM_context;
-    //public static boolean datFM_Destroyed = false;
 
     /** VARS HOLDER FOR TAB **/
     protected datFM_File_ListAdaptor adapterLeft, adapterRight;
