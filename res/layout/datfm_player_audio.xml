@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal" android:padding="5dp"
                 android:background="@drawable/datfm_player_background"
-                android:gravity="center_horizontal" android:padding="5dp">
+        >
 
     <ImageView
             android:id="@+id/imgBookLogo_detail"
