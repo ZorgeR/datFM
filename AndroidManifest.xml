@@ -9,6 +9,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+
     <application
             android:hardwareAccelerated="true"
             android:icon="@drawable/ic_launcher"
@@ -33,6 +37,12 @@
                 android:name=".datFM_Properties"
                 android:label="@string/app_properties"
                 android:theme="@style/PropTheme"
+                android:configChanges="keyboardHidden|orientation|screenSize"
+                >
+        </activity>
+        <activity
+                android:name=".player.datFM_audio"
+                android:theme="@style/PlayerTheme"
                 android:configChanges="keyboardHidden|orientation|screenSize"
                 >
         </activity>

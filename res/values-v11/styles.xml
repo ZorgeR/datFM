@@ -4,6 +4,7 @@
     <style name="PropTheme" parent="android:Theme.Holo" />
     <style name="Progress" parent="android:Widget.ProgressBar.Horizontal" />
     <style name="PanButton" parent="android:Widget.DeviceDefault.Button"/>
+    <style name="PlayerTheme" parent="android:Theme.Holo.Dialog"/>
 
 
 </resources>

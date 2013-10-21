@@ -27,6 +27,7 @@ import com.zlab.datFM.ZA.ZArchiver_IO;
 import com.zlab.datFM.crypt.AES_256;
 import com.zlab.datFM.hooks.HR_ScrollView;
 import com.zlab.datFM.hooks.HR_ScrollViewListener;
+import com.zlab.datFM.player.datFM_audio;
 import com.zlab.datFM.stream.Streamer;
 import jcifs.smb.NtlmPasswordAuthentication;
 import jcifs.smb.SmbFile;
@@ -556,9 +557,17 @@ public class datFM extends Activity {
                                 public void run(){
                                     try{
                                         Uri uri = Uri.parse(Streamer.URL + Uri.fromFile(new File(Uri.parse(path).getPath())).getEncodedPath());
-                                        Intent i = new Intent(Intent.ACTION_VIEW);
-                                        i.setDataAndType(uri, Streamer.mediaType(name));
-                                        startActivity(i);
+
+                                        if("conf.is.builid".equals("conf.is.builid")){
+                                            Intent detail = new Intent(datFM_state, datFM_audio.class);
+                                            detail.putExtra("FileName",		new datFM_IO(path,curPanel).getName());
+                                            detail.putExtra("MediaURL",		uri.toString());
+                                            startActivity(detail);
+                                        } else {
+                                            Intent i = new Intent(Intent.ACTION_VIEW);
+                                            i.setDataAndType(uri, Streamer.mediaType(name));
+                                            startActivity(i);
+                                        }
                                     }catch (ActivityNotFoundException e){
                                         e.printStackTrace();
                                     }
