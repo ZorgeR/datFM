@@ -112,7 +112,6 @@ public class datFM_video extends Activity {
         finish();
     }
     public void fullScreen(View v){
-        //videoWindow.
     }
 
         @Override
