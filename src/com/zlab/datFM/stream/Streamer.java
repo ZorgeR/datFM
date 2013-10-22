@@ -19,7 +19,7 @@ public class Streamer extends StreamServer {
     // private long length;
     private static Streamer instance;
     private static Pattern pattern = Pattern.compile("^.*\\.(?i)(mp3|wma|wav|aac|ogg|m4a|flac|mp4|avi|mpg|mpeg|3gp|3gpp|mkv|flv|rmvb)$");
-    private static Pattern pattern_audio = Pattern.compile("^.*\\.(?i)(mp3|wma|wav|aac|ogg|m4a|flac|mp4)$");
+    private static Pattern pattern_audio = Pattern.compile("^.*\\.(?i)(mp3|wma|wav|aac|ogg|m4a|flac)$");
     private static Pattern pattern_video = Pattern.compile("^.*\\.(?i)(mp4|avi|mpg|mpeg|3gp|3gpp|mkv|flv|rmvb)$");
 
     // private CBItem source;

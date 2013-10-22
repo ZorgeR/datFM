@@ -27,7 +27,9 @@ import com.zlab.datFM.ZA.ZArchiver_IO;
 import com.zlab.datFM.crypt.AES_256;
 import com.zlab.datFM.hooks.HR_ScrollView;
 import com.zlab.datFM.hooks.HR_ScrollViewListener;
+import com.zlab.datFM.player.VideoPlayerActivity;
 import com.zlab.datFM.player.datFM_audio;
+import com.zlab.datFM.player.datFM_video;
 import com.zlab.datFM.stream.Streamer;
 import jcifs.smb.NtlmPasswordAuthentication;
 import jcifs.smb.SmbFile;
@@ -565,9 +567,9 @@ public class datFM extends Activity {
                                             detail.putExtra("MediaURL",		uri.toString());
                                             startActivity(detail);
                                         } else if (Streamer.mediaType(name).equals("video/*") && pref_build_in_video_player){
-                                            Intent i = new Intent(Intent.ACTION_VIEW);
-                                            i.setDataAndType(uri, Streamer.mediaType(name));
-                                            startActivity(i);
+                                            Intent detail = new Intent(datFM_state, datFM_video.class);
+                                            detail.putExtra("MediaURL", uri.toString());
+                                            startActivity(detail);
                                         } else {
                                             Intent i = new Intent(Intent.ACTION_VIEW);
                                             i.setDataAndType(uri, Streamer.mediaType(name));
@@ -602,8 +604,9 @@ public class datFM extends Activity {
                 detail.putExtra("MediaURL",		uri.toString());
                 startActivity(detail);
             } else if (Streamer.mediaType(name).equals("video/*") && pref_build_in_video_player){
-                intent.setDataAndType(uri, mimeType);
-                startActivity(intent);
+                Intent detail = new Intent(datFM_state, datFM_video.class);
+                detail.putExtra("MediaURL", uri.toString());
+                startActivity(detail);
             } else {
                 try {
                     intent.setDataAndType(uri, mimeType);

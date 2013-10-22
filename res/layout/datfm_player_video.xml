@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingBottom="10dp" android:paddingTop="10dp" android:paddingLeft="5dp"
+                android:paddingRight="5dp" android:background="#20000000">
+
+    <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:gravity="center"
+            android:background="@drawable/player_border">
+        <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:background="@drawable/datfm_player_background"
+                android:padding="5dp">
+            <SurfaceView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/surfaceView"/>
+            <VideoView
+                    android:layout_width="256dp"
+                    android:layout_height="150dp"
+                    android:id="@+id/datfm_player_videoView"
+                    />
+            <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:text="[ ]"
+                    android:id="@+id/button"
+                    android:onClick="fullScreen" android:textStyle="bold"
+                    android:layout_alignRight="@+id/datfm_player_videoView"
+                    android:layout_alignBottom="@+id/datfm_player_videoView"/>
+            <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:text="X"
+                    android:id="@+id/button"
+                    android:onClick="closePlayer" android:textStyle="bold"
+                    android:layout_alignRight="@+id/datfm_player_videoView"
+                    android:layout_alignTop="@+id/datfm_player_videoView"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+    "
+
+</RelativeLayout>
