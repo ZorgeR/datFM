@@ -184,7 +184,7 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                                     Long date = ff.getLastModified();
 
                                     if(datFM.pref_show_date){
-                                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm',' d MMM'.'");
+                                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm',' d MMM");
                                         data = data+" / "+sdf.format(date);
                                     }
 
@@ -292,7 +292,7 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                             Long date = Date.parse(ff.getAttrs().getMtimeString());
 
                             if(datFM.pref_show_date){
-                                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm',' d MMM'.'");
+                                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm',' d MMM");
                                 data = data+" / "+sdf.format(date);
                             }
 
@@ -489,7 +489,7 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                             Long date = ff.lastModified();
 
                             if(datFM.pref_show_date){
-                                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm',' d MMM'.'");
+                                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm',' d MMM");
                                 data = data+" / "+sdf.format(date);
                             }
 
@@ -584,8 +584,8 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
 
                     String data = formatSize(size);
                     if(datFM.pref_show_date){
-                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm',' d MMM'.'");
-                        data = data+" / "+sdf.format(date);
+                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm',' d MMM");
+                        data = data+" / "+sdf.format(date_long);
                     }
 
                     fls_info.add(new datFM_File(name,path,size,"smb","file",data,d.getPath(), date_long));
