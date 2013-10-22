@@ -1,21 +1,12 @@
 package com.zlab.datFM.player;
 
 
-import java.io.File;
 import java.io.IOException;
 
 import android.app.Activity;
-import android.app.DownloadManager;
 import android.app.ProgressDialog;
-import android.app.DownloadManager.Query;
-import android.app.DownloadManager.Request;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Handler;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -23,13 +14,9 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Message;
-import android.util.Log;
 import android.view.*;
-import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -192,9 +179,9 @@ public class datFM_audio extends Activity {
                 super.handleMessage(msg);
                 Button playview = (Button) findViewById(R.id.button_play);
                 if(mediaPlayer.isPlaying()) {
-                    playview.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_pause));
+                    playview.setBackgroundDrawable(getResources().getDrawable(R.drawable.datfm_player_btn_pause));
                 } else {
-                    playview.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_play));
+                    playview.setBackgroundDrawable(getResources().getDrawable(R.drawable.datfm_player_btn_play));
                 }
             }
         };

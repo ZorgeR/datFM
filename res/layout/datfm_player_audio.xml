@@ -46,44 +46,39 @@
                     android:id="@+id/linearLayout">
                 <Button
                         android:id="@+id/button_play"
-                        android:layout_width="94px"
-                        android:layout_height="100px"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentLeft="true"
-                        android:background="@drawable/btn_play"
-                        android:minHeight="100px"
-                        android:onClick="play_book_button_click" />
+                        android:background="@drawable/datfm_player_btn_play"
+                        android:onClick="play_book_button_click"/>
                 <SeekBar
                         android:id="@+id/seekBar1"
-                        android:layout_width="match_parent"
-                        android:layout_height="100px"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
                         android:layout_alignBottom="@+id/button_play"
                         android:layout_toLeftOf="@+id/seekBar_volume"
                         android:layout_toRightOf="@+id/button_play"
-                        android:background="@drawable/btn_loading_progress"
-                        android:max="100"
-                        android:maxHeight="100px"
-                        android:minHeight="100px"
+                        android:background="@drawable/datfm_player_loading_progress"
                         android:progress="0"
-                        android:progressDrawable="@drawable/btn_seek"
-                        android:thumb="@drawable/btn_seek_control"
-                        android:thumbOffset="5px" android:layout_weight="1"/>
+                        android:progressDrawable="@drawable/datfm_player_btn_seek"
+                        android:thumb="@drawable/datfm_player_seek_control"
+                        android:thumbOffset="5px" android:layout_weight="1" android:max="100"
+                        android:minHeight="100px" android:maxHeight="40dp"/>
                 <SeekBar
                         android:id="@+id/seekBar_volume"
-                        android:layout_width="216px"
-                        android:layout_height="100px"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
                         android:layout_alignParentRight="true"
                         android:layout_alignTop="@+id/button_play"
-                        android:background="@drawable/btn_volume_bckgr"
-                        android:max="100"
-                        android:maxHeight="100px"
-                        android:minHeight="100px"
-                        android:paddingLeft="55px"
-                        android:paddingRight="30px"
+                        android:background="@drawable/datfm_player_volume_bckgr"
                         android:progress="50"
-                        android:progressDrawable="@drawable/btn_seek"
-                        android:thumb="@drawable/btn_seek_control"
-                        android:thumbOffset="5px" />
+                        android:progressDrawable="@drawable/datfm_player_btn_seek"
+                        android:thumb="@drawable/datfm_player_seek_control"
+                        android:max="100"
+                        android:mirrorForRtl="false"
+                        android:maxHeight="40dp" android:thumbOffset="5px"
+                        android:minWidth="40dp" android:paddingEnd="10dp"/>
             </LinearLayout>
             <Button
                     android:layout_width="40dp"
