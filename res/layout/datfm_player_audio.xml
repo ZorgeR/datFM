@@ -78,7 +78,7 @@
                         android:max="100"
                         android:mirrorForRtl="false"
                         android:maxHeight="40dp" android:thumbOffset="5px"
-                        android:minWidth="40dp" android:paddingEnd="10dp"/>
+                        android:minWidth="50dp" android:paddingEnd="10dp"/>
             </LinearLayout>
             <Button
                     android:layout_width="40dp"

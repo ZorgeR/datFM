@@ -56,6 +56,13 @@
             <PreferenceScreen android:title="@string/settings_elements_title_restore_backup" android:summary="@string/settings_elements_summary_restore_backup" android:key="pref_restore_backup" android:defaultValue="true" />
         </PreferenceCategory>
     </PreferenceScreen>
+    <PreferenceScreen android:title="Features">
+        <PreferenceCategory android:title="Build in player">
+            <CheckBoxPreference android:title="Audio" android:summary="" android:key="pref_build_in_audio_player" android:defaultValue="true" />
+            <CheckBoxPreference android:title="Video" android:summary="" android:key="pref_build_in_video_player" android:defaultValue="true" />
+            <CheckBoxPreference android:title="Photo" android:summary="" android:key="pref_build_in_photo_player" android:defaultValue="true" />
+        </PreferenceCategory>
+    </PreferenceScreen>
     <PreferenceScreen android:title="@string/settings_group_dangerous">
         <com.zlab.datFM.hooks.Pref_CustomCategory android:title="@string/settings_group_dangerous" android:key="dangerous_title">
             <CheckBoxPreference android:title="@string/settings_elements_title_kamikaze" android:summary="@string/settings_elements_summary_kamikaze" android:key="pref_kamikaze" android:defaultValue="false" />

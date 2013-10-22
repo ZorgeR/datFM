@@ -21,17 +21,13 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.zlab.datFM.R;
+import com.zlab.datFM.datFM;
 
 public class datFM_audio extends Activity {
 
         String FileName = "";
-        //String Author = "";
         String MediaURL = "";
         String mURL;
-        boolean BuildInPlayer;
-        //private DownloadManager mgr=null;
-        //private File offlinebookfile;
-        //private Button downloadButton;
 
         MediaPlayer mediaPlayer;
         Button play;
@@ -46,48 +42,12 @@ public class datFM_audio extends Activity {
             super.onCreate(savedInstanceState);
             requestWindowFeature(Window.FEATURE_NO_TITLE);
             setContentView(R.layout.datfm_player_audio);
-            BuildInPlayer=true;
 
             MediaURL = getIntent().getExtras().getString("MediaURL");
             FileName = getIntent().getExtras().getString("FileName");
-            //Author = getIntent().getExtras().getString("Author");
-            //BookLogoURL = getIntent().getExtras().getString("BookLogoURL");
-            //ReleaseDATA = getIntent().getExtras().getString("ReleaseDATA");
-            //SizeKB = getIntent().getExtras().getString("SizeKB");
-            //LanguageCODE = getIntent().getExtras().getString("LanguageCODE");
-            //BuildInPlayer = getIntent().getExtras().getBoolean("BuildInPlayer");
 
             TextView txtBookName 		= (TextView) findViewById(R.id.datFM_audio_FileName);
-            //TextView txtAuthor 		= (TextView) findViewById(R.id.txtBookAuthor_detail);
-//			TextView txtBookLogoURL 	= (TextView) findViewById(R.id.txtBookTotal);
-            //TextView txtReleaseDATA 	= (TextView) findViewById(R.id.txtBookData_detail);
-//			TextView txtMediaURL 		= (TextView) findViewById(R.id.txtStorageSize);
-//			TextView txtSizeKB 			= (TextView) findViewById(R.id.txtType);
-//			TextView txtLanguageCODE	= (TextView) findViewById(R.id.txtLastUpdate);
-
             txtBookName.setText(FileName);
-            //txtAuthor.setText(Author);
-//			txtBookLogoURL.setText(BookLogoURL);
-            //txtReleaseDATA.setText(ReleaseDATA);
-//			txtMediaURL.setText(MediaURL);
-//			txtSizeKB.setText(SizeKB);
-//			txtLanguageCODE.setText(LanguageCODE);
-
-            // Меняем шрифт
-			/*
-		    Typeface ptcaption=Typeface.createFromAsset(getAssets(),"fonts/ptcaption.ttf");
-		    Typeface ptcaptionnormal=Typeface.createFromAsset(getAssets(),"fonts/ptcaptionnormal.ttf");
-		    txtBookName.setTypeface(ptcaptionnormal);
-		    txtAuthor.setTypeface(ptcaption);
-		    txtReleaseDATA.setTypeface(ptcaptionnormal);
-			 */
-
-            //mgr=(DownloadManager)getSystemService(DOWNLOAD_SERVICE);
-
-            //offlinebookfile = new File(android.os.Environment.getExternalStorageDirectory()+"/Download/audiobooks/", BookName+".mp3");
-            //downloadButton = (Button) findViewById(R.id.button_download);
-            //if (offlinebookfile.exists()==true){downloadButton.setEnabled(false);} else {downloadButton.setEnabled(true);}
-
 
             // VIEW
             setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -156,7 +116,7 @@ public class datFM_audio extends Activity {
         if(MediaURL!=null){
             Uri uri = Uri.parse(MediaURL);
             mURL=MediaURL;
-            if (BuildInPlayer){
+            if (datFM.pref_build_in_audio_player){
                 preparePlayer();
             }else{
                 Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -188,7 +148,7 @@ public class datFM_audio extends Activity {
 
         private Handler setTimeHandler = new Handler(){
             public void handleMessage(Message msg){
-                //Toast.makeText(com.zlab.audiobooks.AudiobooksDetail.this, String.valueOf(msg), Toast.LENGTH_LONG).show();
+
                 int CurentSec = msg.what/1000;
                 int TotalSec = total/1000;
                 int hours = CurentSec / 3600;
@@ -201,9 +161,6 @@ public class datFM_audio extends Activity {
 
                 String CurentTimeString = String.format("%02d:%02d:%02d", hours, minutes, seconds);
                 String TotalTimeString = String.format("%02d:%02d:%02d", hours_total, minutes_total, seconds_total);
-
-                //String CurentTimeString = hours + ":" + minutes + ":" + seconds;
-                //String TotalTimeString = hours_total + ":" + minutes_total + ":" + seconds_total;
 
                 time.setText(CurentTimeString + " / " + TotalTimeString);
 
@@ -255,7 +212,7 @@ public class datFM_audio extends Activity {
                 Toast.makeText(this,"URI Error",Toast.LENGTH_LONG).show();audio_cache.dismiss();
                 e.printStackTrace();
             } catch (IllegalStateException e) {
-                // Toast.makeText(this,"Уже играю! Спокойной!",Toast.LENGTH_LONG).show();audio_cache.dismiss();
+
                 audio_cache.dismiss();
                 if(mediaPlayer.isPlaying()) {
                     mediaPlayer.pause();

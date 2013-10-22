@@ -100,6 +100,7 @@ public class datFM extends Activity {
             pref_show_date;
     boolean firstAlert;
     boolean settings_opened = false;
+    public static boolean pref_build_in_audio_player,pref_build_in_video_player,pref_build_in_photo_player;
     String pref_icons_cache,pref_icons_size,pref_text_name_size,pref_text_discr_size,pref_font_style,pref_font_typeface;
     int pref_actionbar_size,pref_path_bar_size,pref_bartext_size;
     static String pref_theme,pref_theme_icons;
@@ -558,11 +559,15 @@ public class datFM extends Activity {
                                     try{
                                         Uri uri = Uri.parse(Streamer.URL + Uri.fromFile(new File(Uri.parse(path).getPath())).getEncodedPath());
 
-                                        if("conf.is.builid".equals("conf.is.builid")){
+                                        if(Streamer.mediaType(name).equals("audio/*") && pref_build_in_audio_player){
                                             Intent detail = new Intent(datFM_state, datFM_audio.class);
                                             detail.putExtra("FileName",		new datFM_IO(path,curPanel).getName());
                                             detail.putExtra("MediaURL",		uri.toString());
                                             startActivity(detail);
+                                        } else if (Streamer.mediaType(name).equals("video/*") && pref_build_in_video_player){
+                                            Intent i = new Intent(Intent.ACTION_VIEW);
+                                            i.setDataAndType(uri, Streamer.mediaType(name));
+                                            startActivity(i);
                                         } else {
                                             Intent i = new Intent(Intent.ACTION_VIEW);
                                             i.setDataAndType(uri, Streamer.mediaType(name));
@@ -586,19 +591,26 @@ public class datFM extends Activity {
             Intent intent = new Intent(Intent.ACTION_VIEW);
 
             Uri uri = Uri.fromFile(new File(path));
-            //String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(uri.toString()));
             String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(ext.toLowerCase());
 
             /* TODO Перейти к библиотеке типов */
             if(ext.equals("7z")){mimeType="zip";}
-            //if(ext.equals("txt")){mimeType="text/plain-text";}
 
-            intent.setDataAndType(uri, mimeType);
-
-            try {
-                startActivity(intent);}
-            catch (RuntimeException i){
-                notify_toast(getResources().getString(R.string.notify_file_unknown),true);
+            if(Streamer.mediaType(name).equals("audio/*") && pref_build_in_audio_player){
+                Intent detail = new Intent(datFM_state, datFM_audio.class);
+                detail.putExtra("FileName",		new datFM_IO(path,curPanel).getName());
+                detail.putExtra("MediaURL",		uri.toString());
+                startActivity(detail);
+            } else if (Streamer.mediaType(name).equals("video/*") && pref_build_in_video_player){
+                intent.setDataAndType(uri, mimeType);
+                startActivity(intent);
+            } else {
+                try {
+                    intent.setDataAndType(uri, mimeType);
+                    startActivity(intent);
+                } catch (RuntimeException i){
+                    notify_toast(getResources().getString(R.string.notify_file_unknown),true);
+                }
             }
         }
     }
@@ -2095,6 +2107,9 @@ public class datFM extends Activity {
         pref_show_date = prefs.getBoolean("pref_show_date",false);
         pref_backbtn_override = prefs.getBoolean("pref_backbtn_override",false);
         pref_fastscroll = prefs.getBoolean("pref_fastscroll",false);
+        pref_build_in_audio_player = prefs.getBoolean("pref_build_in_audio_player",true);
+        pref_build_in_video_player = prefs.getBoolean("pref_build_in_video_player",true);
+        pref_build_in_photo_player = prefs.getBoolean("pref_build_in_photo_player",true);
         firstAlert = prefs.getBoolean("firstAlert",true);
     }
     private void pref_setter(){
