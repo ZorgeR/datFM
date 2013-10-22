@@ -5,6 +5,12 @@
     <style name="PrefTheme" parent="android:Theme" />
     <style name="Progress" parent="android:Widget.ProgressBar.Horizontal" />
     <style name="PanButton" parent="android:Widget.Button"/>
-    <style name="PlayerTheme" parent="android:Theme.Dialog" />
 
+    <style name="Theme.Transparent" parent="android:Theme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
 </resources>

@@ -9,6 +9,12 @@
     <style name="PrefTheme2" parent="android:Theme.Holo.NoActionBar" />
     <style name="Progress" parent="android:Widget.Holo.ProgressBar.Horizontal" />
     <style name="PanButton" parent="android:Widget.DeviceDefault.Button"/>
-    <style name="PlayerTheme" parent="android:Theme.Holo.Dialog" />
 
+    <style name="Theme.Transparent" parent="android:Theme.Holo">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
 </resources>

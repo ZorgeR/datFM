@@ -42,7 +42,7 @@
         </activity>
         <activity
                 android:name=".player.datFM_audio"
-                android:theme="@style/PlayerTheme"
+                android:theme="@style/Theme.Transparent"
                 android:configChanges="keyboardHidden|orientation|screenSize"
                 >
         </activity>
