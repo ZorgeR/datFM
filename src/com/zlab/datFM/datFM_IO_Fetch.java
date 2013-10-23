@@ -285,11 +285,11 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                         if(ff.getAttrs().isDir()){
                             String data = datFM.datFM_context.getResources().getString(R.string.fileslist_directory);
                             String name = ff.getFilename();
-                            Long date = Date.parse(ff.getAttrs().getMtimeString());
+                            Long date = Long.parseLong(String.valueOf(ff.getAttrs().getMTime()));
                             dir_info.add(new datFM_File(name,url+ff.getFilename(),0,"sftp","dir",data, url, date));
                         } else {
                             String data = formatSize(ff.getAttrs().getSize());
-                            Long date = Date.parse(ff.getAttrs().getMtimeString());
+                            Long date = Long.parseLong(String.valueOf(ff.getAttrs().getMTime()));
 
                             if(datFM.pref_show_date){
                                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm',' d MMM");
