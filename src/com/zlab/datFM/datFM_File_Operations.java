@@ -281,7 +281,7 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
     }
     private boolean protocol_newfolder(String newfolder){
         boolean success=false;
-        if(!new datFM_IO(newfolder,srcPannelID).is_exist()){
+        if(!new datFM_IO(newfolder,srcPannelID).exists()){
             success=new datFM_IO(newfolder,srcPannelID).mkdir();
             if (!success && datFM.pref_root){
                     File newdir_path = new File(newfolder);
@@ -291,7 +291,7 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
         } else {
             for (int i=1;i<1000;i++){
                 String dirs = newfolder+" "+"("+i+")";
-                if (!new datFM_IO(dirs,srcPannelID).is_exist()){
+                if (!new datFM_IO(dirs,srcPannelID).exists()){
                     if (datFM.pref_root){
                         success=new datFM_IO(dirs,srcPannelID).mkdir();
                         if(!success){

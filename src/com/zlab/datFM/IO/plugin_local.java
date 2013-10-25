@@ -3,15 +3,19 @@ package com.zlab.datFM.IO;
 import android.util.Log;
 import com.zlab.datFM.R;
 import com.zlab.datFM.datFM;
+import com.zlab.datFM.datFM_IO;
+
 import java.io.*;
 
 public class plugin_local {
     private String path;
-    private int pannel_id;
+    private int PanelID;
+    private int CompetPanel;
 
     public plugin_local(String file, int id){
         path=file;
-        pannel_id=id;
+        PanelID=id;
+        CompetPanel=1;if(PanelID==1)CompetPanel=0;
     }
 
     public File getFile(){
@@ -52,6 +56,20 @@ public class plugin_local {
     }
 
     /** Operation worker **/
+    /** COPY **/
+    public void copy(String dest) throws IOException {
+        if (is_dir()) {
+            new datFM_IO(dest,CompetPanel).mkdir();
+            for (File ff : getFile().listFiles()) {
+                new plugin_local(ff.getPath(),PanelID).copy(dest+"/"+ff.getName());}
+        } else {
+            try {
+                new datFM_IO(path,PanelID).IO_Stream_Worker(path, dest);
+            } catch (Exception e){
+                Log.e("datFM err: ","File copy IO error - "+path+" to "+dest);
+            }
+        }
+    }
     /** DELETE **/
     public boolean delete() {
         boolean success;
@@ -134,6 +152,9 @@ public class plugin_local {
                 parent[2]=datFM.datFM_state.getResources().getString(R.string.fileslist_parent_directory);
             }
         return parent;
+    }
+    public String getPath(){
+        return getFile().getPath();
     }
 
     /** ROOT **/

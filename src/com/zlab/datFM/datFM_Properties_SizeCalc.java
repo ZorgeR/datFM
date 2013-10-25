@@ -51,7 +51,7 @@ public class datFM_Properties_SizeCalc extends AsyncTask<ArrayList<datFM_File>, 
 
     void get_directory(String dir) throws JSchException, SftpException {
         if (new datFM_IO(dir, datFM.curPanel).is_dir()){
-            String [] dir_list = new datFM_IO(dir, datFM.curPanel).get_dir_list();
+            String [] dir_list = new datFM_IO(dir, datFM.curPanel).listFiles();
             if(dir_list!=null)
             for(String f : dir_list){
                 get_directory(f);

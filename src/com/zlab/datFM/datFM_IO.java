@@ -3,6 +3,8 @@ package com.zlab.datFM;
 import android.util.Log;
 import android.widget.Toast;
 import com.jcraft.jsch.*;
+import com.zlab.datFM.IO.plugin_SMB;
+import com.zlab.datFM.IO.plugin_local;
 import jcifs.smb.*;
 import java.io.*;
 import java.math.BigDecimal;
@@ -31,15 +33,6 @@ public class datFM_IO {
     }
 
     /** FILE **/
-    public File getFileLocal(){
-        return new File(path);
-    }
-    public SmbFile getFileSmb() throws MalformedURLException {
-        if(datFM.smb_auth_session[PanelID]==null){
-            datFM.smb_auth_session[PanelID] = new NtlmPasswordAuthentication(null, null, null);
-        }
-        return new SmbFile(path,datFM.smb_auth_session[PanelID]);
-    }
     public ChannelSftp getSFTPChannel() throws JSchException, SftpException {
         if(datFM.sftp_auth_channel[PanelID]==null){
             datFM.sftp_auth_channel[PanelID] = new ChannelSftp();
@@ -57,10 +50,9 @@ public class datFM_IO {
         long size=1;
         checkProtocol();
         if(local){
-            size = getFileLocal().length();
-        } else if (smb){try {
-            size = getFileSmb().length();
-            } catch (SmbException e) {e.printStackTrace();} catch (MalformedURLException e) {e.printStackTrace();}
+            size = new plugin_local(path,PanelID).getFileSize();
+        } else if (smb){
+            size = new plugin_SMB(path,PanelID).getFileSize();
         } else if (sftp){try {
                 size = getSFTP_element(lslist(path),0).getAttrs().getSize();
             } catch (Exception e) { Log.e("SFTP ERR:", e.getMessage()); }
@@ -72,10 +64,9 @@ public class datFM_IO {
         long size=1;
         checkProtocol();
         if(local){
-            size = new datFM_IO(path,Panel).getFileLocal().length();
-        } else if (smb){try {
-            size = new datFM_IO(path,Panel).getFileSmb().length();
-        } catch (SmbException e) {e.printStackTrace();} catch (MalformedURLException e) {e.printStackTrace();}
+            size = new plugin_local(path,PanelID).getFileSize();
+        } else if (smb){
+            size = new plugin_SMB(path,PanelID).getFileSize();
         } else if (sftp){try {
             size = new datFM_IO(path,Panel).getSFTP_element(lslist(path),0).getAttrs().getSize();
         } catch (Exception e) { Log.e("SFTP ERR:",e.getMessage()); }
@@ -89,9 +80,9 @@ public class datFM_IO {
         checkProtocol();
         InputStream in=null;
         if(local){
-            in = new BufferedInputStream(new FileInputStream(path));
+            in = new BufferedInputStream(new plugin_local(path,PanelID).getInput());
         } else if (smb){
-            in = new BufferedInputStream(new SmbFileInputStream(getFileSmb()));
+            in = new BufferedInputStream(new plugin_SMB(path,PanelID).getInput());
         } else if (sftp){
             try {
                 in = new BufferedInputStream(getSFTPChannel().get(SFTPrealpath(path)));
@@ -106,9 +97,9 @@ public class datFM_IO {
         checkProtocol();
         OutputStream out=null;
         if(local){
-            out = new BufferedOutputStream(new FileOutputStream(path));
+            out = new BufferedOutputStream(new plugin_local(path,PanelID).getOutput());
         } else if (smb){
-            out = new BufferedOutputStream(new SmbFileOutputStream(getFileSmb()));
+            out = new BufferedOutputStream(new plugin_SMB(path,PanelID).getOutput());
         } else if (sftp){
         try {
             out = new BufferedOutputStream(getSFTPChannel().put(SFTPrealpath(path)));
@@ -125,9 +116,9 @@ public class datFM_IO {
         checkProtocol();
 
         if(local){
-            success=delete_recursively_local(getFileLocal());
+            success = new plugin_local(path,PanelID).delete();
         } else if (smb){
-            success=delete_recursively_smb(getFileSmb());
+            success = new plugin_SMB(path,PanelID).delete();
         } else if (sftp){
             success=delete_recursively_sftp(path);
         } else {
@@ -135,20 +126,6 @@ public class datFM_IO {
         }
 
         return success;
-    }
-    public boolean delete_recursively_smb(SmbFile file) throws SmbException {
-        if (file.isDirectory())
-            for (SmbFile child : file.listFiles())
-                delete_recursively_smb(child);
-        file.delete();
-        return !file.exists();
-    }
-    public boolean delete_recursively_local(File f) throws IOException {
-        if (f.isDirectory())
-            for (File child : f.listFiles())
-                delete_recursively_local(child);
-        f.delete();
-        return !f.exists();
     }
     public boolean delete_recursively_sftp(String fpath) throws JSchException, SftpException {
         if (getSFTPChannel().lstat(SFTPrealpath(fpath)).isDir()){
@@ -179,9 +156,10 @@ public class datFM_IO {
         checkProtocol();
 
         if(local){
-            copy_recursively_local(getFileLocal(),dest);
+            new plugin_local(path,PanelID).copy(dest);
         } else if (smb){
-            copy_recursively_smb(getFileSmb(),dest);
+            new plugin_SMB(path,PanelID).copy(dest);
+            //copy_recursively_smb(getFileSmb(),dest);
         } else if (sftp){
             copy_recursively_sftp(path,dest);
         } else {
@@ -189,26 +167,6 @@ public class datFM_IO {
         }
 
         return new datFM_IO(dest,CompetPanel).is_exist_custom(dest, CompetPanel);
-    }
-    private void copy_recursively_smb(SmbFile file,String dest) throws IOException {
-        if (file.isDirectory()) {
-            new datFM_IO(dest,CompetPanel).mkdir();
-
-            updateOverallBar(datFM_File_Operations.progr_overal.getProgress() + 1,file.getPath(),dest);
-
-            SmbFile[] children = file.listFiles();
-            datFM_File_Operations.overalMax= datFM_File_Operations.progr_overal.getMax()+children.length;
-            datFM_File_Operations.progr_overal.setMax(datFM_File_Operations.overalMax);
-            for (SmbFile ff : children) {
-                copy_recursively_smb(ff, dest+"/"+ff.getName());}
-        } else {
-            try {
-                updateOverallBar(datFM_File_Operations.progr_overal.getProgress(), file.getPath(), dest);
-                IO_Stream_Worker(file.getPath(), dest);
-                updateOverallBar(datFM_File_Operations.progr_overal.getProgress() + 1, file.getPath(), dest);
-            } catch (Exception e){}
-        }
-        //return is_exist_custom(dest,CompetPanel);
     }
     private void copy_recursively_sftp(String fpath, String dest) throws JSchException, SftpException {
         if (getSFTPChannel().lstat(SFTPrealpath(fpath)).isDir()) {
@@ -234,28 +192,6 @@ public class datFM_IO {
             } catch (Exception e){}
         }
     }
-    private void copy_recursively_local(File file,String dest) throws IOException {
-        if (file.isDirectory()) {
-            new datFM_IO(dest,CompetPanel).mkdir();
-
-            if(datFM_File_Operations.progr_overal!=null)updateOverallBar(datFM_File_Operations.progr_overal.getProgress() + 1, file.getPath(), dest);
-
-            File[] children = file.listFiles();
-            if(datFM_File_Operations.progr_overal!=null)datFM_File_Operations.overalMax= datFM_File_Operations.progr_overal.getMax()+children.length;
-            if(datFM_File_Operations.progr_overal!=null)datFM_File_Operations.progr_overal.setMax(datFM_File_Operations.overalMax);
-            for (File ff : children) {
-                copy_recursively_local(ff, dest+"/"+ff.getName());}
-        } else {
-            try {
-                if(datFM_File_Operations.progr_overal!=null)updateOverallBar(datFM_File_Operations.progr_overal.getProgress(), file.getPath(), dest);
-
-                IO_Stream_Worker(file.getPath(), dest);
-
-                if(datFM_File_Operations.progr_overal!=null)updateOverallBar(datFM_File_Operations.progr_overal.getProgress() + 1, file.getPath(), dest);
-            } catch (Exception e){}
-        }
-        //return is_exist_custom(dest,CompetPanel);
-    }
 
     /** RENAME **/
     public boolean rename(String new_name) throws IOException {
@@ -263,22 +199,15 @@ public class datFM_IO {
         checkProtocol();
 
         if(local){
-            success=rename_local(new_name);
+            success=new plugin_local(path,PanelID).rename(new_name);
         } else if (smb){
-            success=rename_smb(new_name);
+            /**success=rename_smb(new_name);**/
+            success=new plugin_SMB(path,PanelID).rename(new_name);
         } else {
             success=false;
         }
 
         return success;
-    }
-    public boolean rename_smb(String new_name) throws IOException {
-        SmbFile dest = new datFM_IO(new_name,PanelID).getFileSmb();
-        getFileSmb().renameTo(dest);
-        return dest.exists();
-    }
-    public boolean rename_local(String new_name) throws IOException {
-        return getFileLocal().renameTo(new File(new_name));
     }
 
     /** MKDIR **/
@@ -286,13 +215,9 @@ public class datFM_IO {
         boolean success=false;
         checkProtocol();
         if(local){
-            getFileLocal().mkdir();
-            success= getFileLocal().exists();
+            success = new plugin_local(path,PanelID).mkdir();
         } else if (smb){
-            try {
-                getFileSmb().mkdir();
-                success = getFileSmb().exists();
-            } catch (Exception e) {e.printStackTrace();success=false;Log.e("ERR",e.getMessage());}
+            success = new plugin_SMB(path,PanelID).mkdir();
         } else if (sftp){
             try {
                 getSFTPChannel().mkdir(SFTPrealpath(path));
@@ -307,15 +232,14 @@ public class datFM_IO {
     }
 
     /** EXIST **/
-    public boolean is_exist(){
+    public boolean exists(){
         boolean success;
         checkProtocol();
 
         if(local){
-            success= getFileLocal().exists();
+            success = new plugin_local(path,PanelID).exists();
         } else if (smb){
-            try {success=getFileSmb().exists();
-            } catch (Exception e) {success=false;}
+            success = new plugin_SMB(path,PanelID).exists();
         } else {
             success=false;
         }
@@ -326,11 +250,9 @@ public class datFM_IO {
         checkProtocol();
 
         if(local){
-            success=new datFM_IO(file,PanID).getFileLocal().exists();
+            success = new plugin_local(file,PanID).exists();
         } else if (smb){
-            try {
-                success=new datFM_IO(file,PanID).getFileSmb().exists();
-            } catch (Exception e) {success=false;}
+            success = new plugin_SMB(file,PanID).exists();
         } else if (sftp){try {
             SftpATTRS sftpATTRS = null;
                       sftpATTRS = getSFTPChannel().lstat(SFTPrealpath(file));
@@ -347,10 +269,9 @@ public class datFM_IO {
         checkProtocol();
 
         if(local){
-            success= getFileLocal().isDirectory();
+            success = new plugin_local(path,PanelID).is_dir();
         } else if (smb){
-            try {success=getFileSmb().isDirectory();
-            } catch (Exception e) {success=false;}
+            success = new plugin_SMB(path,PanelID).is_dir();
         } else if (sftp){
             success = getSFTPChannel().lstat(SFTPrealpath(path)).isDir();
         } else {
@@ -359,38 +280,14 @@ public class datFM_IO {
         return success;
     }
     /** getDir list **/
-    public String[] get_dir_list(){
+    public String[] listFiles(){
         String[] filepathlist;
         checkProtocol();
 
         if(local){
-            File[] filelist;
-
-            if (datFM.pref_root){
-                    filelist = getFileLocal().listFiles();
-                if(filelist==null){
-                    filelist=root_get_content(getFileLocal());
-                }
-            } else {
-                filelist = getFileLocal().listFiles();
-            }
-
-            if(filelist!=null){
-                filepathlist = new String[filelist.length];
-                for(int i=0;i<filelist.length;i++){
-                    filepathlist[i]=filelist[i].getPath();
-                }
-            } else {
-                return null;
-            }
+            filepathlist = new plugin_local(path,PanelID).listFiles();
         } else if (smb){
-            try {
-                SmbFile[] smbfilelist=getFileSmb().listFiles();
-                filepathlist = new String[smbfilelist.length];
-                for(int i=0;i<smbfilelist.length;i++){
-                    filepathlist[i]=smbfilelist[i].getPath();
-                }
-            } catch (Exception e) {filepathlist=new String[] {""};}
+            filepathlist = new plugin_SMB(path,PanelID).listFiles();
         } else if (sftp){
             try {
                 int count=0;
@@ -416,52 +313,8 @@ public class datFM_IO {
 
         return filepathlist;
     }
-    private File[] root_get_content(File d){
-        File[] dirs;
-        String out = "";
-        String command = "ls \""+d.getPath()+"\"\n";
-
-        Process p;
-        try {
-            p = Runtime.getRuntime().exec(new String[]{"su", "-c", "/system/bin/sh"});
-            DataOutputStream stdin = new DataOutputStream(p.getOutputStream());
-            byte[] buf = command.getBytes("UTF-8");
-            stdin.write(buf,0,buf.length);
-
-            stdin.writeBytes("echo \n");
-            DataInputStream stdout = new DataInputStream(p.getInputStream());
-            byte[] buffer = new byte[4096];
-            int read;
-            while(true){
-                read = stdout.read(buffer);
-                out += new String(buffer, 0, read);
-                if(read<4096){
-                    break;
-                }
-                // here is where you catch the error value
-                //int len = out.length();
-                //char suExitValue = out.charAt(len-2);
-                //Toast.makeText(getApplicationContext(), String.valueOf(suExitValue), Toast.LENGTH_SHORT).show();
-                //return0or1(Integer.valueOf(suExitValue), command); // 0 or 1 Method
-                // end catching exit value
-            }
-            stdin.writeBytes("exit\n");
-            stdin.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        String[] dirs_array = out.split("\n");
-        dirs=new File[dirs_array.length];
-        for (int i=0;i<dirs_array.length;i++){
-            dirs[i]=new File (d,dirs_array[i]);
-        }
-
-        return dirs;
-    }
-
     /** STREAM WORKER **/
-    private void IO_Stream_Worker(String src, String dest) throws IOException {
+    public void IO_Stream_Worker(String src, String dest) throws IOException {
         InputStream in = new datFM_IO(src,PanelID).getInput();
         OutputStream out = new datFM_IO(dest,CompetPanel).getOutput();
 
@@ -515,12 +368,9 @@ public class datFM_IO {
         checkProtocol();
 
         if(local){
-            name=getFileLocal().getName();
+            name = new plugin_local(path,PanelID).getName();
         } else if(smb){
-            if (path.lastIndexOf("/")+1==path.length())
-            {path=path.substring(0,path.lastIndexOf("/"));}
-
-            name = path.substring(path.lastIndexOf("/")+1);
+            name = new plugin_SMB(path,PanelID).getName();
         } else if(sftp){
             if (path.lastIndexOf("/")+1==path.length())
             {path=path.substring(0,path.lastIndexOf("/"));}
@@ -531,52 +381,15 @@ public class datFM_IO {
 
         return name;
     }
-    public String getRealName(){
-        String name;
-        checkProtocol();
-
-        if(local){
-            name=getFileLocal().getName();
-        } else if(smb){
-            try {
-                name = getFileSmb().getName();
-            } catch (MalformedURLException e) {
-                name="null";
-            }
-        } else {
-            name="";
-        }
-
-        return name;
-    }
     /** GetParent in UI thread **/
     public String[] getParent(){
         String[] parent=new String[3];
         checkProtocol();
 
         if(local){
-            if(path.equals("/")){
-                parent[0]="datFM://";
-                parent[1]="home";
-                parent[2]=datFM.datFM_state.getResources().getString(R.string.fileslist_parent_directory);
-            } else {
-                parent[0]=getFileLocal().getParent();
-                parent[1]="parent_dir";
-                parent[2]=datFM.datFM_state.getResources().getString(R.string.fileslist_parent_directory);
-            }
+            parent = new plugin_local(path,PanelID).getParent();
         } else if(smb){
-            if(path.equals("smb://")){
-                parent[0]="datFM://samba";
-                parent[1]="parent_dir";
-                parent[2]=datFM.datFM_state.getResources().getString(R.string.fileslist_parent_directory);
-            } else {
-                if (path.lastIndexOf("/")+1==path.length())
-                {path=path.substring(0,path.lastIndexOf("/"));}
-
-                parent[0]=path.substring(0,path.lastIndexOf("/")+1);
-                parent[1]="parent_dir";
-                parent[2]=datFM.datFM_state.getResources().getString(R.string.fileslist_parent_directory);
-            }
+            parent = new plugin_SMB(path,PanelID).getParent();
         } else if(sftp){
                 if(path.equals("sftp://")){
                     parent[0]="datFM://sftp";
@@ -598,35 +411,12 @@ public class datFM_IO {
 
         return parent;
     }
-    public String getRealParent(){
-        String parent;
-        checkProtocol();
-
-        if(local){
-            parent=getFileLocal().getParent();
-        } else if(smb){
-            try {
-                parent=getFileSmb().getParent();
-            } catch (MalformedURLException e) {
-                parent="null";
-            }
-        } else {
-            parent="null";
-        }
-
-        return parent;
-    }
 
     public String SFTPrealpath(String spath){
         String hostname = spath.replace("sftp://","");
         if(hostname.contains("/")){hostname = hostname.substring(0, hostname.indexOf("/"));}
         String rpath=spath.replace("sftp://"+hostname,"");
         return rpath;
-    }
-    public String SFTPhostname(String spath){
-        String hostname = spath.replace("sftp://","");
-        if(hostname.contains("/")){hostname = hostname.substring(0, hostname.indexOf("/"));}
-        return hostname;
     }
 
     /** Protocol identifier **/

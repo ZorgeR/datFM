@@ -23,6 +23,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.*;
 import com.jcraft.jsch.*;
+import com.zlab.datFM.IO.plugin_SMB;
 import com.zlab.datFM.ZA.ZArchiver_IO;
 import com.zlab.datFM.crypt.AES_256;
 import com.zlab.datFM.hooks.HR_ScrollView;
@@ -70,7 +71,7 @@ public class datFM extends Activity {
     static int currentApiVersion;
     static int color_item_selected;
     LinearLayout btnUPleft, btnUPright;
-    static NtlmPasswordAuthentication[] smb_auth_session = new NtlmPasswordAuthentication[2];
+    public static NtlmPasswordAuthentication[] smb_auth_session = new NtlmPasswordAuthentication[2];
     static JSch sftp_auth_session[] = new JSch[2];
     static ArrayList<datFM_File> properties_array;
     static ChannelSftp sftp_auth_channel[] = new ChannelSftp[2];
@@ -555,11 +556,11 @@ public class datFM extends Activity {
             if(Streamer.isStreamMediaByExt(name)){
                 new Thread(){
                     public void run(){
-                        try{
                             Streamer s;
                             s = Streamer.getInstance();
 
-                            SmbFile smbfile = new datFM_IO(path,curPanel).getFileSmb();
+                            //SmbFile smbfile = new datFM_IO(path,curPanel).getFileSmb();
+                            SmbFile smbfile = new plugin_SMB(path,curPanel).getFile();
                             s.setStreamSrc(smbfile, null);//the second argument can be a list of subtitle files
                             runOnUiThread(new Runnable(){
                                 public void run(){
@@ -585,10 +586,6 @@ public class datFM extends Activity {
                                     }
                                 }
                             });
-
-                        } catch (MalformedURLException e) {
-                            e.printStackTrace();
-                        }
                     }
                 }.start();
             } else {
