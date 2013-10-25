@@ -1,5 +1,6 @@
 package com.zlab.datFM;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.widget.Toast;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
+import com.zlab.datFM.swiftp.gui.ServerPreferenceActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -119,6 +121,17 @@ public class datFM_Preferences extends PreferenceActivity {
                                 return true;
                             }
                         });
+
+        getPreferenceManager()
+                .findPreference("swiftp_preferences")
+                .setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        Intent intent = new Intent(datFM.datFM_state, ServerPreferenceActivity.class);
+                        startActivity(intent);
+                        return true;
+                    }
+                });
     }
 
     @Override

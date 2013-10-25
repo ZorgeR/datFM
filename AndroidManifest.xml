@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.zlab.datFM"
           android:versionCode="29"
-          android:versionName="0.1.86b">
+          android:versionName="0.1.87b">
     <uses-sdk
             android:minSdkVersion="8"
             android:targetSdkVersion="10"/>
@@ -12,6 +12,10 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
     <application
             android:hardwareAccelerated="true"
@@ -53,5 +57,31 @@
                 >
         </activity>
         <activity android:name=".player.VideoPlayerActivity"></activity>
+
+        <!-- FTP Server -->
+        <activity android:name=".swiftp.gui.ServerPreferenceActivity" >
+        </activity>
+
+        <service android:name=".swiftp.FtpServerService" />
+
+        <receiver
+                android:name=".swiftp.gui.ServerRunningNotification"
+                android:exported="false" >
+            <intent-filter>
+                <action android:name="be.ppareit.swiftp.FTPSERVER_STARTED" />
+                <action android:name="be.ppareit.swiftp.FTPSERVER_STOPPED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+                android:name=".swiftp.RequestStartStopReceiver"
+                android:exported="true" >
+            <intent-filter>
+                <action android:name="be.ppareit.swiftp.ACTION_START_FTPSERVER" />
+                <action android:name="be.ppareit.swiftp.ACTION_STOP_FTPSERVER" />
+            </intent-filter>
+        </receiver>
+        <!-- FTP Server -->
+
     </application>
 </manifest>

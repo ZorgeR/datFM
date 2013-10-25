@@ -49,6 +49,8 @@
     <string name="settings_group_performance">Performance</string>
     <string name="settings_group_network">Network</string>
     <string name="settings_group_backup">Backup</string>
+    <string name="settings_group_features">Features</string>
+    <string name="settings_group_swiftp">FTP server</string>
     <string name="settings_group_dangerous">Dangerous</string>
     <!-- Settings Elements Title -->
     <string name="settings_elements_title_theme">Themes</string>
@@ -216,6 +218,6 @@
     <string name="notify_backup_restore_done">Restart datFM to apply!</string>
 
     <!-- About -->
-    <string name="about_message">Icons:\n- http://iconfactory.com\n- https://www.iconfinder.com\n- Quartz Icon Set by Andy Gongea\n- Human o2 - by Oliver Scholtz\n- Plump by Zerode\n\nLocalization:\nUK - stigr (Motofan.ru)\nPL - galonpzw (XDA)\nFR - nikwist (XDA)\nDE - Milestone:enotseliM (XDA)\nSK - pvdeejay (XDA), pyler(XDA)\nNL - jogai(XDA)\n\nSpecial thanks to:\nAnt-ON - for his help\nRamallah - for something that did not help\nInara - just like that!</string>
+    <string name="about_message">FTP Server:\n- Dave Revell\n- Pieter Pareit (https://github.com/ppareit/swiftp)\nIcons:\n- http://iconfactory.com\n- https://www.iconfinder.com\n- Quartz Icon Set by Andy Gongea\n- Human o2 - by Oliver Scholtz\n- Plump by Zerode\n\nLocalization:\nUK - stigr (Motofan.ru)\nPL - galonpzw (XDA)\nFR - nikwist (XDA)\nDE - Milestone:enotseliM (XDA)\nSK - pvdeejay (XDA), pyler(XDA)\nNL - jogai(XDA)\n\nSpecial thanks to:\nAnt-ON - for his help\nRamallah - for something that did not help\nInara - just like that!</string>
 
 </resources>

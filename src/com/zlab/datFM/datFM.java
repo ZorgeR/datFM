@@ -109,6 +109,11 @@ public class datFM extends Activity {
     static int icons_size,text_name_size,text_discr_size,font_style;
     static Typeface font_typeface;
 
+    /** FTP Server **/
+    public static boolean swiftp_running,swiftp_wakelock;
+    public static String swiftp_login,swiftp_password,swiftp_show_password,swiftp_chroot;
+    public static int swiftp_port;
+
     /** ICON CACHE **/
     static int cache_size;
     static int cache_counter=0;

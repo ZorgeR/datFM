@@ -63,6 +63,7 @@
             <CheckBoxPreference android:title="Photo" android:summary="" android:key="pref_build_in_photo_player" android:defaultValue="true" />
         </PreferenceCategory>
     </PreferenceScreen>
+    <PreferenceScreen android:summary="swiftp based" android:title="FTP Server" android:key="swiftp_preferences"></PreferenceScreen>
     <PreferenceScreen android:title="@string/settings_group_dangerous">
         <com.zlab.datFM.hooks.Pref_CustomCategory android:title="@string/settings_group_dangerous" android:key="dangerous_title">
             <CheckBoxPreference android:title="@string/settings_elements_title_kamikaze" android:summary="@string/settings_elements_summary_kamikaze" android:key="pref_kamikaze" android:defaultValue="false" />
