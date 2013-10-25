@@ -97,7 +97,7 @@ public class datFM extends Activity {
             pref_kamikaze,pref_show_text_on_panel,pref_show_navbar,
             pref_show_panel_discr,pref_clear_filecache,pref_show_single_navbar,pref_show_single_panel,
             pref_force_dual_panel_in_landscape,pref_backbtn_override,pref_fastscroll;
-    static boolean pref_show_apk,pref_show_video,pref_show_photo,
+    public static boolean pref_show_apk,pref_show_video,pref_show_photo,
             pref_show_folder_discr,pref_show_files_discr,pref_root,pref_sambalogin,pref_font_bold_folder,pref_show_hide,
             pref_show_date;
     boolean firstAlert;
