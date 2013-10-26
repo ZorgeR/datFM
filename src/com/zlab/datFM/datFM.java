@@ -60,7 +60,7 @@ public class datFM extends Activity {
     boolean[] selectedRight,selectedLeft;
     boolean FLAG_back_pressed_short = false;
     boolean FLAG_back_pressed_long = false;
-    static int curPanel,competPanel;
+    static public int curPanel,competPanel;
     int screen_width;
     int selLeft=0;
     int selRight=0;
@@ -566,8 +566,8 @@ public class datFM extends Activity {
                             s = Streamer.getInstance();
 
                             //SmbFile smbfile = new datFM_IO(path,curPanel).getFileSmb();
-                            SmbFile smbfile = new plugin_SMB(path,curPanel).getFile();
-                            s.setStreamSrc(smbfile, null);//the second argument can be a list of subtitle files
+                            //SmbFile smbfile = new plugin_SMB(path,curPanel).getFile();
+                            s.setStreamSrc(path, null);//the second argument can be a list of subtitle files
                             runOnUiThread(new Runnable(){
                                 public void run(){
                                     try{
@@ -1436,7 +1436,9 @@ public class datFM extends Activity {
     }
     private void action_new_folder(){
         if(protocols[curPanel].equals("local")  ||
-           protocols[curPanel].equals("smb")    ){
+           protocols[curPanel].equals("smb")    ||
+           protocols[curPanel].equals("sftp")   ||
+           protocols[curPanel].equals("ftp")    ){
             AlertDialog.Builder newFolderDialog = new AlertDialog.Builder(this);
             newFolderDialog.setTitle(getResources().getString(R.string.ui_dialog_title_newfolder));
             LayoutInflater inflater = getLayoutInflater();

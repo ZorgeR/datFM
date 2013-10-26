@@ -5,9 +5,8 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import jcifs.smb.SmbException;
-import jcifs.smb.SmbFile;
-import jcifs.smb.SmbFileInputStream;
+import com.zlab.datFM.datFM;
+import com.zlab.datFM.datFM_IO;
 import android.webkit.MimeTypeMap;
 
 public class StreamSource {
@@ -16,15 +15,15 @@ public class StreamSource {
     protected long fp;
     protected long len;
     protected String name;
-    protected SmbFile file;
+    protected String file;
     InputStream input;
     protected int bufferSize;
 
-    public StreamSource(SmbFile file) throws SmbException{
+    public StreamSource(String file) {
         fp = 0;
-        len = file.length();
-        mime = MimeTypeMap.getFileExtensionFromUrl(file.getName());
-        name = file.getName();
+        len = new datFM_IO(file, datFM.curPanel).getFileSize();
+        mime = MimeTypeMap.getFileExtensionFromUrl(new datFM_IO(file, datFM.curPanel).getName());
+        name = new datFM_IO(file, datFM.curPanel).getName();
         this.file = file;
         bufferSize = 1024*16;
     }
@@ -57,7 +56,7 @@ public class StreamSource {
      */
     public void open() throws IOException {
         try {
-            input = new BufferedInputStream(new SmbFileInputStream(file));
+            input = new BufferedInputStream(new datFM_IO(file, datFM.curPanel).getInput());
             if(fp>0)
                 input.skip(fp);
         } catch (Exception e) {
@@ -101,7 +100,7 @@ public class StreamSource {
         fp = 0;
     }
 
-    public SmbFile getFile(){
+    public String getFile(){
         return file;
     }
 

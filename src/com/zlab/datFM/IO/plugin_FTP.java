@@ -4,7 +4,6 @@ import android.util.Log;
 import com.zlab.datFM.R;
 import com.zlab.datFM.datFM;
 import com.zlab.datFM.datFM_IO;
-import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 
 import java.io.IOException;
@@ -14,6 +13,7 @@ import java.io.OutputStream;
 public class plugin_FTP {
 
     private String path;
+    private long size;
     private int PanelID;
     private int CompetPanel;
 
@@ -27,6 +27,7 @@ public class plugin_FTP {
         FTPFile file=null;
         try {
             file = datFM.ftp_auth_session[PanelID].mlistFile(FTPrealpath(path));
+            if(file!=null) size = file.getSize();
         } catch (IOException e) {
             Log.e("datFM err: ", "Can't get file - "+path);
         }
@@ -34,14 +35,12 @@ public class plugin_FTP {
     }
 
     public Long getFileSize(){
-        long size;
         try{
-            size = getFile().getSize();
+            return size;
         } catch (Exception e){
-            size=0;
             Log.e("datFM err: ", "Can't get file size - " + path);
+            return null;
         }
-        return size;
     }
 
     /** Stream worker **/
@@ -127,7 +126,7 @@ public class plugin_FTP {
     /** MKDIR **/
     public boolean mkdir(){
         try {
-            datFM.ftp_auth_session[PanelID].makeDirectory(path);
+            datFM.ftp_auth_session[PanelID].makeDirectory(FTPrealpath(path));
             return true;
         } catch (IOException e) {
             Log.e("datFM err: ", "can't mkdir - "+path);
@@ -137,10 +136,23 @@ public class plugin_FTP {
     /** EXISTS **/
     public boolean exists(){
         try {
-            datFM.ftp_auth_session[PanelID].listFiles(FTPrealpath(path));
-            return true;
-        } catch (IOException e) {
-            Log.e("datFM err: ", "No exist.");
+            if(getFile().isDirectory()){
+                datFM.ftp_auth_session[PanelID].changeWorkingDirectory(FTPrealpath(path));
+                int returnCode = datFM.ftp_auth_session[PanelID].getReplyCode();
+                if (returnCode == 550){
+                    return false;
+                }
+                    return true;
+            } else {
+                InputStream inputStream = datFM.ftp_auth_session[PanelID].retrieveFileStream(FTPrealpath(path));
+                int returnCode = datFM.ftp_auth_session[PanelID].getReplyCode();
+                if (inputStream == null || returnCode == 550) {
+                    return false;
+                }
+                return true;
+            }
+        } catch (Exception e) {
+            //Log.e("datFM err: ", "No exist.");
             return false;
         }
     }

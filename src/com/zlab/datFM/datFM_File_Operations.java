@@ -44,14 +44,14 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
         View layer = inflater.inflate(R.layout.datfm_operation,null);
         textCurrent = (TextView) layer.findViewById(R.id.textCurrent);
         textOverall = (TextView) layer.findViewById(R.id.textOverall);
-        textFile = (TextView) layer.findViewById(R.id.textFile);
-        textTo = (TextView) layer.findViewById(R.id.textTo);
+        //textFile = (TextView) layer.findViewById(R.id.textFile);
+        //textTo = (TextView) layer.findViewById(R.id.textTo);
         progr_current = (ProgressBar) layer.findViewById(R.id.dialog_operation_progress_current);
         progr_overal = (ProgressBar) layer.findViewById(R.id.dialog_operation_progress_overall);
         progr_overal.setMax(datFM.sel);
         progr_current.setMax(100);
         textCurrent.setText("("+0+"/"+100+")");
-        textOverall.setText("("+0+"/"+overalMax+")");
+        //textOverall.setText("Copy "+0+" of "+overalMax+" files to \"Some folder\".");
 
         currentLayout = (LinearLayout) layer.findViewById(R.id.currentLayout);
         currentLayout.setVisibility(View.GONE);
@@ -97,9 +97,9 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
                     if (success) {count++;onProgressUpdate(count);}
 
             } else if(operation.equals("new_folder")){
-                dialog_operation.setTitle(datFM.datFM_context.getResources().getString(R.string.ui_dialog_title_copy));
+                dialog_operation.setTitle(datFM.datFM_context.getResources().getString(R.string.ui_dialog_title_newfolder));
+                textOverall.setText(operation+" \""+new datFM_IO(srcDir,srcPannelID).getName()+"\" in \""+new datFM_IO(srcDir,srcPannelID).getParent()[0]+"\".");
                 if (protocol_newfolder(srcDir)) {count++;onProgressUpdate(count);}
-
             } else {
 
                 boolean[] selectionHolder = activity.selected.clone();
@@ -113,6 +113,7 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
                     });
 
                     dialog_operation.setTitle(datFM.datFM_context.getResources().getString(R.string.ui_dialog_title_copy));
+
                     for (int i=1;i<selectionHolder.length;i++){
                         if (selectionHolder[i]){
                             datFM_File from = adaptorHolder.get(i);

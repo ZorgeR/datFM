@@ -6,15 +6,17 @@ import java.util.List;
 import java.util.Properties;
 import java.util.regex.Pattern;
 
-import jcifs.smb.SmbFile;
+import com.zlab.datFM.datFM;
+import com.zlab.datFM.datFM_IO;
 import android.util.Log;
 
 public class Streamer extends StreamServer {
 
     public static final int PORT = 7871;
     public static final String URL = "http://127.0.0.1:" + PORT;
-    private SmbFile file;
-    protected List<SmbFile> extras; //those can be subtitles
+    //private SmbFile file;
+    private String file;
+    protected List<String> extras; //those can be subtitles
     // private InputStream stream;
     // private long length;
     private static Streamer instance;
@@ -39,8 +41,8 @@ public class Streamer extends StreamServer {
         return instance;
     }
 
-    public static boolean isStreamMedia(SmbFile file) {
-        return pattern.matcher(file.getName()).matches();
+    public static boolean isStreamMedia(String file) {
+        return pattern.matcher(new datFM_IO(file, datFM.curPanel).getName()).matches();
     }
     public static boolean isStreamMediaByExt(String ext) {
         return pattern.matcher(ext).matches();
@@ -55,7 +57,7 @@ public class Streamer extends StreamServer {
         }
     }
 
-    public void setStreamSrc(SmbFile file,List<SmbFile> extraFiles) {
+    public void setStreamSrc(String file,List<String> extraFiles) {
         this.file = file;
         this.extras = extraFiles;
     }
@@ -64,13 +66,13 @@ public class Streamer extends StreamServer {
     public Response serve(String uri, String method, Properties header, Properties parms, Properties files) {
         Response res = null;
         try {
-            SmbFile sourceFile = null;
+            String sourceFile = null;
             String name = getNameFromPath(uri);
-            if(file!=null && file.getName().equals(name))
+            if(file!=null && new datFM_IO(file, datFM.curPanel).getName().equals(name))
                 sourceFile = file;
             else if(extras!=null){
-                for(SmbFile i : extras){
-                    if(i!=null && i.getName().equals(name)){
+                for(String i : extras){
+                    if(i!=null && new datFM_IO(file, datFM.curPanel).getName().equals(name)){
                         sourceFile = i;
                         break;
                     }

@@ -3,38 +3,19 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
         android:padding="10dp">
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(0/0)"
+            android:id="@+id/textOverall" android:layout_gravity="left|center_vertical"/>
+    <ProgressBar style="@style/Progress" android:layout_width="match_parent"
+                 android:layout_height="wrap_content" android:id="@+id/dialog_operation_progress_overall"
+                 android:layout_gravity="left|center_vertical" android:indeterminate="false" android:max="100"
+                 android:progress="0"/>
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:id="@+id/currentLayout">
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            <ImageView
-                    android:layout_width="24px"
-                    android:layout_height="24px"
-                    android:id="@+id/imageView" android:src="@android:drawable/ic_menu_upload" android:paddingRight="2dp"/>
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textFile" android:layout_gravity="left|center_vertical" android:singleLine="true"
-                    />
-        </LinearLayout>
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            <ImageView
-                    android:layout_width="24px"
-                    android:layout_height="24px"
-                    android:id="@+id/imageView1" android:src="@android:drawable/ic_menu_save" android:paddingRight="2dp"/>
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textTo" android:layout_gravity="left|center_vertical" android:singleLine="true"
-                    />
-        </LinearLayout>
         <ProgressBar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -46,18 +27,4 @@
                 android:text="(0/0)"
                 android:id="@+id/textCurrent" android:layout_gravity="center"/>
     </LinearLayout>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ui_dialog_operation_overall"
-            android:id="@+id/textView" android:layout_gravity="left|center_vertical"/>
-    <ProgressBar style="@style/Progress" android:layout_width="match_parent"
-                 android:layout_height="wrap_content" android:id="@+id/dialog_operation_progress_overall"
-                 android:layout_gravity="left|center_vertical" android:indeterminate="false" android:max="100"
-                 android:progress="0"/>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="(0/0)"
-            android:id="@+id/textOverall" android:layout_gravity="center"/>
 </LinearLayout>

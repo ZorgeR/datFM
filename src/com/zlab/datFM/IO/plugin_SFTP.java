@@ -1,6 +1,7 @@
 package com.zlab.datFM.IO;
 
 import android.util.Log;
+import android.widget.Toast;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpATTRS;
@@ -58,7 +59,7 @@ public class plugin_SFTP {
             in = getFile().get(SFTPrealpath(path));
         } catch (SftpException e) {
             in = null;
-            Log.e("datFM err: ","Can't get input - "+path);
+            Log.e("datFM err: ","Can't get input - "+e.getMessage()+" "+path);
         }
 
         return in;
@@ -69,7 +70,7 @@ public class plugin_SFTP {
             out = getFile().put(SFTPrealpath(path));
         } catch (SftpException e) {
             out = null;
-            Log.e("datFM err: ","Can't get output - "+path);
+            Log.e("datFM err: ","Can't get output - "+e.getMessage()+" "+path);
         }
         return out;
     }
