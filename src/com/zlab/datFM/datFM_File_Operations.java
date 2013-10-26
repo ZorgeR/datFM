@@ -274,10 +274,7 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
         return success;
     }
     private boolean protocol_rename(String src,String new_name){
-        boolean success=false;
-        try {success=new datFM_IO(src,srcPannelID).rename(new_name);
-        } catch (IOException e) {e.printStackTrace();}
-        return success;
+        return new datFM_IO(src,srcPannelID).rename(new_name);
     }
     private boolean protocol_newfolder(String newfolder){
         boolean success=false;

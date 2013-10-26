@@ -74,7 +74,7 @@ public class datFM extends Activity {
     public static NtlmPasswordAuthentication[] smb_auth_session = new NtlmPasswordAuthentication[2];
     static JSch sftp_auth_session[] = new JSch[2];
     static ArrayList<datFM_File> properties_array;
-    static ChannelSftp sftp_auth_channel[] = new ChannelSftp[2];
+    public static ChannelSftp[] sftp_auth_channel = new ChannelSftp[2];
     static Session sftp_session[] = new Session[2];
 
     /** VARS FOR OPERATION**/
@@ -1622,15 +1622,8 @@ public class datFM extends Activity {
 
         startActivity(properties);
     }
-    private void action_clear_file_cache(){try {
-        try {
+    private void action_clear_file_cache(){
             new datFM_IO(Environment.getExternalStorageDirectory().getPath()+"/Android/data/datFM/cache",curPanel).delete();
-        } catch (JSchException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (SftpException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-    } catch (IOException e) {e.printStackTrace();}
     }
     private void action_send(){
         update_operation_vars();

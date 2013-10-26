@@ -34,8 +34,8 @@ public class plugin_local {
     }
 
     /** Stream worker **/
-    public InputStream getInput() {
-        InputStream in;
+    public BufferedInputStream getInput() {
+        BufferedInputStream in;
         try {
             in = new BufferedInputStream(new FileInputStream(path));
         } catch (FileNotFoundException e) {
@@ -44,8 +44,8 @@ public class plugin_local {
         }
         return in;
     }
-    public OutputStream getOutput() {
-        OutputStream out;
+    public BufferedOutputStream getOutput() {
+        BufferedOutputStream out;
         try {
             out = new BufferedOutputStream(new FileOutputStream(path));
         } catch (FileNotFoundException e) {
@@ -57,7 +57,7 @@ public class plugin_local {
 
     /** Operation worker **/
     /** COPY **/
-    public void copy(String dest) throws IOException {
+    public void copy(String dest) {
         if (is_dir()) {
             new datFM_IO(dest,CompetPanel).mkdir();
             for (File ff : getFile().listFiles()) {

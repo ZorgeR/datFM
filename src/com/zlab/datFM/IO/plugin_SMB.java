@@ -47,8 +47,8 @@ public class plugin_SMB {
     }
 
     /** Stream worker **/
-    public InputStream getInput() {
-        InputStream in;
+    public BufferedInputStream getInput() {
+        BufferedInputStream in;
             try {
                 in = new BufferedInputStream(new SmbFileInputStream(getFile()));
             } catch (SmbException e) {
@@ -64,8 +64,8 @@ public class plugin_SMB {
 
         return in;
     }
-    public OutputStream getOutput() {
-        OutputStream out;
+    public BufferedOutputStream getOutput() {
+        BufferedOutputStream out;
             try {
                 out = new BufferedOutputStream(new SmbFileOutputStream(getFile()));
             } catch (SmbException e) {
@@ -83,11 +83,15 @@ public class plugin_SMB {
 
     /** Operation worker **/
     /** COPY **/
-    public void copy(String dest) throws IOException {
+    public void copy(String dest) {
         if (is_dir()) {
             new datFM_IO(dest,CompetPanel).mkdir();
-            for (SmbFile ff : getFile().listFiles()) {
-                new plugin_SMB(ff.getPath(),PanelID).copy(dest+"/"+ff.getName());}
+            try {
+                for (SmbFile ff : getFile().listFiles()) {
+                    new plugin_SMB(ff.getPath(),PanelID).copy(dest+"/"+ff.getName());}
+            } catch (SmbException e) {
+                Log.e("datFM err: ", "Can't do listing of "+path);
+            }
         } else {
             try {
                 new datFM_IO(path,PanelID).IO_Stream_Worker(path, dest);
@@ -181,7 +185,7 @@ public class plugin_SMB {
         if (path.lastIndexOf("/")+1==path.length())
         {path=path.substring(0,path.lastIndexOf("/"));}
 
-        return path.substring(path.lastIndexOf("/")+1);
+        return path.substring(path.lastIndexOf("/") + 1);
     }
     public String[] getParent(){
         String[] parent=new String[3];
