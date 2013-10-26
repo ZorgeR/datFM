@@ -20,7 +20,6 @@ import jcifs.UniAddress;
 import jcifs.smb.*;
 import java.io.*;
 import java.math.BigDecimal;
-import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
@@ -109,6 +108,9 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                     Toast.makeText(datFM.datFM_context,"SFTP logon error.", Toast.LENGTH_SHORT).show();
                 }
                 try {logonScreenSFTP();} catch (JSchException e) {e.printStackTrace();}
+            } else if(protocol.equals("ftp") && !ftp_success_auth){
+                    Toast.makeText(datFM.datFM_context,"FTP logon error.", Toast.LENGTH_SHORT).show();
+                    logonScreenFTP();
             } else {
                     datFM.datFM_state.fill_panel(dir_info, fls_info, panel_ID);
             }
@@ -220,55 +222,59 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
         url = path;
         datFM.url=url;
 
+        hostname = url;
+        if(!hostname.equals("ftp://")){
+            hostname = hostname.replace("ftp://","");
+            if(hostname.contains("/")){hostname = hostname.substring(0, hostname.indexOf("/"));}
+        }
+
         if(datFM.ftp_auth_transfer[panel_ID]==null){
             datFM.ftp_auth_transfer[panel_ID] = new FileTransferClient();
             datFM.ftp_auth_session[panel_ID] = new FTPClient();
-        }
 
         // ------ CHECK FTP AUTH ------------ //
-
-            hostname = url;
-            if(!hostname.equals("ftp://")){
-                hostname = hostname.replace("ftp://","");
-                if(hostname.contains("/")){hostname = hostname.substring(0, hostname.indexOf("/"));}
+            try {
+                datFM.ftp_auth_transfer[panel_ID].setRemoteHost(hostname);
+                datFM.ftp_auth_transfer[panel_ID].setRemotePort(21);
+                datFM.ftp_auth_transfer[panel_ID].setUserName("");
+                datFM.ftp_auth_transfer[panel_ID].setPassword("");
+            } catch (Exception e) {
+                ftp_success_auth=false;
+                Log.e("datFM err: ", "FTP configuration error: "+e.getMessage());
             }
-
+        }
 
         try {
-            datFM.ftp_auth_transfer[panel_ID].setRemoteHost(hostname);
-            datFM.ftp_auth_transfer[panel_ID].setRemotePort(21);
-            datFM.ftp_auth_transfer[panel_ID].setUserName("zorgftp");
-            datFM.ftp_auth_transfer[panel_ID].setPassword("zorgftpAbc123");
+            if(!datFM.ftp_auth_transfer[panel_ID].isConnected()){
+                /** Passive Mode **/
+                datFM.ftp_auth_transfer[panel_ID].getAdvancedFTPSettings().setConnectMode(FTPConnectMode.PASV);
+                datFM.ftp_auth_transfer[panel_ID].setContentType(FTPTransferType.BINARY);
 
-            /** Passive Mode **/
-            datFM.ftp_auth_transfer[panel_ID].getAdvancedFTPSettings().setConnectMode(FTPConnectMode.PASV);
-            datFM.ftp_auth_transfer[panel_ID].setContentType(FTPTransferType.BINARY);
+                /** UTF 8 **/
+                datFM.ftp_auth_transfer[panel_ID].getAdvancedSettings().setControlEncoding("UTF-8");
 
-            /** UTF 8 **/
-            datFM.ftp_auth_transfer[panel_ID].getAdvancedSettings().setControlEncoding("UTF-8");
-
+                datFM.ftp_auth_transfer[panel_ID].connect();
+            }
         } catch (Exception e) {
+            ftp_success_auth=false;
             Log.e("datFM err: ", "FTP configuration error: "+e.getMessage());
         }
-                //datFM.ftp_auth_transfer[panel_ID].getAdvancedSettings().setAutodetectUTF8(true);
+        try {
+            if(!datFM.ftp_auth_session[panel_ID].connected()){
+                datFM.ftp_auth_session[panel_ID].setRemoteHost(datFM.ftp_auth_transfer[panel_ID].getRemoteHost());
+                datFM.ftp_auth_session[panel_ID].setRemotePort(datFM.ftp_auth_transfer[panel_ID].getRemotePort());
 
+                datFM.ftp_auth_session[panel_ID].setConnectMode(FTPConnectMode.PASV);
+                datFM.ftp_auth_session[panel_ID].setControlEncoding("UTF-8");
+                datFM.ftp_auth_session[panel_ID].connect();
+            }
+            datFM.ftp_auth_session[panel_ID].user(datFM.ftp_auth_transfer[panel_ID].getUserName());
+            datFM.ftp_auth_session[panel_ID].password(datFM.ftp_auth_transfer[panel_ID].getPassword());
+            datFM.ftp_auth_session[panel_ID].setType(FTPTransferType.BINARY);
 
-                try {
-                    datFM.ftp_auth_transfer[panel_ID].connect();
-
-                    datFM.ftp_auth_session[panel_ID].setRemoteHost(hostname);
-                    datFM.ftp_auth_session[panel_ID].setRemotePort(21);
-                    datFM.ftp_auth_session[panel_ID].connect();
-
-                    datFM.ftp_auth_session[panel_ID].user("zorgftp");
-                    datFM.ftp_auth_session[panel_ID].password("zorgftpAbc123");
-                    datFM.ftp_auth_session[panel_ID].setConnectMode(FTPConnectMode.PASV);
-                    datFM.ftp_auth_session[panel_ID].setType(FTPTransferType.BINARY);
-                    datFM.ftp_auth_session[panel_ID].setControlEncoding("UTF-8");
-                } catch (Exception e) {
-                    Log.e("datFM error: ", "Set connect hostname:port error - "+hostname+" : "+e.getMessage());
-                }
-
+        } catch (Exception e) {
+            Log.e("datFM error: ", "Set connect hostname:port error - "+path+" : "+e.getMessage());
+        }
 
         //---------START FTP WORKS-------------------------
             FTPFile dir = new plugin_FTP(url,panel_ID).getFile();
@@ -805,16 +811,19 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    hostname_locale.setText("");hostname_locale.setEnabled(false);
+                    //hostname_locale.setText("");hostname_locale.setEnabled(false);
                     names.setText("");names.setEnabled(false);
-                    passs.setText("");//passs.setEnabled(false);
+                    passs.setText("");passs.setEnabled(false);
                 } else {
                     try {
-                        hostname_locale.setText(datFM.sftp_auth_channel[panel_ID].getSession().getHost());
-                        hostname_locale.setEnabled(true);
-                        names.setText(datFM.sftp_auth_channel[panel_ID].getSession().getUserName());names.setEnabled(true);
-                        //passs.setText(datFM.smb_auth_session[panel_ID].getPassword());passs.setEnabled(true);
-                    } catch (JSchException e) {e.printStackTrace();}
+                        //hostname_locale.setText(datFM.sftp_auth_channel[panel_ID].getSession().getHost());
+                        //hostname_locale.setEnabled(true);
+                        //if(!datFM.sftp_auth_channel[panel_ID].getSession().getUserName().equals(null))
+                          //  names.setText(datFM.sftp_auth_channel[panel_ID].getSession().getUserName());
+                        //passs.setText("");
+                        names.setEnabled(true);
+                        passs.setEnabled(true);
+                    } catch (Exception e) {e.printStackTrace();}
                 }
             }
         });
@@ -859,6 +868,89 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                         config.put("StrictHostKeyChecking", "no");
                         datFM.sftp_session[panel_ID].setConfig(config);
                         datFM.sftp_auth_channel[panel_ID]=null;
+                        new datFM_IO_Fetch(datFM.datFM_state).execute(path, protocol, String.valueOf(panel_ID));
+                    }
+                });
+        action_dialog.setNegativeButton(datFM.datFM_state.getResources().getString(R.string.ui_dialog_btn_cancel),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+        AlertDialog AboutDialog = action_dialog.create();
+        AboutDialog.show();
+    }
+    private void logonScreenFTP(){
+        AlertDialog.Builder action_dialog = new AlertDialog.Builder(datFM.datFM_state);
+        action_dialog.setTitle("FTP logon");
+        LayoutInflater inflater = datFM.datFM_state.getLayoutInflater();
+        View layer = inflater.inflate(R.layout.datfm_sftp_logon,null);
+
+        final EditText hostname_locale = (EditText) layer.findViewById(R.id.logon_domain);
+        final EditText names   = (EditText) layer.findViewById(R.id.logon_name);
+        final EditText passs   = (EditText) layer.findViewById(R.id.logon_pass);
+        final EditText portt   = (EditText) layer.findViewById(R.id.logon_port);
+
+        if(datFM.ftp_auth_transfer[panel_ID]!=null){
+            hostname_locale.setText(datFM.ftp_auth_transfer[panel_ID].getRemoteHost());
+            names.setText(datFM.ftp_auth_transfer[panel_ID].getUserName());
+            passs.setText(datFM.ftp_auth_transfer[panel_ID].getPassword());
+            portt.setHint("21");
+            portt.setText(String.valueOf(datFM.ftp_auth_transfer[panel_ID].getRemotePort()));
+        }
+
+        final CheckBox logon_guest = (CheckBox) layer.findViewById(R.id.logon_guest);
+        logon_guest.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    //hostname_locale.setText("");hostname_locale.setEnabled(false);
+                    names.setText("anonymous");names.setEnabled(false);
+                    passs.setText("anonymous@gmail.com");passs.setEnabled(false);
+                } else {
+                        //hostname_locale.setText(datFM.sftp_auth_channel[panel_ID].getSession().getHost());
+                        //hostname_locale.setEnabled(true);
+                        if(datFM.ftp_auth_transfer[panel_ID].getUserName()!=null)names.setText(datFM.ftp_auth_transfer[panel_ID].getUserName());
+                        if(datFM.ftp_auth_transfer[panel_ID].getPassword()!=null)passs.setText(datFM.ftp_auth_transfer[panel_ID].getPassword());
+                        //if(datFM.ftp_auth_transfer[panel_ID].getRemotePort()!=0)portt.setText(datFM.ftp_auth_transfer[panel_ID].getRemotePort());
+                        names.setEnabled(true);
+                        passs.setEnabled(true);
+                }
+            }
+        });
+
+        action_dialog.setView(layer);
+        action_dialog.setPositiveButton(datFM.datFM_state.getResources().getString(R.string.ui_dialog_btn_ok),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String hostname_n,user_n,pass_n,port_n;
+                        hostname_n = hostname_locale.getText().toString();
+                        user_n = names.getText().toString();
+                        pass_n = passs.getText().toString();
+                        port_n = portt.getText().toString();
+                        //datFM.curPanel = Integer.parseInt(datFM.id);
+                        datFM.curPanel=panel_ID;
+                        if(panel_ID==0){
+                            datFM.competPanel=1;
+                        }else{
+                            datFM.competPanel=0;
+                        }
+                        if(user_n.equals("")){
+                            user_n = null;
+                        }
+                        if(pass_n.equals("")){
+                            pass_n = null;
+                        }
+
+                        datFM.ftp_auth_transfer[panel_ID] = new FileTransferClient();
+
+                        try {
+                            datFM.ftp_auth_transfer[panel_ID].setRemoteHost(hostname_n);
+                            datFM.ftp_auth_transfer[panel_ID].setRemotePort(Integer.parseInt(port_n));
+                            datFM.ftp_auth_transfer[panel_ID].setUserName(user_n);
+                            datFM.ftp_auth_transfer[panel_ID].setPassword(pass_n);
+                        } catch (Exception e) {
+                            Log.e("FTP:",e.getMessage());}
+
                         new datFM_IO_Fetch(datFM.datFM_state).execute(path, protocol, String.valueOf(panel_ID));
                     }
                 });

@@ -1,7 +1,9 @@
 package com.zlab.datFM.IO;
 
 import android.util.Log;
+import com.enterprisedt.net.ftp.FTPConnectMode;
 import com.enterprisedt.net.ftp.FTPFile;
+import com.enterprisedt.net.ftp.FTPTransferType;
 import com.zlab.datFM.R;
 import com.zlab.datFM.datFM;
 import com.zlab.datFM.datFM_IO;
@@ -24,12 +26,6 @@ public class plugin_FTP {
     public FTPFile getFile(){
         FTPFile file=null;
         try {
-                                                                 /**
-            datFM.ftp_auth_session[PanelID].setRemoteHost(datFM.ftp_auth_transfer[PanelID].getRemoteHost());
-            datFM.ftp_auth_session[PanelID].setRemotePort(datFM.ftp_auth_transfer[PanelID].getRemotePort());
-            datFM.ftp_auth_session[PanelID].user(datFM.ftp_auth_transfer[PanelID].getUserName());
-            datFM.ftp_auth_session[PanelID].password(datFM.ftp_auth_transfer[PanelID].getPassword());
-                                                                          **/
             file = datFM.ftp_auth_session[PanelID].fileDetails(FTPrealpath(path));
         } catch (Exception e) {
             Log.e("datFM err: ", "Can't get file - "+path);
