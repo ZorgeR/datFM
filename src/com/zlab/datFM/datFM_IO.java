@@ -225,7 +225,7 @@ public class datFM_IO {
         InputStream in = new BufferedInputStream(new datFM_IO(src,PanelID).getInput());
         OutputStream out = new BufferedOutputStream(new datFM_IO(dest,CompetPanel).getOutput());
 
-        byte[] buf = new byte[512];
+        byte[] buf = new byte[1024];
         int len;
 
         long fullsize = getFileSizeCustom(src,PanelID);
@@ -234,7 +234,7 @@ public class datFM_IO {
         int cur_file_progress=0;
         while ((len = in.read(buf)) > 0){
             out.write(buf, 0, len);
-            cnt=cnt+1024;
+            cnt=cnt+(1024);
             if(cnt>one_percent){
                 cur_file_progress=cur_file_progress+1;
                 if(datFM_File_Operations.progr_overal!=null)datFM_File_Operations.progr_current.setProgress(cur_file_progress);
