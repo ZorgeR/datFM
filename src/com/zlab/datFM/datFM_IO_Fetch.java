@@ -292,9 +292,8 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                         if(!datFM.pref_show_hide && ff.getName().startsWith(".")){} else {
                             if(ff.isDirectory()){
                                 String data = datFM.datFM_context.getResources().getString(R.string.fileslist_directory);
-                                String name = ff.getName().substring(0,ff.getName().length()-1);
                                 Long date = ff.getTimestamp().getTimeInMillis();
-                                dir_info.add(new datFM_File(name,url+ff.getName(),0,"smb","dir",data, url, date));
+                                dir_info.add(new datFM_File(ff.getName(),url+ff.getName(),0,"smb","dir",data, url, date));
                             } else {
                                 String data = formatSize(ff.getSize());
                                 Long date = ff.getTimestamp().getTimeInMillis();

@@ -41,6 +41,7 @@ protected void onPreExecute() {
                     imageBitmap = BitmapFactory.decodeStream(io, null, options);
                     imageBitmap = ThumbnailUtils.extractThumbnail(imageBitmap,THUMBNAIL_SIZE,THUMBNAIL_SIZE);
                     io.close();
+                    //if(datFM.protocols[activity.PanelID].equals("ftp")){if(!datFM.ftp_auth_session[activity.PanelID].completePendingCommand());}
                     /** NETWORK MODE **/
                     //imageBitmap = BitmapFactory.decodeStream(new datFM_IO(filePath).getInput(), null, options);
                     //imageBitmap = Bitmap.createScaledBitmap(imageBitmap, THUMBNAIL_SIZE, THUMBNAIL_SIZE, false);

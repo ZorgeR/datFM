@@ -101,6 +101,7 @@ public class plugin_FTP {
             try {
                 for (FTPFile child : datFM.ftp_auth_session[PanelID].listFiles(FTPrealpath(path)))
                     delete_recursively(child);
+                datFM.ftp_auth_session[PanelID].rmd(FTPrealpath(path));
             } catch (IOException e) {
                 Log.e("datFM err: ", "Can't list directory");
             }
@@ -167,7 +168,10 @@ public class plugin_FTP {
 
     /** GetName in UI thread **/
     public String getName(){
-        return getFile().getName();
+        if (path.lastIndexOf("/")+1==path.length())
+        {path=path.substring(0,path.lastIndexOf("/"));}
+
+        return path.substring(path.lastIndexOf("/")+1);
     }
     public String[] getParent(){
         String[] parent=new String[3];
