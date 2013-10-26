@@ -89,27 +89,27 @@ public class plugin_FTP {
     public boolean delete() {
         boolean success;
         try{
-            success=delete_recursively(getFile());
+            success=delete_recursively(path);
         } catch (Exception e){
             success = false;
             Log.e("datFM err: ","File not found - "+path);
         }
         return success;
     }
-    public boolean delete_recursively(FTPFile f){
-        if (f.isDirectory())
+    public boolean delete_recursively(String file){
+        if (new plugin_FTP(file,PanelID).is_dir())
             try {
-                for (FTPFile child : datFM.ftp_auth_session[PanelID].listFiles(FTPrealpath(path)))
-                    delete_recursively(child);
-                datFM.ftp_auth_session[PanelID].rmd(FTPrealpath(path));
+                for (FTPFile child : datFM.ftp_auth_session[PanelID].listFiles(FTPrealpath(file)))
+                    delete_recursively(file+"/"+child.getName());
+                datFM.ftp_auth_session[PanelID].rmd(FTPrealpath(file));
             } catch (IOException e) {
                 Log.e("datFM err: ", "Can't list directory");
             }
         try{
-            datFM.ftp_auth_session[PanelID].deleteFile(FTPrealpath(path));
+            datFM.ftp_auth_session[PanelID].deleteFile(FTPrealpath(file));
             return true;
         } catch (Exception e){
-            Log.e("datFM err: ", "Error while delete - "+path);
+            Log.e("datFM err: ", "Error while delete - "+file);
             return false;
         }
     }

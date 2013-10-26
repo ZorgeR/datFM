@@ -287,9 +287,16 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
             if(dir!=null){
                 try{
                     String realpath=url.replace("ftp://"+hostname,"");
+                    if(datFM.pref_show_hide){
+                        datFM.ftp_auth_session[panel_ID].setListHiddenFiles(true);
+                    } else {
+                        datFM.ftp_auth_session[panel_ID].setListHiddenFiles(false);
+                    }
                     FTPFile[] list = datFM.ftp_auth_session[panel_ID].listFiles(realpath);
+
                     for(FTPFile ff: list){
-                        if(!datFM.pref_show_hide && ff.getName().startsWith(".")){} else {
+                        if((!datFM.pref_show_hide && ff.getName().startsWith(".")) ||
+                                (ff.getName().equals(".") || ff.getName().equals(".."))){} else {
                             if(ff.isDirectory()){
                                 String data = datFM.datFM_context.getResources().getString(R.string.fileslist_directory);
                                 Long date = ff.getTimestamp().getTimeInMillis();
