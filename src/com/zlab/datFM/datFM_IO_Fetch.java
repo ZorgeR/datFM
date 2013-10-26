@@ -462,6 +462,9 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
             dir_info.add(new datFM_File(activity.getResources().getString(R.string.fileslist_sftp),"datFM://sftp",0,"sftp","network",
                     activity.getResources().getString(R.string.fileslist_network), "datFM://", 0));
 
+            dir_info.add(new datFM_File(activity.getResources().getString(R.string.fileslist_ftp),"datFM://ftp",0,"ftp","network",
+                    activity.getResources().getString(R.string.fileslist_network), "datFM://", 0));
+
             dir_info.add(new datFM_File(activity.getResources().getString(R.string.fileslist_exit),"datFM://exit",0,"smb","action_exit",
                     activity.getResources().getString(R.string.fileslist_action), "datFM://", 0));
         } else if(section.equals("favorite")){
@@ -558,6 +561,41 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                             dir_info.add(new datFM_File(server_name,"sftp://"+server_user+"@"+server_ip_hostname+":"+server_port+"/"+server_start_dir,0,"sftp","sftp_store_network",server_ip_hostname+":"+server_port, "datFM://sftp", 0));
                         } else {
                             dir_info.add(new datFM_File(server_name,"sftp://"+server_user+"@"+server_ip_hostname+":"+server_port+"/"+server_start_dir,0,"sftp","sftp_store_network",server_user+"@"+server_ip_hostname+":"+server_port, "datFM://sftp", 0));
+                        }
+
+                        fis.close();
+                    } catch (Exception e) {e.printStackTrace();}
+                }
+            }
+        } else if(section.equals("ftp")){
+            dir_info.add(new datFM_File(activity.getResources().getString(R.string.fileslist_add_ftp),"datFM://ftp/add",0,"ftp","add",
+                    activity.getResources().getString(R.string.fileslist_network), "datFM://ftp", 0));
+
+            dir_info.add(new datFM_File(datFM.ftpServerTitle,"datFM://ftp/run",0,"ftp","add",
+                    activity.getResources().getString(R.string.fileslist_network), "datFM://ftp", 0));
+
+            File dir = activity.getFilesDir();
+            for(File ff : dir.listFiles()){
+                if(ff.getName().startsWith("ftp_data_")){
+                    try {
+                        FileInputStream fis = activity.openFileInput(ff.getName());
+                        StringBuffer fileContent = new StringBuffer("");
+                        byte[] buffer = new byte[1024];
+                        int length;
+                        while ((length = fis.read(buffer)) != -1) {
+                            fileContent.append(new String(buffer));
+                        }
+
+                        String server_name = fileContent.toString().split("\n")[0];
+                        String server_ip_hostname = fileContent.toString().split("\n")[1];
+                        String server_start_dir = fileContent.toString().split("\n")[2];
+                        String server_user = fileContent.toString().split("\n")[3];
+                        String server_port = fileContent.toString().split("\n")[5];
+
+                        if(server_user.equals("")){
+                            dir_info.add(new datFM_File(server_name,"ftp://"+server_ip_hostname+"/"+server_start_dir,0,"ftp","ftp_store_network",server_ip_hostname+":"+server_port, "datFM://ftp", 0));
+                        } else {
+                            dir_info.add(new datFM_File(server_name,"ftp://"+server_ip_hostname+"/"+server_start_dir,0,"ftp","ftp_store_network",server_user+"@"+server_ip_hostname+":"+server_port, "datFM://ftp", 0));
                         }
 
                         fis.close();

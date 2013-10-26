@@ -147,12 +147,16 @@
     <string name="fileslist_root">Root</string>
     <string name="fileslist_samba">Samba</string>
     <string name="fileslist_sftp">SFTP</string>
+    <string name="fileslist_ftp">FTP</string>
     <string name="fileslist_exit">Exit</string>
     <string name="fileslist_action">Action</string>
     <string name="fileslist_add_favorite">Add to favorites</string>
     <string name="fileslist_add_samba">Add Samba server</string>
     <string name="fileslist_browse_samba">Browse smb://</string>
     <string name="fileslist_add_sftp">Add SFTP server</string>
+    <string name="fileslist_add_ftp">Add FTP server</string>
+    <string name="fileslist_run_ftp">Start FTP server</string>
+    <string name="fileslist_stop_ftp">Stop FTP server</string>
 
     <!-- UI Elements -->
     <!-- Pop-up Dialogs -->

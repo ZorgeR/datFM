@@ -55,7 +55,6 @@ import com.zlab.datFM.R;
 /**
  * This is the main activity for swiftp, it enables the user to start the server service
  * and allows the users to change the settings.
- * 
  */
 public class ServerPreferenceActivity extends PreferenceActivity implements
         OnSharedPreferenceChangeListener {
@@ -257,7 +256,7 @@ public class ServerPreferenceActivity extends PreferenceActivity implements
         }
     }
 
-    private void startServer() {
+    public void startServer() {
 		sendBroadcast(new Intent(FtpServerService.ACTION_START_FTPSERVER));
     }
 

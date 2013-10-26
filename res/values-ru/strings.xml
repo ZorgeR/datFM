@@ -147,12 +147,16 @@
     <string name="fileslist_root">Root</string>
     <string name="fileslist_samba">Samba</string>
     <string name="fileslist_sftp">SFTP</string>
+    <string name="fileslist_ftp">FTP</string>
     <string name="fileslist_exit">Выход</string>
     <string name="fileslist_action">Действие</string>
     <string name="fileslist_add_favorite">Добавить в Избранное</string>
     <string name="fileslist_add_samba">Добавить Samba сервер</string>
     <string name="fileslist_browse_samba">Обозреватель smb://</string>
     <string name="fileslist_add_sftp">Добавить SFTP сервер</string>
+    <string name="fileslist_add_ftp">Добавить FTP сервер</string>
+    <string name="fileslist_run_ftp">Запустить FTP сервер</string>
+    <string name="fileslist_stop_ftp">Остановить FTP сервер</string>
 
     <!-- UI Elements -->
     <!-- Pop-up Dialogs -->
