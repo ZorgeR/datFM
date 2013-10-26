@@ -3,6 +3,7 @@ package com.zlab.datFM;
 import android.os.AsyncTask;
 import android.view.View;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
@@ -22,7 +23,7 @@ public class datFM_Properties_MD5 extends AsyncTask<String, Void, String> {
         try{
             MessageDigest digest = MessageDigest.getInstance("MD5");
             String f = files[0];
-            InputStream is = new datFM_IO(f,datFM.curPanel).getInput();
+            InputStream is = new BufferedInputStream(new datFM_IO(f,datFM.curPanel).getInput());
             byte[] buffer = new byte[8192];
             int read = 0;
             try {

@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
 
+import java.io.BufferedInputStream;
 import java.io.InputStream;
 
 public class datFM_IcoGen_Photo extends AsyncTask<String, Void, Drawable> {
@@ -36,7 +37,7 @@ protected void onPreExecute() {
                     /** LOCAL MODE **/
                     //imageBitmap = BitmapFactory.decodeFile(filePath, options);
                     /** MULTI MODE **/
-                    InputStream io = new datFM_IO(filePath,activity.PanelID).getInput();
+                    InputStream io = new BufferedInputStream(new datFM_IO(filePath,activity.PanelID).getInput());
                     imageBitmap = BitmapFactory.decodeStream(io, null, options);
                     imageBitmap = ThumbnailUtils.extractThumbnail(imageBitmap,THUMBNAIL_SIZE,THUMBNAIL_SIZE);
                     io.close();

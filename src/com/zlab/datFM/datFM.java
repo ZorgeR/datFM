@@ -32,6 +32,7 @@ import com.zlab.datFM.player.VideoPlayerActivity;
 import com.zlab.datFM.player.datFM_audio;
 import com.zlab.datFM.player.datFM_video;
 import com.zlab.datFM.stream.Streamer;
+import it.sauronsoftware.ftp4j.FTPClient;
 import jcifs.smb.NtlmPasswordAuthentication;
 import jcifs.smb.SmbFile;
 
@@ -71,11 +72,18 @@ public class datFM extends Activity {
     static int currentApiVersion;
     static int color_item_selected;
     LinearLayout btnUPleft, btnUPright;
-    public static NtlmPasswordAuthentication[] smb_auth_session = new NtlmPasswordAuthentication[2];
-    static JSch sftp_auth_session[] = new JSch[2];
     static ArrayList<datFM_File> properties_array;
+
+    /** SMB Client **/
+    public static NtlmPasswordAuthentication[] smb_auth_session = new NtlmPasswordAuthentication[2];
+
+    /** SFTP Client**/
+    static JSch sftp_auth_session[] = new JSch[2];
     public static ChannelSftp[] sftp_auth_channel = new ChannelSftp[2];
     static Session sftp_session[] = new Session[2];
+
+    /** FTP Client **/
+    public static FTPClient[] ftp_auth_session = new FTPClient[2];
 
     /** VARS FOR OPERATION**/
     static int sel;
@@ -109,11 +117,6 @@ public class datFM extends Activity {
     static String pref_theme,pref_theme_icons;
     static int icons_size,text_name_size,text_discr_size,font_style;
     static Typeface font_typeface;
-
-    /** FTP Server **/
-    public static boolean swiftp_running,swiftp_wakelock;
-    public static String swiftp_login,swiftp_password,swiftp_show_password,swiftp_chroot;
-    public static int swiftp_port;
 
     /** ICON CACHE **/
     static int cache_size;
@@ -1159,11 +1162,11 @@ public class datFM extends Activity {
             sftp_add_server_user.setText(formdata[3]);
             sftp_add_server_pass.setText(formdata[4]);
             sftp_add_server_port.setText(formdata[5]);
-
+                             /*
             if(formdata[6].equals("1")){
                 sftp_add_server_encrypt_pass.setText(formdata[7]);
                 formdata[7]=null;
-            }
+            }        */
         }
         if (sftp_add_server_port.getText().toString().equals("")){sftp_add_server_port.setText("22");}
         if (sftp_add_server_user.getText().toString().equals("")){sftp_add_server_user.setText("root");}
