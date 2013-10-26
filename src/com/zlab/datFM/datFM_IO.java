@@ -246,10 +246,23 @@ public class datFM_IO {
             }
         }
         in.close();
+        out.flush();
         out.close();
 
         /** Check FTP transaction **/
-        if(ftp){if(!datFM.ftp_auth_session[PanelID].completePendingCommand())Log.e("datFM err:","FTP transaction error. SRC="+path+", DST="+dest);}
+                 /*
+        if(datFM.ftp_auth_session[PanelID]!=null)datFM.ftp_auth_session[PanelID].completePendingCommand();
+        if(datFM.ftp_auth_session[CompetPanel]!=null)datFM.ftp_auth_session[CompetPanel].completePendingCommand();
+                         */
+               /***
+        if(datFM.ftp_auth_session[PanelID]!=null)if(!datFM.ftp_auth_session[PanelID].completePendingCommand()){
+            Log.e("datFM err:","FTP transaction error. SRC="+path+", DST="+dest);
+        }else{Log.e("sec","sec");}
+
+        if(datFM.ftp_auth_session[CompetPanel]!=null)if(!datFM.ftp_auth_session[CompetPanel].completePendingCommand()){
+            Log.e("datFM err:","FTP transaction error. SRC="+path+", DST="+dest);
+        }else{Log.e("sec","sec");}
+        */
     }
 
     private void updateCurrentBar(final int CurrentProgress,final long fullsize, final long currentsize){

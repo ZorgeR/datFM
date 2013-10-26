@@ -57,7 +57,7 @@ public class plugin_FTP {
     public OutputStream getOutput() {
         OutputStream out;
         try {
-            out = datFM.ftp_auth_session[PanelID].storeFileStream(FTPrealpath(path));
+            out = datFM.ftp_auth_session[PanelID].storeUniqueFileStream(FTPrealpath(path));
         } catch (IOException e) {
             out = null;
             Log.e("datFM err: ","File not found - "+path);
