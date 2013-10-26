@@ -2,7 +2,6 @@ package com.zlab.datFM;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -14,14 +13,11 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.enterprisedt.net.ftp.*;
 import com.jcraft.jsch.*;
 import com.zlab.datFM.IO.plugin_FTP;
 import jcifs.UniAddress;
 import jcifs.smb.*;
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPClientConfig;
-import org.apache.commons.net.ftp.FTPFile;
-
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.InetAddress;
@@ -224,7 +220,8 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
         url = path;
         datFM.url=url;
 
-        if(datFM.ftp_auth_session[panel_ID]==null){
+        if(datFM.ftp_auth_transfer[panel_ID]==null){
+            datFM.ftp_auth_transfer[panel_ID] = new FileTransferClient();
             datFM.ftp_auth_session[panel_ID] = new FTPClient();
         }
 
@@ -236,41 +233,40 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                 if(hostname.contains("/")){hostname = hostname.substring(0, hostname.indexOf("/"));}
             }
 
-        /*
-                FTPClientConfig config = new FTPClientConfig();
-                datFM.ftp_auth_session[panel_ID].configure(config);
-                           */
 
-                InetAddress inetaddr=null;
-                try {
-                    inetaddr = InetAddress.getByName(hostname);
-                } catch (UnknownHostException e) {
-                    Log.e("datFM error: ", "FTP unknown hostname - "+hostname);
-                }
+        try {
+            datFM.ftp_auth_transfer[panel_ID].setRemoteHost(hostname);
+            datFM.ftp_auth_transfer[panel_ID].setRemotePort(21);
+            datFM.ftp_auth_transfer[panel_ID].setUserName("zorgftp");
+            datFM.ftp_auth_transfer[panel_ID].setPassword("zorgftpAbc123");
 
-                try {
-                    datFM.ftp_auth_session[panel_ID].connect(inetaddr,21);
-                } catch (IOException e) {
-                    Log.e("datFM error: ", "Set connect hostname:port error - "+hostname);
-                }
-                    /** Passive Mode **/
-                    datFM.ftp_auth_session[panel_ID].enterLocalPassiveMode();
-                try {
-                    datFM.ftp_auth_session[panel_ID].login("zorgftp","zorgftpAbc123");
-                } catch (IOException e) {
-                    ftp_success_auth=false;
-                    Log.e("datFM error: ", "FTP login error.");
-                }
+            /** Passive Mode **/
+            datFM.ftp_auth_transfer[panel_ID].getAdvancedFTPSettings().setConnectMode(FTPConnectMode.PASV);
+            datFM.ftp_auth_transfer[panel_ID].setContentType(FTPTransferType.BINARY);
 
-                /** UTF 8 **/
-                datFM.ftp_auth_session[panel_ID].setControlEncoding("UTF-8");
-                datFM.ftp_auth_session[panel_ID].setAutodetectUTF8(true);
+            /** UTF 8 **/
+            datFM.ftp_auth_transfer[panel_ID].getAdvancedSettings().setControlEncoding("UTF-8");
+
+        } catch (Exception e) {
+            Log.e("datFM err: ", "FTP configuration error: "+e.getMessage());
+        }
+                //datFM.ftp_auth_transfer[panel_ID].getAdvancedSettings().setAutodetectUTF8(true);
 
 
                 try {
-                    datFM.ftp_auth_session[panel_ID].setFileType(FTPClient.BINARY_FILE_TYPE);
-                } catch (IOException e) {
-                    Log.e("datFM error: ", "Can't set binary file transfer.");
+                    datFM.ftp_auth_transfer[panel_ID].connect();
+
+                    datFM.ftp_auth_session[panel_ID].setRemoteHost(hostname);
+                    datFM.ftp_auth_session[panel_ID].setRemotePort(21);
+                    datFM.ftp_auth_session[panel_ID].connect();
+
+                    datFM.ftp_auth_session[panel_ID].user("zorgftp");
+                    datFM.ftp_auth_session[panel_ID].password("zorgftpAbc123");
+                    datFM.ftp_auth_session[panel_ID].setConnectMode(FTPConnectMode.PASV);
+                    datFM.ftp_auth_session[panel_ID].setType(FTPTransferType.BINARY);
+                    datFM.ftp_auth_session[panel_ID].setControlEncoding("UTF-8");
+                } catch (Exception e) {
+                    Log.e("datFM error: ", "Set connect hostname:port error - "+hostname+" : "+e.getMessage());
                 }
 
 
@@ -287,30 +283,32 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
             if(dir!=null){
                 try{
                     String realpath=url.replace("ftp://"+hostname,"");
+
+                    FTPFile[] list;
+
                     if(datFM.pref_show_hide){
-                        datFM.ftp_auth_session[panel_ID].setListHiddenFiles(true);
+                        list = datFM.ftp_auth_transfer[panel_ID].directoryList("-a "+realpath);
                     } else {
-                        datFM.ftp_auth_session[panel_ID].setListHiddenFiles(false);
+                        list = datFM.ftp_auth_transfer[panel_ID].directoryList(realpath);
                     }
-                    FTPFile[] list = datFM.ftp_auth_session[panel_ID].listFiles(realpath);
 
                     for(FTPFile ff: list){
                         if((!datFM.pref_show_hide && ff.getName().startsWith(".")) ||
                                 (ff.getName().equals(".") || ff.getName().equals(".."))){} else {
-                            if(ff.isDirectory()){
+                            if(ff.isDir()){
                                 String data = datFM.datFM_context.getResources().getString(R.string.fileslist_directory);
-                                Long date = ff.getTimestamp().getTimeInMillis();
+                                Long date = ff.lastModified().getTime();
                                 dir_info.add(new datFM_File(ff.getName(),url+ff.getName(),0,"smb","dir",data, url, date));
                             } else {
-                                String data = formatSize(ff.getSize());
-                                Long date = ff.getTimestamp().getTimeInMillis();
+                                String data = formatSize(ff.size());
+                                Long date = ff.lastModified().getTime();
 
                                 if(datFM.pref_show_date){
                                     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm',' d MMM");
                                     data = data+" / "+sdf.format(date);
                                 }
 
-                                fls_info.add(new datFM_File(ff.getName(),url+ff.getName(),ff.getSize(),"smb","file",data,url,date));
+                                fls_info.add(new datFM_File(ff.getName(),url+ff.getName(),ff.size(),"smb","file",data,url,date));
                             }
                         }
                     }

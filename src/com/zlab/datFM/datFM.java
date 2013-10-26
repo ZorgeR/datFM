@@ -22,6 +22,8 @@ import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.*;
+import com.enterprisedt.net.ftp.FTPClient;
+import com.enterprisedt.net.ftp.FileTransferClient;
 import com.jcraft.jsch.*;
 import com.zlab.datFM.IO.plugin_SMB;
 import com.zlab.datFM.ZA.ZArchiver_IO;
@@ -34,7 +36,6 @@ import com.zlab.datFM.player.datFM_video;
 import com.zlab.datFM.stream.Streamer;
 import jcifs.smb.NtlmPasswordAuthentication;
 import jcifs.smb.SmbFile;
-import org.apache.commons.net.ftp.FTPClient;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -83,6 +84,7 @@ public class datFM extends Activity {
     static Session sftp_session[] = new Session[2];
 
     /** FTP Client **/
+    public static FileTransferClient[] ftp_auth_transfer = new FileTransferClient[2];
     public static FTPClient[] ftp_auth_session = new FTPClient[2];
 
     /** VARS FOR OPERATION**/

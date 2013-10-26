@@ -251,15 +251,15 @@ public class datFM_IO {
 
         /** Check FTP transaction **/
                  /*
-        if(datFM.ftp_auth_session[PanelID]!=null)datFM.ftp_auth_session[PanelID].completePendingCommand();
-        if(datFM.ftp_auth_session[CompetPanel]!=null)datFM.ftp_auth_session[CompetPanel].completePendingCommand();
+        if(datFM.ftp_auth_transfer[PanelID]!=null)datFM.ftp_auth_transfer[PanelID].completePendingCommand();
+        if(datFM.ftp_auth_transfer[CompetPanel]!=null)datFM.ftp_auth_transfer[CompetPanel].completePendingCommand();
                          */
                /***
-        if(datFM.ftp_auth_session[PanelID]!=null)if(!datFM.ftp_auth_session[PanelID].completePendingCommand()){
+        if(datFM.ftp_auth_transfer[PanelID]!=null)if(!datFM.ftp_auth_transfer[PanelID].completePendingCommand()){
             Log.e("datFM err:","FTP transaction error. SRC="+path+", DST="+dest);
         }else{Log.e("sec","sec");}
 
-        if(datFM.ftp_auth_session[CompetPanel]!=null)if(!datFM.ftp_auth_session[CompetPanel].completePendingCommand()){
+        if(datFM.ftp_auth_transfer[CompetPanel]!=null)if(!datFM.ftp_auth_transfer[CompetPanel].completePendingCommand()){
             Log.e("datFM err:","FTP transaction error. SRC="+path+", DST="+dest);
         }else{Log.e("sec","sec");}
         */

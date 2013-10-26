@@ -1,19 +1,17 @@
 package com.zlab.datFM.IO;
 
 import android.util.Log;
+import com.enterprisedt.net.ftp.FTPFile;
 import com.zlab.datFM.R;
 import com.zlab.datFM.datFM;
 import com.zlab.datFM.datFM_IO;
-import org.apache.commons.net.ftp.FTPFile;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 public class plugin_FTP {
 
     private String path;
-    private long size;
     private int PanelID;
     private int CompetPanel;
 
@@ -26,9 +24,14 @@ public class plugin_FTP {
     public FTPFile getFile(){
         FTPFile file=null;
         try {
-            file = datFM.ftp_auth_session[PanelID].mlistFile(FTPrealpath(path));
-            if(file!=null) size = file.getSize();
-        } catch (IOException e) {
+                                                                 /**
+            datFM.ftp_auth_session[PanelID].setRemoteHost(datFM.ftp_auth_transfer[PanelID].getRemoteHost());
+            datFM.ftp_auth_session[PanelID].setRemotePort(datFM.ftp_auth_transfer[PanelID].getRemotePort());
+            datFM.ftp_auth_session[PanelID].user(datFM.ftp_auth_transfer[PanelID].getUserName());
+            datFM.ftp_auth_session[PanelID].password(datFM.ftp_auth_transfer[PanelID].getPassword());
+                                                                          **/
+            file = datFM.ftp_auth_session[PanelID].fileDetails(FTPrealpath(path));
+        } catch (Exception e) {
             Log.e("datFM err: ", "Can't get file - "+path);
         }
         return file;
@@ -36,7 +39,7 @@ public class plugin_FTP {
 
     public Long getFileSize(){
         try{
-            return size;
+            return getFile().size();
         } catch (Exception e){
             Log.e("datFM err: ", "Can't get file size - " + path);
             return null;
@@ -47,8 +50,8 @@ public class plugin_FTP {
     public InputStream getInput() {
         InputStream in;
         try {
-                in = datFM.ftp_auth_session[PanelID].retrieveFileStream(FTPrealpath(path));
-        } catch (IOException e) {
+                in = datFM.ftp_auth_transfer[PanelID].downloadStream(FTPrealpath(path));
+        } catch (Exception e) {
                 in = null;
                 Log.e("datFM err: ","File not found - "+path);
         }
@@ -57,8 +60,8 @@ public class plugin_FTP {
     public OutputStream getOutput() {
         OutputStream out;
         try {
-            out = datFM.ftp_auth_session[PanelID].storeUniqueFileStream(FTPrealpath(path));
-        } catch (IOException e) {
+            out = datFM.ftp_auth_transfer[PanelID].uploadStream(FTPrealpath(path));
+        } catch (Exception e) {
             out = null;
             Log.e("datFM err: ","File not found - "+path);
         }
@@ -71,9 +74,9 @@ public class plugin_FTP {
         if (is_dir()) {
             new datFM_IO(dest,CompetPanel).mkdir();
             try {
-                for (FTPFile ff : datFM.ftp_auth_session[PanelID].listFiles(FTPrealpath(path))) {
+                for (FTPFile ff : datFM.ftp_auth_transfer[PanelID].directoryList(FTPrealpath(path))) {
                     new plugin_FTP(path+"/"+ff.getName(),PanelID).copy(dest+"/"+ff.getName());}
-            } catch (IOException e) {
+            } catch (Exception e) {
                 Log.e("datFM err: ", "While list - "+path);
             }
         } else {
@@ -95,30 +98,34 @@ public class plugin_FTP {
         }
         return success;
     }
-    public boolean delete_recursively(String file){
-        if (new plugin_FTP(file,PanelID).is_dir())
+    public boolean delete_recursively(String sfile){
+        if (new plugin_FTP(sfile,PanelID).is_dir()){
             try {
-                for (FTPFile child : datFM.ftp_auth_session[PanelID].listFiles(FTPrealpath(file)))
-                    delete_recursively(file+"/"+child.getName());
-                datFM.ftp_auth_session[PanelID].rmd(FTPrealpath(file));
-            } catch (IOException e) {
+                for (FTPFile child : datFM.ftp_auth_transfer[PanelID].directoryList(FTPrealpath(sfile)))
+                    delete_recursively(sfile+"/"+child.getName());
+                datFM.ftp_auth_transfer[PanelID].deleteDirectory(FTPrealpath(sfile));
+            } catch (Exception e) {
                 Log.e("datFM err: ", "Can't list directory");
+                return false;
             }
-        try{
-            datFM.ftp_auth_session[PanelID].deleteFile(FTPrealpath(file));
-            return true;
-        } catch (Exception e){
-            Log.e("datFM err: ", "Error while delete - "+file);
-            return false;
+        } else {
+            try{
+                datFM.ftp_auth_transfer[PanelID].deleteFile(FTPrealpath(sfile));
+                return true;
+            } catch (Exception e){
+                Log.e("datFM err: ", "Error while delete - "+sfile);
+                return false;
+            }
         }
+        return true;
     }
 
     /** RENAME **/
     public boolean rename(String new_name){
         try {
-            datFM.ftp_auth_session[PanelID].rename(FTPrealpath(path), FTPrealpath(new_name));
+            datFM.ftp_auth_transfer[PanelID].rename(FTPrealpath(path), FTPrealpath(new_name));
             return true;
-        } catch (IOException e) {
+        } catch (Exception e) {
             Log.e("datFM err: ", "IOException");
             return false;
         }
@@ -126,9 +133,9 @@ public class plugin_FTP {
     /** MKDIR **/
     public boolean mkdir(){
         try {
-            datFM.ftp_auth_session[PanelID].makeDirectory(FTPrealpath(path));
+            datFM.ftp_auth_transfer[PanelID].createDirectory(FTPrealpath(path));
             return true;
-        } catch (IOException e) {
+        } catch (Exception e) {
             Log.e("datFM err: ", "can't mkdir - "+path);
             return false;
         }
@@ -136,21 +143,7 @@ public class plugin_FTP {
     /** EXISTS **/
     public boolean exists(){
         try {
-            if(getFile().isDirectory()){
-                datFM.ftp_auth_session[PanelID].changeWorkingDirectory(FTPrealpath(path));
-                int returnCode = datFM.ftp_auth_session[PanelID].getReplyCode();
-                if (returnCode == 550){
-                    return false;
-                }
-                    return true;
-            } else {
-                InputStream inputStream = datFM.ftp_auth_session[PanelID].retrieveFileStream(FTPrealpath(path));
-                int returnCode = datFM.ftp_auth_session[PanelID].getReplyCode();
-                if (inputStream == null || returnCode == 550) {
-                    return false;
-                }
-                return true;
-            }
+            return datFM.ftp_auth_transfer[PanelID].exists(FTPrealpath(path));
         } catch (Exception e) {
             //Log.e("datFM err: ", "No exist.");
             return false;
@@ -158,14 +151,14 @@ public class plugin_FTP {
     }
     /** IS DIR **/
     public boolean is_dir() {
-        return getFile().isDirectory();
+        return getFile().isDir();
     }
     /** getDir list **/
     public String[] listFiles(){
         String[] filepathlist;
 
         try {
-            FTPFile[] ftpfilelist=datFM.ftp_auth_session[PanelID].listFiles(FTPrealpath(path));
+            FTPFile[] ftpfilelist=getFile().listFiles();
             filepathlist = new String[ftpfilelist.length];
             for(int i=0;i<ftpfilelist.length;i++){
                 filepathlist[i]=path+"/"+ftpfilelist[i].getName();
@@ -203,8 +196,8 @@ public class plugin_FTP {
     }
     public String getPath(){
         try {
-            return datFM.ftp_auth_session[PanelID].printWorkingDirectory();
-        } catch (IOException e) {
+            return getFile().getPath();
+        } catch (Exception e) {
             Log.e("datFM err: ", "Get dir error - "+path);
             return null;
         }
