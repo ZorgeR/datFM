@@ -32,9 +32,9 @@ import com.zlab.datFM.player.VideoPlayerActivity;
 import com.zlab.datFM.player.datFM_audio;
 import com.zlab.datFM.player.datFM_video;
 import com.zlab.datFM.stream.Streamer;
-import it.sauronsoftware.ftp4j.FTPClient;
 import jcifs.smb.NtlmPasswordAuthentication;
 import jcifs.smb.SmbFile;
+import org.apache.commons.net.ftp.FTPClient;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -364,6 +364,7 @@ public class datFM extends Activity {
         if(path!=null){
             boolean smb = path.startsWith("smb://");
             boolean sftp = path.startsWith("sftp://");
+            boolean ftp = path.startsWith("ftp://");
             boolean local = path.startsWith("/");
             boolean home = path.startsWith("datFM://");
             boolean protocol_accepted=true;
@@ -379,6 +380,8 @@ public class datFM extends Activity {
                 protocols[Panel_ID]="sftp";
             } else if (home){
                 protocols[Panel_ID]="datfm";
+            } else if (ftp){
+                protocols[Panel_ID]="ftp";
             } else {
                 Toast.makeText(datFM_context,getResources().getString(R.string.notify_unknown_protocol),Toast.LENGTH_SHORT).show();
                 protocol_accepted=false;

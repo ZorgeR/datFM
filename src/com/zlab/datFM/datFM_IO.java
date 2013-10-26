@@ -3,6 +3,7 @@ package com.zlab.datFM;
 import android.util.Log;
 import android.widget.Toast;
 import com.jcraft.jsch.*;
+import com.zlab.datFM.IO.plugin_FTP;
 import com.zlab.datFM.IO.plugin_SFTP;
 import com.zlab.datFM.IO.plugin_SMB;
 import com.zlab.datFM.IO.plugin_local;
@@ -19,6 +20,7 @@ public class datFM_IO {
     boolean smb;
     boolean sftp;
     boolean local;
+    boolean ftp;
     boolean acceptable;
 
     /** Globals **/
@@ -44,6 +46,8 @@ public class datFM_IO {
             size = new plugin_SMB(path,PanelID).getFileSize();
         } else if (sftp){
             size = new plugin_SFTP(path,PanelID).getFileSize();
+        } else if (ftp){
+            size = new plugin_FTP(path,PanelID).getFileSize();
         }
 
         return size;
@@ -57,6 +61,8 @@ public class datFM_IO {
             size = new plugin_SMB(file,Panel).getFileSize();
         } else if (sftp){
             size = new plugin_SFTP(file,Panel).getFileSize();
+        } else if (ftp){
+            size = new plugin_FTP(file,Panel).getFileSize();
         }
 
         return size;
@@ -72,6 +78,8 @@ public class datFM_IO {
             return new plugin_SMB(path,PanelID).getInput();
         } else if (sftp){
             return new plugin_SFTP(path,PanelID).getInput();
+        } else if (ftp){
+            return new plugin_FTP(path,PanelID).getInput();
         }
 
         return in;
@@ -85,26 +93,27 @@ public class datFM_IO {
             return new plugin_SMB(path,PanelID).getOutput();
         } else if (sftp){
             return new plugin_SFTP(path,PanelID).getOutput();
+        } else if (ftp){
+            return new plugin_FTP(path,PanelID).getOutput();
         }
         return out;
     }
 
     /** DELETE **/
     public boolean delete(){
-        boolean success;
         checkProtocol();
 
         if(local){
-            success = new plugin_local(path,PanelID).delete();
+            return new plugin_local(path,PanelID).delete();
         } else if (smb){
-            success = new plugin_SMB(path,PanelID).delete();
+            return new plugin_SMB(path,PanelID).delete();
         } else if (sftp){
-            success = new plugin_SFTP(path,PanelID).delete();
-        } else {
-            success=false;
+            return new plugin_SFTP(path,PanelID).delete();
+        } else if (ftp){
+            return new plugin_FTP(path,PanelID).delete();
         }
 
-        return success;
+        return false;
     }
     /** COPY **/
     public boolean copy(String dest){
@@ -116,109 +125,103 @@ public class datFM_IO {
             new plugin_SMB(path,PanelID).copy(dest);
         } else if (sftp){
             new plugin_SFTP(path,PanelID).copy(dest);
-        } else {
-            return false;
+        } else if (ftp){
+            new plugin_FTP(path,PanelID).copy(dest);
         }
 
         return new datFM_IO(dest,CompetPanel).is_exist_custom(dest, CompetPanel);
     }
     /** RENAME **/
     public boolean rename(String new_name){
-        boolean success;
         checkProtocol();
 
         if(local){
-            success=new plugin_local(path,PanelID).rename(new_name);
+            return new plugin_local(path,PanelID).rename(new_name);
         } else if (smb){
-            success=new plugin_SMB(path,PanelID).rename(new_name);
+            return new plugin_SMB(path,PanelID).rename(new_name);
         } else if (sftp){
-            success=new plugin_SFTP(path,PanelID).rename(new_name);
-        } else {
-            success=false;
+            return new plugin_SFTP(path,PanelID).rename(new_name);
+        } else if (ftp){
+            return new plugin_FTP(path,PanelID).rename(new_name);
         }
 
-        return success;
+        return false;
     }
 
     /** MKDIR **/
     public boolean mkdir(){
-        boolean success=false;
         checkProtocol();
         if(local){
-            success = new plugin_local(path,PanelID).mkdir();
+            return new plugin_local(path,PanelID).mkdir();
         } else if (smb){
-            success = new plugin_SMB(path,PanelID).mkdir();
+            return new plugin_SMB(path,PanelID).mkdir();
         } else if (sftp){
-            success = new plugin_SFTP(path,PanelID).mkdir();
-        } else {
-            success=false;
+            return new plugin_SFTP(path,PanelID).mkdir();
+        } else if (ftp){
+            return new plugin_FTP(path,PanelID).mkdir();
         }
-        return success;
+        return false;
     }
 
     /** EXIST **/
     public boolean exists(){
-        boolean success;
         checkProtocol();
 
         if(local){
-            success = new plugin_local(path,PanelID).exists();
+            return new plugin_local(path,PanelID).exists();
         } else if (smb){
-            success = new plugin_SMB(path,PanelID).exists();
+            return new plugin_SMB(path,PanelID).exists();
         } else if (sftp){
-            success = new plugin_SFTP(path,PanelID).exists();
-        } else {
-            success=false;
+            return new plugin_SFTP(path,PanelID).exists();
+        } else if (ftp){
+            return new plugin_FTP(path,PanelID).exists();
         }
-        return success;
+        return false;
     }
     public boolean is_exist_custom(String file, int PanID){
-        boolean success;
         checkProtocol();
 
         if(local){
-            success = new plugin_local(file,PanID).exists();
+            return new plugin_local(file,PanID).exists();
         } else if (smb){
-            success = new plugin_SMB(file,PanID).exists();
+            return new plugin_SMB(file,PanID).exists();
         } else if (sftp){
-            success = new plugin_SFTP(file,PanID).exists();
-        } else {
-            success=false;
+            return new plugin_SFTP(file,PanID).exists();
+        } else if (ftp){
+            return new plugin_FTP(file,PanID).exists();
         }
-        return success;
+        return false;
     }
     /** IS DIR **/
-    public boolean is_dir() throws SftpException, JSchException {
-        boolean success;
+    public boolean is_dir() {
         checkProtocol();
 
         if(local){
-            success = new plugin_local(path,PanelID).is_dir();
+            return new plugin_local(path,PanelID).is_dir();
         } else if (smb){
-            success = new plugin_SMB(path,PanelID).is_dir();
+            return new plugin_SMB(path,PanelID).is_dir();
         } else if (sftp){
-            success = new plugin_SFTP(path,PanelID).is_dir();
-        } else {
-            success=false;
+            return new plugin_SFTP(path,PanelID).is_dir();
+        } else if (ftp){
+            return new plugin_FTP(path,PanelID).is_dir();
         }
-        return success;
+        return false;
     }
     /** getDir list **/
     public String[] listFiles(){
-        String[] filepathlist;
         checkProtocol();
 
         if(local){
-            filepathlist = new plugin_local(path,PanelID).listFiles();
+            return new plugin_local(path,PanelID).listFiles();
         } else if (smb){
-            filepathlist = new plugin_SMB(path,PanelID).listFiles();
+            return new plugin_SMB(path,PanelID).listFiles();
         } else if (sftp){
-            filepathlist = new plugin_SFTP(path,PanelID).listFiles();
-        } else {
-            filepathlist=new String[] {""};
+            return new plugin_SFTP(path,PanelID).listFiles();
+        } else if (ftp){
+            return new plugin_FTP(path,PanelID).listFiles();
         }
 
-        return filepathlist;
+        return new String[] {""};
     }
     /** STREAM WORKER **/
     public void IO_Stream_Worker(String src, String dest) throws IOException {
@@ -244,6 +247,9 @@ public class datFM_IO {
         }
         in.close();
         out.close();
+
+        /** Check FTP transaction **/
+        if(ftp){if(!datFM.ftp_auth_session[PanelID].completePendingCommand())Log.e("datFM err:","FTP transaction error. SRC="+path+", DST="+dest);}
     }
 
     private void updateCurrentBar(final int CurrentProgress,final long fullsize, final long currentsize){
@@ -271,20 +277,19 @@ public class datFM_IO {
 
     /** GetName in UI thread **/
     public String getName(){
-        String name;
         checkProtocol();
 
         if(local){
-            name = new plugin_local(path,PanelID).getName();
+            return new plugin_local(path,PanelID).getName();
         } else if(smb){
-            name = new plugin_SMB(path,PanelID).getName();
+            return new plugin_SMB(path,PanelID).getName();
         } else if(sftp){
-            name = new plugin_SFTP(path,PanelID).getName();
-        } else {
-           name="";
+            return new plugin_SFTP(path,PanelID).getName();
+        } else if(ftp){
+            return new plugin_FTP(path,PanelID).getName();
         }
 
-        return name;
+        return null;
     }
     /** GetParent in UI thread **/
     public String[] getParent(){
@@ -297,6 +302,8 @@ public class datFM_IO {
             parent = new plugin_SMB(path,PanelID).getParent();
         } else if(sftp){
             parent = new plugin_SFTP(path,PanelID).getParent();
+        } else if(ftp){
+            parent = new plugin_FTP(path,PanelID).getParent();
         } else {
             parent[0]=path.substring(0,path.lastIndexOf("/")+1);
             parent[1]="home";
@@ -308,11 +315,12 @@ public class datFM_IO {
 
     /** Protocol identifier **/
     public boolean checkProtocol(){
-        sftp = path.startsWith("sftp://");
-        smb = path.startsWith("smb://");
         local = path.startsWith("/");
+        smb = path.startsWith("smb://");
+        sftp = path.startsWith("sftp://");
+        ftp = path.startsWith("ftp://");
 
-        if(!local && !smb && !sftp ){
+        if(!local && !smb && !sftp && !ftp ){
             acceptable=false;
         } else {
             acceptable=true;

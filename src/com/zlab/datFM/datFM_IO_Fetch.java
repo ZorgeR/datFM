@@ -15,11 +15,16 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.jcraft.jsch.*;
+import com.zlab.datFM.IO.plugin_FTP;
 import jcifs.UniAddress;
 import jcifs.smb.*;
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPClientConfig;
+import org.apache.commons.net.ftp.FTPFile;
 
 import java.io.*;
 import java.math.BigDecimal;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
@@ -39,6 +44,7 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
     boolean smb_success_auth =true;
     boolean sftp_success_auth =true;
     boolean sftp_session_auth =true;
+    boolean ftp_success_auth = true;
     boolean valid_url=true;
 
     public datFM activity;
@@ -80,6 +86,8 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                 fetch_sftp();
             } catch (Exception e) {if(e.getMessage()!=null)Log.e("SFTP ERROR:", e.getMessage());
             }
+        } else if (protocol.equals("ftp")){
+            fetch_ftp();
         } else if (protocol.equals("datfm")){
             fetch_datFM();
         } else {
@@ -210,6 +218,105 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                 fetch_err=true;
             }
         //-------END SMB WORKS---------------------
+    }
+    private void fetch_ftp(){
+        if(path.lastIndexOf("/")!=path.length()-1){path=path+"/";}
+        url = path;
+        datFM.url=url;
+
+        if(datFM.ftp_auth_session[panel_ID]==null){
+            datFM.ftp_auth_session[panel_ID] = new FTPClient();
+        }
+
+        // ------ CHECK FTP AUTH ------------ //
+
+            hostname = url;
+            if(!hostname.equals("ftp://")){
+                hostname = hostname.replace("ftp://","");
+                if(hostname.contains("/")){hostname = hostname.substring(0, hostname.indexOf("/"));}
+            }
+
+        /*
+                FTPClientConfig config = new FTPClientConfig();
+                datFM.ftp_auth_session[panel_ID].configure(config);
+                           */
+
+                InetAddress inetaddr=null;
+                try {
+                    inetaddr = InetAddress.getByName(hostname);
+                } catch (UnknownHostException e) {
+                    Log.e("datFM error: ", "FTP unknown hostname - "+hostname);
+                }
+
+                try {
+                    datFM.ftp_auth_session[panel_ID].connect(inetaddr,21);
+                } catch (IOException e) {
+                    Log.e("datFM error: ", "Set connect hostname:port error - "+hostname);
+                }
+                    /** Passive Mode **/
+                    datFM.ftp_auth_session[panel_ID].enterLocalPassiveMode();
+                try {
+                    datFM.ftp_auth_session[panel_ID].login("zorgftp","zorgftpAbc123");
+                } catch (IOException e) {
+                    ftp_success_auth=false;
+                    Log.e("datFM error: ", "FTP login error.");
+                }
+
+                /** UTF 8 **/
+                datFM.ftp_auth_session[panel_ID].setControlEncoding("UTF-8");
+                datFM.ftp_auth_session[panel_ID].setAutodetectUTF8(true);
+
+
+                try {
+                    datFM.ftp_auth_session[panel_ID].setFileType(FTPClient.BINARY_FILE_TYPE);
+                } catch (IOException e) {
+                    Log.e("datFM error: ", "Can't set binary file transfer.");
+                }
+
+
+        //---------START FTP WORKS-------------------------
+            FTPFile dir = new plugin_FTP(url,panel_ID).getFile();
+            if (panel_ID ==0){
+                datFM.parent_left=new plugin_FTP(url,panel_ID).getParent()[0];
+                datFM.curentLeftDir=url;
+            } else {
+                datFM.parent_right=new plugin_FTP(url,panel_ID).getParent()[0];
+                datFM.curentRightDir=url;
+            }
+
+            if(dir!=null){
+                try{
+                    String realpath=url.replace("ftp://"+hostname,"");
+                    FTPFile[] list = datFM.ftp_auth_session[panel_ID].listFiles(realpath);
+                    for(FTPFile ff: list){
+                        if(!datFM.pref_show_hide && ff.getName().startsWith(".")){} else {
+                            if(ff.isDirectory()){
+                                String data = datFM.datFM_context.getResources().getString(R.string.fileslist_directory);
+                                String name = ff.getName().substring(0,ff.getName().length()-1);
+                                Long date = ff.getTimestamp().getTimeInMillis();
+                                dir_info.add(new datFM_File(name,url+ff.getName(),0,"smb","dir",data, url, date));
+                            } else {
+                                String data = formatSize(ff.getSize());
+                                Long date = ff.getTimestamp().getTimeInMillis();
+
+                                if(datFM.pref_show_date){
+                                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm',' d MMM");
+                                    data = data+" / "+sdf.format(date);
+                                }
+
+                                fls_info.add(new datFM_File(ff.getName(),url+ff.getName(),ff.getSize(),"smb","file",data,url,date));
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    //fetch_err=true;
+                }
+            }
+
+            Collections.sort(dir_info);
+            Collections.sort(fls_info);
+
+            dir_info.addAll(fls_info);
     }
     private void fetch_sftp() {
         if(path.lastIndexOf("/")!=path.length()-1){path=path+"/";}
