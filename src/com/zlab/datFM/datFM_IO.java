@@ -63,9 +63,9 @@ public class datFM_IO {
     }
 
     /** STREAM **/
-    public BufferedInputStream getInput(){
+    public InputStream getInput(){
         checkProtocol();
-        BufferedInputStream in=null;
+        InputStream in=null;
         if(local){
             return new plugin_local(path,PanelID).getInput();
         } else if (smb){
@@ -76,9 +76,9 @@ public class datFM_IO {
 
         return in;
     }
-    public BufferedOutputStream getOutput(){
+    public OutputStream getOutput(){
         checkProtocol();
-        BufferedOutputStream out=null;
+        OutputStream out=null;
         if(local){
             return new plugin_local(path,PanelID).getOutput();
         } else if (smb){
@@ -222,10 +222,10 @@ public class datFM_IO {
     }
     /** STREAM WORKER **/
     public void IO_Stream_Worker(String src, String dest) throws IOException {
-        BufferedInputStream in = new datFM_IO(src,PanelID).getInput();
-        BufferedOutputStream out = new datFM_IO(dest,CompetPanel).getOutput();
+        InputStream in = new BufferedInputStream(new datFM_IO(src,PanelID).getInput());
+        OutputStream out = new BufferedOutputStream(new datFM_IO(dest,CompetPanel).getOutput());
 
-        byte[] buf = new byte[1024];
+        byte[] buf = new byte[512];
         int len;
 
         long fullsize = getFileSizeCustom(src,PanelID);

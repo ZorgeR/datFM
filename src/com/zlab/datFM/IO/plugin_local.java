@@ -34,20 +34,20 @@ public class plugin_local {
     }
 
     /** Stream worker **/
-    public BufferedInputStream getInput() {
-        BufferedInputStream in;
+    public InputStream getInput() {
+        InputStream in;
         try {
-            in = new BufferedInputStream(new FileInputStream(path));
+            in = new FileInputStream(path);
         } catch (FileNotFoundException e) {
             in = null;
             Log.e("datFM err: ","File not found - "+path);
         }
         return in;
     }
-    public BufferedOutputStream getOutput() {
-        BufferedOutputStream out;
+    public OutputStream getOutput() {
+        OutputStream out;
         try {
-            out = new BufferedOutputStream(new FileOutputStream(path));
+            out = new FileOutputStream(path);
         } catch (FileNotFoundException e) {
             out = null;
             Log.e("datFM err: ","File not found - "+path);

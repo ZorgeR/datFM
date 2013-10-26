@@ -47,10 +47,10 @@ public class plugin_SMB {
     }
 
     /** Stream worker **/
-    public BufferedInputStream getInput() {
-        BufferedInputStream in;
+    public InputStream getInput() {
+        InputStream in;
             try {
-                in = new BufferedInputStream(new SmbFileInputStream(getFile()));
+                in = new SmbFileInputStream(getFile());
             } catch (SmbException e) {
                 in = null;
                 Log.e("datFM err: ","SmbException - "+path);
@@ -64,10 +64,10 @@ public class plugin_SMB {
 
         return in;
     }
-    public BufferedOutputStream getOutput() {
-        BufferedOutputStream out;
+    public OutputStream getOutput() {
+        OutputStream out;
             try {
-                out = new BufferedOutputStream(new SmbFileOutputStream(getFile()));
+                out = new SmbFileOutputStream(getFile());
             } catch (SmbException e) {
                 out = null;
                 Log.e("datFM err: ","SmbException - "+path);

@@ -52,10 +52,10 @@ public class plugin_SFTP {
     }
 
     /** Stream worker **/
-    public BufferedInputStream getInput() {
-        BufferedInputStream in;
+    public InputStream getInput() {
+        InputStream in;
         try {
-            in = new BufferedInputStream(getFile().get(SFTPrealpath(path)));
+            in = getFile().get(SFTPrealpath(path));
         } catch (SftpException e) {
             in = null;
             Log.e("datFM err: ","Can't get input - "+path);
@@ -63,10 +63,10 @@ public class plugin_SFTP {
 
         return in;
     }
-    public BufferedOutputStream getOutput() {
-        BufferedOutputStream out;
+    public OutputStream getOutput() {
+        OutputStream out;
         try {
-            out = new BufferedOutputStream(getFile().put(SFTPrealpath(path)));
+            out = getFile().put(SFTPrealpath(path));
         } catch (SftpException e) {
             out = null;
             Log.e("datFM err: ","Can't get output - "+path);

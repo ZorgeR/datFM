@@ -173,7 +173,7 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                 if(dir!=null){
                     try{
                         for(SmbFile ff: dir.listFiles()){
-                            if(!datFM.pref_show_hide && ff.getName().endsWith("$/")){} else {
+                            if(!datFM.pref_show_hide && (ff.getName().endsWith("$/") || ff.getName().startsWith("."))){} else {
                                 if(ff.isDirectory()){
                                     String data = datFM.datFM_context.getResources().getString(R.string.fileslist_directory);
                                     String name = ff.getName().substring(0,ff.getName().length()-1);
