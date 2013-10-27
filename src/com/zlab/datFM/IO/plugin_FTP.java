@@ -146,9 +146,7 @@ public class plugin_FTP {
         try {
             for(FTPFile ff : datFM.ftp_auth_transfer[PanelID].directoryList(FTPrealpath(getParent()[0]))){
                 if(ff.getName().equals(getName())){
-                    if(ff.isDir() || ff.isFile() || ff.isLink()){
-                        success = true;
-                    }
+                    if(ff.isDir() || ff.isFile() || ff.isLink()){success = true;}
                 }
             }
         } catch (FTPException e) {
