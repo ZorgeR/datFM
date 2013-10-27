@@ -81,7 +81,6 @@ public class datFM_IO {
         } else if (ftp){
             return new plugin_FTP(path,PanelID).getInput();
         }
-
         return in;
     }
     public OutputStream getOutput(){
