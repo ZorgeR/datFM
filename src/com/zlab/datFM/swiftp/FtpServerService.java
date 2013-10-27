@@ -42,6 +42,8 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import com.zlab.datFM.R;
+import com.zlab.datFM.datFM;
 import com.zlab.datFM.swiftp.server.SessionThread;
 import com.zlab.datFM.swiftp.server.TcpListener;
 
@@ -256,6 +258,13 @@ public class FtpServerService extends Service implements Runnable {
                 setupListener();
             } catch (IOException e) {
                 Log.w(TAG, "Error opening port, check your network connection.");
+                datFM.datFM_state.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        datFM.notify_toast("Error opening port: "+port+", check your network connection.",true);
+                    }
+                });
+
                 // serverAddress = null;
                 cleanupAndStopService();
                 return;
@@ -268,6 +277,14 @@ public class FtpServerService extends Service implements Runnable {
 
         // A socket is open now, so the FTP server is started, notify rest of world
         sendBroadcast(new Intent(ACTION_STARTED));
+        /** Change FTP string **/
+        datFM.datFM_state.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                datFM.ftpServerTitle=getApplicationContext().getResources().getString(R.string.fileslist_stop_ftp);
+                datFM.action_ftp_server_status();
+            }
+        });
 
         while (!shouldExit) {
             if (acceptWifi) {
@@ -329,6 +346,14 @@ public class FtpServerService extends Service implements Runnable {
         releaseWifiLock();
         releaseWakeLock();
         sendBroadcast(new Intent(ACTION_STOPPED));
+        /** Change FTP string **/
+        datFM.datFM_state.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                datFM.ftpServerTitle=getApplicationContext().getResources().getString(R.string.fileslist_run_ftp);
+                datFM.action_ftp_server_status();
+            }
+        });
     }
 
     private void takeWakeLock() {

@@ -56,7 +56,7 @@ public class datFM extends Activity {
     static ListView listLeft,listRight;
     TextView textPanelRight,textPanelLeft,textItemsRightSelected,textItemsLeftSelected;
     EditText textCurrentPathLeft, textCurrentPathRight;
-    static String curentLeftDir,curentRightDir;
+    public static String curentLeftDir,curentRightDir;
     static String parent_left,parent_right;
     LinearLayout btnShare,btnAddFolder,btnAddToArchive,btnCopy,btnCut,btnSelectAll,btnDeselectAll,btnDelete,btnRename;
     TextView btnShareText,btnAddFolderText,btnAddToArchiveText,btnCopyText,btnCutText,btnSelectAllText,btnDeselectAllText,btnDeleteText,btnRenameText;
@@ -102,7 +102,7 @@ public class datFM extends Activity {
     public static Context datFM_context;
 
     /** VARS HOLDER FOR TAB **/
-    protected datFM_File_ListAdaptor adapterLeft, adapterRight;
+    public static datFM_File_ListAdaptor adapterLeft, adapterRight;
 
     /** VARS PREFS **/
     public SharedPreferences prefs;
@@ -1630,14 +1630,14 @@ public class datFM extends Activity {
     }
     private void action_ftp_server_start(){
         if(!FtpServerService.isRunning()){
-            ftpServerTitle=getApplicationContext().getResources().getString(R.string.fileslist_stop_ftp);
             sendBroadcast(new Intent(FtpServerService.ACTION_START_FTPSERVER));
         } else {
-            ftpServerTitle=getApplicationContext().getResources().getString(R.string.fileslist_run_ftp);
             sendBroadcast(new Intent(FtpServerService.ACTION_STOP_FTPSERVER));
         }
-        if(curentLeftDir.equals("datFM://ftp")){fill_new(curentLeftDir, 0);action_deselect_all(0);}
-        if(curentRightDir.equals("datFM://ftp")){fill_new(curentRightDir, 1);action_deselect_all(1);}
+    }
+    public static void action_ftp_server_status(){
+        if(datFM_state.curentLeftDir.equals("datFM://ftp")){datFM_state.fill_new(datFM_state.curentLeftDir, 0);datFM_state.action_deselect_all(0);}
+        if(datFM_state.curentRightDir.equals("datFM://ftp")){datFM_state.fill_new(datFM_state.curentRightDir, 1);datFM_state.action_deselect_all(1);}
     }
 
     private void action_dialog(String title, String from, String to, int count, final String operation){
