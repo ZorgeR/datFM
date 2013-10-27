@@ -186,10 +186,12 @@ public class datFM_File_ListAdaptor extends ArrayAdapter<datFM_File> {
                 imgFileIcon.setImageResource(getContext().getResources().getIdentifier("ext_action_exit"+"_"+datFM.pref_theme_icons, "drawable", "com.zlab.datFM"));
             }
 
-            if((o.getName().startsWith(".") || o.getName().endsWith("$")) && !o.getName().equals("..")){
-                if(datFM.currentApiVersion >= 11) {imgFileIcon.setAlpha(0x80);}
-            } else {
-                if(datFM.currentApiVersion >= 11) {imgFileIcon.setAlpha(0xFF);}
+            if(datFM.pref_show_hide){
+                if((o.getName().startsWith(".") && !o.getName().equals("..")) || o.getName().endsWith("$")){
+                    if(datFM.currentApiVersion >= 11) {imgFileIcon.setAlpha(0x80);}
+                } else {
+                    if(datFM.currentApiVersion >= 11) {imgFileIcon.setAlpha(0xFF);}
+                }
             }
 
             imgFileIcon.setOnClickListener(new View.OnClickListener() {
