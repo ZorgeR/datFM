@@ -88,7 +88,6 @@ public class datFM extends Activity {
 
     /** FTP Client **/
     public static FileTransferClient[] ftp_auth_transfer = new FileTransferClient[2];
-    public static FTPClient[] ftp_auth_session = new FTPClient[2];
 
     /** VARS FOR OPERATION**/
     static int sel;
@@ -1584,7 +1583,7 @@ public class datFM extends Activity {
 
                     if(iscrypted.equals("0")){
                         String[] formdata = {server_name,server_ip_hostname,server_start_dir,server_user,server_pass,server_port,iscrypted};
-                        action_sftp_newserver(formdata);
+                        action_ftp_newserver(formdata);
                     } else {
                         AlertDialog.Builder action_dialog = new AlertDialog.Builder(this);
                         action_dialog.setTitle("Keychain");

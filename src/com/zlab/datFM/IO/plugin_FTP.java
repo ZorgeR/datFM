@@ -26,9 +26,9 @@ public class plugin_FTP {
     public FTPFile getFile(){
         FTPFile file=null;
         try {
-            file = datFM.ftp_auth_session[PanelID].fileDetails(FTPrealpath(path));
+            file = datFM.ftp_auth_transfer[PanelID].directoryList(FTPrealpath(path))[0];
         } catch (Exception e) {
-            Log.e("datFM err: ", "Can't get file - "+path);
+            Log.e("datFM err: ", "Can't get file - "+path+" "+e.getMessage());
         }
         return file;
     }
@@ -36,6 +36,7 @@ public class plugin_FTP {
     public Long getFileSize(){
         try{
             return getFile().size();
+            //return datFM.ftp_auth_transfer[PanelID].getSize(path);
         } catch (Exception e){
             Log.e("datFM err: ", "Can't get file size - " + path);
             return null;
