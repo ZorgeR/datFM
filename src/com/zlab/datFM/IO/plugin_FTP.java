@@ -2,14 +2,17 @@ package com.zlab.datFM.IO;
 
 import android.util.Log;
 import com.enterprisedt.net.ftp.FTPConnectMode;
+import com.enterprisedt.net.ftp.FTPException;
 import com.enterprisedt.net.ftp.FTPFile;
 import com.enterprisedt.net.ftp.FTPTransferType;
 import com.zlab.datFM.R;
 import com.zlab.datFM.datFM;
 import com.zlab.datFM.datFM_IO;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.ParseException;
 
 public class plugin_FTP {
 
@@ -148,7 +151,20 @@ public class plugin_FTP {
     }
     /** IS DIR **/
     public boolean is_dir() {
-        return getFile().isDir();
+        try {
+            for(FTPFile ff : datFM.ftp_auth_transfer[PanelID].directoryList(FTPrealpath(getParent()[0]))){
+                if(ff.getName().equals(getName())){
+                    return ff.isDir();
+                }
+            }
+        } catch (FTPException e) {
+            Log.e("ERR", "FTPException");
+        } catch (IOException e) {
+            Log.e("ERR", "IOException");
+        } catch (ParseException e) {
+            Log.e("ERR", "ParseException");
+        }
+        return false;
     }
     /** getDir list **/
     public String[] listFiles(){
