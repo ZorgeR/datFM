@@ -142,12 +142,26 @@ public class plugin_FTP {
     }
     /** EXISTS **/
     public boolean exists(){
+        boolean success = false;
         try {
-            return datFM.ftp_auth_transfer[PanelID].exists(FTPrealpath(path));
-        } catch (Exception e) {
-            //Log.e("datFM err: ", "No exist.");
-            return false;
+            for(FTPFile ff : datFM.ftp_auth_transfer[PanelID].directoryList(FTPrealpath(getParent()[0]))){
+                if(ff.getName().equals(getName())){
+                    if(ff.isDir() || ff.isFile() || ff.isLink()){
+                        success = true;
+                    }
+                }
+            }
+        } catch (FTPException e) {
+            Log.e("ERR", "FTPException");
+            Log.e("datFM err: ", "No exist: "+e.getMessage());
+        } catch (IOException e) {
+            Log.e("ERR", "IOException");
+            Log.e("datFM err: ", "No exist: "+e.getMessage());
+        } catch (ParseException e) {
+            Log.e("ERR", "ParseException");
+            Log.e("datFM err: ", "No exist: "+e.getMessage());
         }
+        return success;
     }
     /** IS DIR **/
     public boolean is_dir() {
