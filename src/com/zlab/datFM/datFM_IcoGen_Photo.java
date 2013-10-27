@@ -27,30 +27,31 @@ protected void onPreExecute() {
                     int id = Integer.parseInt(params[1]);
                     Drawable icon=null;
 
-                try
-                {
-                    final int THUMBNAIL_SIZE = datFM.icons_size;
+                if(!filePath.startsWith("ftp://") && !filePath.startsWith("sftp://")){
+                    try
+                    {
+                        final int THUMBNAIL_SIZE = datFM.icons_size;
 
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inSampleSize = 10;
+                        BitmapFactory.Options options = new BitmapFactory.Options();
+                        options.inSampleSize = 10;
 
-                    /** LOCAL MODE **/
-                    //imageBitmap = BitmapFactory.decodeFile(filePath, options);
-                    /** MULTI MODE **/
-                    InputStream io = new BufferedInputStream(new datFM_IO(filePath,activity.PanelID).getInput());
-                    imageBitmap = BitmapFactory.decodeStream(io, null, options);
-                    imageBitmap = ThumbnailUtils.extractThumbnail(imageBitmap,THUMBNAIL_SIZE,THUMBNAIL_SIZE);
-                    io.close();
-                    //if(datFM.protocols[activity.PanelID].equals("ftp")){if(!datFM.ftp_auth_transfer[activity.PanelID].completePendingCommand());}
-                    /** NETWORK MODE **/
-                    //imageBitmap = BitmapFactory.decodeStream(new datFM_IO(filePath).getInput(), null, options);
-                    //imageBitmap = Bitmap.createScaledBitmap(imageBitmap, THUMBNAIL_SIZE, THUMBNAIL_SIZE, false);
+                        /** LOCAL MODE **/
+                        //imageBitmap = BitmapFactory.decodeFile(filePath, options);
+                        /** MULTI MODE **/
+                        InputStream io = new BufferedInputStream(new datFM_IO(filePath,activity.PanelID).getInput());
+                        imageBitmap = BitmapFactory.decodeStream(io, null, options);
+                        imageBitmap = ThumbnailUtils.extractThumbnail(imageBitmap,THUMBNAIL_SIZE,THUMBNAIL_SIZE);
+                        io.close();
+                        //if(datFM.protocols[activity.PanelID].equals("ftp")){if(!datFM.ftp_auth_transfer[activity.PanelID].completePendingCommand());}
+                        /** NETWORK MODE **/
+                        //imageBitmap = BitmapFactory.decodeStream(new datFM_IO(filePath).getInput(), null, options);
+                        //imageBitmap = Bitmap.createScaledBitmap(imageBitmap, THUMBNAIL_SIZE, THUMBNAIL_SIZE, false);
 
-                    icon = new BitmapDrawable(imageBitmap);
-                    //if (prop_icon_file==null){prop_icon_file=activity.getContext().getResources().getDrawable(R.drawable.ext_pdf);}
-                } catch(Exception ex) {
+                        icon = new BitmapDrawable(imageBitmap);
+                        //if (prop_icon_file==null){prop_icon_file=activity.getContext().getResources().getDrawable(R.drawable.ext_pdf);}
+                    } catch(Exception ex) {
+                    }
                 }
-
                 if (icon==null){icon=activity.getContext().getResources().getDrawable(
                                      activity.getContext().getResources().getIdentifier("ext_photo"+"_"+datFM.pref_theme_icons, "drawable", "com.zlab.datFM"));
                                 //icon=activity.getContext().getResources().getDrawable(R.drawable.ext_unknown_human_o2);

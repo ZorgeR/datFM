@@ -34,13 +34,13 @@ public class plugin_FTP {
     }
 
     public Long getFileSize(){
+        Long size = 0L;
         try{
-            return getFile().size();
-            //return datFM.ftp_auth_transfer[PanelID].getSize(path);
+            size = getFile().size();
         } catch (Exception e){
-            Log.e("datFM err: ", "Can't get file size - " + path);
-            return null;
+            Log.e("datFM err: ", "Can't get file size - " + path + " "+e.getMessage());
         }
+        return size;
     }
 
     /** Stream worker **/
