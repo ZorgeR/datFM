@@ -1798,6 +1798,7 @@ public class datFM extends Activity {
                        adapterLeft.getItem(i).getType().equals("dir")               ||
                        adapterLeft.getItem(i).getType().equals("smb_store_network") ||
                        adapterLeft.getItem(i).getType().equals("sftp_store_network") ||
+                       adapterLeft.getItem(i).getType().equals("ftp_store_network") ||
                        adapterLeft.getItem(i).getType().startsWith("fav_bookmark")  ){
                         selLeft++;
                         selectedLeft[i]=true;
@@ -1817,6 +1818,7 @@ public class datFM extends Activity {
                        adapterRight.getItem(i).getType().equals("dir")               ||
                        adapterRight.getItem(i).getType().equals("smb_store_network") ||
                        adapterRight.getItem(i).getType().equals("sftp_store_network") ||
+                       adapterRight.getItem(i).getType().equals("ftp_store_network") ||
                        adapterRight.getItem(i).getType().startsWith("fav_bookmark")  ){
                         selRight++;
                         selectedRight[i]=true;
