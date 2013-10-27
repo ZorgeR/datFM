@@ -230,7 +230,7 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
 
         if(datFM.ftp_auth_transfer[panel_ID]==null){
             datFM.ftp_auth_transfer[panel_ID] = new FileTransferClient();
-        // ------ CHECK FTP AUTH ------------ //
+
             try {
                 datFM.ftp_auth_transfer[panel_ID].setRemoteHost(hostname);
                 datFM.ftp_auth_transfer[panel_ID].setRemotePort(21);
@@ -241,43 +241,40 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                 Log.e("datFM err: ", "FTP configuration error: "+e.getMessage());
             }
         }
-
         try {
-            if(!datFM.ftp_auth_transfer[panel_ID].isConnected()){
-                /** Passive Mode **/
-                datFM.ftp_auth_transfer[panel_ID].getAdvancedFTPSettings().setConnectMode(FTPConnectMode.PASV);
-                datFM.ftp_auth_transfer[panel_ID].setContentType(FTPTransferType.BINARY);
+            /** Passive Mode **/
+            datFM.ftp_auth_transfer[panel_ID].getAdvancedFTPSettings().setConnectMode(FTPConnectMode.PASV);
+            datFM.ftp_auth_transfer[panel_ID].setContentType(FTPTransferType.BINARY);
 
-                /** UTF 8 **/
-                datFM.ftp_auth_transfer[panel_ID].getAdvancedSettings().setControlEncoding("UTF-8");
+            /** UTF 8 **/
+            datFM.ftp_auth_transfer[panel_ID].getAdvancedSettings().setControlEncoding("UTF-8");
 
-                datFM.ftp_auth_transfer[panel_ID].connect();
-            }
+            datFM.ftp_auth_transfer[panel_ID].connect();
         } catch (Exception e) {
             ftp_success_auth=false;
-            Log.e("datFM err: ", "FTP configuration error: "+e.getMessage());
+            Log.e("datFM err: ", "FTP connect error: "+e.getMessage());
         }
-        try {
-            if(datFM.ftp_auth_session[panel_ID]==null){datFM.ftp_auth_session[panel_ID]=new FTPClient();}
+        // ------ CHECK FTP AUTH ------------ //
 
-            if(!datFM.ftp_auth_session[panel_ID].connected()){
-                datFM.ftp_auth_session[panel_ID].setRemoteHost(datFM.ftp_auth_transfer[panel_ID].getRemoteHost());
-                datFM.ftp_auth_session[panel_ID].setRemotePort(datFM.ftp_auth_transfer[panel_ID].getRemotePort());
-
-                datFM.ftp_auth_session[panel_ID].setConnectMode(FTPConnectMode.PASV);
-                datFM.ftp_auth_session[panel_ID].setControlEncoding("UTF-8");
-                datFM.ftp_auth_session[panel_ID].connect();
-            }
-
-            if(datFM.ftp_auth_session[panel_ID]!=null && datFM.ftp_auth_session[panel_ID].connected()){
-                datFM.ftp_auth_session[panel_ID].user(datFM.ftp_auth_transfer[panel_ID].getUserName());
-                datFM.ftp_auth_session[panel_ID].password(datFM.ftp_auth_transfer[panel_ID].getPassword());
-                datFM.ftp_auth_session[panel_ID].setType(FTPTransferType.BINARY);
-            }
-
-        } catch (Exception e) {
-            Log.e("datFM error: ", "Set connect hostname:port error - "+path+" : "+e.getMessage());
+        if(datFM.ftp_auth_session[panel_ID]==null){
+            datFM.ftp_auth_session[panel_ID] = new FTPClient();
         }
+
+            try {
+                if(!datFM.ftp_auth_session[panel_ID].connected()){
+                    datFM.ftp_auth_session[panel_ID].setRemoteHost(datFM.ftp_auth_transfer[panel_ID].getRemoteHost());
+                    datFM.ftp_auth_session[panel_ID].setRemotePort(datFM.ftp_auth_transfer[panel_ID].getRemotePort());
+
+                    datFM.ftp_auth_session[panel_ID].setConnectMode(FTPConnectMode.PASV);
+                    datFM.ftp_auth_session[panel_ID].setControlEncoding("UTF-8");
+                    datFM.ftp_auth_session[panel_ID].connect();
+                    datFM.ftp_auth_session[panel_ID].user(datFM.ftp_auth_transfer[panel_ID].getUserName());
+                    datFM.ftp_auth_session[panel_ID].password(datFM.ftp_auth_transfer[panel_ID].getPassword());
+                    datFM.ftp_auth_session[panel_ID].setType(FTPTransferType.BINARY);
+                }
+            } catch (Exception e) {
+                Log.e("datFM error: ", "Session error - "+path+" : "+e.getMessage());
+            }
 
         //---------START FTP WORKS-------------------------
             FTPFile dir = new plugin_FTP(url,panel_ID).getFile();
