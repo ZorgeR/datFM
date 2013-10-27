@@ -699,6 +699,7 @@ public class datFM extends Activity {
                 o.getType().equals("dir")  ||
                 o.getType().equals("smb_store_network") ||
                 o.getType().equals("sftp_store_network") ||
+                o.getType().equals("ftp_store_network") ||
                 o.getType().startsWith("fav_bookmark")){
             if (!selected[position]){
                 selected[position]=true;
