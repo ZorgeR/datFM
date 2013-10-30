@@ -1359,8 +1359,11 @@ public class datFM extends Activity {
                         try {datFM.sftp_auth_session[curPanel].setKnownHosts( knownHostsFilename );
                         } catch (JSchException e) {e.printStackTrace();}
 
-                        try {datFM.sftp_session[curPanel] = datFM.sftp_auth_session[curPanel].getSession( server_user, server_ip_hostname, Integer.parseInt(server_port)); /** CHECK IF NOT INTEGER **/
-                        } catch (JSchException e) {Log.e("SFTP:",e.getMessage());}
+
+                        try {
+                            datFM.sftp_session[curPanel] = datFM.sftp_auth_session[curPanel].getSession( server_user, server_ip_hostname, Integer.parseInt(server_port)); /** CHECK IF NOT INTEGER **/
+                        } catch (JSchException e) {
+                            Log.e("SFTP:",e.getMessage());}
 
 
                         if(iscrypted.equals("0")){
