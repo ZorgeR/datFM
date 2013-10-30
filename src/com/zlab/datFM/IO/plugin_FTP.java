@@ -29,11 +29,30 @@ public class plugin_FTP {
     public FTPFile getFile(){
         FTPFile file=null;
         try {
-            file = datFM.ftp_auth_transfer[PanelID].directoryList(FTPrealpath(path))[0];
+            if(is_dir()){
+                file = getDir();
+            } else {
+                file = datFM.ftp_auth_transfer[PanelID].directoryList(FTPrealpath(path))[0];
+            }
         } catch (Exception e) {
             Log.e("datFM err: ", "Can't get file - "+path+" "+e.getMessage());
         }
         return file;
+    }
+
+    public FTPFile getDir(){
+        FTPFile dir=null;
+        try {
+            for(FTPFile ff : datFM.ftp_auth_transfer[PanelID].directoryList(FTPrealpath(getParent()[0]))){
+                if(ff.getName().equals(getName())){
+                    dir = ff;
+                }
+            }
+        } catch (Exception e){
+            Log.e("datFM err: ", "Can't get dir - "+path+" "+e.getMessage());
+        }
+
+        return dir;
     }
 
     public Long getFileSize(){
@@ -183,7 +202,7 @@ public class plugin_FTP {
         String[] filepathlist;
 
         try {
-            FTPFile[] ftpfilelist=getFile().listFiles();
+            FTPFile[] ftpfilelist=datFM.ftp_auth_transfer[PanelID].directoryList(FTPrealpath(path));///getFile().listFiles();
             filepathlist = new String[ftpfilelist.length];
             for(int i=0;i<ftpfilelist.length;i++){
                 filepathlist[i]=path+"/"+ftpfilelist[i].getName();
@@ -198,10 +217,16 @@ public class plugin_FTP {
 
     /** GetName in UI thread **/
     public String getName(){
-        if (path.lastIndexOf("/")+1==path.length())
-        {path=path.substring(0,path.lastIndexOf("/"));}
-
-        return path.substring(path.lastIndexOf("/")+1);
+        String name = FTPrealpath(path);
+        if(!name.equals("")){
+            if (name.lastIndexOf("/")+1==name.length()){
+                name=name.substring(0,name.lastIndexOf("/"));
+            }
+            name = name.substring(name.lastIndexOf("/")+1);
+        } else {
+         return name;
+        }
+        return name;
     }
     public String[] getParent(){
         String[] parent=new String[3];

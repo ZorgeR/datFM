@@ -207,10 +207,17 @@ public class plugin_SFTP {
 
     /** GetName in UI thread **/
     public String getName(){
-        if (path.lastIndexOf("/")+1==path.length())
-        {path=path.substring(0,path.lastIndexOf("/"));}
+        String name = SFTPrealpath(path);
 
-        return path.substring(path.lastIndexOf("/")+1);
+        if(!name.equals("")){
+            if (name.lastIndexOf("/")+1==name.length())
+            {name=name.substring(0,name.lastIndexOf("/"));}
+
+            name = name.substring(name.lastIndexOf("/")+1);
+        } else {
+            return name;
+        }
+        return name;
     }
     public String[] getParent(){
         String[] parent=new String[3];
