@@ -3,18 +3,17 @@ package com.zlab.datFM;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.StatFs;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.*;
 import com.enterprisedt.net.ftp.*;
 import com.jcraft.jsch.*;
+import com.zlab.datFM.FilePicker.datFM_FilePicker;
 import com.zlab.datFM.IO.plugin_FTP;
 import jcifs.UniAddress;
 import jcifs.smb.*;
@@ -41,6 +40,8 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
     boolean sftp_session_auth =true;
     boolean ftp_success_auth = true;
     boolean valid_url=true;
+    //public static Button pemfile;
+    //public static LinearLayout SFTPkeypass;
 
     public datFM activity;
     public datFM_IO_Fetch(datFM a){activity = a;}
@@ -357,7 +358,7 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
         }
 
         if(datFM.sftp_auth_channel[panel_ID].isConnected()){
-            Log.e("SFTP WORK:", "SFTP connected!");
+            Log.v("SFTP WORK:", "SFTP connected!");
         } else {
             datFM.sftp_auth_channel[panel_ID]=null;
             sftp_success_auth=false;
@@ -821,10 +822,16 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
         LayoutInflater inflater = datFM.datFM_state.getLayoutInflater();
         View layer = inflater.inflate(R.layout.datfm_sftp_logon,null);
 
+
         final EditText hostname_locale = (EditText) layer.findViewById(R.id.logon_domain);
         final EditText names   = (EditText) layer.findViewById(R.id.logon_name);
         final EditText passs   = (EditText) layer.findViewById(R.id.logon_pass);
         final EditText portt   = (EditText) layer.findViewById(R.id.logon_port);
+        datFM.pemfile   = (Button) layer.findViewById(R.id.btnSFTP_PEM);
+        final EditText keypass = (EditText) layer.findViewById(R.id.txtSFTPkeypass);
+        datFM.SFTPkeypass = (LinearLayout) layer.findViewById(R.id.linearSFTPkeypass);
+        datFM.SFTPkeypass.setVisibility(View.GONE);
+        final CheckBox StrictHostCheck = (CheckBox) layer.findViewById(R.id.checkSFTPstrictHost);
 
         if(hostname!=null){
             if(hostname.indexOf('@')<0){hostname="root@"+hostname;}
@@ -862,6 +869,17 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
             }
         });
 
+        datFM.sftp_pem_file[panel_ID] = "";
+
+        datFM.pemfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent fileChooserActivity = new Intent(datFM.datFM_state, datFM_FilePicker.class);
+                fileChooserActivity.putExtra("panel_ID",String.valueOf(panel_ID));
+                datFM.datFM_state.startActivity(fileChooserActivity);
+            }
+        });
+
         action_dialog.setView(layer);
         action_dialog.setPositiveButton(datFM.datFM_state.getResources().getString(R.string.ui_dialog_btn_ok),
                 new DialogInterface.OnClickListener() {
@@ -887,19 +905,40 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
 
                         datFM.sftp_auth_session[panel_ID] = new JSch();
                         String knownHostsFilename = "/sdcard/.ssh_known_hosts";
+
                         try {
                             datFM.sftp_auth_session[panel_ID].setKnownHosts( knownHostsFilename );
                         } catch (JSchException e) {e.printStackTrace();}
 
-                        try {
-                            datFM.sftp_session[panel_ID] = datFM.sftp_auth_session[panel_ID].getSession( user_n, hostname_n, Integer.parseInt(port_n)); /** CHECK IF NOT INTEGER **/
-                        } catch (JSchException e) {
-                            Log.e("SFTP:",e.getMessage());}
 
                         datFM.sftp_session[panel_ID].setPassword( pass_n );
 
+                        if(datFM.sftp_pem_file[panel_ID]!=null && !datFM.sftp_pem_file[panel_ID].equals("")){
+                            try {
+                                if(keypass.getText().toString()!=null && !keypass.getText().toString().isEmpty() && !keypass.getText().toString().equals("")){
+                                    datFM.sftp_auth_session[panel_ID].addIdentity(datFM.sftp_pem_file[panel_ID],keypass.getText().toString());
+                                } else {
+                                    datFM.sftp_auth_session[panel_ID].addIdentity(datFM.sftp_pem_file[panel_ID]);
+                                }
+                            } catch (JSchException e) {
+                                Log.e("datFM: ", "JSCH key error - "+e.getMessage());
+                            }
+                        }
+
+                        try {
+                            datFM.sftp_session[panel_ID] = datFM.sftp_auth_session[panel_ID].getSession( user_n, hostname_n, Integer.parseInt(port_n)); /** CHECK IF NOT INTEGER **/
+                        } catch (JSchException e) {
+                            Log.e("SFTP:",e.getMessage());
+                        }
+
                         java.util.Properties config = new java.util.Properties();
-                        config.put("StrictHostKeyChecking", "no");
+
+                        if(!StrictHostCheck.isChecked()){
+                            config.put("StrictHostKeyChecking", "no");
+                        } else {
+                            config.put("StrictHostKeyChecking", "yes");
+                        }
+
                         datFM.sftp_session[panel_ID].setConfig(config);
                         datFM.sftp_auth_channel[panel_ID]=null;
                         new datFM_IO_Fetch(datFM.datFM_state).execute(path, protocol, String.valueOf(panel_ID));
@@ -917,7 +956,7 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
         AlertDialog.Builder action_dialog = new AlertDialog.Builder(datFM.datFM_state);
         action_dialog.setTitle("FTP logon");
         LayoutInflater inflater = datFM.datFM_state.getLayoutInflater();
-        View layer = inflater.inflate(R.layout.datfm_sftp_logon,null);
+        View layer = inflater.inflate(R.layout.datfm_ftp_logon,null);
 
         final EditText hostname_locale = (EditText) layer.findViewById(R.id.logon_domain);
         final EditText names   = (EditText) layer.findViewById(R.id.logon_name);

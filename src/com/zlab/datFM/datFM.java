@@ -22,26 +22,21 @@ import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.*;
-import com.enterprisedt.net.ftp.FTPClient;
 import com.enterprisedt.net.ftp.FTPException;
 import com.enterprisedt.net.ftp.FileTransferClient;
 import com.jcraft.jsch.*;
-import com.zlab.datFM.IO.plugin_SMB;
+import com.zlab.datFM.FilePicker.datFM_FilePicker;
 import com.zlab.datFM.ZA.ZArchiver_IO;
 import com.zlab.datFM.crypt.AES_256;
 import com.zlab.datFM.hooks.HR_ScrollView;
 import com.zlab.datFM.hooks.HR_ScrollViewListener;
-import com.zlab.datFM.player.VideoPlayerActivity;
 import com.zlab.datFM.player.datFM_audio;
 import com.zlab.datFM.player.datFM_video;
 import com.zlab.datFM.stream.Streamer;
 import com.zlab.datFM.swiftp.FtpServerService;
-import com.zlab.datFM.swiftp.gui.ServerPreferenceActivity;
 import jcifs.smb.NtlmPasswordAuthentication;
-import jcifs.smb.SmbFile;
 
 import java.io.*;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +55,8 @@ public class datFM extends Activity {
     public static String curentLeftDir,curentRightDir;
     static String parent_left,parent_right;
     LinearLayout btnShare,btnAddFolder,btnAddToArchive,btnCopy,btnCut,btnSelectAll,btnDeselectAll,btnDelete,btnRename;
+    public static LinearLayout SFTPkeypass;
+    public static Button pemfile;
     TextView btnShareText,btnAddFolderText,btnAddToArchiveText,btnCopyText,btnCutText,btnSelectAllText,btnDeselectAllText,btnDeleteText,btnRenameText;
     boolean[] selectedRight,selectedLeft;
     boolean FLAG_back_pressed_short = false;
@@ -74,7 +71,7 @@ public class datFM extends Activity {
     String prevName;
     static public String ftpServerTitle;
     static String[] protocols=new String[2];
-    static int currentApiVersion;
+    public static int currentApiVersion;
     static int color_item_selected;
     LinearLayout btnUPleft, btnUPright;
     static ArrayList<datFM_File> properties_array;
@@ -86,6 +83,8 @@ public class datFM extends Activity {
     static JSch sftp_auth_session[] = new JSch[2];
     public static ChannelSftp[] sftp_auth_channel = new ChannelSftp[2];
     static Session sftp_session[] = new Session[2];
+    public static KeyPair[] sftp_pem_key = new KeyPair[2];
+    public static String[] sftp_pem_file = new String[2];
 
     /** FTP Client **/
     public static FileTransferClient[] ftp_auth_transfer = new FileTransferClient[2];
@@ -119,9 +118,13 @@ public class datFM extends Activity {
     public static boolean pref_build_in_audio_player,pref_build_in_video_player,pref_build_in_photo_player;
     String pref_icons_cache,pref_icons_size,pref_text_name_size,pref_text_discr_size,pref_font_style,pref_font_typeface;
     int pref_actionbar_size,pref_path_bar_size,pref_bartext_size;
-    static String pref_theme,pref_theme_icons;
-    static int icons_size,text_name_size,text_discr_size,font_style;
-    static Typeface font_typeface;
+    public static String pref_theme;
+    static String pref_theme_icons;
+    static int icons_size;
+    static int text_name_size;
+    static int text_discr_size;
+    public static int font_style;
+    public static Typeface font_typeface;
 
     /** ICON CACHE **/
     static int cache_size;
@@ -221,9 +224,6 @@ public class datFM extends Activity {
         super.onStop();
     }
     protected void onDestroy(){
-        disconnectSFTP();
-        disconnectFTP();
-
         if (pref_root){
             String[] commands = {"mount -o ro,remount /system\n"};
             RunAsRoot(commands);
@@ -231,6 +231,8 @@ public class datFM extends Activity {
         if(pref_clear_filecache){
             action_clear_file_cache();
         }
+        disconnectSFTP();
+        disconnectFTP();
         //datFM_Destroyed=true;
         super.onDestroy();
     }
@@ -1214,6 +1216,22 @@ public class datFM extends Activity {
         final EditText sftp_add_server_port = (EditText) layer.findViewById(R.id.sftp_add_server_port);
         final EditText sftp_add_server_encrypt_pass = (EditText) layer.findViewById(R.id.sftp_add_server_encrypt_pass);
 
+        pemfile   = (Button) layer.findViewById(R.id.btnSFTP_PEM);
+        final EditText key_password = (EditText) layer.findViewById(R.id.txtSFTPkeypass);
+        SFTPkeypass = (LinearLayout) layer.findViewById(R.id.linearSFTPkeypass);
+        SFTPkeypass.setVisibility(View.GONE);
+        final CheckBox StrictHostCheck = (CheckBox) layer.findViewById(R.id.checkSFTPstrictHost);
+
+        datFM.sftp_pem_file[curPanel] = "";
+        pemfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent fileChooserActivity = new Intent(datFM.datFM_state, datFM_FilePicker.class);
+                fileChooserActivity.putExtra("panel_ID",String.valueOf(curPanel));
+                datFM.datFM_state.startActivity(fileChooserActivity);
+            }
+        });
+
         if(formdata!=null){
             sftp_add_server_name.setText(formdata[0]);
             sftp_add_server_ip_hostname.setText(formdata[1]);
@@ -1221,7 +1239,21 @@ public class datFM extends Activity {
             sftp_add_server_user.setText(formdata[3]);
             sftp_add_server_pass.setText(formdata[4]);
             sftp_add_server_port.setText(formdata[5]);
-                             /*
+            //iscrypted.setText(formdata[6]);
+            sftp_add_server_encrypt_pass.setText(formdata[6]);
+            if(new datFM_IO(formdata[7],curPanel).getName()!=null && !new datFM_IO(formdata[7],curPanel).getName().equals("")){
+                pemfile.setText(new datFM_IO(formdata[7],curPanel).getName());
+            } else {
+                pemfile.setText("*.PEM");
+            }
+            key_password.setText(formdata[8]);
+            if(formdata[9].equals("yes")){
+                StrictHostCheck.setChecked(true);
+            }
+            if(formdata[7]!=null && !formdata[7].equals("")){
+                SFTPkeypass.setVisibility(View.VISIBLE);
+            }
+            /*
             if(formdata[6].equals("1")){
                 sftp_add_server_encrypt_pass.setText(formdata[7]);
                 formdata[7]=null;
@@ -1242,11 +1274,27 @@ public class datFM extends Activity {
                         String server_port = sftp_add_server_port.getText().toString();
                         String server_encrypt_pass = sftp_add_server_encrypt_pass.getText().toString();
 
+                        String server_pemfile="";
+                        String server_keypass=key_password.getText().toString();
+                        String StrictHostCheckStr="";
+
+                        if(sftp_pem_file[curPanel]!=null && !sftp_pem_file[curPanel].equals("")){
+                                if(key_password.getText().toString()!=null && !key_password.getText().toString().isEmpty() && !key_password.getText().toString().equals("")){
+                                    server_pemfile=sftp_pem_file[curPanel];
+                                }
+                        }
+                        if(!StrictHostCheck.isChecked()){
+                            StrictHostCheckStr="no";
+                        } else {
+                            StrictHostCheckStr="yes";
+                        }
+
                         try {
                             String iscrypted="0";
 
-                            if(!server_pass.equals("") && !server_encrypt_pass.equals("")){
+                            if(!server_encrypt_pass.equals("")){
                                 server_pass = AES_256.encrypt(server_encrypt_pass, server_pass);
+                                if(!server_keypass.equals("")){server_keypass=AES_256.encrypt(server_encrypt_pass, server_keypass);}
                                 iscrypted="1";
                             }
 
@@ -1254,7 +1302,8 @@ public class datFM extends Activity {
                             String DATA = server_name+"\n"+server_ip_hostname+"\n"+
                                           server_start_dir+"\n"+server_user+"\n"+
                                           server_pass+"\n"+server_port+"\n"+
-                                          iscrypted+"\n"+"END";
+                                          iscrypted+"\n"+server_pemfile+"\n"+
+                                          server_keypass+"\n"+StrictHostCheckStr+"\n"+"END";
 
                             FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
                             fos.write(DATA.getBytes());
@@ -1295,6 +1344,10 @@ public class datFM extends Activity {
                     String server_pass = fileContent.toString().split("\n")[4];
                     String server_port = fileContent.toString().split("\n")[5];
                     String iscrypted = fileContent.toString().split("\n")[6];
+                    String pemfile = fileContent.toString().split("\n")[7];
+                    String keypass = fileContent.toString().split("\n")[8];
+                    String StrictHost = fileContent.toString().split("\n")[9];
+                    sftp_pem_file[curPanel] = "";
 
                     if(!server_user.equals("")){
                         //user=server_user;
@@ -1302,18 +1355,41 @@ public class datFM extends Activity {
 
                         datFM.sftp_auth_session[curPanel] = new JSch();
                         String knownHostsFilename = "/sdcard/.ssh_known_hosts";
+
                         try {datFM.sftp_auth_session[curPanel].setKnownHosts( knownHostsFilename );
                         } catch (JSchException e) {e.printStackTrace();}
+
                         try {datFM.sftp_session[curPanel] = datFM.sftp_auth_session[curPanel].getSession( server_user, server_ip_hostname, Integer.parseInt(server_port)); /** CHECK IF NOT INTEGER **/
                         } catch (JSchException e) {Log.e("SFTP:",e.getMessage());}
 
 
                         if(iscrypted.equals("0")){
                             datFM.sftp_session[curPanel].setPassword( server_pass );
+
+                            sftp_pem_file[curPanel] = pemfile;
+
+                            if(sftp_pem_file[curPanel]!=null && !sftp_pem_file[curPanel].equals("")){
+                                try {
+                                    if(keypass!=null && !keypass.isEmpty() && !keypass.equals("")){
+                                        sftp_auth_session[curPanel].addIdentity(sftp_pem_file[curPanel],keypass);
+                                    } else {
+                                        sftp_auth_session[curPanel].addIdentity(sftp_pem_file[curPanel]);
+                                    }
+                                } catch (JSchException e) {
+                                    Log.e("datFM: ", "JSCH key error - "+e.getMessage());
+                                }
+                            }
+
                             java.util.Properties config = new java.util.Properties();
-                            config.put("StrictHostKeyChecking", "no");
+                            if(StrictHost.equals("no")){
+                                config.put("StrictHostKeyChecking", "no");
+                            } else {
+                                config.put("StrictHostKeyChecking", "yes");
+                            }
+
                             datFM.sftp_session[curPanel].setConfig(config);
                             datFM.sftp_auth_channel[curPanel]=null;
+
                             //new datFM_IO_Fetch(datFM.datFM_state).execute(path, protocol, String.valueOf(panel_ID));
                             fill_new(o.getPath(), curPanel);
                         } else {
@@ -1325,6 +1401,9 @@ public class datFM extends Activity {
 
                             final EditText sftp_keychain = (EditText) layer.findViewById(R.id.smb_auth_keychain);
                             final String server_pass_encrypted = server_pass;
+                            final String server_keypass_encrypted = keypass;
+                            final String StrictHostKey = StrictHost;
+                            final String pemfile_path = pemfile;
 
                             action_dialog.setView(layer);
                             action_dialog.setPositiveButton(getResources().getString(R.string.ui_dialog_btn_ok),
@@ -1333,9 +1412,30 @@ public class datFM extends Activity {
                                             String smb_keychainpass = sftp_keychain.getText().toString();
                                             try {
                                                 String pass = AES_256.decrypt(smb_keychainpass, server_pass_encrypted);
+                                                String keypass = AES_256.decrypt(smb_keychainpass, server_keypass_encrypted);
                                                 datFM.sftp_session[curPanel].setPassword( pass );
+
+                                                sftp_pem_file[curPanel] = pemfile_path;
+
+                                                if(sftp_pem_file[curPanel]!=null && !sftp_pem_file[curPanel].equals("")){
+                                                    try {
+                                                        if(keypass!=null && !keypass.isEmpty() && !keypass.equals("")){
+                                                            sftp_auth_session[curPanel].addIdentity(sftp_pem_file[curPanel],keypass);
+                                                        } else {
+                                                            sftp_auth_session[curPanel].addIdentity(sftp_pem_file[curPanel]);
+                                                        }
+                                                    } catch (JSchException e) {
+                                                        Log.e("datFM: ", "JSCH key error - "+e.getMessage());
+                                                    }
+                                                }
+
                                                 java.util.Properties config = new java.util.Properties();
-                                                config.put("StrictHostKeyChecking", "no");
+                                                if(StrictHostKey.equals("no")){
+                                                    config.put("StrictHostKeyChecking", "no");
+                                                } else {
+                                                    config.put("StrictHostKeyChecking", "yes");
+                                                }
+
                                                 datFM.sftp_session[curPanel].setConfig(config);
                                                 datFM.sftp_auth_channel[curPanel]=null;
                                                 //new datFM_IO_Fetch(datFM.datFM_state).execute(path, protocol, String.valueOf(panel_ID));
@@ -1383,10 +1483,12 @@ public class datFM extends Activity {
                     String server_pass = fileContent.toString().split("\n")[4];
                     String server_port = fileContent.toString().split("\n")[5];
                     String iscrypted = fileContent.toString().split("\n")[6];
-
+                    String pemfile = fileContent.toString().split("\n")[7];
+                    String keypass = fileContent.toString().split("\n")[8];
+                    String StrictHost = fileContent.toString().split("\n")[9];
 
                     if(iscrypted.equals("0")){
-                        String[] formdata = {server_name,server_ip_hostname,server_start_dir,server_user,server_pass,server_port,iscrypted};
+                        String[] formdata = {server_name,server_ip_hostname,server_start_dir,server_user,server_pass,server_port,"",pemfile,keypass,StrictHost};
                         action_sftp_newserver(formdata);
                     } else {
                         AlertDialog.Builder action_dialog = new AlertDialog.Builder(this);
@@ -1397,7 +1499,10 @@ public class datFM extends Activity {
 
                         final EditText sftp_keychain = (EditText) layer.findViewById(R.id.smb_auth_keychain);
                         final String server_pass_encrypted = server_pass;
-                        final String[] formdata = {server_name,server_ip_hostname,server_start_dir,server_user,server_pass,server_port,iscrypted,null};
+                        final String[] formdata = {server_name,server_ip_hostname,server_start_dir,server_user,server_pass,server_port,iscrypted,null,null,null};
+                        final String server_keypass_encrypted = keypass;
+                        final String StrictHostKey = StrictHost;
+                        final String pemfile_path = pemfile;
 
                         action_dialog.setView(layer);
                         action_dialog.setPositiveButton(getResources().getString(R.string.ui_dialog_btn_ok),
@@ -1406,11 +1511,15 @@ public class datFM extends Activity {
                                         String sftp_keychainpass = sftp_keychain.getText().toString();
                                         try {
                                             formdata[4]= AES_256.decrypt(sftp_keychainpass, server_pass_encrypted);
-                                            formdata[6]="1";
-                                            formdata[7]=sftp_keychainpass;
+                                            formdata[6]=sftp_keychainpass;
+                                            //formdata[7]=sftp_keychainpass;
+                                            formdata[7]=pemfile_path;
+                                            formdata[8]=AES_256.decrypt(sftp_keychainpass, server_keypass_encrypted);
+                                            formdata[9]=StrictHostKey;
+
                                             action_sftp_newserver(formdata);
                                         } catch (Exception e) {
-                                            e.printStackTrace();
+                                            Log.e("Decrypt fail: ", e.getMessage());
                                             action_sftp_editserver(bookmarkname);
                                             notify_toast(getResources().getString(R.string.notify_access_denied),true);
                                         }
@@ -1436,7 +1545,7 @@ public class datFM extends Activity {
         AlertDialog.Builder action_dialog = new AlertDialog.Builder(this);
         action_dialog.setTitle("FTP Server");
         LayoutInflater inflater = getLayoutInflater();
-        View layer = inflater.inflate(R.layout.datfm_sftp_add_server,null);
+        View layer = inflater.inflate(R.layout.datfm_ftp_add_server,null);
         if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
 
         final EditText ftp_add_server_name = (EditText) layer.findViewById(R.id.sftp_add_server_name);
@@ -1455,6 +1564,8 @@ public class datFM extends Activity {
             ftp_add_server_user.setText(formdata[3]);
             ftp_add_server_pass.setText(formdata[4]);
             ftp_add_server_port.setText(formdata[5]);
+            ftp_add_server_encrypt_pass.setText(formdata[6]);
+            //ftp_add_server_encrypt_pass.setText(formdata[6]);
                              /*
             if(formdata[6].equals("1")){
                 sftp_add_server_encrypt_pass.setText(formdata[7]);
@@ -1613,7 +1724,7 @@ public class datFM extends Activity {
 
 
                     if(iscrypted.equals("0")){
-                        String[] formdata = {server_name,server_ip_hostname,server_start_dir,server_user,server_pass,server_port,iscrypted};
+                        String[] formdata = {server_name,server_ip_hostname,server_start_dir,server_user,server_pass,server_port,""};
                         action_ftp_newserver(formdata);
                     } else {
                         AlertDialog.Builder action_dialog = new AlertDialog.Builder(this);
@@ -1633,8 +1744,8 @@ public class datFM extends Activity {
                                         String ftp_keychainpass = ftp_keychain.getText().toString();
                                         try {
                                             formdata[4]= AES_256.decrypt(ftp_keychainpass, server_pass_encrypted);
-                                            formdata[6]="1";
-                                            formdata[7]=ftp_keychainpass;
+                                            formdata[6]=ftp_keychainpass;
+                                            //formdata[7]=ftp_keychainpass;
                                             action_ftp_newserver(formdata);
                                         } catch (Exception e) {
                                             e.printStackTrace();

@@ -60,40 +60,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/logon_port" android:hint="22"/>
     </LinearLayout>
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-        <TextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="Cert:"
-                android:id="@+id/textView3"/>
-        <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="*.PEM"
-                android:id="@+id/btnSFTP_PEM" android:singleLine="true"/>
-    </LinearLayout>
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" android:id="@+id/linearSFTPkeypass">
-        <TextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="Cert Key:"
-                android:id="@+id/textView4"/>
-        <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtSFTPkeypass" android:hint="Passphrase" android:password="true"/>
-    </LinearLayout>
-    <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Strict Host Key Checking"
-            android:id="@+id/checkSFTPstrictHost"/>
     <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -58,6 +58,19 @@
         </activity>
         <activity android:name=".player.VideoPlayerActivity"></activity>
 
+        <activity
+                android:name=".FilePicker.datFM_Picker"
+                android:theme="@style/Theme.Transparent"
+                android:configChanges="keyboardHidden|orientation|screenSize"
+                >
+        </activity>
+        <activity
+                android:name=".FilePicker.datFM_FilePicker"
+                android:theme="@style/Theme.Transparent"
+                android:configChanges="keyboardHidden|orientation|screenSize"
+                >
+        </activity>
+
         <!-- FTP Server -->
         <activity android:name=".swiftp.gui.ServerPreferenceActivity" >
         </activity>
