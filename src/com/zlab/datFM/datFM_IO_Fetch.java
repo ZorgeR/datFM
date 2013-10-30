@@ -100,16 +100,20 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                 if(!smb_success_auth){datFM.notify_toast(datFM.datFM_state.getResources().getString(R.string.notify_logon_error),true);}
                 if(fetch_err){datFM.notify_toast(datFM.datFM_state.getResources().getString(R.string.notify_connection_error),true);}
                 if(datFM.pref_sambalogin){
-                    logonScreenSMB();}
+                    datFM.datFM_state.fill_new("datFM://smb", panel_ID);
+                    logonScreenSMB();
+                }
             } else if(protocol.equals("sftp")&& (!sftp_success_auth||!sftp_session_auth)){
                 if(!sftp_session_auth){
                     Toast.makeText(datFM.datFM_context,"SFTP host error.", Toast.LENGTH_SHORT).show();
                 } else if (!sftp_success_auth){
                     Toast.makeText(datFM.datFM_context,"SFTP logon error.", Toast.LENGTH_SHORT).show();
                 }
-                try {logonScreenSFTP();} catch (JSchException e) {e.printStackTrace();}
+                datFM.datFM_state.fill_new("datFM://sftp", panel_ID);
+                logonScreenSFTP();
             } else if(protocol.equals("ftp") && !ftp_success_auth){
                     Toast.makeText(datFM.datFM_context,"FTP logon error.", Toast.LENGTH_SHORT).show();
+                    datFM.datFM_state.fill_new("datFM://ftp", panel_ID);
                     logonScreenFTP();
             } else {
                     datFM.datFM_state.fill_panel(dir_info, fls_info, panel_ID);
@@ -263,7 +267,12 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
         }
 
         //---------START FTP WORKS-------------------------
-            FTPFile dir = new plugin_FTP(url,panel_ID).getFile();
+        FTPFile dir = new plugin_FTP(url,panel_ID).getFile();
+
+        if(!datFM.ftp_auth_transfer[panel_ID].isConnected()){
+            ftp_success_auth=false;
+        } else {
+
             if (panel_ID ==0){
                 datFM.parent_left=new plugin_FTP(url,panel_ID).getParent()[0];
                 datFM.curentLeftDir=url;
@@ -313,6 +322,7 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
             Collections.sort(fls_info);
 
             dir_info.addAll(fls_info);
+        }
     }
     private void fetch_sftp() {
         if(path.lastIndexOf("/")!=path.length()-1){path=path+"/";}
@@ -805,7 +815,7 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
         AlertDialog AboutDialog = action_dialog.create();
         AboutDialog.show();
     }
-    private void logonScreenSFTP() throws JSchException {
+    private void logonScreenSFTP(){
         AlertDialog.Builder action_dialog = new AlertDialog.Builder(datFM.datFM_state);
         action_dialog.setTitle("SFTP logon");
         LayoutInflater inflater = datFM.datFM_state.getLayoutInflater();
@@ -913,14 +923,25 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
         final EditText names   = (EditText) layer.findViewById(R.id.logon_name);
         final EditText passs   = (EditText) layer.findViewById(R.id.logon_pass);
         final EditText portt   = (EditText) layer.findViewById(R.id.logon_port);
+        portt.setHint("21");
 
-        if(datFM.ftp_auth_transfer[panel_ID]!=null){
+
+        if(datFM.ftp_auth_transfer[panel_ID].getRemoteHost()!=null){
             hostname_locale.setText(datFM.ftp_auth_transfer[panel_ID].getRemoteHost());
-            names.setText(datFM.ftp_auth_transfer[panel_ID].getUserName());
-            passs.setText(datFM.ftp_auth_transfer[panel_ID].getPassword());
-            portt.setHint("21");
-            portt.setText(String.valueOf(datFM.ftp_auth_transfer[panel_ID].getRemotePort()));
+        } else {
+            if(hostname!=null){
+                hostname = hostname.replace("ftp://","");
+                if(hostname.contains("/")){hostname = hostname.substring(0, hostname.indexOf("/"));}
+                hostname_locale.setText(hostname);
+            }
         }
+        if(datFM.ftp_auth_transfer[panel_ID].getUserName()!=null){
+            names.setText(datFM.ftp_auth_transfer[panel_ID].getUserName());}
+        if(datFM.ftp_auth_transfer[panel_ID].getPassword()!=null){
+            passs.setText(datFM.ftp_auth_transfer[panel_ID].getPassword());}
+        if(datFM.ftp_auth_transfer[panel_ID].getRemotePort()!=0){
+            portt.setText(String.valueOf(datFM.ftp_auth_transfer[panel_ID].getRemotePort()));}
+
 
         final CheckBox logon_guest = (CheckBox) layer.findViewById(R.id.logon_guest);
         logon_guest.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

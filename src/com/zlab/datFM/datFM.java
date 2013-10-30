@@ -23,6 +23,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.*;
 import com.enterprisedt.net.ftp.FTPClient;
+import com.enterprisedt.net.ftp.FTPException;
 import com.enterprisedt.net.ftp.FileTransferClient;
 import com.jcraft.jsch.*;
 import com.zlab.datFM.IO.plugin_SMB;
@@ -220,9 +221,8 @@ public class datFM extends Activity {
         super.onStop();
     }
     protected void onDestroy(){
-
-        if(datFM.sftp_auth_channel[0]!=null){datFM.sftp_auth_channel[0].exit();datFM.sftp_auth_channel[0].disconnect();}
-        if(datFM.sftp_auth_channel[1]!=null){datFM.sftp_auth_channel[1].exit();datFM.sftp_auth_channel[1].disconnect();}
+        disconnectSFTP();
+        disconnectFTP();
 
         if (pref_root){
             String[] commands = {"mount -o ro,remount /system\n"};
@@ -233,6 +233,37 @@ public class datFM extends Activity {
         }
         //datFM_Destroyed=true;
         super.onDestroy();
+    }
+
+    //protected void disconnectSMB(){}
+    protected void disconnectSFTP(){
+        if(datFM.sftp_auth_channel[0]!=null){datFM.sftp_auth_channel[0].exit();datFM.sftp_auth_channel[0].disconnect();}
+        if(datFM.sftp_auth_channel[1]!=null){datFM.sftp_auth_channel[1].exit();datFM.sftp_auth_channel[1].disconnect();}
+    }
+    protected void disconnectFTP(){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if(datFM.ftp_auth_transfer[0]!=null){
+                        try {
+                            datFM.ftp_auth_transfer[0].disconnect();
+                        } catch (FTPException e) {
+                            Log.e("datFM: ", e.getMessage());
+                        } catch (IOException e) {
+                            Log.e("datFM: ", e.getMessage());
+                        }
+                    }
+                    if(datFM.ftp_auth_transfer[1]!=null){
+                        try {
+                            datFM.ftp_auth_transfer[1].disconnect();
+                        } catch (FTPException e) {
+                            Log.e("datFM: ", e.getMessage());
+                        } catch (IOException e) {
+                            Log.e("datFM: ", e.getMessage());
+                        }
+                    }
+                }
+            });
     }
 
     @Override
@@ -403,45 +434,45 @@ public class datFM extends Activity {
         curPanel = panel_ID;
         if(panel_ID==0){competPanel=1;}else{competPanel=0;}
 
-        if(panel_ID==0){
-                if(!curentLeftDir.equals("datFM://")){
-                String[] parent_data=new datFM_IO(curentLeftDir,curPanel).getParent();
-                parent_left = parent_data[0];
-                String data = parent_data[2];
-                    dir.add(0,new datFM_File("..",parent_left,0,protocols[0],parent_data[1], data, parent_left, 0));
+            if(panel_ID==0){
+                    if(!curentLeftDir.equals("datFM://")){
+                    String[] parent_data=new datFM_IO(curentLeftDir,curPanel).getParent();
+                    parent_left = parent_data[0];
+                    String data = parent_data[2];
+                        dir.add(0,new datFM_File("..",parent_left,0,protocols[0],parent_data[1], data, parent_left, 0));
+                    }
+            } else {
+                if(!curentRightDir.equals("datFM://")){
+                    String[] parent_data=new datFM_IO(curentRightDir,curPanel).getParent();
+                    parent_right = parent_data[0];
+                    String data = parent_data[2];
+                    dir.add(0,new datFM_File("..",parent_right,0,protocols[1],parent_data[1], data, parent_right, 0));
                 }
-        } else {
-            if(!curentRightDir.equals("datFM://")){
-                String[] parent_data=new datFM_IO(curentRightDir,curPanel).getParent();
-                parent_right = parent_data[0];
-                String data = parent_data[2];
-                dir.add(0,new datFM_File("..",parent_right,0,protocols[1],parent_data[1], data, parent_right, 0));
             }
-        }
 
-        if (panel_ID==0){
-            selectedLeft = new boolean[dir.size()];
-            adapterLeft = new datFM_File_ListAdaptor(datFM.this,R.layout.datfm_list,dir,selectedLeft,curPanel);
-            listLeft.setAdapter(adapterLeft);
-            textPanelLeft.setText(
-                    getResources().getString(R.string.fileslist_folders_count)+(dir.size()-fls.size()-1)+", "+
-                            getResources().getString(R.string.fileslist_files_count)+fls.size());
-            textCurrentPathLeft.setText(curentLeftDir);
-            if (posLeft<listLeft.getCount()&&posLeft!=0){listLeft.setSelection(posLeft);posLeft=0;}
-            if (prevName!=null&&pref_dir_focus){for (int i=0;i<listLeft.getCount();i++){
-                if (prevName.equals(adapterLeft.getItem(i).getName())){listLeft.setSelection(i);prevName="";}}}
-        } else {
-            selectedRight = new boolean[dir.size()];
-            adapterRight = new datFM_File_ListAdaptor(datFM.this,R.layout.datfm_list,dir,selectedRight,curPanel);
-            listRight.setAdapter(adapterRight);
-            textPanelRight.setText(
-                    getResources().getString(R.string.fileslist_folders_count)+(dir.size()-fls.size()-1)+", "+
-                            getResources().getString(R.string.fileslist_files_count)+fls.size());
-            textCurrentPathRight.setText(curentRightDir);
-            if (posRight<listRight.getCount()&&posRight!=0){listRight.setSelection(posRight);posRight=0;}
-            if (prevName!=null&&pref_dir_focus){for (int i=0;i<listRight.getCount();i++){
-                if (prevName.equals(adapterRight.getItem(i).getName())){listRight.setSelection(i);prevName="";}}}
-        }
+            if (panel_ID==0){
+                selectedLeft = new boolean[dir.size()];
+                adapterLeft = new datFM_File_ListAdaptor(datFM.this,R.layout.datfm_list,dir,selectedLeft,curPanel);
+                listLeft.setAdapter(adapterLeft);
+                textPanelLeft.setText(
+                        getResources().getString(R.string.fileslist_folders_count)+(dir.size()-fls.size()-1)+", "+
+                                getResources().getString(R.string.fileslist_files_count)+fls.size());
+                textCurrentPathLeft.setText(curentLeftDir);
+                if (posLeft<listLeft.getCount()&&posLeft!=0){listLeft.setSelection(posLeft);posLeft=0;}
+                if (prevName!=null&&pref_dir_focus){for (int i=0;i<listLeft.getCount();i++){
+                    if (prevName.equals(adapterLeft.getItem(i).getName())){listLeft.setSelection(i);prevName="";}}}
+            } else {
+                selectedRight = new boolean[dir.size()];
+                adapterRight = new datFM_File_ListAdaptor(datFM.this,R.layout.datfm_list,dir,selectedRight,curPanel);
+                listRight.setAdapter(adapterRight);
+                textPanelRight.setText(
+                        getResources().getString(R.string.fileslist_folders_count)+(dir.size()-fls.size()-1)+", "+
+                                getResources().getString(R.string.fileslist_files_count)+fls.size());
+                textCurrentPathRight.setText(curentRightDir);
+                if (posRight<listRight.getCount()&&posRight!=0){listRight.setSelection(posRight);posRight=0;}
+                if (prevName!=null&&pref_dir_focus){for (int i=0;i<listRight.getCount();i++){
+                    if (prevName.equals(adapterRight.getItem(i).getName())){listRight.setSelection(i);prevName="";}}}
+            }
 
         update_panel_focus();
     }
