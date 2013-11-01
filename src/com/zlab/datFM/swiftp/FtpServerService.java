@@ -199,8 +199,8 @@ public class FtpServerService extends Service implements Runnable {
         fullWake = settings.getBoolean("stayAwake", Defaults.stayAwake);
 
         // The username, password, and chrootDir are just checked for sanity
-        String username = settings.getString("username", null);
-        String password = settings.getString("password", null);
+        String username = settings.getString("username", "ftp");
+        String password = settings.getString("password", "ftp");
         String chrootDir = settings.getString("chrootDir", Defaults.chrootDir);
 
         validateBlock: {

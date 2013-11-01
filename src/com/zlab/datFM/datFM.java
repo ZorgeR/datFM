@@ -119,7 +119,7 @@ public class datFM extends Activity {
     String pref_icons_cache,pref_icons_size,pref_text_name_size,pref_text_discr_size,pref_font_style,pref_font_typeface;
     int pref_actionbar_size,pref_path_bar_size,pref_bartext_size;
     public static String pref_theme;
-    static String pref_theme_icons;
+    public static String pref_theme_icons;
     static int icons_size;
     static int text_name_size;
     static int text_discr_size;
@@ -2508,7 +2508,13 @@ public class datFM extends Activity {
         pref_text_name_size = prefs.getString("pref_text_name_size","14");
         pref_text_discr_size = prefs.getString("pref_text_discr_size","12");
         pref_font_style = prefs.getString("pref_font_style","bold");
-        pref_font_typeface = prefs.getString("pref_font_typeface","normal");
+
+        if(currentApiVersion>15){
+            pref_font_typeface = prefs.getString("pref_font_typeface","condensed");
+        } else {
+            pref_font_typeface = prefs.getString("pref_font_typeface", "normal");
+        }
+
         pref_font_bold_folder = prefs.getBoolean("pref_font_bold_folder",false);
         pref_actionbar_size = Integer.parseInt(prefs.getString("pref_actionbar_size","38"));
         pref_path_bar_size = Integer.parseInt(prefs.getString("pref_path_bar_size","34"));
@@ -2549,7 +2555,7 @@ public class datFM extends Activity {
             if(currentApiVersion>15){ /** Condensed for 4.1 and UP **/
             font_typeface=Typeface.create("sans-serif-condensed", font_style);}
         } else {
-            font_typeface=Typeface.SERIF;
+            font_typeface=Typeface.defaultFromStyle(Typeface.NORMAL);
         }
 
         /** Icons Size **/

@@ -28,6 +28,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import com.zlab.datFM.datFM;
 import com.zlab.datFM.swiftp.FtpServerService;
 import com.zlab.datFM.R;
 
@@ -62,7 +63,8 @@ public class ServerRunningNotification extends BroadcastReceiver {
 			+ FtpServerService.getPort() + "/";
 		
         // Instantiate a Notification
-        int icon = R.drawable.notification;
+        int icon = datFM.datFM_state.getResources().getIdentifier("ext_network"+"_"+ datFM.pref_theme_icons, "drawable", "com.zlab.datFM");
+
         CharSequence tickerText = String.format(context.getString(R.string.notif_server_starting),
 				iptext);
         long when = System.currentTimeMillis();
