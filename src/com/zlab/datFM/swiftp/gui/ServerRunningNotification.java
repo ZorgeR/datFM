@@ -63,7 +63,8 @@ public class ServerRunningNotification extends BroadcastReceiver {
 			+ FtpServerService.getPort() + "/";
 		
         // Instantiate a Notification
-        int icon = datFM.datFM_state.getResources().getIdentifier("ext_network"+"_"+ datFM.pref_theme_icons, "drawable", "com.zlab.datFM");
+        //int icon = datFM.datFM_state.getResources().getIdentifier("ext_network"+"_"+ datFM.pref_theme_icons, "drawable", "com.zlab.datFM");
+        int icon = R.drawable.ftp_network;
 
         CharSequence tickerText = String.format(context.getString(R.string.notif_server_starting),
 				iptext);
