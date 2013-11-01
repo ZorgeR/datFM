@@ -59,6 +59,13 @@
         <activity android:name=".player.VideoPlayerActivity"></activity>
 
         <activity
+                android:name=".player.datFM_photo"
+                android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+                android:configChanges="keyboardHidden|orientation|screenSize"
+                >
+        </activity>
+
+        <activity
                 android:name=".FilePicker.datFM_Picker"
                 android:theme="@style/Theme.Transparent"
                 android:configChanges="keyboardHidden|orientation|screenSize"

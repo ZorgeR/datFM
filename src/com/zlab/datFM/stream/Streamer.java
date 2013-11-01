@@ -20,9 +20,10 @@ public class Streamer extends StreamServer {
     // private InputStream stream;
     // private long length;
     private static Streamer instance;
-    private static Pattern pattern = Pattern.compile("^.*\\.(?i)(mp3|wma|wav|aac|ogg|m4a|flac|mp4|avi|mpg|mpeg|3gp|3gpp|mkv|flv|rmvb)$");
+    private static Pattern pattern = Pattern.compile("^.*\\.(?i)(mp3|wma|wav|aac|ogg|m4a|flac|mp4|avi|mpg|mpeg|3gp|3gpp|mkv|flv|rmvb|jpeg|jpg|png|bmp|gif|tiff)$");
     private static Pattern pattern_audio = Pattern.compile("^.*\\.(?i)(mp3|wma|wav|aac|ogg|m4a|flac)$");
     private static Pattern pattern_video = Pattern.compile("^.*\\.(?i)(mp4|avi|mpg|mpeg|3gp|3gpp|mkv|flv|rmvb)$");
+    private static Pattern pattern_photo = Pattern.compile("^.*\\.(?i)(jpeg|jpg|png|bmp|gif|tiff)$");
 
     // private CBItem source;
     // private String mime;
@@ -52,6 +53,8 @@ public class Streamer extends StreamServer {
             return "audio/*";
         } else if(pattern_video.matcher(ext).matches()){
             return "video/*";
+        } else if(pattern_photo.matcher(ext).matches()){
+            return "image/*";
         } else {
             return "*/*";
         }
