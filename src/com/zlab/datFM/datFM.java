@@ -1241,7 +1241,9 @@ public class datFM extends Activity {
             sftp_add_server_port.setText(formdata[5]);
             //iscrypted.setText(formdata[6]);
             sftp_add_server_encrypt_pass.setText(formdata[6]);
-            if(new datFM_IO(formdata[7],curPanel).getName()!=null && !new datFM_IO(formdata[7],curPanel).getName().equals("")){
+
+            if(formdata[7]!=null && !formdata[7].equals("")){
+                sftp_pem_file[curPanel] = formdata[7];
                 pemfile.setText(new datFM_IO(formdata[7],curPanel).getName());
             } else {
                 pemfile.setText("*.PEM");
@@ -1283,6 +1285,7 @@ public class datFM extends Activity {
                                     server_pemfile=sftp_pem_file[curPanel];
                                 }
                         }
+
                         if(!StrictHostCheck.isChecked()){
                             StrictHostCheckStr="no";
                         } else {
@@ -1414,8 +1417,13 @@ public class datFM extends Activity {
                                         public void onClick(DialogInterface dialog, int which) {
                                             String smb_keychainpass = sftp_keychain.getText().toString();
                                             try {
-                                                String pass = AES_256.decrypt(smb_keychainpass, server_pass_encrypted);
-                                                String keypass = AES_256.decrypt(smb_keychainpass, server_keypass_encrypted);
+                                                String pass="";
+                                                String keypass="";
+                                                if (!server_pass_encrypted.equals("")){
+                                                pass = AES_256.decrypt(smb_keychainpass, server_pass_encrypted);}
+                                                if(!server_keypass_encrypted.equals("")){
+                                                keypass = AES_256.decrypt(smb_keychainpass, server_keypass_encrypted);}
+
                                                 datFM.sftp_session[curPanel].setPassword( pass );
 
                                                 sftp_pem_file[curPanel] = pemfile_path;
@@ -1513,11 +1521,20 @@ public class datFM extends Activity {
                                     public void onClick(DialogInterface dialog, int which) {
                                         String sftp_keychainpass = sftp_keychain.getText().toString();
                                         try {
-                                            formdata[4]= AES_256.decrypt(sftp_keychainpass, server_pass_encrypted);
+                                            formdata[4]="";
+                                            formdata[8]="";
+
+                                            if (!server_pass_encrypted.equals("")){
+                                                formdata[4]= AES_256.decrypt(sftp_keychainpass, server_pass_encrypted);}
+
+                                            if(!server_keypass_encrypted.equals("")){
+                                                formdata[8] = AES_256.decrypt(sftp_keychainpass, server_keypass_encrypted);}
+
+
                                             formdata[6]=sftp_keychainpass;
                                             //formdata[7]=sftp_keychainpass;
                                             formdata[7]=pemfile_path;
-                                            formdata[8]=AES_256.decrypt(sftp_keychainpass, server_keypass_encrypted);
+
                                             formdata[9]=StrictHostKey;
 
                                             action_sftp_newserver(formdata);
