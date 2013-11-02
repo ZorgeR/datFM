@@ -22,16 +22,19 @@ import java.io.InputStream;
 
 public class datFM_photo extends Activity {
 
-    String ImageURL;
+    //String ImageURL;
     ImageView iView;
     Activity mActivity;
     Bitmap imageBitmap;
     Drawable pic;
+    public static String ImageURL;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = this;
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         setContentView(R.layout.datfm_player_photo);
 
         ImageURL = getIntent().getExtras().getString("MediaURL");
@@ -39,9 +42,19 @@ public class datFM_photo extends Activity {
         iView = (ImageView) findViewById(R.id.datfm_player_photo_imageview);
 
 
+        iView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+            }
+        });
+
         startPlayer();
     }
     void startPlayer(){
+        //iView.setImageBitmap(BitmapFactory.decodeStream(new datFM_IO(ImageURL,datFM.curPanel).getInput()));
+        iView.setImageURI(Uri.parse(ImageURL));
+        iView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         //iView.setImageBitmap(decodeSampleBitmapFromFile(ImageURL,64,64));
                      /*
         final int THUMBNAIL_SIZE = 64;
@@ -63,7 +76,8 @@ public class datFM_photo extends Activity {
         pic = new BitmapDrawable(imageBitmap);
         iView.invalidateDrawable(pic);
           */
-        //mActivity.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+
+
     }
     public Bitmap decodeSampleBitmapFromFile(String filePath, int reqWidth,
                                                     int reqHeight) {

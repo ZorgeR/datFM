@@ -9,4 +9,5 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/datfm_player_photo_imageview" android:background="@drawable/datfm_player_background"/>
+
 </LinearLayout>
