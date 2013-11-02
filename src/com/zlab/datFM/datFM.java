@@ -1923,29 +1923,52 @@ public class datFM extends Activity {
         AlertDialog.Builder newFolderDialog = new AlertDialog.Builder(this);
         newFolderDialog.setTitle(getResources().getString(R.string.ui_dialog_title_rename));
         LayoutInflater inflater = getLayoutInflater();
-        View layer = inflater.inflate(R.layout.datfm_newfolder,null);
+        View layer = inflater.inflate(R.layout.datfm_rename,null);
         if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
 
         final EditText textNewFolderName = (EditText) layer.findViewById(R.id.textNewFolderName);
+        final CheckBox ExtensionOnly = (CheckBox) layer.findViewById(R.id.checkEXT);
+
         textNewFolderName.setHint(getResources().getString(R.string.ui_dialog_hint_rename));
         newFolderDialog.setView(layer);
 
-        if (sel==1){
             for(int i=0;i<selected.length;i++){
-            if(selected[i])textNewFolderName.setText(adapter.getItem(i).getName());
+                if(selected[i])textNewFolderName.setText(adapter.getItem(i).getName());
             }
-        }
+
+        ExtensionOnly.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    for(int i=0;i<selected.length;i++){
+                        if(selected[i])textNewFolderName.setText(adapter.getItem(i).getExt());
+                    }
+                } else {
+                    if (sel==1){
+                        for(int i=0;i<selected.length;i++){
+                            if(selected[i])textNewFolderName.setText(adapter.getItem(i).getName());
+                        }
+                    } else {
+                        for(int i=0;i<selected.length;i++){
+                            if(selected[i])textNewFolderName.setText(adapter.getItem(i).getName());
+                        }
+                    }
+                }
+            }
+        });
 
         newFolderDialog.setPositiveButton(getResources().getString(R.string.ui_dialog_btn_ok),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         String new_name = textNewFolderName.getText().toString();
                         String mask = "false";
-                        if (sel!=1){
-                            mask="true";
-                        }
+                        String extonly = "false";
+
+                        if (sel!=1){mask="true";}
+                        if(ExtensionOnly.isChecked()){extonly="true";}
+
                         if (!new_name.equals("")){
-                            new datFM_File_Operations(datFM.this).execute("rename", curDir, "unknown", new_name, mask,String.valueOf(curPanel),String.valueOf(curPanel));
+                            new datFM_File_Operations(datFM.this).execute("rename", curDir, "unknown", new_name, mask,String.valueOf(curPanel),String.valueOf(curPanel),extonly);
                         }
                     }
                 });

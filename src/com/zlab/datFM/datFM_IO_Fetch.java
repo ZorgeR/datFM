@@ -688,6 +688,8 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
         String output=RunAsRoot(command);
         //int length=output.split("\n").length;
 
+        if (!output.equals("")){
+
         for(String str : output.split("\n")){
             String[] arr = str.split("\\s+");
             //length = str.split("\\s+").length;
@@ -769,6 +771,14 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                     fls_info.add(new datFM_File(name,path,size,"smb","file",data,d.getPath(), date_long));
                 }
             }
+        }
+        } else {
+            datFM.datFM_state.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    datFM.notify_toast("No root permission.",true);
+                }
+            });
         }
     }
 

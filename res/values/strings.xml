@@ -178,6 +178,7 @@
     <string name="ui_dialog_header_please_wait">Please wait...</string>
     <string name="ui_dialog_operation_current">Current:</string>
     <string name="ui_dialog_operation_overall">Overall:</string>
+    <string name="ui_dialog_operation_rename_only_extention">Extension only</string>
     <!-- Pop-up Dialogs other content -->
     <string name="ui_dialog_from">from:</string>
     <string name="ui_dialog_to">to:</string>

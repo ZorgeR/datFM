@@ -17,7 +17,7 @@ import java.util.List;
 public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
 
     int srcPannelID,competPannelID;
-    String destDir, srcDir, operation, new_name, mask,ext;
+    String destDir, srcDir, operation, new_name, mask,ext,extonly;
     public datFM activity;
     static AlertDialog dialog_operation;
     int count;
@@ -73,6 +73,7 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
              *  params[4] = mask
              *  params[5] = srcPannelID
              *  params[6] = competPannelID
+             *  params[7] = extonly
              **/
 
             operation = params[0];
@@ -164,13 +165,30 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
 
                     new_name = params[3];
                     mask = params[4];
+                    extonly = params[7];
+
                     int j=1;
                     if (!mask.equals("true")){
+
                         for (int i=1;i<selectionHolder.length;i++){
                             if (selectionHolder[i]){
                                 datFM_File from = adaptorHolder.get(i);
-                                boolean success = protocol_rename(from.getPath(), srcDir+"/"+new_name);
+                                boolean success;
+                                if(extonly.equals("false")){
+                                success = protocol_rename(from.getPath(), srcDir+"/"+new_name);
                                 if (success) {count++;onProgressUpdate(count);}
+                                } else {
+                                    int dotPos = from.getName().lastIndexOf(".")+1;
+                                    //String ext = from.getExt().substring(dotPos);
+                                    if(dotPos>0){
+                                        String oldName = from.getName().substring(0,from.getName().lastIndexOf("."));
+                                        success = protocol_rename(from.getPath(), srcDir+"/"+oldName+"."+new_name);
+                                    } else {
+                                        String oldName = from.getName();
+                                        success = protocol_rename(from.getPath(), srcDir+"/"+oldName+"."+new_name);
+                                    }
+                                    if (success) {count++;onProgressUpdate(count);}
+                                }
                             }
                         }
                     } else {
@@ -178,23 +196,43 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
                             if (selectionHolder[i]){
                                 datFM_File from = adaptorHolder.get(i);
                                 boolean success;
-                                if (from.getType().equals("file")){
-                                    int dotPos = from.getName().lastIndexOf(".")+1;
-                                    String ext = from.getName().substring(dotPos);
-                                    if (dotPos>0){
-                                        success = protocol_rename(from.getPath(), srcDir+"/"+new_name+"_"+j+"."+ext);
-                                        if (success) {count++;onProgressUpdate(count);}
-                                    } else {
-                                        success = protocol_rename(from.getPath(), srcDir+"/"+new_name+"_"+j);
-                                        if (success) {count++;onProgressUpdate(count);}
-                                    }
+                                if(extonly.equals("false")){
+                                    //if (from.getType().equals("file")){
+                                        int dotPos = new_name.lastIndexOf(".")+1;
+
+                                        if (dotPos>0){
+                                            //String oldName = from.getName().substring(0,from.getName().lastIndexOf("."));
+                                            String nameonly = new_name.substring(0,new_name.lastIndexOf("."));
+                                            String ext = new_name.substring(dotPos);
+
+                                            success = protocol_rename(from.getPath(), srcDir+"/"+nameonly+"_"+j+"."+ext);
+                                            if (success) {count++;onProgressUpdate(count);}
+                                        } else {
+                                            //String oldName = from.getName();
+                                            //String nameonly = new_name;
+                                            success = protocol_rename(from.getPath(), srcDir+"/"+new_name+"_"+j);
+                                            if (success) {count++;onProgressUpdate(count);}
+                                        }
+                                    //}
                                 } else {
-                                    success = protocol_rename(from.getPath(), srcDir+"/"+new_name+"_"+j);
-                                    if (success) {count++;onProgressUpdate(count);}
+                                        int dotPos = from.getName().lastIndexOf(".")+1;
+                                        //String ext = from.getExt().substring(dotPos);
+                                    if(dotPos>0){
+                                        String oldName = from.getName().substring(0,from.getName().lastIndexOf("."));
+                                        success = protocol_rename(from.getPath(), srcDir+"/"+oldName+"."+new_name);
+                                    } else {
+                                        String oldName = from.getName();
+                                        success = protocol_rename(from.getPath(), srcDir+"/"+oldName+"."+new_name);
+                                    }
+                                        if (success) {count++;onProgressUpdate(count);}
+
                                 }
+
                                 if (success) {count++;j++;onProgressUpdate(count);}
+
                             }
                         }
+
                     }
                 }
 
