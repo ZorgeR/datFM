@@ -86,6 +86,7 @@ public class datFM extends Activity {
     static Session sftp_session[] = new Session[2];
     public static KeyPair[] sftp_pem_key = new KeyPair[2];
     public static String[] sftp_pem_file = new String[2];
+    public static String[] sftp_session_pass = new String[2];
 
     /** FTP Client **/
     public static FileTransferClient[] ftp_auth_transfer = new FileTransferClient[2];
@@ -1371,8 +1372,8 @@ public class datFM extends Activity {
                         try {datFM.sftp_auth_session[curPanel].setKnownHosts( knownHostsFilename );
                         } catch (JSchException e) {e.printStackTrace();}
 
-
                         try {
+                            datFM.sftp_session_pass[curPanel]=server_pass;
                             datFM.sftp_session[curPanel] = datFM.sftp_auth_session[curPanel].getSession( server_user, server_ip_hostname, Integer.parseInt(server_port)); /** CHECK IF NOT INTEGER **/
                         } catch (JSchException e) {
                             Log.e("SFTP:",e.getMessage());}

@@ -42,6 +42,7 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
     boolean ftp_success_auth = true;
     boolean valid_url=true;
     boolean strict_host_key=true;
+    //String sftp_session_pass=null;
     //KnownHosts KH_file;
 
     //public static Button pemfile;
@@ -362,6 +363,7 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
 
                         datFM.sftp_session[panel_ID].connect();
 
+                        datFM.sftp_session_pass[panel_ID] = null;
                         Channel channel = datFM.sftp_session[panel_ID].openChannel( "sftp" );
                         channel.connect();
                         datFM.sftp_auth_channel[panel_ID] = (ChannelSftp) channel;
@@ -370,6 +372,7 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                         Log.e("SFTP:", e.getMessage());
                     }
                 } else {
+                    datFM.sftp_session_pass[panel_ID] = null;
                     try {
                         datFM.sftp_session[panel_ID].connect();
                         Channel channel = datFM.sftp_session[panel_ID].openChannel( "sftp" );
@@ -1015,8 +1018,22 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                         String DATA = hk.getHost()+" "+hk.getType()+" "+hk.getKey()+"\n";
 
                         try {
+                            StringBuffer fileContent = new StringBuffer("");
+
+                            if(new File(knownHostsFilename).exists()){
+                                FileInputStream fis = new FileInputStream(knownHostsFilename);
+
+                                byte[] buffer = new byte[1024];
+                                int length;
+                                while ((length = fis.read(buffer)) != -1) {
+                                    fileContent.append(new String(buffer));
+                                }
+                                fis.close();
+                            }
+
                             FileOutputStream fos;
                             fos = new FileOutputStream(knownHostsFilename);
+                            DATA = DATA+fileContent.toString();
                             fos.write(DATA.getBytes());
                             fos.close();
                         } catch (Exception e) {
@@ -1031,19 +1048,18 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
 
                         try {
                             String StrictHost = datFM.sftp_session[panel_ID].getConfig("StrictHostKeyChecking");
-                            String pass=null;
-                            try{pass = datFM.sftp_session[panel_ID].getUserInfo().getPassword();
-                            } catch (Exception e){}
-
+                            String pass       = datFM.sftp_session_pass[panel_ID];
                             String username   = datFM.sftp_session[panel_ID].getUserName();
                             String hostname   = datFM.sftp_session[panel_ID].getHost();
                             int port          = datFM.sftp_session[panel_ID].getPort();
+
+                            //String pass       = datFM.sftp_session_pass[panel_ID];
 
                             datFM.sftp_session[panel_ID] = datFM.sftp_auth_session[panel_ID].getSession(username,hostname,port);
                             datFM.sftp_session[panel_ID].setConfig("StrictHostKeyChecking",StrictHost);
 
                             if(pass!=null){
-                            datFM.sftp_session[panel_ID].setPassword(pass);}
+                            datFM.sftp_session[panel_ID].setPassword(pass);datFM.sftp_session_pass[panel_ID]=null;}
 
                         } catch (Exception e) {
                             Log.e("ERR", "MSG");
