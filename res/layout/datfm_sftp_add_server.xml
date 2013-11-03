@@ -87,6 +87,6 @@
     <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Strict Host Key Checking"
-            android:id="@+id/checkSFTPstrictHost"/>
+            android:text="StrictHostKeyChecking"
+            android:id="@+id/checkSFTPstrictHost" android:checked="true"/>
 </LinearLayout>
