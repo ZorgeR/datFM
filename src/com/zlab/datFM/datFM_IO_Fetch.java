@@ -42,6 +42,7 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
     boolean ftp_success_auth = true;
     boolean valid_url=true;
     boolean strict_host_key=true;
+    //KnownHosts KH_file;
 
     //public static Button pemfile;
     //public static LinearLayout SFTPkeypass;
@@ -976,6 +977,13 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                         }
 
                         datFM.sftp_session[panel_ID].setConfig(config);
+
+                        try {
+                            datFM.sftp_session[panel_ID].rekey();
+                        } catch (Exception e) {
+                            Log.e("ERR", "MSG");
+                        }
+
                         datFM.sftp_auth_channel[panel_ID]=null;
                         new datFM_IO_Fetch(datFM.datFM_state).execute(path, protocol, String.valueOf(panel_ID));
                     }
@@ -1009,12 +1017,12 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 
-                        String FILENAME = "/sdcard/.ssh_known_hosts";
+                        String knownHostsFilename = "/sdcard/.ssh_known_hosts";
                         String DATA = hk.getHost()+" "+hk.getType()+" "+hk.getKey()+"\n";
 
                         try {
                             FileOutputStream fos;
-                            fos = new FileOutputStream(FILENAME);
+                            fos = new FileOutputStream(knownHostsFilename);
                             fos.write(DATA.getBytes());
                             fos.close();
                         } catch (Exception e) {
@@ -1022,6 +1030,17 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                         }
 
                         datFM.sftp_auth_channel[panel_ID]=null;
+
+                        try {
+                            datFM.sftp_auth_session[panel_ID].setKnownHosts( knownHostsFilename );
+                        } catch (JSchException e) {e.printStackTrace();}
+
+                        try {
+                            datFM.sftp_session[panel_ID].rekey();
+                        } catch (Exception e) {
+                            Log.e("ERR", "MSG");
+                        }
+
                         new datFM_IO_Fetch(datFM.datFM_state).execute(path, protocol, String.valueOf(panel_ID));
                     }
                 });

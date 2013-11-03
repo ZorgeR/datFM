@@ -64,13 +64,6 @@
                 android:configChanges="keyboardHidden|orientation|screenSize"
                 >
         </activity>
-
-        <activity
-                android:name=".FilePicker.datFM_Picker"
-                android:theme="@style/Theme.Transparent"
-                android:configChanges="keyboardHidden|orientation|screenSize"
-                >
-        </activity>
         <activity
                 android:name=".FilePicker.datFM_FilePicker"
                 android:theme="@style/Theme.Transparent"

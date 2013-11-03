@@ -187,7 +187,7 @@ public class FtpServerService extends Service implements Runnable {
     private boolean loadSettings() {
         Log.d(TAG, "Loading settings");
         settings = PreferenceManager.getDefaultSharedPreferences(this);
-        port = Integer.valueOf(settings.getString("portNum", "2121"));
+        port = Integer.valueOf(settings.getString("portNum", String.valueOf(Defaults.portNumber)));
         if (port == 0) {
             // If port number from settings is invalid, use the default
             port = Defaults.portNumber;
@@ -199,8 +199,8 @@ public class FtpServerService extends Service implements Runnable {
         fullWake = settings.getBoolean("stayAwake", Defaults.stayAwake);
 
         // The username, password, and chrootDir are just checked for sanity
-        String username = settings.getString("username", "ftp");
-        String password = settings.getString("password", "ftp");
+        String username = settings.getString("username", Defaults.username);
+        String password = settings.getString("password", Defaults.password);
         String chrootDir = settings.getString("chrootDir", Defaults.chrootDir);
 
         validateBlock: {

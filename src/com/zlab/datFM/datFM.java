@@ -1377,7 +1377,6 @@ public class datFM extends Activity {
                         } catch (JSchException e) {
                             Log.e("SFTP:",e.getMessage());}
 
-
                         if(iscrypted.equals("0")){
                             datFM.sftp_session[curPanel].setPassword( server_pass );
 
