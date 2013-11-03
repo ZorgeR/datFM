@@ -43,6 +43,8 @@ import java.util.List;
 
 import static com.zlab.datFM.ZA.ZArchiver_IO.*;
 
+// TODO 1 -
+
 public class datFM extends Activity {
 
     /** VAR GLOBAL **/
@@ -2711,7 +2713,6 @@ public class datFM extends Activity {
         /** Выставить размер текста адресной строки и панели действия **/
         pref_btn_text_size(pref_bartext_size);
 
-        /* TODO - fast scroll settings */
         if(pref_fastscroll){
             listRight.setFastScrollEnabled(true);
             listLeft.setFastScrollEnabled(true);

@@ -8,16 +8,31 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/ui_dialog_sftp_strict_check_head"
+            android:id="@+id/textView" android:layout_gravity="left|center_vertical" android:paddingBottom="10dp"
+            android:textStyle="bold"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Host:"
-            android:id="@+id/txtHost" android:layout_gravity="left|center_vertical" android:paddingBottom="10dp"/>
+            android:id="@+id/txtHost" android:layout_gravity="left|center_vertical" android:paddingBottom="10dp"
+            android:typeface="monospace"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Type:"
-            android:id="@+id/txtType" android:layout_gravity="left|center_vertical" android:paddingBottom="10dp"/>
+            android:id="@+id/txtType" android:layout_gravity="left|center_vertical" android:paddingBottom="10dp"
+            android:typeface="monospace"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Fingerprint:"
-            android:id="@+id/txtFingerprint" android:layout_gravity="left|center_vertical"/>
+            android:id="@+id/txtFingerprint" android:layout_gravity="left|center_vertical"
+            android:typeface="monospace"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ui_dialog_sftp_strict_check_bottom"
+            android:id="@+id/textView1" android:layout_gravity="left|center_vertical" android:paddingTop="10dp"
+            android:textStyle="bold"/>
 </LinearLayout>

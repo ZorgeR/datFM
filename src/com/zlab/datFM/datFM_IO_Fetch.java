@@ -995,7 +995,7 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
     }
     private void logonScreenSFTPStrict(){
         AlertDialog.Builder action_dialog = new AlertDialog.Builder(datFM.datFM_state);
-        action_dialog.setTitle("Unknown Host");
+        action_dialog.setTitle(datFM.datFM_state.getResources().getString(R.string.ui_dialog_sftp_strict_check_alert));
         LayoutInflater inflater = datFM.datFM_state.getLayoutInflater();
         View layer = inflater.inflate(R.layout.datfm_strict_host,null);
 

@@ -201,6 +201,9 @@
     <string name="ui_dialog_smd_addserver_domain">Domain</string>
     <string name="ui_dialog_smd_addserver_secret_key">Encryption key (keychain password)</string>
     <string name="ui_dialog_sftp_addserver_port">Port</string>
+    <string name="ui_dialog_sftp_strict_check_alert">Warning!</string>
+    <string name="ui_dialog_sftp_strict_check_head">This fingerprint is unknown:</string>
+    <string name="ui_dialog_sftp_strict_check_bottom">Add it to trusted?</string>
     <!-- Notification -->
     <string name="notify_copy">object copied to:</string>
     <string name="notify_move">object moved to:</string>

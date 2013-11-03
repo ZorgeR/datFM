@@ -201,6 +201,9 @@
     <string name="ui_dialog_smd_addserver_domain">Домен</string>
     <string name="ui_dialog_smd_addserver_secret_key">Ключ шифрования (keychain password)</string>
     <string name="ui_dialog_sftp_addserver_port">Порт</string>
+    <string name="ui_dialog_sftp_strict_check_alert">Внимание!</string>
+    <string name="ui_dialog_sftp_strict_check_head">Этот отпечаток неизвестен:</string>
+    <string name="ui_dialog_sftp_strict_check_bottom">Добавить его в доверенные?</string>
     <!-- Notification -->
     <string name="notify_copy">объектов скопировано в:</string>
     <string name="notify_move">объектов перемещено в:</string>
