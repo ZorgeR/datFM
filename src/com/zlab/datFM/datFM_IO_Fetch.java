@@ -978,12 +978,6 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
 
                         datFM.sftp_session[panel_ID].setConfig(config);
 
-                        try {
-                            datFM.sftp_session[panel_ID].rekey();
-                        } catch (Exception e) {
-                            Log.e("ERR", "MSG");
-                        }
-
                         datFM.sftp_auth_channel[panel_ID]=null;
                         new datFM_IO_Fetch(datFM.datFM_state).execute(path, protocol, String.valueOf(panel_ID));
                     }
@@ -1036,7 +1030,21 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                         } catch (JSchException e) {e.printStackTrace();}
 
                         try {
-                            datFM.sftp_session[panel_ID].rekey();
+                            String StrictHost = datFM.sftp_session[panel_ID].getConfig("StrictHostKeyChecking");
+                            String pass=null;
+                            try{pass = datFM.sftp_session[panel_ID].getUserInfo().getPassword();
+                            } catch (Exception e){}
+
+                            String username   = datFM.sftp_session[panel_ID].getUserName();
+                            String hostname   = datFM.sftp_session[panel_ID].getHost();
+                            int port          = datFM.sftp_session[panel_ID].getPort();
+
+                            datFM.sftp_session[panel_ID] = datFM.sftp_auth_session[panel_ID].getSession(username,hostname,port);
+                            datFM.sftp_session[panel_ID].setConfig("StrictHostKeyChecking",StrictHost);
+
+                            if(pass!=null){
+                            datFM.sftp_session[panel_ID].setPassword(pass);}
+
                         } catch (Exception e) {
                             Log.e("ERR", "MSG");
                         }

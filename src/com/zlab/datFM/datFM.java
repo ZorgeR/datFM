@@ -1402,6 +1402,7 @@ public class datFM extends Activity {
                             }
 
                             datFM.sftp_session[curPanel].setConfig(config);
+
                             datFM.sftp_auth_channel[curPanel]=null;
 
                             //new datFM_IO_Fetch(datFM.datFM_state).execute(path, protocol, String.valueOf(panel_ID));
