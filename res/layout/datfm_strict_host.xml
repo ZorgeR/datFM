@@ -15,20 +15,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Host:"
-            android:id="@+id/txtHost" android:layout_gravity="left|center_vertical" android:paddingBottom="10dp"
+            android:id="@+id/txtHost" android:layout_gravity="left|center_vertical" android:paddingBottom="2dp"
             android:typeface="monospace"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Type:"
-            android:id="@+id/txtType" android:layout_gravity="left|center_vertical" android:paddingBottom="10dp"
+            android:id="@+id/txtType" android:layout_gravity="left|center_vertical" android:paddingBottom="2dp"
             android:typeface="monospace"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Fingerprint:"
             android:id="@+id/txtFingerprint" android:layout_gravity="left|center_vertical"
-            android:typeface="monospace"/>
+            />
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
