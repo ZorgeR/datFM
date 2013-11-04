@@ -43,7 +43,7 @@ import java.util.List;
 
 import static com.zlab.datFM.ZA.ZArchiver_IO.*;
 
-// TODO 1 -
+// TODO -
 
 public class datFM extends Activity {
 
@@ -92,6 +92,7 @@ public class datFM extends Activity {
 
     /** FTP Client **/
     public static FileTransferClient[] ftp_auth_transfer = new FileTransferClient[2];
+    boolean ftp_server_first_run;
 
     /** VARS FOR OPERATION**/
     static int sel;
@@ -1802,10 +1803,19 @@ public class datFM extends Activity {
         }
     }
     private void action_ftp_server_start(){
-        if(!FtpServerService.isRunning()){
-            sendBroadcast(new Intent(FtpServerService.ACTION_START_FTPSERVER));
+        if(!ftp_server_first_run){
+            if(!FtpServerService.isRunning()){
+                sendBroadcast(new Intent(FtpServerService.ACTION_START_FTPSERVER));
+            } else {
+                sendBroadcast(new Intent(FtpServerService.ACTION_STOP_FTPSERVER));
+            }
         } else {
-            sendBroadcast(new Intent(FtpServerService.ACTION_STOP_FTPSERVER));
+             notify_toast(getResources().getString(R.string.notify_ftp_server_first_run),false);
+                Intent settingsActivity = new Intent(getBaseContext(),
+                    com.zlab.datFM.swiftp.gui.ServerPreferenceActivity.class);
+                startActivity(settingsActivity);
+            ftp_server_first_run = false;
+            prefs.edit().putBoolean("ftp_server_first_run", false).commit();
         }
     }
     public static void action_ftp_server_status(){
@@ -2581,10 +2591,11 @@ public class datFM extends Activity {
         pref_show_date = prefs.getBoolean("pref_show_date",false);
         pref_backbtn_override = prefs.getBoolean("pref_backbtn_override",false);
         pref_fastscroll = prefs.getBoolean("pref_fastscroll",false);
-        pref_build_in_audio_player = prefs.getBoolean("pref_build_in_audio_player",true);
-        pref_build_in_video_player = prefs.getBoolean("pref_build_in_video_player",true);
-        pref_build_in_photo_player = prefs.getBoolean("pref_build_in_photo_player",true);
+        pref_build_in_audio_player = prefs.getBoolean("pref_build_in_audio_player",false);
+        pref_build_in_video_player = prefs.getBoolean("pref_build_in_video_player",false);
+        pref_build_in_photo_player = prefs.getBoolean("pref_build_in_photo_player",false);
         firstAlert = prefs.getBoolean("firstAlert",true);
+        ftp_server_first_run = prefs.getBoolean("ftp_server_first_run",true);
     }
     private void pref_setter(){
 
@@ -2804,7 +2815,7 @@ public class datFM extends Activity {
     }
     private void firstAlertShow(){
         AlertDialog.Builder action_dialog = new AlertDialog.Builder(this);
-        action_dialog.setTitle("Alert");
+        action_dialog.setTitle(getResources().getString(R.string.ui_dialog_title_firstrun));
         LayoutInflater inflater = getLayoutInflater();
         View layer = inflater.inflate(R.layout.datfm_firstalert,null);
 

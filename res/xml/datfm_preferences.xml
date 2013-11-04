@@ -56,11 +56,11 @@
             <PreferenceScreen android:title="@string/settings_elements_title_restore_backup" android:summary="@string/settings_elements_summary_restore_backup" android:key="pref_restore_backup" android:defaultValue="true" />
         </PreferenceCategory>
     </PreferenceScreen>
-    <PreferenceScreen android:title="Features">
-        <PreferenceCategory android:title="Build in player">
-            <CheckBoxPreference android:title="Audio" android:summary="" android:key="pref_build_in_audio_player" android:defaultValue="true" />
-            <CheckBoxPreference android:title="Video" android:summary="" android:key="pref_build_in_video_player" android:defaultValue="true" />
-            <CheckBoxPreference android:title="Photo" android:summary="" android:key="pref_build_in_photo_player" android:defaultValue="true" />
+    <PreferenceScreen android:title="@string/settings_group_features">
+        <PreferenceCategory android:title="@string/settings_elements_title_build_in">
+            <CheckBoxPreference android:title="Audio" android:summary="" android:key="pref_build_in_audio_player" android:defaultValue="false" />
+            <CheckBoxPreference android:title="Video" android:summary="" android:key="pref_build_in_video_player" android:defaultValue="false" />
+            <CheckBoxPreference android:title="Photo" android:summary="" android:key="pref_build_in_photo_player" android:defaultValue="false" />
         </PreferenceCategory>
     </PreferenceScreen>
     <PreferenceScreen android:summary="swiftp based" android:title="FTP Server" android:key="swiftp_preferences"></PreferenceScreen>

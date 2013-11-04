@@ -91,6 +91,7 @@
     <string name="settings_elements_title_do_backup">Save settings</string>
     <string name="settings_elements_title_restore_backup">Restore settings</string>
     <string name="settings_elements_title_kamikaze">Kamikaze mode</string>
+    <string name="settings_elements_title_build_in">Build-in media player</string>
     <string name="settings_elements_title_root">root</string>
     <string name="settings_elements_title_show_hide">Show hidden files and folders</string>
     <!-- Settings Elements Summary -->
@@ -164,6 +165,7 @@
     <string name="ui_dialog_btn_ok">OK</string>
     <string name="ui_dialog_btn_cancel">Cancel</string>
     <!-- Pop-up Dialogs Title-->
+    <string name="ui_dialog_title_firstrun">Welcome!</string>
     <string name="ui_dialog_title_newfolder">New Folder</string>
     <string name="ui_dialog_title_archive">Archive</string>
     <string name="ui_dialog_title_archive_extract">Extract to:</string>
@@ -214,6 +216,7 @@
     <string name="notify_file_unknown">File Type Unknown!</string>
     <string name="notify_operation_same_folder">Current dir and destination directory is same!</string>
     <string name="notify_deselect_before_change_dir">Deselect all item, before change directory!</string>
+    <string name="notify_ftp_server_first_run">Before first start, check settings!</string>
     <string name="notify_cant_find_ZA">ZArchiver 0.6.0 or later required!</string>
     <string name="notify_unknown_protocol">Unknown protocol!</string>
     <string name="notify_logon_error">Logon error!</string>
@@ -224,8 +227,9 @@
     <string name="notify_backup_error">Backup error!</string>
     <string name="notify_backup_notfound">Backup not found!</string>
     <string name="notify_backup_restore_done">Restart datFM to apply!</string>
+    <string name="notify_first_alert">Still beta.\n\n - Hold to select, press another if selected.\n - Hold UP button for back to the HOME.\n - Tap on icon, for context menu\n - Swipe left/right to change panel\n\nAnd hallo!</string>
 
     <!-- About -->
-    <string name="about_message">FTP Server:\n- Dave Revell\n- Pieter Pareit (https://github.com/ppareit/swiftp)\nIcons:\n- http://iconfactory.com\n- https://www.iconfinder.com\n- Quartz Icon Set by Andy Gongea\n- Human o2 - by Oliver Scholtz\n- Plump by Zerode\n\nLocalization:\nUK - stigr (Motofan.ru)\nPL - galonpzw (XDA)\nFR - nikwist (XDA)\nDE - Milestone:enotseliM (XDA)\nSK - pvdeejay (XDA), pyler(XDA)\nNL - jogai(XDA)\n\nSpecial thanks to:\nAnt-ON - for his help\nRamallah - for something that did not help\nInara - just like that!</string>
+    <string name="about_message">FTP Server:\n- Dave Revell\n- Pieter Pareit (https://github.com/ppareit/swiftp)\n\nIcons:\n- http://iconfactory.com\n- https://www.iconfinder.com\n- Quartz Icon Set by Andy Gongea\n- Human o2 - by Oliver Scholtz\n- Plump by Zerode\n\nLocalization:\nUK - stigr (Motofan.ru)\nPL - galonpzw (XDA)\nFR - nikwist (XDA)\nDE - Milestone:enotseliM (XDA)\nSK - pvdeejay (XDA), pyler(XDA)\nNL - jogai(XDA)\n\nSpecial thanks to:\nAnt-ON - for his help\nRamallah - for something that did not help\nInara - just like that!</string>
 
 </resources>

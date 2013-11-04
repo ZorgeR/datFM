@@ -57,10 +57,10 @@
         </PreferenceCategory>
     </PreferenceScreen>
     <PreferenceScreen android:title="@string/settings_group_features">
-        <PreferenceCategory android:title="Build in player">
-            <com.zlab.datFM.hooks.Pref_Switches android:title="Audio" android:summary="" android:key="pref_build_in_audio_player" android:defaultValue="true" />
-            <com.zlab.datFM.hooks.Pref_Switches android:title="Video" android:summary="" android:key="pref_build_in_video_player" android:defaultValue="true" />
-            <com.zlab.datFM.hooks.Pref_Switches android:title="Photo" android:summary="" android:key="pref_build_in_photo_player" android:defaultValue="true" />
+        <PreferenceCategory android:title="@string/settings_elements_title_build_in">
+            <com.zlab.datFM.hooks.Pref_Switches android:title="Audio" android:summary="" android:key="pref_build_in_audio_player" android:defaultValue="false" />
+            <com.zlab.datFM.hooks.Pref_Switches android:title="Video" android:summary="" android:key="pref_build_in_video_player" android:defaultValue="false" />
+            <com.zlab.datFM.hooks.Pref_Switches android:title="Photo" android:summary="" android:key="pref_build_in_photo_player" android:defaultValue="false" />
         </PreferenceCategory>
     </PreferenceScreen>
     <PreferenceScreen android:title="@string/settings_group_swiftp" android:key="swiftp_preferences"></PreferenceScreen>

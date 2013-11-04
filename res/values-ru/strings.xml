@@ -90,12 +90,13 @@
     <string name="settings_elements_title_clear_filecache">Очистка файлового кеша</string>
     <string name="settings_elements_title_do_backup">Сохранить настройки</string>
     <string name="settings_elements_title_restore_backup">Восстановить настройки</string>
+    <string name="settings_elements_title_build_in">Встроенные проигрыватели</string>
     <string name="settings_elements_title_kamikaze">Режим Камикадзе</string>
     <string name="settings_elements_title_root">root</string>
     <string name="settings_elements_title_show_hide">Показывать скрытые элементы</string>
     <!-- Settings Elements Summary -->
     <string name="settings_elements_summary_theme">Применяется после перезапуска приложения</string>
-    <string name="settings_elements_summary_theme_icons">Нескучные иконки</string>
+    <string name="settings_elements_summary_theme_icons">Выбери свой стиль</string>
     <string name="settings_elements_summary_cp">Показывать всегда</string>
     <string name="settings_elements_summary_appicons">Показывать иконку приложения для APK</string>
     <string name="settings_elements_summary_photoicons">Отображать миниатюры для фото</string>
@@ -164,6 +165,7 @@
     <string name="ui_dialog_btn_ok">OK</string>
     <string name="ui_dialog_btn_cancel">Отмена</string>
     <!-- Pop-up Dialogs Title-->
+    <string name="ui_dialog_title_firstrun">Добро пожаловать!</string>
     <string name="ui_dialog_title_newfolder">Новая папка</string>
     <string name="ui_dialog_title_archive">Архивирование</string>
     <string name="ui_dialog_title_archive_extract">Распаковка</string>
@@ -214,6 +216,7 @@
     <string name="notify_file_unknown">Неизвестный тип файла!</string>
     <string name="notify_operation_same_folder">Текущий каталог и каталог назначения совпадают!</string>
     <string name="notify_deselect_before_change_dir">Снимите выделение, прежде чем сменить каталог!</string>
+    <string name="notify_ftp_server_first_run">Перед первым запуском, проверьте настройки!</string>
     <string name="notify_cant_find_ZA">Для этого требуется ZArchiver версии 0.6.0 или выше!</string>
     <string name="notify_unknown_protocol">Неизвестный протокол!</string>
     <string name="notify_logon_error">Ошибка авторизации!</string>
@@ -224,8 +227,9 @@
     <string name="notify_backup_error">Ошибка при сохранении настроек!</string>
     <string name="notify_backup_notfound">Резервные копии не найдены!</string>
     <string name="notify_backup_restore_done">Перезапустите datFM!</string>
+    <string name="notify_first_alert">Все еще бета.\n\n - Удерживай для выделения, кликай для последующего.\n - Удерживай кнопку ВВЕРХ, для возврата домой.\n - Нажми на иконку для контекстного меню\n - Тяните влево/вправо для смены панели\n\nИ добро пожаловать!</string>
 
     <!-- About -->
-    <string name="about_message">FTP Server:\n- Dave Revell\n- Pieter Pareit (https://github.com/ppareit/swiftp)\nИконки:\n- http://iconfactory.com\n- https://www.iconfinder.com\n- Quartz Icon Set by Andy Gongea\n- Human o2 - by Oliver Scholtz\n- Plump by Zerode\n\nПереводчики:\nUK - stigr (Motofan.ru)\nPL - galonpzw (XDA)\nFR - nikwist (XDA)\nDE - Milestone:enotseliM (XDA)\nSK - pvdeejay (XDA), pyler(XDA)\nNL - jogai(XDA)\n\nОтдельная благодарность:\nAnt-ON - за его помощь\nRamallah - за его не помощь\nИнаре - просто так!</string>
+    <string name="about_message">FTP Server:\n- Dave Revell\n- Pieter Pareit (https://github.com/ppareit/swiftp)\n\nИконки:\n- http://iconfactory.com\n- https://www.iconfinder.com\n- Quartz Icon Set by Andy Gongea\n- Human o2 - by Oliver Scholtz\n- Plump by Zerode\n\nПереводчики:\nUK - stigr (Motofan.ru)\nPL - galonpzw (XDA)\nFR - nikwist (XDA)\nDE - Milestone:enotseliM (XDA)\nSK - pvdeejay (XDA), pyler(XDA)\nNL - jogai(XDA)\n\nОтдельная благодарность:\nAnt-ON - за его помощь\nRamallah - за его не помощь\nИнаре - просто так!</string>
 
 </resources>

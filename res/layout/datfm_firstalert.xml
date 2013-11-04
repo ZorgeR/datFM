@@ -2,18 +2,11 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
-        android:gravity="center_vertical|center_horizontal">
+        android:gravity="center_vertical|center_horizontal" android:padding="10dp">
     <TextView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="fill_parent"
               android:layout_height="wrap_content"
-              android:text="Still beta."
+              android:text="@string/notify_first_alert"
               android:id="@+id/textView2" android:layout_gravity="center"
-              android:gravity="center_vertical|center_horizontal" android:textColor="#ff0016"
-              android:singleLine="false" android:phoneNumber="false" android:typeface="monospace"
-              android:textStyle="bold"/>
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="fill_parent"
-              android:layout_height="wrap_content" android:text="Don't use for critical data!"
-              android:id="@+id/textView4" android:layout_gravity="center"
-              android:gravity="center_vertical|center_horizontal" android:textColor="#ff0016"
-              android:singleLine="false" android:phoneNumber="false" android:typeface="monospace"
+              android:singleLine="false" android:phoneNumber="false"
               android:textStyle="bold"/>
 </LinearLayout>
