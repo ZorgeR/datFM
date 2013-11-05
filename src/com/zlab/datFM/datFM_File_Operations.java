@@ -27,6 +27,8 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
     static ProgressBar progr_current;
     static ProgressBar progr_overal;
     static LinearLayout currentLayout;
+    static String currentname;
+
     public datFM_File_Operations(datFM a)
     {
         activity = a;
@@ -51,17 +53,28 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
         progr_overal.setMax(datFM.sel);
         progr_current.setMax(100);
         textCurrent.setText("("+0+"/"+100+")");
-        //textOverall.setText("Copy "+0+" of "+overalMax+" files to \"Some folder\".");
+        textOverall.setText("("+0+"/"+overalMax+")");
 
         currentLayout = (LinearLayout) layer.findViewById(R.id.currentLayout);
         currentLayout.setVisibility(View.GONE);
         progr_dialog.setView(layer);
         dialog_operation = progr_dialog.create();
         dialog_operation.show();
-
     }
+
     protected void onProgressUpdate(Integer c) {
-            progr_overal.setProgress(c);
+        c++;
+        if(c>overalMax){c=overalMax;}
+
+        progr_overal.setProgress(c);
+
+        final int cnt=c;
+
+        mHandler.post(new Runnable() {
+            public void run() {
+                textOverall.setText(currentname+" ("+cnt+"/"+ overalMax+")");
+            }
+        });
     }
 
         @Override
@@ -83,6 +96,7 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
             competPannelID = Integer.parseInt(params[6]);
 
             count=0;
+            onProgressUpdate(count);
 
             if(operation.equals("open_remote") || operation.equals("open_as_remote")){
                     mHandler.post(new Runnable() {
@@ -118,6 +132,7 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
                     for (int i=1;i<selectionHolder.length;i++){
                         if (selectionHolder[i]){
                             datFM_File from = adaptorHolder.get(i);
+                            currentname=from.getName();
                             boolean success = protocol_copy(from.getPath(), destDir + "/" + from.getName());
                             if (success) {count++;onProgressUpdate(count);}
                         }
@@ -127,6 +142,7 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
                     for (int i=1;i<selectionHolder.length;i++){
                         if (selectionHolder[i]){
                             datFM_File from = adaptorHolder.get(i);
+                            currentname=from.getName();
                             boolean success=false;
 
                             if (from.getType().equals("dir") || from.getType().equals("file") ){
@@ -156,6 +172,7 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
                     for (int i=1;i<selectionHolder.length;i++){
                         if (selectionHolder[i]){
                             datFM_File from = adaptorHolder.get(i);
+                            currentname=from.getName();
                             boolean success = protocol_move(from.getPath(), destDir + "/" + from.getName());
                             if (success) {count++;onProgressUpdate(count);}
                         }
@@ -173,6 +190,7 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
                         for (int i=1;i<selectionHolder.length;i++){
                             if (selectionHolder[i]){
                                 datFM_File from = adaptorHolder.get(i);
+                                currentname=from.getName();
                                 boolean success;
                                 if(extonly.equals("false")){
                                 success = protocol_rename(from.getPath(), srcDir+"/"+new_name);
@@ -195,6 +213,7 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
                         for (int i=1;i<selectionHolder.length;i++){
                             if (selectionHolder[i]){
                                 datFM_File from = adaptorHolder.get(i);
+                                currentname=from.getName();
                                 boolean success;
                                 if(extonly.equals("false")){
                                     //if (from.getType().equals("file")){
@@ -242,6 +261,7 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
         }
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
+
 
             if (operation.equals("copy")){
                 activity.update_tab(count,operation,destDir,competPannelID);}
@@ -347,7 +367,7 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
     /** Operation **/
     /* TODO - При операциях с root файлами использовать plugin_local_ROOT, за место File */
     /* TODO - Исравить проверку выполнения для root операций и для создания нового каталога. */
-    private boolean root_delete(String file) throws IOException, SftpException, JSchException {
+    private boolean root_delete(String file) {
         boolean success = new datFM_IO(file,srcPannelID).delete();
         if (!success && datFM.pref_root){
             File f = new File(file);
@@ -362,7 +382,7 @@ public class datFM_File_Operations extends AsyncTask<String, Void, Boolean> {
         }
         return success;
     }
-    private boolean root_copy(String srcf, String destr) throws IOException, JSchException, SftpException {
+    private boolean root_copy(String srcf, String destr) {
         boolean success = new datFM_IO(srcf,srcPannelID).copy(destr);
         if (!success && datFM.pref_root){
             File src = new File(srcf);
