@@ -309,7 +309,7 @@ public class datFM extends Activity {
                 action_dialog.setTitle("About");
                 LayoutInflater inflater = getLayoutInflater();
                 View layer = inflater.inflate(R.layout.datfm_about,null);
-                if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+                if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB && !pref_theme.equals("Dark Fullscreen")){layer.setBackgroundColor(Color.WHITE);}
                 action_dialog.setView(layer);
                 AlertDialog AboutDialog = action_dialog.create();
                 AboutDialog.show();
@@ -931,7 +931,7 @@ public class datFM extends Activity {
         action_dialog.setTitle(getResources().getString(R.string.fileslist_add_favorite));
         LayoutInflater inflater = getLayoutInflater();
         View layer = inflater.inflate(R.layout.datfm_actiondialog,null);
-        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB && !pref_theme.equals("Dark Fullscreen")){layer.setBackgroundColor(Color.WHITE);}
 
         TextView textDialogCount = (TextView) layer.findViewById(R.id.textDialogCount);
         TextView textDialogFrom = (TextView) layer.findViewById(R.id.textDialogFrom);
@@ -955,7 +955,7 @@ public class datFM extends Activity {
         action_dialog.setTitle(getResources().getString(R.string.fileslist_favorites));
         LayoutInflater inflater = getLayoutInflater();
         View layer = inflater.inflate(R.layout.datfm_smb_keychainpass,null);
-        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB && !pref_theme.equals("Dark Fullscreen")){layer.setBackgroundColor(Color.WHITE);}
 
         final EditText fav_name_text = (EditText) layer.findViewById(R.id.smb_auth_keychain);
         fav_name_text.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -1001,7 +1001,7 @@ public class datFM extends Activity {
         action_dialog.setTitle("SMB Server");
         LayoutInflater inflater = getLayoutInflater();
         View layer = inflater.inflate(R.layout.datfm_smb_add_server,null);
-        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB && !pref_theme.equals("Dark Fullscreen")){layer.setBackgroundColor(Color.WHITE);}
 
         final EditText smb_add_server_name = (EditText) layer.findViewById(R.id.smb_add_server_name);
         final EditText smb_add_server_ip_hostname = (EditText) layer.findViewById(R.id.smb_add_server_ip);
@@ -1105,7 +1105,7 @@ public class datFM extends Activity {
                             action_dialog.setTitle("Keychain");
                             LayoutInflater inflater = getLayoutInflater();
                             View layer = inflater.inflate(R.layout.datfm_smb_keychainpass,null);
-                            if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+                            if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB && !pref_theme.equals("Dark Fullscreen")){layer.setBackgroundColor(Color.WHITE);}
 
                             final EditText smb_keychain = (EditText) layer.findViewById(R.id.smb_auth_keychain);
                             final String server_pass_encrypted = server_pass;
@@ -1175,7 +1175,7 @@ public class datFM extends Activity {
                             action_dialog.setTitle("Keychain");
                             LayoutInflater inflater = getLayoutInflater();
                             View layer = inflater.inflate(R.layout.datfm_smb_keychainpass,null);
-                            if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+                            if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB && !pref_theme.equals("Dark Fullscreen")){layer.setBackgroundColor(Color.WHITE);}
 
                             final EditText smb_keychain = (EditText) layer.findViewById(R.id.smb_auth_keychain);
                             final String server_pass_encrypted = server_pass;
@@ -1219,7 +1219,7 @@ public class datFM extends Activity {
         action_dialog.setTitle("SFTP Server");
         LayoutInflater inflater = getLayoutInflater();
         View layer = inflater.inflate(R.layout.datfm_sftp_add_server,null);
-        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB && !pref_theme.equals("Dark Fullscreen")){layer.setBackgroundColor(Color.WHITE);}
 
         final EditText sftp_add_server_name = (EditText) layer.findViewById(R.id.sftp_add_server_name);
         final EditText sftp_add_server_ip_hostname = (EditText) layer.findViewById(R.id.sftp_add_server_ip);
@@ -1416,7 +1416,7 @@ public class datFM extends Activity {
                             action_dialog.setTitle("Keychain");
                             LayoutInflater inflater = getLayoutInflater();
                             View layer = inflater.inflate(R.layout.datfm_smb_keychainpass,null);
-                            if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+                            if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB && !pref_theme.equals("Dark Fullscreen")){layer.setBackgroundColor(Color.WHITE);}
 
                             final EditText sftp_keychain = (EditText) layer.findViewById(R.id.smb_auth_keychain);
                             final String server_pass_encrypted = server_pass;
@@ -1519,7 +1519,7 @@ public class datFM extends Activity {
                         action_dialog.setTitle("Keychain");
                         LayoutInflater inflater = getLayoutInflater();
                         View layer = inflater.inflate(R.layout.datfm_smb_keychainpass,null);
-                        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+                        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB && !pref_theme.equals("Dark Fullscreen")){layer.setBackgroundColor(Color.WHITE);}
 
                         final EditText sftp_keychain = (EditText) layer.findViewById(R.id.smb_auth_keychain);
                         final String server_pass_encrypted = server_pass;
@@ -1579,7 +1579,7 @@ public class datFM extends Activity {
         action_dialog.setTitle("FTP Server");
         LayoutInflater inflater = getLayoutInflater();
         View layer = inflater.inflate(R.layout.datfm_ftp_add_server,null);
-        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB && !pref_theme.equals("Dark Fullscreen")){layer.setBackgroundColor(Color.WHITE);}
 
         final EditText ftp_add_server_name = (EditText) layer.findViewById(R.id.sftp_add_server_name);
         final EditText ftp_add_server_ip_hostname = (EditText) layer.findViewById(R.id.sftp_add_server_ip);
@@ -1696,7 +1696,7 @@ public class datFM extends Activity {
                             action_dialog.setTitle("Keychain");
                             LayoutInflater inflater = getLayoutInflater();
                             View layer = inflater.inflate(R.layout.datfm_smb_keychainpass,null);
-                            if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+                            if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB && !pref_theme.equals("Dark Fullscreen")){layer.setBackgroundColor(Color.WHITE);}
 
                             final EditText sftp_keychain = (EditText) layer.findViewById(R.id.smb_auth_keychain);
                             final String server_pass_encrypted = server_pass;
@@ -1764,7 +1764,7 @@ public class datFM extends Activity {
                         action_dialog.setTitle("Keychain");
                         LayoutInflater inflater = getLayoutInflater();
                         View layer = inflater.inflate(R.layout.datfm_smb_keychainpass,null);
-                        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+                        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB && !pref_theme.equals("Dark Fullscreen")){layer.setBackgroundColor(Color.WHITE);}
 
                         final EditText ftp_keychain = (EditText) layer.findViewById(R.id.smb_auth_keychain);
                         final String server_pass_encrypted = server_pass;
@@ -1829,7 +1829,7 @@ public class datFM extends Activity {
             action_dialog.setTitle(title);
             LayoutInflater inflater = getLayoutInflater();
             View layer = inflater.inflate(R.layout.datfm_actiondialog,null);
-            if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+            if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB && !pref_theme.equals("Dark Fullscreen")){layer.setBackgroundColor(Color.WHITE);}
 
             TextView textDialogCount = (TextView) layer.findViewById(R.id.textDialogCount);
             TextView textDialogFrom = (TextView) layer.findViewById(R.id.textDialogFrom);
@@ -1890,7 +1890,7 @@ public class datFM extends Activity {
             newFolderDialog.setTitle(getResources().getString(R.string.ui_dialog_title_newfolder));
             LayoutInflater inflater = getLayoutInflater();
             View layer = inflater.inflate(R.layout.datfm_newfolder,null);
-            if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+            if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB && !pref_theme.equals("Dark Fullscreen")){layer.setBackgroundColor(Color.WHITE);}
 
             final EditText textNewFolderName = (EditText) layer.findViewById(R.id.textNewFolderName);
             textNewFolderName.setHint(getResources().getString(R.string.ui_dialog_hint_newfolder));
@@ -1937,7 +1937,7 @@ public class datFM extends Activity {
         newFolderDialog.setTitle(getResources().getString(R.string.ui_dialog_title_rename));
         LayoutInflater inflater = getLayoutInflater();
         View layer = inflater.inflate(R.layout.datfm_rename,null);
-        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB && !pref_theme.equals("Dark Fullscreen")){layer.setBackgroundColor(Color.WHITE);}
 
         final EditText textNewFolderName = (EditText) layer.findViewById(R.id.textNewFolderName);
         final CheckBox ExtensionOnly = (CheckBox) layer.findViewById(R.id.checkEXT);
@@ -2819,7 +2819,7 @@ public class datFM extends Activity {
         LayoutInflater inflater = getLayoutInflater();
         View layer = inflater.inflate(R.layout.datfm_firstalert,null);
 
-        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB && !pref_theme.equals("Dark Fullscreen")){layer.setBackgroundColor(Color.WHITE);}
 
         action_dialog.setView(layer);
         action_dialog.setPositiveButton(getResources().getString(R.string.ui_dialog_btn_ok),
@@ -2888,7 +2888,7 @@ public class datFM extends Activity {
         NewArchiveDialog.setTitle(getResources().getString(R.string.ui_dialog_title_archive));
         LayoutInflater inflater = getLayoutInflater();
         View layer = inflater.inflate(R.layout.datfm_newarchive,null);
-        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB && !pref_theme.equals("Dark Fullscreen")){layer.setBackgroundColor(Color.WHITE);}
 
         final EditText textNewArchiveName = (EditText) layer.findViewById(R.id.textNewArchiveName);
         final Spinner spinArchType = (Spinner) layer.findViewById(R.id.archiveType);
@@ -3031,7 +3031,7 @@ public class datFM extends Activity {
         NewArchiveDialog.setTitle(getResources().getString(R.string.ui_dialog_title_archive_extract));
         LayoutInflater inflater = getLayoutInflater();
         View layer = inflater.inflate(R.layout.datfm_newfolder,null);
-        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB){layer.setBackgroundColor(Color.WHITE);}
+        if(currentApiVersion < Build.VERSION_CODES.HONEYCOMB && !pref_theme.equals("Dark Fullscreen")){layer.setBackgroundColor(Color.WHITE);}
 
         final EditText arcExtractPath = (EditText) layer.findViewById(R.id.textNewFolderName);
 
