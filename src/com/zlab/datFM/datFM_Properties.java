@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.ClipboardManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.*;
@@ -261,8 +262,8 @@ public class datFM_Properties extends Activity {
                 }
                 stdin.writeBytes("exit\n");
                 stdin.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                Log.e("datFM err: ","can't run root operation."+e.getMessage());
             }
 
             String permission = out.split(" ")[0];
