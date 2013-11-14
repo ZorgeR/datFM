@@ -3,6 +3,7 @@ package com.zlab.datFM.player.gallery;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
@@ -10,6 +11,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
 import android.widget.Gallery;
 
@@ -29,6 +31,8 @@ import java.io.BufferedInputStream;
 public class PinchZoomGallery extends Gallery implements OnDoubleTapListener
 {
 	private Context c;
+    private boolean HQ=false;
+    private Dialog d;
 
 	public PinchZoomGallery(Context context, AttributeSet attrSet)
 	{
@@ -39,32 +43,67 @@ public class PinchZoomGallery extends Gallery implements OnDoubleTapListener
 	@Override
 	public boolean onDoubleTap(MotionEvent e)
 	{
-		final TouchImageView imageViewGallery = (TouchImageView) inflate(c,R.layout.gallery_dialog, null);
+        if(!HQ){openHQ();}else{closeHQ();}
+		return true;
+	}
 
-		final int position = super.getPositionForView(getSelectedView());
-		BitmapFactory.Options o2 = new BitmapFactory.Options();
-		o2.inPurgeable = true;
+	@Override
+	public boolean onDoubleTapEvent(MotionEvent e)
+	{
+		return false;
+	}
 
-		try
-		{
+	@Override
+	public boolean onSingleTapConfirmed(MotionEvent e)
+	{
+        if(!HQ){openHQ();}else{closeHQ();}
+		return true;
+	}
+
+    private void closeHQ(){
+        d.dismiss();
+    }
+
+    private void openHQ(){
+        final TouchImageView imageViewGallery = (TouchImageView) inflate(c,R.layout.gallery_dialog, null);
+
+        imageViewGallery.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                closeHQ();
+            }
+        });
+
+        final int position = super.getPositionForView(getSelectedView());
+        BitmapFactory.Options o2 = new BitmapFactory.Options();
+        o2.inPurgeable = true;
+
+        try
+        {
             /**
-			Bitmap bitmap = BitmapFactory.decodeStream(c.getAssets().open(
-				"Images/"  + position + ".jpg"));
-			imageViewGallery.setImageBitmap(bitmap);
-                     */
+             Bitmap bitmap = BitmapFactory.decodeStream(c.getAssets().open(
+             "Images/"  + position + ".jpg"));
+             imageViewGallery.setImageBitmap(bitmap);
+             */
 
             //imageViewGallery.setImageBitmap(BitmapFactory.decodeStream(new datFM_IO(datFM_photo.imglist.get(position), datFM.curPanel).getInput()));
-			imageViewGallery.setMaxZoom(4f);
+            imageViewGallery.setMaxZoom(4f);
 
             //datFM_photo.gallery.getFocusedChild().setVisibility(GONE);
             //datFM_photo.gallery.addView(imageViewGallery,0);
 
-            Dialog d = new Dialog(c, android.R.style.Theme_NoTitleBar_Fullscreen);
+            d = new Dialog(c, android.R.style.Theme_NoTitleBar_Fullscreen);
+            d.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    HQ=false;
+                }
+            });
             d.requestWindowFeature(Window.FEATURE_NO_TITLE);
             d.setContentView(imageViewGallery);
             d.setCancelable(true);
             d.setCanceledOnTouchOutside(true);
-			d.show();
+            d.show();
 
 
             datFM_photo.loader_start();
@@ -82,23 +121,11 @@ public class PinchZoomGallery extends Gallery implements OnDoubleTapListener
                     });
                 }
             }.start();
-		}
-		catch (Exception ex)
-		{
-			Log.e("Exception", ex.getLocalizedMessage());
-		}
-		return true;
-	}
-
-	@Override
-	public boolean onDoubleTapEvent(MotionEvent e)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean onSingleTapConfirmed(MotionEvent e)
-	{
-		return false;
-	}
+        }
+        catch (Exception ex)
+        {
+            Log.e("Exception", ex.getLocalizedMessage());
+        }
+        HQ=true;
+    }
 }
