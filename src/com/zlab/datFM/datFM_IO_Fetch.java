@@ -106,7 +106,7 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
                 if(!smb_success_auth){datFM.notify_toast(datFM.datFM_state.getResources().getString(R.string.notify_logon_error),true);}
                 if(fetch_err){datFM.notify_toast(datFM.datFM_state.getResources().getString(R.string.notify_connection_error),true);}
                 if(datFM.pref_sambalogin){
-                    datFM.datFM_state.fill_new("datFM://smb", panel_ID);
+                    datFM.datFM_state.fill_new("datFM://samba", panel_ID);
                     logonScreenSMB();
                 }
             } else if(protocol.equals("sftp")&& (!sftp_success_auth||!sftp_session_auth)){

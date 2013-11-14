@@ -1,6 +1,8 @@
 package com.zlab.datFM.player;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -30,13 +32,15 @@ public class datFM_CustomImageView extends View {
     private ScaleGestureDetector mScaleDetector;
     private float mScaleFactor = 1.f;
 
-    public datFM_CustomImageView(Context context) {
+    public datFM_CustomImageView(Context context, String url) {
         this(context, null, 0);
         //mImage= Drawable.createFromStream(new datFM_IO(datFM_photo.ImageURL,datFM.curPanel).getInput(),datFM_photo.ImageURL);
         //mImage= Drawable.createFromPath(datFM_photo.ImageURL);
         mImage= datFM.datFM_state.getResources().getDrawable(R.drawable.ext_action_exit_human_o2);
 
-        mImage.setBounds(0, 0, mImage.getIntrinsicWidth(), mImage.getIntrinsicHeight());
+        //mImage.setBounds(0, 0, mImage.getIntrinsicWidth(), mImage.getIntrinsicHeight());
+
+        //mImage = Drawable.createFromStream(new datFM_IO(url, datFM.curPanel).getInput(),url);
     }
 
     public datFM_CustomImageView(Context context, AttributeSet attrs) {

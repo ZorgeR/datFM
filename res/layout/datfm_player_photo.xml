@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
 
     <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/datfm_player_photo_imageview" android:background="@drawable/datfm_player_background"/>
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/datfm_player_photo_imageview" android:layout_gravity="center"/>
+    <Gallery
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/datfm_player_photo_gallery" android:layout_gravity="center"/>
 
-</LinearLayout>
+
+</FrameLayout>
