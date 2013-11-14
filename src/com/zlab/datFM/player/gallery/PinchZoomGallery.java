@@ -70,7 +70,8 @@ public class PinchZoomGallery extends Gallery implements OnDoubleTapListener
         imageViewGallery.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                closeHQ();
+                /**closeHQ();**/
+
             }
         });
 
