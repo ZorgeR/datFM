@@ -638,7 +638,8 @@ public class datFM extends Activity {
                                             startActivity(detail);
                                         } else if (Streamer.mediaType(name).equals("image/*") && pref_build_in_photo_player){
                                             Intent detail = new Intent(datFM_state, datFM_photo.class);
-                                            detail.putExtra("MediaURL", uri.toString());
+                                            //detail.putExtra("MediaURL", uri.toString());
+                                            detail.putExtra("MediaURL", path);
                                             startActivity(detail);
                                         } else {
                                             Intent i = new Intent(Intent.ACTION_VIEW);
@@ -675,7 +676,8 @@ public class datFM extends Activity {
                 startActivity(detail);
             } else if (Streamer.mediaType(name).equals("image/*") && pref_build_in_photo_player){
                 Intent detail = new Intent(datFM_state, datFM_photo.class);
-                detail.putExtra("MediaURL", uri.toString());
+                //detail.putExtra("MediaURL", uri.toString());
+                detail.putExtra("MediaURL", path);
                 startActivity(detail);
             } else {
                 try {

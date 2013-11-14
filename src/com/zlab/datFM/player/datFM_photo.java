@@ -1,6 +1,8 @@
 package com.zlab.datFM.player;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -12,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import com.zlab.datFM.R;
 import com.zlab.datFM.datFM;
 import com.zlab.datFM.datFM_IO;
@@ -19,6 +22,7 @@ import com.zlab.datFM.datFM_IO;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 
 public class datFM_photo extends Activity {
 
@@ -27,57 +31,62 @@ public class datFM_photo extends Activity {
     Activity mActivity;
     Bitmap imageBitmap;
     Drawable pic;
+    AlertDialog adialog;
     public static String ImageURL;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = this;
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-
         setContentView(R.layout.datfm_player_photo);
-
         ImageURL = getIntent().getExtras().getString("MediaURL");
-
         iView = (ImageView) findViewById(R.id.datfm_player_photo_imageview);
 
-
+       /**
         iView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 iView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
             }
         });
+        */
 
+        loader_start();
         startPlayer();
     }
+
+    void loader_start(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        ProgressBar pbar = new ProgressBar(this);
+        builder.setView(pbar);
+        adialog = builder.create();
+        adialog.show();
+    }
+
     void startPlayer(){
-        //iView.setImageBitmap(BitmapFactory.decodeStream(new datFM_IO(ImageURL,datFM.curPanel).getInput()));
-        iView.setImageURI(Uri.parse(ImageURL));
-        iView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-        //iView.setImageBitmap(decodeSampleBitmapFromFile(ImageURL,64,64));
-                     /*
-        final int THUMBNAIL_SIZE = 64;
+        /** iView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);     **/
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 10;
-
-        /** LOCAL MODE **
-        //imageBitmap = BitmapFactory.decodeFile(filePath, options);
-        /** MULTI MODE **
-        InputStream io = new BufferedInputStream(new datFM_IO(ImageURL,datFM.curPanel).getInput());
-        imageBitmap = BitmapFactory.decodeStream(io, null, options);
-        imageBitmap = ThumbnailUtils.extractThumbnail(imageBitmap, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
-        try {
-            io.close();
-        } catch (IOException e) {
-            Log.e("ERR", "MSG");
-        }
-        pic = new BitmapDrawable(imageBitmap);
-        iView.invalidateDrawable(pic);
-          */
-
-
+        new Thread() {
+            @Override
+            public void run() {
+                final Bitmap bmp = BitmapFactory.decodeStream(new datFM_IO(ImageURL,datFM.curPanel).getInput());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            datFM_photo.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    iView.setImageBitmap(bmp);
+                                    //iView.postInvalidate();
+                                    adialog.dismiss();
+                                }
+                            });
+                        }
+                    });
+            }
+        }.start();
     }
     public Bitmap decodeSampleBitmapFromFile(String filePath, int reqWidth,
                                                     int reqHeight) {

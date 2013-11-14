@@ -116,13 +116,8 @@ public class datFM_audio extends Activity {
         if(MediaURL!=null){
             Uri uri = Uri.parse(MediaURL);
             mURL=MediaURL;
-            if (datFM.pref_build_in_audio_player){
-                preparePlayer();
-            }else{
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setDataAndType(uri, "audio/*");
-                startActivity(intent);
-            }}
+            preparePlayer();
+        }
     }
     public void closePlayer(View v){
         finish();

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.widget.ImageView;
 import com.zlab.datFM.R;
 import com.zlab.datFM.datFM;
 import com.zlab.datFM.datFM_IO;
