@@ -52,7 +52,7 @@ public class datFM extends Activity {
             layoutParentPathPanelLeft,layoutParentPathPanelRight,pathBarSpacer;
     LinearLayout leftside,rightside,sideholder;
     HR_ScrollView sideholderscroll;
-    static ListView listLeft,listRight;
+    public static ListView listLeft,listRight;
     TextView textPanelRight,textPanelLeft,textItemsRightSelected,textItemsLeftSelected;
     EditText textCurrentPathLeft, textCurrentPathRight;
     public static String curentLeftDir,curentRightDir;
@@ -71,7 +71,7 @@ public class datFM extends Activity {
     int posLeft,posRight,pathPanelBgr,pathPanelBgrOther;
     int pathPanelBgrFill=0;
     static String url;
-    String prevName;
+    public static String prevName;
     static public String ftpServerTitle;
     static String[] protocols=new String[2];
     public static int currentApiVersion;

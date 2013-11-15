@@ -51,13 +51,27 @@ public class datFM_photo extends Activity {
 
         gallery.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
                 gallery_scrolled=false;
+                datFM.datFM_state.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(datFM.curPanel==0){
+                            for (int i=0;i<datFM.listLeft.getCount();i++){
+                                if (new datFM_IO(imglist.get(position),datFM.curPanel).getName().equals(datFM.adapterLeft.getItem(i).getName())){
+                                    datFM.listLeft.setSelection(i);
+                                }}
+                        } else {
+                            for (int i=0;i<datFM.listRight.getCount();i++){
+                                if (new datFM_IO(imglist.get(position),datFM.curPanel).getName().equals(datFM.adapterRight.getItem(i).getName())){
+                                    datFM.listRight.setSelection(i);}}
+                        }
+                    }
+                });
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                //To change body of implemented methods use File | Settings | File Templates.
             }
         });
 

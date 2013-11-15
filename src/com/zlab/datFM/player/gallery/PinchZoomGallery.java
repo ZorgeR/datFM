@@ -16,6 +16,7 @@ import android.view.Window;
 import android.widget.Gallery;
 
 import android.widget.LinearLayout;
+import android.widget.Toast;
 import com.zlab.datFM.R;
 import com.zlab.datFM.datFM;
 import com.zlab.datFM.datFM_IO;
@@ -89,6 +90,12 @@ public class PinchZoomGallery extends Gallery implements OnDoubleTapListener
 
             //imageViewGallery.setImageBitmap(BitmapFactory.decodeStream(new datFM_IO(datFM_photo.imglist.get(position), datFM.curPanel).getInput()));
             imageViewGallery.setMaxZoom(4f);
+            imageViewGallery.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(c,new datFM_IO(datFM_photo.imglist.get(position),datFM.curPanel).getName(),Toast.LENGTH_LONG).show();
+                }
+            });
 
             //datFM_photo.gallery.getFocusedChild().setVisibility(GONE);
             //datFM_photo.gallery.addView(imageViewGallery,0);

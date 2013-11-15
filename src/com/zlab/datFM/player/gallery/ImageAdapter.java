@@ -82,7 +82,7 @@ public class ImageAdapter extends BaseAdapter
                     if(pos<fileList.length-2)datFM_photo.imageBitmapHQ[pos+2]=null;
 
                     BitmapFactory.Options optionsHQ = new BitmapFactory.Options();
-                    optionsHQ.inSampleSize = 10;
+                    optionsHQ.inSampleSize = 5;
 
                     if(!datFM_photo.gallery_scrolled){
                         datFM_photo.gallery_scrolled=true;
