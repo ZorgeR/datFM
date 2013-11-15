@@ -34,6 +34,7 @@ public class PinchZoomGallery extends Gallery implements OnDoubleTapListener
 	private Context c;
     private boolean HQ=false;
     private Dialog d;
+    public static View mDecorView;
 
 	public PinchZoomGallery(Context context, AttributeSet attrSet)
 	{
@@ -82,13 +83,6 @@ public class PinchZoomGallery extends Gallery implements OnDoubleTapListener
 
         try
         {
-            /**
-             Bitmap bitmap = BitmapFactory.decodeStream(c.getAssets().open(
-             "Images/"  + position + ".jpg"));
-             imageViewGallery.setImageBitmap(bitmap);
-             */
-
-            //imageViewGallery.setImageBitmap(BitmapFactory.decodeStream(new datFM_IO(datFM_photo.imglist.get(position), datFM.curPanel).getInput()));
             imageViewGallery.setMaxZoom(4f);
             imageViewGallery.setOnClickListener(new OnClickListener() {
                 @Override
@@ -96,9 +90,6 @@ public class PinchZoomGallery extends Gallery implements OnDoubleTapListener
                     Toast.makeText(c,new datFM_IO(datFM_photo.imglist.get(position),datFM.curPanel).getName(),Toast.LENGTH_LONG).show();
                 }
             });
-
-            //datFM_photo.gallery.getFocusedChild().setVisibility(GONE);
-            //datFM_photo.gallery.addView(imageViewGallery,0);
 
             d = new Dialog(c, android.R.style.Theme_NoTitleBar_Fullscreen);
             d.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -113,7 +104,9 @@ public class PinchZoomGallery extends Gallery implements OnDoubleTapListener
             d.setCanceledOnTouchOutside(true);
             d.show();
 
+            mDecorView = d.getWindow().getDecorView();
 
+            if(datFM.currentApiVersion>18){hideSystemUI();}
             datFM_photo.loader_start();
 
             new Thread() {
@@ -135,5 +128,21 @@ public class PinchZoomGallery extends Gallery implements OnDoubleTapListener
             Log.e("Exception", ex.getLocalizedMessage());
         }
         HQ=true;
+    }
+
+    public static void hideSystemUI() {
+        mDecorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LOW_PROFILE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE);
+    }
+
+    public static void showSystemUI() {
+        mDecorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
 }
