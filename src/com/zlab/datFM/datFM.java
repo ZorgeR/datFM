@@ -79,6 +79,8 @@ public class datFM extends Activity {
     LinearLayout btnUPleft, btnUPright;
     static ArrayList<datFM_File> properties_array;
 
+    private static View mDecorView;
+
     /** SMB Client **/
     public static NtlmPasswordAuthentication[] smb_auth_session = new NtlmPasswordAuthentication[2];
 
@@ -158,6 +160,8 @@ public class datFM extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.datfm);
+
+        mDecorView = getWindow().getDecorView();
         datFM_context = this;
         datFM_state = ((datFM) datFM.datFM_context);
 
@@ -195,6 +199,22 @@ public class datFM extends Activity {
         /** Размер экрана **/
         displaymetrics = new DisplayMetrics();
     }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        //if (hasFocus) {
+            if(currentApiVersion>=19){
+                mDecorView.setSystemUiVisibility(//View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    //| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    //| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        /*|*/ View.SYSTEM_UI_FLAG_HIDE_NAVIGATION//);
+                        //| View.SYSTEM_UI_FLAG_FULLSCREEN
+                        //| View.SYSTEM_UI_FLAG_IMMERSIVE
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);/**/            }
+        //}
+    }
+
     protected void setTheme(){
         pathPanelBgr=Color.parseColor("#ff46b2ff");
         pathPanelBgrOther=Color.parseColor("#5046b2ff");
