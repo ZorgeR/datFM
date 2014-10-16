@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.zlab.datFM"
           android:versionCode="31"
-          android:versionName="0.1.88b">
+          android:versionName="0.1.89b">
     <uses-sdk
             android:minSdkVersion="8"
             android:targetSdkVersion="10"/>
