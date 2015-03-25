@@ -43,8 +43,6 @@ import java.util.List;
 
 import static com.zlab.datFM.ZA.ZArchiver_IO.*;
 
-// TODO -
-
 public class datFM extends Activity {
 
     /** VAR GLOBAL **/
