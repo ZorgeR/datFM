@@ -25,6 +25,10 @@
         <item>72</item>
         <item>96</item>
         <item>128</item>
+        <item>142</item>
+        <item>172</item>
+        <item>192</item>
+        <item>220</item>
         <item>256</item>
     </string-array>
     <string-array name="text_size">

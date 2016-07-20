@@ -203,13 +203,16 @@ public class datFM extends Activity {
         super.onWindowFocusChanged(hasFocus);
         //if (hasFocus) {
             if(currentApiVersion>=19){
-                mDecorView.setSystemUiVisibility(//View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    //| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    //| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        /*|*/ View.SYSTEM_UI_FLAG_HIDE_NAVIGATION//);
-                        //| View.SYSTEM_UI_FLAG_FULLSCREEN
-                        //| View.SYSTEM_UI_FLAG_IMMERSIVE
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);/**/            }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                    mDecorView.setSystemUiVisibility(//View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        //| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        //| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            /*|*/ View.SYSTEM_UI_FLAG_HIDE_NAVIGATION//);
+                            //| View.SYSTEM_UI_FLAG_FULLSCREEN
+                            //| View.SYSTEM_UI_FLAG_IMMERSIVE
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);/**/
+                }
+            }
         //}
     }
 
@@ -428,6 +431,7 @@ public class datFM extends Activity {
             boolean ftp = path.startsWith("ftp://");
             boolean local = path.startsWith("/");
             boolean home = path.startsWith("datFM://");
+            boolean apps = path.startsWith("apps://");
             boolean protocol_accepted=true;
 
             curPanel=Panel_ID;
@@ -443,6 +447,8 @@ public class datFM extends Activity {
                 protocols[Panel_ID]="datfm";
             } else if (ftp){
                 protocols[Panel_ID]="ftp";
+            } else if (apps){
+                protocols[Panel_ID]="apps";
             } else {
                 Toast.makeText(datFM_context,getResources().getString(R.string.notify_unknown_protocol),Toast.LENGTH_SHORT).show();
                 protocol_accepted=false;

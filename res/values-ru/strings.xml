@@ -149,6 +149,8 @@
     <string name="fileslist_samba">Samba</string>
     <string name="fileslist_sftp">SFTP</string>
     <string name="fileslist_ftp">FTP</string>
+    <string name="fileslist_apps">Приложения</string>
+    <string name="fileslist_apps_package_name">Имя пакета</string>
     <string name="fileslist_exit">Выход</string>
     <string name="fileslist_action">Действие</string>
     <string name="fileslist_add_favorite">Добавить в Избранное</string>

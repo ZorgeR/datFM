@@ -27,7 +27,10 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.view.View;
 import com.zlab.datFM.datFM;
 import com.zlab.datFM.swiftp.FtpServerService;
 import com.zlab.datFM.R;
@@ -51,6 +54,7 @@ public class ServerRunningNotification extends BroadcastReceiver {
         Log.d(TAG, "Setting up the notification");
         // Get NotificationManager reference
         String ns = Context.NOTIFICATION_SERVICE;
+
         NotificationManager nm = (NotificationManager) context.getSystemService(ns);
 
 		// get ip address
@@ -69,7 +73,8 @@ public class ServerRunningNotification extends BroadcastReceiver {
         CharSequence tickerText = String.format(context.getString(R.string.notif_server_starting),
 				iptext);
         long when = System.currentTimeMillis();
-        Notification notification = new Notification(icon, tickerText, when);
+
+//        Notification notification = new Notification(icon, tickerText, when);
 
         // Define Notification's message and Intent
         CharSequence contentTitle = context.getString(R.string.notif_title);
@@ -77,18 +82,43 @@ public class ServerRunningNotification extends BroadcastReceiver {
                 iptext);
 
         Intent notificationIntent = new Intent(context, ServerPreferenceActivity.class);
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
+        //notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+//                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//        PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
+//                notificationIntent, 0);
+//        notification
+//                .setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+//        notification.flags |= Notification.FLAG_ONGOING_EVENT;
+
+        Notification noti = null;
+
+         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+             noti = new Notification.Builder(context)
+                     .setTicker(tickerText)
+                     .setContentTitle(contentTitle)
+                     .setContentText(contentText)
+                     .setSmallIcon(icon)
+                     .build();
+        } else {
+             PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
                 notificationIntent, 0);
-        notification
-                .setLatestEventInfo(context, contentTitle, contentText, contentIntent);
-        notification.flags |= Notification.FLAG_ONGOING_EVENT;
+
+             noti = new NotificationCompat.Builder(context).setAutoCancel(true)
+                     .setDefaults(Notification.DEFAULT_ALL)
+                     .setWhen(System.currentTimeMillis())
+                     .setSmallIcon(icon)
+                     .setTicker(tickerText)
+                     .setContentTitle(contentTitle)
+                     .setContentText(contentText)
+                     .setDefaults(Notification.DEFAULT_LIGHTS| Notification.DEFAULT_SOUND)
+                     .setContentIntent(contentIntent)
+                     .setContentInfo("Info").build();
+         }
 
         // Pass Notification to NotificationManager
-        nm.notify(NOTIFICATIONID, notification);
+        nm.notify(NOTIFICATIONID, noti);
 
-        Log.d(TAG, "Notication setup done");
+        Log.d(TAG, "Notification setup done");
     }
 
     private void clearNotification(Context context) {

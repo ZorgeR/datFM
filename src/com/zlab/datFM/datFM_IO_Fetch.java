@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.StatFs;
@@ -89,6 +91,8 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
             }
         } else if (protocol.equals("ftp")){
             fetch_ftp();
+        } else if (protocol.equals("apps")){
+            fetch_apps();
         } else if (protocol.equals("datfm")){
             fetch_datFM();
         } else {
@@ -457,6 +461,27 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
         //datFM.sftp_auth_channel[panel_ID].disconnect(); **/
         //-------END SMB WORKS---------------------
     }
+    private void fetch_apps(){
+        PackageManager pm = datFM.datFM_context.getPackageManager();
+
+        for (ApplicationInfo app : pm.getInstalledApplications(0)) {
+            File apk = new File(app.sourceDir);
+
+            String data = formatSize(apk.length());
+            Long date = apk.lastModified();
+
+            if(datFM.pref_show_date){
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm',' d MMM");
+                data = data+" / "+sdf.format(date);
+            }
+
+            fls_info.add(new datFM_File(app.packageName + ".apk",app.sourceDir,apk.length(),"local","file",data, apk.getParent(), date));
+        }
+
+        Collections.sort(fls_info);
+
+        dir_info.addAll(fls_info);
+    }
     private void fetch_datFM(){
         String section=path.replace("datFM://", "");
 
@@ -491,6 +516,9 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
 
             dir_info.add(new datFM_File(activity.getResources().getString(R.string.fileslist_ftp),"datFM://ftp",0,"ftp","network",
                     activity.getResources().getString(R.string.fileslist_network), "datFM://", 0));
+
+            dir_info.add(new datFM_File(activity.getResources().getString(R.string.fileslist_apps),"datFM://apps",0,"apps","root",
+                    activity.getResources().getString(R.string.fileslist_action), "datFM://", 0));
 
             dir_info.add(new datFM_File(activity.getResources().getString(R.string.fileslist_exit),"datFM://exit",0,"smb","action_exit",
                     activity.getResources().getString(R.string.fileslist_action), "datFM://", 0));
@@ -633,7 +661,10 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
             if (panel_ID ==0){datFM.parent_left="datFM://";datFM.curentLeftDir="datFM://";
             } else {
                 datFM.parent_right="datFM://";datFM.curentRightDir="datFM://";}
-            datFM.datFM_state.finish();
+                datFM.datFM_state.finish();
+        } else if (section.equals("apps")){
+                dir_info.add(new datFM_File(activity.getResources().getString(R.string.fileslist_apps_package_name),"apps://",0,"apps","root",
+                        activity.getResources().getString(R.string.fileslist_action), "datFM://apps", 0));
         }
 
         //dir_info.add(new datFM_File(ff.getName(),ff.getPath(),0,"smb","dir",data, ff.getParent()));
@@ -647,9 +678,11 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
             datFM.curentLeftDir=dir.getPath();
         } else {
             datFM.parent_right=dir.getParent();
-            datFM.curentRightDir=dir.getPath();}
+            datFM.curentRightDir=dir.getPath();
+        }
 
         dir_listing = dir.listFiles();
+
         if(datFM.pref_root && dir_listing==null){
             fetch_local_root(dir);
         } else {
@@ -688,92 +721,120 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
         //Collections.sort(dir_info);
     }
     private void fetch_local_root(File d){
-        String command = "ls -al \""+path+"\"\n";
-        String output=RunAsRoot(command);
+        String command = "ls -a -l \""+path+"\"\n";
+
+        String output="";
+
+        try {
+            output=RunAsRoot(command);
+        } catch (final Exception e) {
+            datFM.datFM_state.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    datFM.notify_toast("RunAsRoot fault code: "+e.getMessage(),true);
+                }
+            });
+        }
         //int length=output.split("\n").length;
 
         if (!output.equals("")){
-
         for(String str : output.split("\n")){
-            String[] arr = str.split("\\s+");
-            //length = str.split("\\s+").length;
+            try {
+                String[] arr = str.split("\\s+");
 
-            String permission = arr[0];
-            String file_type="";if(permission.length()>0){file_type=permission.substring(0,1);}
-            String user = arr[1];
-            String group = arr[2];
-
-            boolean is_dir=file_type.equals("d");
-            boolean is_file=file_type.equals("-");
-            boolean is_unix_socket=file_type.equals("s");
-            boolean is_link=file_type.equals("l");
-            boolean is_pipe=file_type.equals("p");
-            boolean is_ch_device=file_type.equals("c");
-            boolean is_bl_device=file_type.equals("b");
-
-            String name;
-            String date;
-            String time;
-            long size=0;
-
-            if(is_file){
-                size = Long.parseLong(arr[3]);
-                date = arr[4];
-                time = arr[5];
-                name = arr[6];
-            } else {
-                date = arr[3];
-                time = arr[4];
-                name = arr[5];}
-            String path;
-
-            if(is_link){
-                path = arr[7];
-                if(path.startsWith("..")){
-                    path=d.getPath()+"/"+path;
+                String permission = arr[0];
+                String file_type = "";
+                if (permission.length() > 0) {
+                    file_type = permission.substring(0, 1);
                 }
-                String command2 = "ls -ld \""+path+"\"\n";
-                String output2=RunAsRoot(command2);
-                if(output2.startsWith("d")){
-                    is_dir=true;
+                String user = arr[1];
+                String group = arr[2];
+
+                boolean is_dir = file_type.equals("d");
+                boolean is_file = file_type.equals("-");
+                boolean is_unix_socket = file_type.equals("s");
+                boolean is_link = file_type.equals("l");
+                boolean is_pipe = file_type.equals("p");
+                boolean is_ch_device = file_type.equals("c");
+                boolean is_bl_device = file_type.equals("b");
+
+                String name;
+                String date;
+                String time;
+                long size = 0;
+
+                if (is_file) {
+                    size = Long.parseLong(arr[3]);
+                    date = arr[4];
+                    time = arr[5];
+                    name = arr[6];
                 } else {
-                    is_file=true;
+                    date = arr[3];
+                    time = arr[4];
+                    name = arr[5];
                 }
-            } else {
-                path=d.getPath()+"/"+name;
-            }
+                String path;
 
-            if(!datFM.pref_show_hide && name.startsWith(".")){} else {
-                if(is_dir){
-                    String data = datFM.datFM_context.getResources().getString(R.string.fileslist_directory);
-                    String compiled_date = date+" "+time;
-                    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                    Date date_format = null;
-                    long date_long=0;
-                    try {
-                        date_format = formatter.parse(compiled_date);
-                        date_long = date_format.getTime();
-                    } catch (ParseException e) {e.printStackTrace();}
-
-                    dir_info.add(new datFM_File(name,path,size,"smb","dir",data, d.getPath(), date_long));
-                } else {
-                    String compiled_date = date+" "+time;
-                    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                    Date date_format = null;
-                    long date_long =0;
-                    try {
-                        date_format = formatter.parse(compiled_date);
-                        date_long = date_format.getTime();
-                    } catch (ParseException e) {e.printStackTrace();}
-
-                    String data = formatSize(size);
-                    if(datFM.pref_show_date){
-                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm',' d MMM");
-                        data = data+" / "+sdf.format(date_long);
+                if (is_link) {
+                    path = arr[7];
+                    if (path.startsWith("..")) {
+                        path = d.getPath() + "/" + path;
                     }
-
-                    fls_info.add(new datFM_File(name,path,size,"smb","file",data,d.getPath(), date_long));
+                    String command2 = "ls -ld \"" + path + "\"\n";
+                    String output2 = RunAsRoot(command2);
+                    if (output2.startsWith("d")) {
+                        is_dir = true;
+                    } else {
+                        is_file = true;
+                    }
+                } else {
+                    path = d.getPath() + "/" + name;
                 }
+
+                if (!datFM.pref_show_hide && name.startsWith(".")) {
+                } else {
+                    if (is_dir) {
+                        String data = datFM.datFM_context.getResources().getString(R.string.fileslist_directory);
+                        String compiled_date = date + " " + time;
+                        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                        Date date_format = null;
+                        long date_long = 0;
+                        try {
+                            date_format = formatter.parse(compiled_date);
+                            date_long = date_format.getTime();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        dir_info.add(new datFM_File(name, path, size, "smb", "dir", data, d.getPath(), date_long));
+                    } else {
+                        String compiled_date = date + " " + time;
+                        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                        Date date_format = null;
+                        long date_long = 0;
+                        try {
+                            date_format = formatter.parse(compiled_date);
+                            date_long = date_format.getTime();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        String data = formatSize(size);
+                        if (datFM.pref_show_date) {
+                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm',' d MMM");
+                            data = data + " / " + sdf.format(date_long);
+                        }
+
+                        fls_info.add(new datFM_File(name, path, size, "smb", "file", data, d.getPath(), date_long));
+                    }
+                }
+            } catch (final Exception e) {
+                datFM.datFM_state.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        datFM.notify_toast("Listing error code: "+e.getMessage(),true);
+                    }
+                });
             }
         }
         } else {
@@ -785,6 +846,8 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
             });
         }
     }
+
+
 
     private void logonScreenSMB(){
         AlertDialog.Builder action_dialog = new AlertDialog.Builder(datFM.datFM_state);
@@ -1240,7 +1303,7 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
     private String RunAsRoot(String command){
         String out = "";
         try {
-            Process p = Runtime.getRuntime().exec(new String[]{"su", "-c", "/system/bin/sh"});
+            final Process p = Runtime.getRuntime().exec(new String[]{"su", "-c", "/system/bin/sh"});
             DataOutputStream stdin = new DataOutputStream(p.getOutputStream());
             byte[] buf = command.getBytes("UTF-8");
             stdin.write(buf,0,buf.length);
@@ -1260,10 +1323,34 @@ public class datFM_IO_Fetch extends AsyncTask<String, Void, List<datFM_File>> {
             stdin.flush();
             try {
                 p.waitFor();
-                if (p.exitValue() != 255) {//("root");
-                } else {/*("not root");*/}
-            } catch (InterruptedException e) {/*("not root");*/}
-        } catch (IOException e) {/*("not root");*/}
+                if (p.exitValue() != 255) {
+                    //("root");
+                } else {
+                    final int error_code = p.exitValue();
+                    datFM.datFM_state.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            datFM.notify_toast("Root stream exit code = "+error_code,true);
+                        }
+                    });
+                }
+            } catch (InterruptedException e) {
+                final int error_code = p.exitValue();
+                datFM.datFM_state.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        datFM.notify_toast("Root operation exit code = "+error_code,true);
+                    }
+                });
+            }
+        } catch (IOException e) {
+            datFM.datFM_state.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    datFM.notify_toast("Root operation general fault.",true);
+                }
+            });
+        }
         return out;
     }
 }
